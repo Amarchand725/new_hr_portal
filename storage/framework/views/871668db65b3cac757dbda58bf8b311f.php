@@ -1,8 +1,6 @@
-@extends('layouts.app')
+<?php $__env->startSection('title', 'Dashboard - Cyberonix'); ?>
 
-@section('title', 'Dashboard - HR-Cyberonix')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="container-xxl flex-grow-1 container-p-y">
     <div class="row">
       <!-- Website Analytics -->
@@ -50,7 +48,7 @@
                   </div>
                   <div class="col-lg-5 col-md-3 col-12 order-1 order-md-2 my-4 my-md-0 text-center">
                     <img
-                      src="{{ asset('admin') }}/assets/img/illustrations/card-website-analytics-1.png"
+                      src="<?php echo e(asset('public/admin')); ?>/assets/img/illustrations/card-website-analytics-1.png"
                       alt="Website Analytics"
                       width="170"
                       class="card-website-analytics-img"
@@ -96,7 +94,7 @@
                 </div>
                 <div class="col-lg-5 col-md-3 col-12 order-1 order-md-2 my-4 my-md-0 text-center">
                   <img
-                    src="{{ asset('admin') }}/assets/img/illustrations/card-website-analytics-2.png"
+                    src="<?php echo e(asset('public/admin')); ?>/assets/img/illustrations/card-website-analytics-2.png"
                     alt="Website Analytics"
                     width="170"
                     class="card-website-analytics-img"
@@ -141,7 +139,7 @@
                 </div>
                 <div class="col-lg-5 col-md-3 col-12 order-1 order-md-2 my-4 my-md-0 text-center">
                   <img
-                    src="{{ asset('admin') }}/assets/img/illustrations/card-website-analytics-3.png"
+                    src="<?php echo e(asset('public/admin')); ?>/assets/img/illustrations/card-website-analytics-3.png"
                     alt="Website Analytics"
                     width="170"
                     class="card-website-analytics-img"
@@ -718,4 +716,6 @@
       <!--/ Projects table -->
     </div>
   </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('admin.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\new_hr_portal.local\resources\views/admin/dashboard.blade.php ENDPATH**/ ?>

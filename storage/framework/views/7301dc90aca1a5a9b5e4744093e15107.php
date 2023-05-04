@@ -156,7 +156,7 @@
                             <div class="d-flex">
                             <div class="flex-shrink-0 me-3">
                                 <div class="avatar">
-                                <img src="{{ asset('admin') }}/assets/img/avatars/1.png" alt class="h-auto rounded-circle" />
+                                <img src="<?php echo e(asset('public/admin')); ?>/assets/img/avatars/1.png" alt class="h-auto rounded-circle" />
                                 </div>
                             </div>
                             <div class="flex-grow-1">
@@ -192,7 +192,7 @@
         <li class="nav-item navbar-dropdown dropdown-user dropdown">
             <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
             <div class="avatar avatar-online">
-                <img src="{{ asset('admin') }}/assets/img/avatars/1.png" alt class="h-auto rounded-circle" />
+                <img src="<?php echo e(asset('public/admin')); ?>/assets/img/avatars/1.png" alt class="h-auto rounded-circle" />
             </div>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
@@ -201,7 +201,7 @@
                 <div class="d-flex">
                     <div class="flex-shrink-0 me-3">
                     <div class="avatar avatar-online">
-                        <img src="{{ asset('admin') }}/assets/img/avatars/1.png" alt class="h-auto rounded-circle" />
+                        <img src="<?php echo e(asset('public/admin')); ?>/assets/img/avatars/1.png" alt class="h-auto rounded-circle" />
                     </div>
                     </div>
                     <div class="flex-grow-1">
@@ -215,7 +215,7 @@
                 <div class="dropdown-divider"></div>
             </li>
             <li>
-                <a class="dropdown-item" href="{{ route('profile.edit') }}">
+                <a class="dropdown-item" href="<?php echo e(route('profile.edit')); ?>">
                 <i class="ti ti-user-check me-2 ti-sm"></i>
                 <span class="align-middle">My Profile</span>
                 </a>
@@ -237,16 +237,10 @@
                 <div class="dropdown-divider"></div>
             </li>
             <li>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-
-                    <x-responsive-nav-link :href="route('logout')"
-                        onclick="event.preventDefault();
-                                    this.closest('form').submit();">
-                        <i class="ti ti-logout me-2 ti-sm"></i>
-                        <span class="align-middle">Log Out</span>
-                    </x-responsive-nav-link>
-                </form>
+                <a class="dropdown-item" href="<?php echo e(route('user.logout')); ?>">
+                    <i class="ti ti-logout me-2 ti-sm"></i>
+                    <span class="align-middle">Log Out</span>
+                </a>
             </li>
             </ul>
         </li>
@@ -265,3 +259,4 @@
         <i class="ti ti-x ti-sm search-toggler cursor-pointer"></i>
     </div>
 </nav>
+<?php /**PATH C:\xampp\htdocs\new_hr_portal.local\resources\views/admin/layouts/header.blade.php ENDPATH**/ ?>

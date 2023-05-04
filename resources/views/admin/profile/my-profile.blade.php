@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 
 @section('content')
 <div class="content-wrapper">
@@ -12,12 +12,12 @@
             <div class="col-12">
             <div class="card mb-4">
                 <div class="user-profile-header-banner">
-                <img src="{{ asset('admin') }}/assets/img/pages/profile-banner.png" alt="Banner image" class="rounded-top" />
+                <img src="{{ asset('public/admin') }}/assets/img/pages/profile-banner.png" alt="Banner image" class="rounded-top" />
                 </div>
                 <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
                 <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
                     <img
-                    src="{{ asset('admin') }}/assets/img/avatars/14.png"
+                    src="{{ asset('public/admin') }}/assets/img/avatars/14.png"
                     alt="user image"
                     class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img"
                     />
@@ -113,7 +113,7 @@
                           aria-controls="navs-top-security"
                           aria-selected="true"
                         >
-                        <i class="fa fa-lock"></i> Security
+                        <i class="fa fa-lock  me-1"></i> Security
                         </button>
                     </li>
                 </ul>
@@ -200,7 +200,7 @@
                                             <p class="mb-2">Project meeting with john @10:15am</p>
                                             <div class="d-flex flex-wrap">
                                             <div class="avatar me-2">
-                                                <img src="{{ asset('admin') }}/assets/img/avatars/3.png" alt="Avatar" class="rounded-circle" />
+                                                <img src="{{ asset('public/admin') }}/assets/img/avatars/3.png" alt="Avatar" class="rounded-circle" />
                                             </div>
                                             <div class="ms-1">
                                                 <h6 class="mb-0">Lester McCarthy (Client)</h6>
@@ -229,7 +229,7 @@
                                             <p class="mb-2">
                                             Sent by Mollie Dixon
                                             <img
-                                                src="{{ asset('admin') }}/assets/img/avatars/4.png"
+                                                src="{{ asset('public/admin') }}/assets/img/avatars/4.png"
                                                 class="rounded-circle me-3"
                                                 alt="avatar"
                                                 height="24"
@@ -239,7 +239,7 @@
                                             <div class="d-flex flex-wrap gap-2 pt-1">
                                             <a href="javascript:void(0)" class="me-3">
                                                 <img
-                                                src="{{ asset('admin') }}/assets/img/icons/misc/doc.png"
+                                                src="{{ asset('public/admin') }}/assets/img/icons/misc/doc.png"
                                                 alt="Document image"
                                                 width="15"
                                                 class="me-2"
@@ -248,7 +248,7 @@
                                             </a>
                                             <a href="javascript:void(0)">
                                                 <img
-                                                src="{{ asset('admin') }}/assets/img/icons/misc/xls.png"
+                                                src="{{ asset('public/admin') }}/assets/img/icons/misc/xls.png"
                                                 alt="Excel image"
                                                 width="15"
                                                 class="me-2"
@@ -284,7 +284,7 @@
                                     <a href="javascript:;" class="d-flex align-items-center">
                                         <div class="avatar me-2">
                                         <img
-                                            src="{{ asset('admin') }}/assets/img/icons/brands/react-label.png"
+                                            src="{{ asset('public/admin') }}/assets/img/icons/brands/react-label.png"
                                             alt="Avatar"
                                             class="rounded-circle"
                                         />
@@ -338,7 +338,7 @@
                                             title="Vinnie Mostowy"
                                             class="avatar avatar-sm pull-up"
                                         >
-                                            <img class="rounded-circle" src="{{ asset('admin') }}/assets/img/avatars/5.png" alt="Avatar" />
+                                            <img class="rounded-circle" src="{{ asset('public/admin') }}/assets/img/avatars/5.png" alt="Avatar" />
                                         </li>
                                         <li
                                             data-bs-toggle="tooltip"
@@ -347,7 +347,7 @@
                                             title="Allen Rieske"
                                             class="avatar avatar-sm pull-up"
                                         >
-                                            <img class="rounded-circle" src="{{ asset('admin') }}/assets/img/avatars/12.png" alt="Avatar" />
+                                            <img class="rounded-circle" src="{{ asset('public/admin') }}/assets/img/avatars/12.png" alt="Avatar" />
                                         </li>
                                         <li
                                             data-bs-toggle="tooltip"
@@ -356,7 +356,7 @@
                                             title="Julee Rossignol"
                                             class="avatar avatar-sm pull-up"
                                         >
-                                            <img class="rounded-circle" src="{{ asset('admin') }}/assets/img/avatars/6.png" alt="Avatar" />
+                                            <img class="rounded-circle" src="{{ asset('public/admin') }}/assets/img/avatars/6.png" alt="Avatar" />
                                         </li>
                                         <li class="avatar avatar-sm">
                                             <span
@@ -384,7 +384,7 @@
                                     <a href="javascript:;" class="d-flex align-items-center">
                                         <div class="avatar me-2">
                                         <img
-                                            src="{{ asset('admin') }}/assets/img/icons/brands/vue-label.png"
+                                            src="{{ asset('public/admin') }}/assets/img/icons/brands/vue-label.png"
                                             alt="Avatar"
                                             class="rounded-circle"
                                         />
@@ -438,7 +438,7 @@
                                             title="Kaith D'souza"
                                             class="avatar avatar-sm pull-up"
                                         >
-                                            <img class="rounded-circle" src="{{ asset('admin') }}/assets/img/avatars/5.png" alt="Avatar" />
+                                            <img class="rounded-circle" src="{{ asset('public/admin') }}/assets/img/avatars/5.png" alt="Avatar" />
                                         </li>
                                         <li
                                             data-bs-toggle="tooltip"
@@ -447,7 +447,7 @@
                                             title="John Doe"
                                             class="avatar avatar-sm pull-up"
                                         >
-                                            <img class="rounded-circle" src="{{ asset('admin') }}/assets/img/avatars/1.png" alt="Avatar" />
+                                            <img class="rounded-circle" src="{{ asset('public/admin') }}/assets/img/avatars/1.png" alt="Avatar" />
                                         </li>
                                         <li
                                             data-bs-toggle="tooltip"
@@ -456,7 +456,7 @@
                                             title="Alan Walker"
                                             class="avatar avatar-sm pull-up"
                                         >
-                                            <img class="rounded-circle" src="{{ asset('admin') }}/assets/img/avatars/6.png" alt="Avatar" />
+                                            <img class="rounded-circle" src="{{ asset('public/admin') }}/assets/img/avatars/6.png" alt="Avatar" />
                                         </li>
                                         <li class="avatar avatar-sm">
                                             <span

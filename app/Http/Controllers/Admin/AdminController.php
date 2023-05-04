@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -12,10 +12,19 @@ class AdminController extends Controller
     {
         return view('admin.departments');
     }
+    public function calendar()
+    {
+        return view('admin.calendar.index');
+    }
+    public function logOut()
+    {
+        auth()->logout();
+        return redirect()->route('admin.login');
+    }
     public function dashboard()
     {
         $title = 'Dashboard';
-        return view('dashboard', compact('title'));
+        return view('admin.dashboard', compact('title'));
     }
     public function loginForm()
     {

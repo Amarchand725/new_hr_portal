@@ -20,7 +20,7 @@
     <meta name="description" content="" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('admin/assets/img/favicon/favicon.ico') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('public/admin/assets/img/favicon/favicon.ico') }}" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -31,31 +31,31 @@
     />
 
     <!-- Icons -->
-    <link rel="stylesheet" href="{{ asset('admin/assets/vendor/fonts/fontawesome.css') }}" />
-    <link rel="stylesheet" href="{{ asset('admin/assets/vendor/fonts/tabler-icons.css') }}" />
-    <link rel="stylesheet" href="{{ asset('admin/assets/vendor/fonts/flag-icons.css') }}" />
+    <link rel="stylesheet" href="{{ asset('public/admin/assets/vendor/fonts/fontawesome.css') }}" />
+    <link rel="stylesheet" href="{{ asset('public/admin/assets/vendor/fonts/tabler-icons.css') }}" />
+    <link rel="stylesheet" href="{{ asset('public/admin/assets/vendor/fonts/flag-icons.css') }}" />
 
     <!-- Core CSS -->
-    <link rel="stylesheet" href="{{ asset('admin/assets/vendor/css/rtl/core.css') }}" />
-    <link rel="stylesheet" href="{{ asset('admin/assets/vendor/css/rtl/theme-default.css') }}" />
-    <link rel="stylesheet" href="{{ asset('admin/assets/css/demo.css') }}" />
+    <link rel="stylesheet" href="{{ asset('public/admin/assets/vendor/css/rtl/core.css') }}" />
+    <link rel="stylesheet" href="{{ asset('public/admin/assets/vendor/css/rtl/theme-default.css') }}" />
+    <link rel="stylesheet" href="{{ asset('public/admin/assets/css/demo.css') }}" />
 
     <!-- Vendors CSS -->
-    <link rel="stylesheet" href="{{ asset('admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
-    <link rel="stylesheet" href="{{ asset('admin/assets/vendor/libs/node-waves/node-waves.css') }}" />
-    <link rel="stylesheet" href="{{ asset('admin/assets/vendor/libs/typeahead-js/typeahead.css') }}" />
+    <link rel="stylesheet" href="{{ asset('public/admin/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
+    <link rel="stylesheet" href="{{ asset('public/admin/assets/vendor/libs/node-waves/node-waves.css') }}" />
+    <link rel="stylesheet" href="{{ asset('public/admin/assets/vendor/libs/typeahead-js/typeahead.css') }}" />
     <!-- Vendor -->
-    <link rel="stylesheet" href="{{ asset('admin/assets/vendor/libs/formvalidation/dist/css/formValidation.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('public/admin/assets/vendor/libs/formvalidation/dist/css/formValidation.min.css') }}" />
 
     <!-- Page CSS -->
     <!-- Page -->
-    <link rel="stylesheet" href="{{ asset('admin/assets/vendor/css/pages/page-auth.css') }}" />
+    <link rel="stylesheet" href="{{ asset('public/admin/assets/vendor/css/pages/page-auth.css') }}" />
     <!-- Helpers -->
-    <script src="{{ asset('admin/assets/vendor/js/helpers.js') }}"></script>
+    <script src="{{ asset('public/admin/assets/vendor/js/helpers.js') }}"></script>
 
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-    <script src="{{ asset('admin/assets/js/config.js') }}"></script>
+    <script src="{{ asset('public/admin/assets/js/config.js') }}"></script>
   </head>
 
   <body>
@@ -65,28 +65,28 @@
 
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
-    <script src="{{ asset('admin') }}/assets/vendor/libs/jquery/jquery.js"></script>
-    <script src="{{ asset('admin') }}/assets/vendor/libs/popper/popper.js"></script>
-    <script src="{{ asset('admin') }}/assets/vendor/js/bootstrap.js"></script>
-    <script src="{{ asset('admin') }}/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-    <script src="{{ asset('admin') }}/assets/vendor/libs/node-waves/node-waves.js"></script>
+    <script src="{{ asset('public/admin') }}/assets/vendor/libs/jquery/jquery.js"></script>
+    <script src="{{ asset('public/admin') }}/assets/vendor/libs/popper/popper.js"></script>
+    <script src="{{ asset('public/admin') }}/assets/vendor/js/bootstrap.js"></script>
+    <script src="{{ asset('public/admin') }}/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="{{ asset('public/admin') }}/assets/vendor/libs/node-waves/node-waves.js"></script>
 
-    <script src="{{ asset('admin') }}/assets/vendor/libs/hammer/hammer.js"></script>
-    <script src="{{ asset('admin') }}/assets/vendor/libs/i18n/i18n.js"></script>
-    <script src="{{ asset('admin') }}/assets/vendor/libs/typeahead-js/typeahead.js"></script>
+    <script src="{{ asset('public/admin') }}/assets/vendor/libs/hammer/hammer.js"></script>
+    <script src="{{ asset('public/admin') }}/assets/vendor/libs/i18n/i18n.js"></script>
+    <script src="{{ asset('public/admin') }}/assets/vendor/libs/typeahead-js/typeahead.js"></script>
 
-    <script src="{{ asset('admin') }}/assets/vendor/js/menu.js"></script>
+    <script src="{{ asset('public/admin') }}/assets/vendor/js/menu.js"></script>
     <!-- endbuild -->
 
     <!-- Vendors JS -->
-    <script src="{{ asset('admin') }}/assets/vendor/libs/formvalidation/dist/js/FormValidation.min.js"></script>
-    <script src="{{ asset('admin') }}/assets/vendor/libs/formvalidation/dist/js/plugins/Bootstrap5.min.js"></script>
-    <script src="{{ asset('admin') }}/assets/vendor/libs/formvalidation/dist/js/plugins/AutoFocus.min.js"></script>
+    <script src="{{ asset('public/admin') }}/assets/vendor/libs/formvalidation/dist/js/FormValidation.min.js"></script>
+    <script src="{{ asset('public/admin') }}/assets/vendor/libs/formvalidation/dist/js/plugins/Bootstrap5.min.js"></script>
+    <script src="{{ asset('public/admin') }}/assets/vendor/libs/formvalidation/dist/js/plugins/AutoFocus.min.js"></script>
 
     <!-- Main JS -->
-    <script src="{{ asset('admin') }}/assets/js/main.js"></script>
+    <script src="{{ asset('public/admin') }}/assets/js/main.js"></script>
 
     <!-- Page JS -->
-    <script src="{{ asset('admin') }}/assets/js/pages-auth.js"></script>
+    <script src="{{ asset('public/admin') }}/assets/js/pages-auth.js"></script>
   </body>
 </html>

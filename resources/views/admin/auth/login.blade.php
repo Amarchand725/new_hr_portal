@@ -7,7 +7,7 @@
             <div class="d-none d-lg-flex col-lg-7 p-0">
                 <div class="auth-cover-bg auth-cover-bg-color d-flex justify-content-center align-items-center">
                 <img
-                    src="{{ asset('admin') }}/assets/img/illustrations/auth-login-illustration-light.png"
+                    src="{{ asset('public/admin') }}/assets/img/illustrations/auth-login-illustration-light.png"
                     alt="auth-login-cover"
                     class="img-fluid my-5 auth-illustration"
                     data-app-light-img="illustrations/auth-login-illustration-light.png"
@@ -15,7 +15,7 @@
                 />
 
                 <img
-                    src="{{ asset('admin') }}/assets/img/illustrations/bg-shape-image-light.png"
+                    src="{{ asset('public/admin') }}/assets/img/illustrations/bg-shape-image-light.png"
                     alt="auth-login-cover"
                     class="platform-bg"
                     data-app-light-img="illustrations/bg-shape-image-light.png"
