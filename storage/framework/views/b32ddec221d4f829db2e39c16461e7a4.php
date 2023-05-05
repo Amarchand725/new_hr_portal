@@ -46,7 +46,7 @@
                                     <a data-toggle="tooltip" data-placement="top" title="All Trashed Records" href="<?php echo e(route('designations.trashed')); ?>" class="btn btn-danger btn-primary mx-3">
                                         <span>
                                             <i class="ti ti-trash me-0 me-sm-1 ti-xs"></i>
-                                            <span class="d-none d-sm-inline-block">All Trashed Records ( <?php echo e($onlySoftDeleted); ?> )</span>
+                                            <span class="d-none d-sm-inline-block">All Trashed Records ( <span id="trash-record-count"><?php echo e($onlySoftDeleted); ?></span> )</span>
                                         </span>
                                     </a>
                                 </div>
@@ -192,8 +192,9 @@
         $('#add-btn').on('click', function(e){
             var url = $(this).attr('data-url');
             $('#offcanvasAddUserLabel').html('Add Designation');
-            $("#_method").val('POST');
             $("#addNewDesignationForm").attr("action", url);
+
+            $("#_method").val('POST');
             $('#title').val('');
             $('#description').val('');
             $("#status").val(1);

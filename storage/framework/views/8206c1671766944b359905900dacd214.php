@@ -1,14 +1,12 @@
-@extends('admin.layouts.app')
+<?php $__env->startSection('title', $title.' - Cyberonix'); ?>
 
-@section('title', $title.' - Cyberonix')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="content-wrapper">
     <div class="container-xxl flex-grow-1 container-p-y">
         <!-- Users List Table -->
         <div class="card">
             <div class="card-header border-bottom">
-                <h5 class="card-title mb-3">{{ $title }}</h5>
+                <h5 class="card-title mb-3"><?php echo e($title); ?></h5>
             </div>
             <div class="card-datatable table-responsive">
                 <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
@@ -16,14 +14,7 @@
                         <div class="col-md-2">
                             <div class="me-3">
                                 <div class="dataTables_length" id="DataTables_Table_0_length">
-                                    {{-- <label>
-                                        <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select" fdprocessedid="o5g1n8">
-                                            <option value="10">10</option>
-                                            <option value="25">25</option>
-                                            <option value="50">50</option>
-                                            <option value="100">100</option>
-                                        </select>
-                                    </label> --}}
+                                    
                                 </div>
                             </div>
                         </div>
@@ -34,14 +25,7 @@
                                         <input type="search" class="form-control" placeholder="Search.." aria-controls="DataTables_Table_0">
                                     </label>
                                 </div>
-                                {{-- <div class="dt-buttons btn-group flex-wrap">
-                                    <button class="btn btn-secondary add-new btn-primary mx-3" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#addPermissionModal" fdprocessedid="i1qq7b">
-                                        <span>
-                                            <i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
-                                            <span class="d-none d-sm-inline-block">Add New</span>
-                                        </span>
-                                    </button>
-                                </div> --}}
+                                
                                 <div class="dt-buttons btn-group flex-wrap">
                                     <button class="btn add-new btn-primary mb-3 mb-md-0 mx-3" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="modal" data-bs-target="#addPermissionModal">
                                         <span>Add Permission</span>
@@ -137,8 +121,8 @@
                                 <h3 class="mb-2">Add New Permission</h3>
                                 <p class="text-muted">Permissions you may use and assign to your users.</p>
                             </div>
-                            <form action="{{ route('permissions.store') }}" id="addPermissionForm" class="row" method="POST">
-                                @csrf
+                            <form action="<?php echo e(route('permissions.store')); ?>" id="addPermissionForm" class="row" method="POST">
+                                <?php echo csrf_field(); ?>
 
                                 <div class="col-12 mb-3">
                                     <label class="form-label" for="name">Permission Name</label>
@@ -243,11 +227,13 @@
         </div>
     </div>
 </div>
-@endsection
-@push('js')
+<?php $__env->stopSection(); ?>
+<?php $__env->startPush('js'); ?>
 <script>
 	$("#checkAll").click(function () {
 		$('input:checkbox').not(this).prop('checked', this.checked);
 	});
 </script>
-@endpush
+<?php $__env->stopPush(); ?>
+
+<?php echo $__env->make('admin.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\new_hr_portal.local\resources\views/admin/permissions/index.blade.php ENDPATH**/ ?>

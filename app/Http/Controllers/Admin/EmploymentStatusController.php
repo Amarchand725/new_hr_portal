@@ -77,7 +77,11 @@ class EmploymentStatusController extends Controller
     {
         $model = $employment_status->delete();
         if($model){
-            return true;
+            $onlySoftDeleted = EmploymentStatus::onlyTrashed()->count();
+            return response()->json([
+                'status' => true,
+                'trash_records' => $onlySoftDeleted
+            ]);
         }else{
             return false;
         }

@@ -1,7 +1,6 @@
-@extends('admin.layouts.app')
-@section('title', 'Roles - Cyberonix')
+<?php $__env->startSection('title', 'Roles - Cyberonix'); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="fw-semibold mb-4">Roles List</h4>
 
@@ -17,19 +16,19 @@
                         <h6 class="fw-normal mb-2">Total 4 users</h6>
                         <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
                             <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Vinnie Mostowy" class="avatar avatar-sm pull-up">
-                                <img class="rounded-circle" src="{{ asset('public/admin') }}/assets/img/avatars/5.png" alt="Avatar" />
+                                <img class="rounded-circle" src="<?php echo e(asset('public/admin')); ?>/assets/img/avatars/5.png" alt="Avatar" />
                             </li>
                             <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Allen Rieske" class="avatar avatar-sm pull-up">
-                                <img class="rounded-circle" src="{{ asset('public/admin') }}/assets/img/avatars/12.png" alt="Avatar" />
+                                <img class="rounded-circle" src="<?php echo e(asset('public/admin')); ?>/assets/img/avatars/12.png" alt="Avatar" />
                             </li>
                             <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Julee Rossignol" class="avatar avatar-sm pull-up">
-                                <img class="rounded-circle" src="{{ asset('public/admin') }}/assets/img/avatars/6.png" alt="Avatar" />
+                                <img class="rounded-circle" src="<?php echo e(asset('public/admin')); ?>/assets/img/avatars/6.png" alt="Avatar" />
                             </li>
                             <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Kaith D'souza" class="avatar avatar-sm pull-up">
-                                <img class="rounded-circle" src="{{ asset('public/admin') }}/assets/img/avatars/3.png" alt="Avatar" />
+                                <img class="rounded-circle" src="<?php echo e(asset('public/admin')); ?>/assets/img/avatars/3.png" alt="Avatar" />
                             </li>
                             <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="John Doe" class="avatar avatar-sm pull-up">
-                                <img class="rounded-circle" src="{{ asset('public/admin') }}/assets/img/avatars/1.png" alt="Avatar" />
+                                <img class="rounded-circle" src="<?php echo e(asset('public/admin')); ?>/assets/img/avatars/1.png" alt="Avatar" />
                             </li>
                         </ul>
                     </div>
@@ -48,7 +47,7 @@
                 <div class="row h-100">
                     <div class="col-sm-5">
                         <div class="d-flex align-items-end h-100 justify-content-center mt-sm-0 mt-3">
-                            <img src="{{ asset('public/admin') }}/assets/img/illustrations/add-new-roles.png" class="img-fluid mt-sm-4 mt-md-0" alt="add-new-roles" width="83" />
+                            <img src="<?php echo e(asset('public/admin')); ?>/assets/img/illustrations/add-new-roles.png" class="img-fluid mt-sm-4 mt-md-0" alt="add-new-roles" width="83" />
                         </div>
                     </div>
                     <div class="col-sm-7">
@@ -103,14 +102,7 @@
                             <div class="col-md-2">
                                 <div class="me-3">
                                     <div class="dataTables_length" id="DataTables_Table_0_length">
-                                        {{-- <label>
-                                            <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select" fdprocessedid="o5g1n8">
-                                                <option value="10">10</option>
-                                                <option value="25">25</option>
-                                                <option value="50">50</option>
-                                                <option value="100">100</option>
-                                            </select>
-                                        </label> --}}
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -461,6 +453,8 @@ Cancel
         </div>
     </div>
 </div>
-@endsection
-@push('js')
-@endpush
+<?php $__env->stopSection(); ?>
+<?php $__env->startPush('js'); ?>
+<?php $__env->stopPush(); ?>
+
+<?php echo $__env->make('admin.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\new_hr_portal.local\resources\views/admin/roles/index.blade.php ENDPATH**/ ?>

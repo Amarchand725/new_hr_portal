@@ -1,10 +1,9 @@
-@extends('admin.layouts.app')
-@section('title', 'Employees - Cyberonix')
+<?php $__env->startSection('title', 'Employees - Cyberonix'); ?>
 
-@push('styles')
-@endpush
+<?php $__env->startPush('styles'); ?>
+<?php $__env->stopPush(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="content-wrapper">
     <div class="container-xxl flex-grow-1 container-p-y">
         <!-- Users List Table -->
@@ -47,14 +46,7 @@
                         <div class="col-md-2">
                             <div class="me-3">
                                 <div class="dataTables_length" id="DataTables_Table_0_length">
-                                    {{-- <label>
-                                        <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select" fdprocessedid="o5g1n8">
-                                            <option value="10">10</option>
-                                            <option value="25">25</option>
-                                            <option value="50">50</option>
-                                            <option value="100">100</option>
-                                        </select>
-                                    </label> --}}
+                                    
                                 </div>
                             </div>
                         </div>
@@ -301,4 +293,6 @@
         </div>
     </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('admin.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\new_hr_portal.local\resources\views/admin/employees/index.blade.php ENDPATH**/ ?>

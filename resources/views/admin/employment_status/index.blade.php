@@ -54,7 +54,7 @@
                                     <a data-toggle="tooltip" data-placement="top" title="All Trashed Records" href="{{ route('employment_status.trashed') }}" class="btn btn-danger btn-primary mx-3">
                                         <span>
                                             <i class="ti ti-trash me-0 me-sm-1 ti-xs"></i>
-                                            <span class="d-none d-sm-inline-block">All Trashed Records ( {{ $onlySoftDeleted }} )</span>
+                                            <span class="d-none d-sm-inline-block">All Trashed Records ( <span id="trash-record-count">{{ $onlySoftDeleted }}</span> )</span>
                                         </span>
                                     </a>
                                 </div>
