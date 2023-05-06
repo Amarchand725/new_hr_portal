@@ -30,6 +30,7 @@ class WorkShiftController extends Controller
     public function store(Request $request)
     {
         //
+        \LogActivity::addToLog('New Work Shift Added');
     }
 
     /**
@@ -54,6 +55,7 @@ class WorkShiftController extends Controller
     public function update(Request $request, WorkShift $workShift)
     {
         //
+        \LogActivity::addToLog('New Work Shift Updated');
     }
 
     /**

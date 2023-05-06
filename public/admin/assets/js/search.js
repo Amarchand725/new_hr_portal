@@ -77,3 +77,48 @@ $('.delete').on('click', function() {
         }
     })
 });
+
+$(document).ready(function() {
+    $('.submitBtn').click(function(e) {
+        e.preventDefault(); // Prevent the form from submitting normally
+
+        var url = $(this).attr('data-url');
+
+        var formId = $(this).closest('form').attr('id');
+        var modal_id = $(this).closest('form').attr('data-modal-id');
+
+        // Get the form data
+        var formData = $('#' + formId).serialize();
+
+        // Send the AJAX request
+        $.ajax({
+            url: url,
+            method: 'POST',
+            data: formData,
+            success: function(response) {
+                if (response.success) {
+                    $('#' + modal_id).modal('hide');
+                    Swal.fire(
+                        'Success!',
+                        'You have added record sucessfully.!',
+                        'success'
+                    )
+
+                    setTimeout(function() {
+                        location.reload();
+                    }, 2000); // 5000 milliseconds = 5 seconds
+                }
+            },
+            error: function(xhr) {
+                // Parse the JSON response to get the error messages
+                var errors = JSON.parse(xhr.responseText);
+
+                // Loop through the errors and display them
+                $.each(errors.errors, function(key, value) {
+                    $('#' + key).addClass('is-invalid'); // Add the is-invalid class to the input element
+                    $('#' + key + '_error').text(value[0]); // Add the error message to the error element
+                });
+            }
+        });
+    });
+});

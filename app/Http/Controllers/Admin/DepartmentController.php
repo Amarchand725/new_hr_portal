@@ -30,6 +30,8 @@ class DepartmentController extends Controller
     public function store(Request $request)
     {
         //
+
+        \LogActivity::addToLog('New Department Inserted');
     }
 
     /**
@@ -54,6 +56,7 @@ class DepartmentController extends Controller
     public function update(Request $request, Department $department)
     {
         //
+        \LogActivity::addToLog('New Department Updated');
     }
 
     /**

@@ -5,23 +5,31 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Position;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use DB;
 
 class PositionController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin.positions.index');
-    }
+        $title = 'All Positions';
+        if($request->ajax()){
+            $query = Position::orderby('id', 'desc')->where('id', '>', 0);
+            if($request['search'] != ""){
+                $query->where('title', 'like', '%'. $request['search'] .'%');
+            }
+            if($request['status'] != "All"){
+                $query->where('status', $request['status']);
+            }
+            $models = $query->paginate(10);
+            return (string) view('admin.positions.search', compact('models'));
+        }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $models = Position::orderby('id', 'desc')->paginate(10);
+        $onlySoftDeleted = Position::onlyTrashed()->count();
+        return view('admin.positions.index', compact('title', 'models', 'onlySoftDeleted'));
     }
 
     /**
@@ -29,23 +37,26 @@ class PositionController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $this->validate($request, [
+            'title' => ['required', 'unique:positions', 'max:255'],
+            'description' => ['max:500'],
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Position $position)
-    {
-        //
-    }
+        DB::beginTransaction();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Position $position)
-    {
-        //
+        try{
+            $model = Position::create($request->all());
+            if($model){
+                DB::commit();
+            }
+
+            \LogActivity::addToLog('New Position Inserted');
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()->with('error', 'Error. '.$e->getMessage());
+        }
     }
 
     /**
@@ -53,7 +64,7 @@ class PositionController extends Controller
      */
     public function update(Request $request, Position $position)
     {
-        //
+        \LogActivity::addToLog('New Position Updated');
     }
 
     /**
@@ -61,6 +72,27 @@ class PositionController extends Controller
      */
     public function destroy(Position $position)
     {
-        //
+        $model = $position->delete();
+        if($model){
+            $onlySoftDeleted = Position::onlyTrashed()->count();
+            return response()->json([
+                'status' => true,
+                'trash_records' => $onlySoftDeleted
+            ]);
+        }else{
+            return false;
+        }
+    }
+
+    public function trashed()
+    {
+        $models = Position::onlyTrashed()->get();
+        $title = 'All Trashed Records';
+        return view('admin.positions.trashed-index', compact('models', 'title'));
+    }
+    public function restore($id)
+    {
+        Position::onlyTrashed()->where('id', $id)->restore();
+        return redirect()->back()->with('message', 'Record Restored Successfully.');
     }
 }

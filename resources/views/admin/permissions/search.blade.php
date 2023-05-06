@@ -1,32 +1,37 @@
-<?php $__currentLoopData = $models; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$model): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-    <tr class="odd" id="id-<?php echo e($model->id); ?>">
-        <td><?php echo e($key+1); ?>.</td>
-        <td class="sorting_1">
-            <span class="fw-semibold"><?php echo e($model->name??'-'); ?></span>
+@foreach ($models as $key=>$model)
+    <tr class="odd" id="id-{{ $model->label }}">
+        <td tabindex="0">{{ $models->firstItem()+$key }}.</td>
+        <td>
+            <span class="text-truncate d-flex align-items-center">
+                {{ Illuminate\Support\Str::upper($model->label) }}
+            </span>
         </td>
         <td>
-            <span class="badge bg-<?php echo e($model->class); ?>" text-capitalized=""><?php echo e($model->name); ?></span>
+            <span class="badge bg-label-success p-1" text-capitalized="">View</span>
+            <span class="badge bg-label-info" text-capitalized="">Read</span>
+            <span class="badge bg-label-warning" text-capitalized="">Write</span>
+            <span class="badge bg-label-danger" text-capitalized="">Delete</span>
         </td>
-        <td>
-            <span class="fw-semibold"><?php echo e($model->description??'-'); ?></span>
-        </td>
+        <td>{{ date('d, F Y', strtotime($model->created_at)) }}</td>
         <td>
             <div class="d-flex align-items-center">
-                <a href="javascript:;" class="text-body edit-btn" data-value="<?php echo e($model); ?>" data-url="<?php echo e(route('employment_status.update', $model->id)); ?>">
-                    <i class="ti ti-edit ti-sm me-2"></i>
-                </a>
-                <a data-toggle="tooltip" data-placement="top" title="Delete Record" href="javascript:;" class="text-body delete" data-slug="<?php echo e($model->id); ?>" data-del-url="<?php echo e(route('employment_status.destroy', $model->id)); ?>">
+                <a data-toggle="tooltip" data-placement="top" title="Delete Record" href="javascript:;" class="text-body delete" data-slug="{{ $model->label }}" data-del-url="{{ route('permissions.destroy', $model->label) }}">
                     <i class="ti ti-trash ti-sm mx-2"></i>
                 </a>
             </div>
         </td>
     </tr>
-<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+@endforeach
 <tr>
     <td colspan="5">
         <div class="row mx-2">
             <div class="col-sm-12 col-md-6">
-                <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to <?php echo e($models->count()); ?> of <?php echo e($models->count()); ?> entries</div>
+                <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing {{$models->firstItem()}} to {{$models->lastItem()}} of {{$models->total()}} entries</div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+                <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                    {!! $models->links('pagination::bootstrap-4') !!}
+                </div>
             </div>
         </div>
     </td>
@@ -93,4 +98,3 @@
         })
     });
 </script>
-<?php /**PATH C:\xampp\htdocs\new_hr_portal.local\resources\views/admin/employment_status/search.blade.php ENDPATH**/ ?>

@@ -50,6 +50,7 @@ class DesignationController extends Controller
 
             if($model){
                 DB::commit();
+                \LogActivity::addToLog('New Designation Inserted');
                 return redirect()->route('designations.index')->with('message', 'Designation created successfully.!');
             }else{
                 return redirect()->route('designations.index')->with('error', 'Something went wrong try again.!');
@@ -72,6 +73,7 @@ class DesignationController extends Controller
 
         $model = $designation->update($request->all());
         if($model){
+            \LogActivity::addToLog('New designation Updated');
             return redirect()->back()->with('message', 'Designation updated successfully.!');
         }else{
             return redirect()->back()->with('error', 'Something went wrong try again.!');

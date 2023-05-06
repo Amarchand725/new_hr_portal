@@ -30,6 +30,8 @@ class AnnouncementController extends Controller
     public function store(Request $request)
     {
         //
+
+        \LogActivity::addToLog('New Announcement Inserted');
     }
 
     /**
@@ -54,6 +56,7 @@ class AnnouncementController extends Controller
     public function update(Request $request, Announcement $announcement)
     {
         //
+        \LogActivity::addToLog('New Announcement Updated');
     }
 
     /**

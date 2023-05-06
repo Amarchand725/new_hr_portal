@@ -1,8 +1,7 @@
 <?php $__env->startSection('title', $title.' - Cyberonix'); ?>
 
 <?php $__env->startSection('content'); ?>
-<input type="hidden" id="page_url" value="<?php echo e(route('employment_status.index')); ?>">
-
+<input type="hidden" id="page_url" value="<?php echo e(route('positions.index')); ?>">
 <div class="content-wrapper">
     <div class="container-xxl flex-grow-1 container-p-y">
         <!-- Users List Table -->
@@ -39,7 +38,7 @@
                             <div class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-3 mb-md-0">
                                 
                                 <div class="dt-buttons btn-group flex-wrap">
-                                    <a data-toggle="tooltip" data-placement="top" title="Show All Records" href="<?php echo e(route('employment_status.index')); ?>" class="btn btn-success btn-primary mx-3">
+                                    <a data-toggle="tooltip" data-placement="top" title="Show All Records" href="<?php echo e(route('designations.index')); ?>" class="btn btn-success btn-primary mx-3">
                                         <span>
                                             <i class="ti ti-eye me-0 me-sm-1 ti-xs"></i>
                                             <span class="d-none d-sm-inline-block">View All Records</span>
@@ -52,29 +51,40 @@
                     <table class="datatables-users table border-top dataTable no-footer dtr-column" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 1227px;">
                         <thead>
                             <tr>
-                                <th class="control sorting_disabled dtr-hidden" rowspan="1" colspan="1">S.No#</th>
-                                <th class="control sorting_disabled dtr-hidden" rowspan="1" colspan="1">Name</th>
-                                <th class="sorting sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">Preview</th>
+                                <th class="sorting sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">S.No#</th>
+                                <th class="sorting sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">Name</th>
                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">Description</th>
+                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">No. of employees</th>
+                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">Status</th>
                                 <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 135px;" aria-label="Actions">Actions</th>
                             </tr>
                         </thead>
                         <tbody id="body">
                             <?php $__currentLoopData = $models; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$model): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr class="odd" id="id-<?php echo e($model->id); ?>">
-                                    <td><?php echo e($key+1); ?>.</td>
-                                    <td class="sorting_1">
-                                        <span class="fw-semibold"><?php echo e($model->name??'-'); ?></span>
+                                    <td tabindex="0"><?php echo e($key+1); ?>.</td>
+                                    <td>
+                                        <span class="text-truncate d-flex align-items-center">
+                                            <?php echo e($model->title??'-'); ?>
+
+                                        </span>
+                                    </td>
+                                    <td><?php echo \Illuminate\Support\Str::limit($model->description,50)??'-'; ?></td>
+                                    <td>
+                                        <span class="badge badge-center rounded-pill bg-label-primary w-px-30 h-px-30 me-2">
+                                            5
+                                        </span>
                                     </td>
                                     <td>
-                                        <span class="badge bg-<?php echo e($model->class); ?>" text-capitalized=""><?php echo e($model->name); ?></span>
-                                    </td>
-                                    <td>
-                                        <span class="fw-semibold"><?php echo e($model->description??'-'); ?></span>
+                                        <?php if($model->status): ?>
+                                            <span class="badge bg-label-success" text-capitalized="">Active</span>
+                                        <?php else: ?>
+                                            <span class="badge bg-label-danger" text-capitalized="">De-Active</span>
+                                        <?php endif; ?>
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <a href="<?php echo e(route('employment_status.restore', $model->id)); ?>">
+                                            <a href="<?php echo e(route('positions.restore', $model->id)); ?>">
                                                 <span>
                                                     <i class="ti ti-refresh ti-sm me-2"></i>
                                                 </span>
@@ -84,7 +94,7 @@
                                 </tr>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             <tr>
-                                <td colspan="5">
+                                <td colspan="6">
                                     <div class="row mx-2">
                                         <div class="col-sm-12 col-md-6">
                                             <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to <?php echo e($models->count()); ?> of <?php echo e($models->count()); ?> entries</div>
@@ -94,6 +104,7 @@
                             </tr>
                         </tbody>
                     </table>
+
                 </div>
             </div>
         </div>
@@ -108,4 +119,4 @@
     </script>
 <?php $__env->stopPush(); ?>
 
-<?php echo $__env->make('admin.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\new_hr_portal.local\resources\views/admin/employment_status/trashed-index.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('admin.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\new_hr_portal.local\resources\views/admin/positions/trashed-index.blade.php ENDPATH**/ ?>

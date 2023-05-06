@@ -47,6 +47,8 @@ class EmploymentStatusController extends Controller
 
             if($model){
                 DB::commit();
+
+                \LogActivity::addToLog('New Employment Status Added');
                 return redirect()->route('employment_status.index')->with('message', 'Employment status created successfully.!');
             }else{
                 return redirect()->route('employment_status.index')->with('error', 'Something went wrong try again.!');
@@ -67,6 +69,7 @@ class EmploymentStatusController extends Controller
 
         $model = $employment_status->update($request->all());
         if($model){
+            \LogActivity::addToLog('New Employment Status Updated');
             return redirect()->back()->with('message', 'employment_status updated successfully.!');
         }else{
             return redirect()->back()->with('error', 'Something went wrong try again.!');

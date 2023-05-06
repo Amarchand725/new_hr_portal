@@ -1,48 +1,39 @@
 @extends('admin.layouts.app')
-@section('title', 'Roles - Cyberonix')
+@section('title', $title.' - Cyberonix')
 
 @section('content')
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-semibold mb-4">Roles List</h4>
+    <h4 class="fw-semibold mb-4">{{ $title }}</h4>
 
     <p class="mb-4">
         A role provided access to predefined menus and features so that depending on <br /> assigned role an administrator can have access to what user needs.
     </p>
     <!-- Role cards -->
     <div class="row g-4">
-        <div class="col-xl-4 col-lg-6 col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <h6 class="fw-normal mb-2">Total 4 users</h6>
-                        <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
-                            <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Vinnie Mostowy" class="avatar avatar-sm pull-up">
-                                <img class="rounded-circle" src="{{ asset('public/admin') }}/assets/img/avatars/5.png" alt="Avatar" />
-                            </li>
-                            <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Allen Rieske" class="avatar avatar-sm pull-up">
-                                <img class="rounded-circle" src="{{ asset('public/admin') }}/assets/img/avatars/12.png" alt="Avatar" />
-                            </li>
-                            <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Julee Rossignol" class="avatar avatar-sm pull-up">
-                                <img class="rounded-circle" src="{{ asset('public/admin') }}/assets/img/avatars/6.png" alt="Avatar" />
-                            </li>
-                            <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Kaith D'souza" class="avatar avatar-sm pull-up">
-                                <img class="rounded-circle" src="{{ asset('public/admin') }}/assets/img/avatars/3.png" alt="Avatar" />
-                            </li>
-                            <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="John Doe" class="avatar avatar-sm pull-up">
-                                <img class="rounded-circle" src="{{ asset('public/admin') }}/assets/img/avatars/1.png" alt="Avatar" />
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-end mt-1">
-                        <div class="role-heading">
-                            <h4 class="mb-1">Administrator</h4>
-                            <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#addRoleModal" class="role-edit-modal"><span>Edit Role</span></a>
+        @foreach ($roles as $role)
+            <div class="col-xl-4 col-lg-6 col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <h6 class="fw-normal mb-2">Total 0 users</h6>
+                            <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
+                                <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Vinnie Mostowy" class="avatar avatar-sm pull-up">
+                                    <img class="rounded-circle" src="{{ asset('public/admin') }}/assets/img/avatars/5.png" alt="Avatar" />
+                                </li>
+                            </ul>
                         </div>
-                        <a href="javascript:void(0);" class="text-muted"><i class="ti ti-copy ti-md"></i></a>
+                        <div class="d-flex justify-content-between align-items-end mt-1">
+                            <div class="role-heading">
+                                <h4 class="mb-1">{{ $role->name }}</h4>
+                                <a href="javascript:;" data-bs-toggle="modal" data-method="PUT" data-url="{{ route('roles.edit', $role->id) }}" class="role-edit-modal edit-role"><span>Edit Role</span></a>
+                            </div>
+                            <a href="javascript:void(0);" class="text-muted"><i class="ti ti-copy ti-md"></i></a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @endforeach
+
         <div class="col-xl-4 col-lg-6 col-md-6">
             <div class="card h-100">
                 <div class="row h-100">
@@ -68,31 +59,35 @@
                 <div class="card-header border-bottom">
                     <h5 class="card-title mb-3">Search Filter</h5>
                     <div class="d-flex justify-content-between align-items-center row pb-2 gap-3 gap-md-0">
-                        <div class="col-md-4 user_role">
+                        <div class="col-md-3 user_role">
                             <select id="UserRole" class="form-select text-capitalize" fdprocessedid="vq8lxk">
                                 <option value=""> Select Role </option>
-                                <option value="Admin">Admin</option>
-                                <option value="Author">Author</option>
-                                <option value="Editor">Editor</option>
-                                <option value="Maintainer">Maintainer</option>
-                                <option value="Subscriber">Subscriber</option>
+                                @foreach ($roles as $role_item)
+                                    <option value="{{ $role_item->id }}">{{ $role_item->name }}</option>
+                                @endforeach
                             </select>
                         </div>
-                        <div class="col-md-4 user_plan">
+                        <div class="col-md-3 user_plan">
                             <select id="UserPlan" class="form-select text-capitalize" fdprocessedid="bgqe8c">
-                                <option value=""> Select Plan </option>
-                                <option value="Basic">Basic</option>
-                                <option value="Company">Company</option>
-                                <option value="Enterprise">Enterprise</option>
-                                <option value="Team">Team</option>
+                                <option value=""> Select department </option>
+                                @foreach ($departments as $department)
+                                    <option value="{{ $department->id }}">{{ $department->name }}</option>
+                                @endforeach
                             </select>
                         </div>
-                        <div class="col-md-4 user_status">
+                        <div class="col-md-3 user_plan">
+                            <select id="UserPlan" class="form-select text-capitalize" fdprocessedid="bgqe8c">
+                                <option value=""> Select Work Shift </option>
+                                @foreach ($work_shifts as $work_shift)
+                                    <option value="{{ $work_shift->id }}">{{ $work_shift->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-3 user_status">
                             <select id="FilterTransaction" class="form-select text-capitalize" fdprocessedid="fwa9of">
                                 <option value=""> Select Status </option>
-                                <option value="Pending" class="text-capitalize">Pending</option>
-                                <option value="Active" class="text-capitalize">Active</option>
-                                <option value="Inactive" class="text-capitalize">Inactive</option>
+                                <option value="1" class="text-capitalize">Active</option>
+                                <option value="0" class="text-capitalize">Inactive</option>
                             </select>
                         </div>
                     </div>
@@ -144,98 +139,82 @@
                                     <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 135px;" aria-label="Actions">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr class="odd">
-                                    <td tabindex="0">1.</td>
-                                    <td class="sorting_1">
-                                        <div class="d-flex justify-content-start align-items-center user-name">
-                                            <div class="avatar-wrapper">
-                                                <div class="avatar avatar-sm me-3">
-                                                    <img src="http://localhost/new_hr_portal.local/public/admin/assets/img/avatars/2.png" alt="Avatar" class="rounded-circle">
+                            <tbody id="body">
+                                @foreach ($employees as $key=>$employee)
+                                    <tr class="odd" id="id-{{ $employee->id }}">
+                                        <td tabindex="0">{{ $employees->firstItem()+$key }}.</td>
+                                        <td class="sorting_1">
+                                            <div class="d-flex justify-content-start align-items-center user-name">
+                                                <div class="avatar-wrapper">
+                                                    <div class="avatar avatar-sm me-3">
+                                                        <img src="http://localhost/new_hr_portal.local/public/admin/assets/img/avatars/2.png" alt="Avatar" class="rounded-circle">
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex flex-column">
+                                                    <a href="app-user-view-account.html" class="text-body text-truncate">
+                                                        <span class="fw-semibold">{{ $employee->first_name }} {{ $employee->last_name }}</span>
+                                                    </a>
+                                                    <small class="text-muted">{{ $employee->email }}</small>
                                                 </div>
                                             </div>
-                                            <div class="d-flex flex-column">
-                                                <a href="app-user-view-account.html" class="text-body text-truncate">
-                                                    <span class="fw-semibold">Zsazsa McCleverty</span>
-                                                </a>
-                                                <small class="text-muted">zmcclevertye@soundcloud.com</small>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <span class="text-truncate d-flex align-items-center">
-                                            <span class="badge badge-center rounded-pill bg-label-primary w-px-30 h-px-30 me-2">
-                                                <i class="ti ti-chart-pie-2 ti-sm"></i>
+                                        </td>
+                                        <td>
+                                            <span class="text-truncate d-flex align-items-center">
+                                                <span class="badge badge-center rounded-pill bg-label-primary w-px-30 h-px-30 me-2">
+                                                    <i class="ti ti-chart-pie-2 ti-sm"></i>
+                                                </span>
+                                                Maintainer
                                             </span>
-                                            Maintainer
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span class="fw-semibold">Enterprise</span>
-                                    </td>
-                                    <td>Auto Debit</td>
-                                    <td>
-                                        <span class="badge bg-label-success" text-capitalized="">Active</span>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <a href="javascript:;" class="text-body">
-                                                <i class="ti ti-edit ti-sm me-2"></i>
-                                            </a>
-                                            <a href="javascript:;" class="text-body delete-record">
-                                                <i class="ti ti-trash ti-sm mx-2"></i>
-                                            </a>
-                                            <a href="javascript:;" class="text-body dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                                <i class="ti ti-dots-vertical ti-sm mx-1"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-end m-0">
-                                                <a href="app-user-view-account.html" class="dropdown-item">View</a>
-                                                <a href="app-user-view-account.html" class="dropdown-item">Add Salary</a>
-                                                <a href="javascript:;" class="dropdown-item">Terminate</a>
-                                                <a href="javascript:;" class="dropdown-item">Remove from employee list</a>
+                                        </td>
+                                        <td>
+                                            <span class="fw-semibold">Enterprise</span>
+                                        </td>
+                                        <td>Auto Debit</td>
+                                        <td>
+                                            <span class="badge bg-label-success" text-capitalized="">Active</span>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <a href="javascript:;" class="text-body">
+                                                    <i class="ti ti-edit ti-sm me-2"></i>
+                                                </a>
+                                                <a href="javascript:;" class="text-body delete-record">
+                                                    <i class="ti ti-trash ti-sm mx-2"></i>
+                                                </a>
+                                                <a href="javascript:;" class="text-body dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                                    <i class="ti ti-dots-vertical ti-sm mx-1"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-end m-0">
+                                                    <a href="app-user-view-account.html" class="dropdown-item">View</a>
+                                                    <a href="app-user-view-account.html" class="dropdown-item">Add Salary</a>
+                                                    <a href="javascript:;" class="dropdown-item">Terminate</a>
+                                                    <a href="javascript:;" class="dropdown-item">Remove from employee list</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                <tr>
+                                    <td colspan="5">
+                                        <div class="row mx-2">
+                                            <div class="col-sm-12 col-md-6">
+                                                <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing {{$employees->firstItem()}} to {{$employees->lastItem()}} of {{$employees->total()}} entries</div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-6">
+                                                <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                                                    {!! $employees->links('pagination::bootstrap-4') !!}
+                                                </div>
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
-                        <div class="row mx-2">
-                            <div class="col-sm-12 col-md-6">
-                                <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to 10 of 50 entries</div>
-                            </div>
-                            <div class="col-sm-12 col-md-6">
-                                <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-                                    <ul class="pagination">
-                                        <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous">
-                                            <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="previous" tabindex="0" class="page-link">Previous</a>
-                                        </li>
-                                        <li class="paginate_button page-item active">
-                                            <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">1</a>
-                                        </li>
-                                        <li class="paginate_button page-item ">
-                                            <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">2</a>
-                                        </li>
-                                        <li class="paginate_button page-item ">
-                                            <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0" class="page-link">3</a>
-                                        </li>
-                                        <li class="paginate_button page-item ">
-                                            <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="3" tabindex="0" class="page-link">4</a>
-                                        </li>
-                                        <li class="paginate_button page-item ">
-                                            <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="4" tabindex="0" class="page-link">5</a>
-                                        </li>
-                                        <li class="paginate_button page-item next" id="DataTables_Table_0_next">
-                                            <a href="#" aria-controls="DataTables_Table_0" data-dt-idx="next" tabindex="0" class="page-link">Next</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
-                 <!-- Add Role Modal -->
-                 <div class="modal fade" id="addRoleModal" tabindex="-1" aria-hidden="true">
+                <!-- Add Role Modal -->
+                <div class="modal fade" id="addRoleModal" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
                         <div class="modal-content p-3 p-md-5">
                             <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -245,10 +224,12 @@
                                     <p class="text-muted">Set role permissions</p>
                                 </div>
                                 <!-- Add role form -->
-                                <form id="addRoleForm" class="row g-3" onsubmit="return false">
+                                <form id="addRoleForm" data-modal-id="addRoleModal" class="row g-3" method="POST">
+                                    @csrf
                                     <div class="col-12 mb-4">
-                                        <label class="form-label" for="modalRoleName">Role Name</label>
-                                        <input type="text" id="modalRoleName" name="modalRoleName" class="form-control" placeholder="Enter a role name" tabindex="-1" />
+                                        <label class="form-label" for="name">Role Name</label>
+                                        <input type="text" id="name" name="name" class="form-control" placeholder="Enter a role name" tabindex="-1" />
+                                        <span id="name_error" class="text-danger"></span>
                                     </div>
                                     <div class="col-12">
                                         <h5>Role Permissions</h5>
@@ -268,187 +249,32 @@
                                                             </div>
                                                         </td>
                                                     </tr>
-                                                    <tr>
-                                                        <td class="text-nowrap fw-semibold">User Management</td>
-                                                        <td>
-                                                            <div class="d-flex">
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="userManagementRead" />
-                                                                    <label class="form-check-label" for="userManagementRead"> Read </label>
+                                                    @foreach ($models as $permission)
+                                                        <tr>
+                                                            <td class="text-nowrap fw-semibold">{{ ucfirst($permission->label) }} Management</td>
+                                                            <td>
+                                                                <div class="d-flex">
+                                                                    @foreach (SubPermissions($permission->label) as $sub_permission)
+                                                                        @php $label = explode('-', $sub_permission->name) @endphp
+                                                                        <div class="form-check me-3 me-lg-5">
+                                                                            <input class="form-check-input" name="permissions[]" value="{{ $sub_permission->id }}" type="checkbox" id="userManagementRead-{{ $sub_permission->id }}" />
+                                                                            <label class="form-check-label" for="userManagementRead-{{ $sub_permission->id }}"> {{ Str::ucfirst($label[1]) }}</label>
+                                                                        </div>
+                                                                    @endforeach
                                                                 </div>
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="userManagementWrite" />
-                                                                    <label class="form-check-label" for="userManagementWrite"> Write </label>
-                                                                </div>
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" id="userManagementCreate" />
-                                                                    <label class="form-check-label" for="userManagementCreate"> Create </label>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-nowrap fw-semibold">Content Management</td>
-                                                        <td>
-                                                            <div class="d-flex">
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="contentManagementRead" />
-                                                                    <label class="form-check-label" for="contentManagementRead"> Read </label>
-                                                                </div>
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="contentManagementWrite" />
-                                                                    <label class="form-check-label" for="contentManagementWrite"> Write </label>
-                                                                </div>
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" id="contentManagementCreate" />
-                                                                    <label class="form-check-label" for="contentManagementCreate"> Create </label>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-nowrap fw-semibold">Disputes Management</td>
-                                                        <td>
-                                                            <div class="d-flex">
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="dispManagementRead" />
-                                                                    <label class="form-check-label" for="dispManagementRead"> Read </label>
-                                                                </div>
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="dispManagementWrite" />
-                                                                    <label class="form-check-label" for="dispManagementWrite"> Write </label>
-                                                                </div>
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" id="dispManagementCreate" />
-                                                                    <label class="form-check-label" for="dispManagementCreate"> Create </label>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-nowrap fw-semibold">Database Management</td>
-                                                        <td>
-                                                            <div class="d-flex">
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="dbManagementRead" />
-                                                                    <label class="form-check-label" for="dbManagementRead"> Read </label>
-                                                                </div>
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="dbManagementWrite" />
-                                                                    <label class="form-check-label" for="dbManagementWrite"> Write </label>
-                                                                </div>
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" id="dbManagementCreate" />
-                                                                    <label class="form-check-label" for="dbManagementCreate"> Create </label>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-nowrap fw-semibold">Financial Management</td>
-                                                        <td>
-                                                            <div class="d-flex">
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="finManagementRead" />
-                                                                    <label class="form-check-label" for="finManagementRead"> Read </label>
-                                                                </div>
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="finManagementWrite" />
-                                                                    <label class="form-check-label" for="finManagementWrite"> Write </label>
-                                                                </div>
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" id="finManagementCreate" />
-                                                                    <label class="form-check-label" for="finManagementCreate"> Create </label>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-nowrap fw-semibold">Reporting</td>
-                                                        <td>
-                                                            <div class="d-flex">
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="reportingRead" />
-                                                                    <label class="form-check-label" for="reportingRead"> Read </label>
-                                                                </div>
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="reportingWrite" />
-                                                                    <label class="form-check-label" for="reportingWrite"> Write </label>
-                                                                </div>
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" id="reportingCreate" />
-                                                                    <label class="form-check-label" for="reportingCreate"> Create </label>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-nowrap fw-semibold">API Control</td>
-                                                        <td>
-                                                            <div class="d-flex">
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="apiRead" />
-                                                                    <label class="form-check-label" for="apiRead"> Read </label>
-                                                                </div>
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="apiWrite" />
-                                                                    <label class="form-check-label" for="apiWrite"> Write </label>
-                                                                </div>
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" id="apiCreate" />
-                                                                    <label class="form-check-label" for="apiCreate"> Create </label>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-nowrap fw-semibold">Repository Management</td>
-                                                        <td>
-                                                            <div class="d-flex">
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="repoRead" />
-                                                                    <label class="form-check-label" for="repoRead"> Read </label>
-                                                                </div>
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="repoWrite" />
-                                                                    <label class="form-check-label" for="repoWrite"> Write </label>
-                                                                </div>
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" id="repoCreate" />
-                                                                    <label class="form-check-label" for="repoCreate"> Create </label>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-nowrap fw-semibold">Payroll</td>
-                                                        <td>
-                                                            <div class="d-flex">
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="payrollRead" />
-                                                                    <label class="form-check-label" for="payrollRead"> Read </label>
-                                                                </div>
-                                                                <div class="form-check me-3 me-lg-5">
-                                                                    <input class="form-check-input" type="checkbox" id="payrollWrite" />
-                                                                    <label class="form-check-label" for="payrollWrite"> Write </label>
-                                                                </div>
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" type="checkbox" id="payrollCreate" />
-                                                                    <label class="form-check-label" for="payrollCreate"> Create </label>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
                                                 </tbody>
                                             </table>
                                         </div>
                                         <!-- Permission table -->
                                     </div>
                                     <div class="col-12 text-center mt-4">
-                                        <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
+                                        <button type="submit" data-url="{{ route('roles.store') }}" class="btn btn-primary me-sm-3 me-1 submitBtn">Submit</button>
                                         <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">
-Cancel
-</button>
+                                        Cancel
+                                        </button>
                                     </div>
                                 </form>
                                 <!--/ Add role form -->
@@ -457,10 +283,39 @@ Cancel
                     </div>
                 </div>
                 <!--/ Add Role Modal -->
+
+                <!-- Edit Role Modal -->
+                <div class="modal fade" id="editRoleModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
+                        <div class="modal-content p-3 p-md-5">
+                            <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <div class="modal-body" id="edit-role-body">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Edit Role Modal -->
             </div>
         </div>
     </div>
 </div>
 @endsection
 @push('js')
+    {{-- <script>
+        $("#selectAll").click(function () {
+            $('input:checkbox').not(this).prop('checked', this.checked);
+        });
+
+        $(document).on('click', '.edit-role', function(){
+            var url = $(this).attr('data-url');
+            $.ajax({
+                url: url,
+                method: 'GET',
+                success: function(response) {
+                    $('#edit-role-body').html(response);
+                    $('#editRoleModal').modal('show');
+                }
+            });
+        });
+    </script> --}}
 @endpush
