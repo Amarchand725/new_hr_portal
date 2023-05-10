@@ -24,7 +24,12 @@
                         <div class="d-flex justify-content-between align-items-end mt-1">
                             <div class="role-heading">
                                 <h4 class="mb-1"><?php echo e($role->name); ?></h4>
-                                <a href="javascript:;" data-bs-toggle="modal" data-method="PUT" data-url="<?php echo e(route('roles.edit', $role->id)); ?>" class="role-edit-modal edit-role"><span>Edit Role</span></a>
+                                <a href="javascript:;"
+                                    data-toggle="tooltip" data-placement="top" title="Edit Record"
+                                    data-edit-url="<?php echo e(route('roles.edit', $role->id)); ?>"
+                                    data-url="<?php echo e(route('roles.update', $role->id)); ?>"
+                                    class="role-edit-modal edit-role"><span>Edit Role</span>
+                                </a>
                             </div>
                             <a href="javascript:void(0);" class="text-muted"><i class="ti ti-copy ti-md"></i></a>
                         </div>
@@ -43,7 +48,7 @@
                     </div>
                     <div class="col-sm-7">
                         <div class="card-body text-sm-end text-center ps-sm-0">
-                            <button data-bs-target="#addRoleModal" data-bs-toggle="modal" class="btn btn-primary mb-2 text-nowrap add-new-role">
+                            <button data-toggle="tooltip" data-placement="top" title="Add New Role" id="add-btn" data-url="<?php echo e(route('roles.store')); ?>" class="btn btn-primary mb-2 text-nowrap add-new-role">
                                 Add New Role
                             </button>
                             <p class="mb-0 mt-1">Add role, if it does not exist</p>
@@ -109,7 +114,7 @@
                                         </label>
                                     </div>
                                     <div class="dt-buttons btn-group flex-wrap">
-                                        <button class="btn btn-secondary add-new btn-primary mx-3" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser" fdprocessedid="i1qq7b">
+                                        <button data-toggle="tooltip" data-placement="top" title="Add New User" data-url="<?php echo e(route('roles.store')); ?>" class="btn btn-secondary add-new btn-primary mx-3" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#addRoleModal" fdprocessedid="i1qq7b">
                                             <span>
                                                 <i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
                                                 <span class="d-none d-sm-inline-block">Add New User</span>
@@ -213,58 +218,61 @@
                             <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal" aria-label="Close"></button>
                             <div class="modal-body">
                                 <div class="text-center mb-4">
-                                    <h3 class="role-title mb-2">Add New Role</h3>
+                                    <h3 class="role-title mb-2" id="role-title">Add New Role</h3>
                                     <p class="text-muted">Set role permissions</p>
                                 </div>
                                 <!-- Add role form -->
-                                <form id="addRoleForm" data-modal-id="addRoleModal" class="row g-3" method="POST">
+                                <form class="pt-0 fv-plugins-bootstrap5 fv-plugins-framework" data-method="" data-modal-id="addRoleModal" id="addRoleForm">
                                     <?php echo csrf_field(); ?>
-                                    <div class="col-12 mb-4">
-                                        <label class="form-label" for="name">Role Name</label>
-                                        <input type="text" id="name" name="name" class="form-control" placeholder="Enter a role name" tabindex="-1" />
-                                        <span id="name_error" class="text-danger"></span>
-                                    </div>
-                                    <div class="col-12">
-                                        <h5>Role Permissions</h5>
-                                        <!-- Permission table -->
-                                        <div class="table-responsive">
-                                            <table class="table table-flush-spacing">
-                                                <tbody>
-                                                    <tr>
-                                                        <td class="text-nowrap fw-semibold">
-                                                            Administrator Access
-                                                            <i class="ti ti-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Allows a full access to the system"></i>
-                                                        </td>
-                                                        <td>
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" type="checkbox" id="selectAll" />
-                                                                <label class="form-check-label" for="selectAll"> Select All </label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <?php $__currentLoopData = $models; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $permission): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+
+                                    <span id="edit-content">
+                                        <div class="col-12 mb-4">
+                                            <label class="form-label" for="name">Role Name</label>
+                                            <input type="text" id="name" name="name" class="form-control" placeholder="Enter a role name" tabindex="-1" />
+                                            <span id="name_error" class="text-danger"></span>
+                                        </div>
+                                        <div class="col-12">
+                                            <h5>Role Permissions</h5>
+                                            <!-- Permission table -->
+                                            <div class="table-responsive">
+                                                <table class="table table-flush-spacing">
+                                                    <tbody>
                                                         <tr>
-                                                            <td class="text-nowrap fw-semibold"><?php echo e(ucfirst($permission->label)); ?> Management</td>
+                                                            <td class="text-nowrap fw-semibold">
+                                                                Administrator Access
+                                                                <i class="ti ti-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Allows a full access to the system"></i>
+                                                            </td>
                                                             <td>
-                                                                <div class="d-flex">
-                                                                    <?php $__currentLoopData = SubPermissions($permission->label); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sub_permission): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                                        <?php $label = explode('-', $sub_permission->name) ?>
-                                                                        <div class="form-check me-3 me-lg-5">
-                                                                            <input class="form-check-input" name="permissions[]" value="<?php echo e($sub_permission->id); ?>" type="checkbox" id="userManagementRead-<?php echo e($sub_permission->id); ?>" />
-                                                                            <label class="form-check-label" for="userManagementRead-<?php echo e($sub_permission->id); ?>"> <?php echo e(Str::ucfirst($label[1])); ?></label>
-                                                                        </div>
-                                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" id="selectAll" />
+                                                                    <label class="form-check-label" for="selectAll"> Select All </label>
                                                                 </div>
                                                             </td>
                                                         </tr>
-                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                </tbody>
-                                            </table>
+                                                        <?php $__currentLoopData = $models; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $permission): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                            <tr>
+                                                                <td class="text-nowrap fw-semibold"><?php echo e(ucfirst($permission->label)); ?> Management</td>
+                                                                <td>
+                                                                    <div class="d-flex">
+                                                                        <?php $__currentLoopData = SubPermissions($permission->label); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sub_permission): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                            <?php $label = explode('-', $sub_permission->name) ?>
+                                                                            <div class="form-check me-3 me-lg-5">
+                                                                                <input class="form-check-input" name="permissions[]" value="<?php echo e($sub_permission->id); ?>" type="checkbox" id="userManagementRead-<?php echo e($sub_permission->id); ?>" />
+                                                                                <label class="form-check-label" for="userManagementRead-<?php echo e($sub_permission->id); ?>"> <?php echo e(Str::ucfirst($label[1])); ?></label>
+                                                                            </div>
+                                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <!-- Permission table -->
                                         </div>
-                                        <!-- Permission table -->
-                                    </div>
+                                    </span>
                                     <div class="col-12 text-center mt-4">
-                                        <button type="submit" data-url="<?php echo e(route('roles.store')); ?>" class="btn btn-primary me-sm-3 me-1 submitBtn">Submit</button>
+                                        <button type="submit" class="btn btn-primary me-sm-3 me-1 submitBtn">Submit</button>
                                         <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">
                                         Cancel
                                         </button>
@@ -276,25 +284,18 @@
                     </div>
                 </div>
                 <!--/ Add Role Modal -->
-
-                <!-- Edit Role Modal -->
-                <div class="modal fade" id="editRoleModal" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
-                        <div class="modal-content p-3 p-md-5">
-                            <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal" aria-label="Close"></button>
-                            <div class="modal-body" id="edit-role-body">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Edit Role Modal -->
             </div>
         </div>
     </div>
 </div>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('js'); ?>
-    
+    <script src="<?php echo e(asset('public/admin/assets/js/custom/role.js')); ?>"></script>
+    <script>
+        $("#selectAll").click(function () {
+            $('input:checkbox').not(this).prop('checked', this.checked);
+        });
+    </script>
 <?php $__env->stopPush(); ?>
 
 <?php echo $__env->make('admin.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\new_hr_portal.local\resources\views/admin/roles/index.blade.php ENDPATH**/ ?>

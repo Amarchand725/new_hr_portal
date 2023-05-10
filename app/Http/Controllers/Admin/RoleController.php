@@ -39,14 +39,6 @@ class RoleController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -64,26 +56,16 @@ class RoleController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
     {
-        $per_page_records = 10;
-        $title = 'Edit Role';
         $role = Role::where('id', $id)->first();
         $role_permissions = $role->getPermissionNames();
-        $models = Permission::orderby('id','DESC')->groupBy('label')->paginate($per_page_records);
+        $models = Permission::orderby('id','DESC')->groupBy('label')->get();
         $roles = Role::orderby('id', 'desc')->get();
 
-        return (string) view('admin.roles.edit_ajax', compact('title', 'role', 'models', 'roles', 'role_permissions'));
+        return (string) view('admin.roles.edit_content', compact('role', 'models', 'roles', 'role_permissions'));
     }
 
     /**
@@ -92,7 +74,7 @@ class RoleController extends Controller
     public function update(Request $request, string $id)
     {
         $this->validate($request, [
-            'name' => ['required', 'unique:roles', 'max:100'],
+            'name' => 'required|max:150|unique:roles,id,'.$id,
         ]);
 
         $role = Role::where('id', $id)->first();

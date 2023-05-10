@@ -34,8 +34,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/departments', [AdminController::class, 'departments'])->name('departments');
     Route::get('/calendar', [AdminController::class, 'calendar'])->name('calendar');
 
-    Route::get('/employees', [EmployeeController::class, 'index'])->name('employees');
-
     Route::get('/designations/trashed', [App\Http\Controllers\Admin\DesignationController::class, 'trashed'])->name('designations.trashed');
     Route::get('/designations/restore/{id}', [App\Http\Controllers\Admin\DesignationController::class, 'restore'])->name('designations.restore');
 
@@ -60,6 +58,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/departments', App\Http\Controllers\Admin\DepartmentController::class);
     Route::resource('/announcements', App\Http\Controllers\Admin\AnnouncementController::class);
     Route::resource('/employment_status', App\Http\Controllers\Admin\EmploymentStatusController::class);
+    Route::resource('/employees', App\Http\Controllers\Admin\EmployeeController::class);
 });
 
 require __DIR__.'/auth.php';

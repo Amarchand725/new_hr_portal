@@ -25,7 +25,12 @@
                         <div class="d-flex justify-content-between align-items-end mt-1">
                             <div class="role-heading">
                                 <h4 class="mb-1">{{ $role->name }}</h4>
-                                <a href="javascript:;" data-bs-toggle="modal" data-method="PUT" data-url="{{ route('roles.edit', $role->id) }}" class="role-edit-modal edit-role"><span>Edit Role</span></a>
+                                <a href="javascript:;"
+                                    data-toggle="tooltip" data-placement="top" title="Edit Record"
+                                    data-edit-url="{{ route('roles.edit', $role->id) }}"
+                                    data-url="{{ route('roles.update', $role->id) }}"
+                                    class="role-edit-modal edit-role"><span>Edit Role</span>
+                                </a>
                             </div>
                             <a href="javascript:void(0);" class="text-muted"><i class="ti ti-copy ti-md"></i></a>
                         </div>
@@ -44,7 +49,7 @@
                     </div>
                     <div class="col-sm-7">
                         <div class="card-body text-sm-end text-center ps-sm-0">
-                            <button data-bs-target="#addRoleModal" data-bs-toggle="modal" class="btn btn-primary mb-2 text-nowrap add-new-role">
+                            <button data-toggle="tooltip" data-placement="top" title="Add New Role" id="add-btn" data-url="{{ route('roles.store') }}" class="btn btn-primary mb-2 text-nowrap add-new-role">
                                 Add New Role
                             </button>
                             <p class="mb-0 mt-1">Add role, if it does not exist</p>
@@ -117,7 +122,7 @@
                                         </label>
                                     </div>
                                     <div class="dt-buttons btn-group flex-wrap">
-                                        <button class="btn btn-secondary add-new btn-primary mx-3" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser" fdprocessedid="i1qq7b">
+                                        <button data-toggle="tooltip" data-placement="top" title="Add New User" data-url="{{ route('roles.store') }}" class="btn btn-secondary add-new btn-primary mx-3" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#addRoleModal" fdprocessedid="i1qq7b">
                                             <span>
                                                 <i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
                                                 <span class="d-none d-sm-inline-block">Add New User</span>
@@ -220,58 +225,61 @@
                             <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal" aria-label="Close"></button>
                             <div class="modal-body">
                                 <div class="text-center mb-4">
-                                    <h3 class="role-title mb-2">Add New Role</h3>
+                                    <h3 class="role-title mb-2" id="role-title">Add New Role</h3>
                                     <p class="text-muted">Set role permissions</p>
                                 </div>
                                 <!-- Add role form -->
-                                <form id="addRoleForm" data-modal-id="addRoleModal" class="row g-3" method="POST">
+                                <form class="pt-0 fv-plugins-bootstrap5 fv-plugins-framework" data-method="" data-modal-id="addRoleModal" id="addRoleForm">
                                     @csrf
-                                    <div class="col-12 mb-4">
-                                        <label class="form-label" for="name">Role Name</label>
-                                        <input type="text" id="name" name="name" class="form-control" placeholder="Enter a role name" tabindex="-1" />
-                                        <span id="name_error" class="text-danger"></span>
-                                    </div>
-                                    <div class="col-12">
-                                        <h5>Role Permissions</h5>
-                                        <!-- Permission table -->
-                                        <div class="table-responsive">
-                                            <table class="table table-flush-spacing">
-                                                <tbody>
-                                                    <tr>
-                                                        <td class="text-nowrap fw-semibold">
-                                                            Administrator Access
-                                                            <i class="ti ti-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Allows a full access to the system"></i>
-                                                        </td>
-                                                        <td>
-                                                            <div class="form-check">
-                                                                <input class="form-check-input" type="checkbox" id="selectAll" />
-                                                                <label class="form-check-label" for="selectAll"> Select All </label>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    @foreach ($models as $permission)
+
+                                    <span id="edit-content">
+                                        <div class="col-12 mb-4">
+                                            <label class="form-label" for="name">Role Name</label>
+                                            <input type="text" id="name" name="name" class="form-control" placeholder="Enter a role name" tabindex="-1" />
+                                            <span id="name_error" class="text-danger"></span>
+                                        </div>
+                                        <div class="col-12">
+                                            <h5>Role Permissions</h5>
+                                            <!-- Permission table -->
+                                            <div class="table-responsive">
+                                                <table class="table table-flush-spacing">
+                                                    <tbody>
                                                         <tr>
-                                                            <td class="text-nowrap fw-semibold">{{ ucfirst($permission->label) }} Management</td>
+                                                            <td class="text-nowrap fw-semibold">
+                                                                Administrator Access
+                                                                <i class="ti ti-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Allows a full access to the system"></i>
+                                                            </td>
                                                             <td>
-                                                                <div class="d-flex">
-                                                                    @foreach (SubPermissions($permission->label) as $sub_permission)
-                                                                        @php $label = explode('-', $sub_permission->name) @endphp
-                                                                        <div class="form-check me-3 me-lg-5">
-                                                                            <input class="form-check-input" name="permissions[]" value="{{ $sub_permission->id }}" type="checkbox" id="userManagementRead-{{ $sub_permission->id }}" />
-                                                                            <label class="form-check-label" for="userManagementRead-{{ $sub_permission->id }}"> {{ Str::ucfirst($label[1]) }}</label>
-                                                                        </div>
-                                                                    @endforeach
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox" id="selectAll" />
+                                                                    <label class="form-check-label" for="selectAll"> Select All </label>
                                                                 </div>
                                                             </td>
                                                         </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
+                                                        @foreach ($models as $permission)
+                                                            <tr>
+                                                                <td class="text-nowrap fw-semibold">{{ ucfirst($permission->label) }} Management</td>
+                                                                <td>
+                                                                    <div class="d-flex">
+                                                                        @foreach (SubPermissions($permission->label) as $sub_permission)
+                                                                            @php $label = explode('-', $sub_permission->name) @endphp
+                                                                            <div class="form-check me-3 me-lg-5">
+                                                                                <input class="form-check-input" name="permissions[]" value="{{ $sub_permission->id }}" type="checkbox" id="userManagementRead-{{ $sub_permission->id }}" />
+                                                                                <label class="form-check-label" for="userManagementRead-{{ $sub_permission->id }}"> {{ Str::ucfirst($label[1]) }}</label>
+                                                                            </div>
+                                                                        @endforeach
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <!-- Permission table -->
                                         </div>
-                                        <!-- Permission table -->
-                                    </div>
+                                    </span>
                                     <div class="col-12 text-center mt-4">
-                                        <button type="submit" data-url="{{ route('roles.store') }}" class="btn btn-primary me-sm-3 me-1 submitBtn">Submit</button>
+                                        <button type="submit" class="btn btn-primary me-sm-3 me-1 submitBtn">Submit</button>
                                         <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">
                                         Cancel
                                         </button>
@@ -283,39 +291,16 @@
                     </div>
                 </div>
                 <!--/ Add Role Modal -->
-
-                <!-- Edit Role Modal -->
-                <div class="modal fade" id="editRoleModal" tabindex="-1" aria-hidden="true">
-                    <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
-                        <div class="modal-content p-3 p-md-5">
-                            <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal" aria-label="Close"></button>
-                            <div class="modal-body" id="edit-role-body">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Edit Role Modal -->
             </div>
         </div>
     </div>
 </div>
 @endsection
 @push('js')
-    {{-- <script>
+    <script src="{{ asset('public/admin/assets/js/custom/role.js') }}"></script>
+    <script>
         $("#selectAll").click(function () {
             $('input:checkbox').not(this).prop('checked', this.checked);
         });
-
-        $(document).on('click', '.edit-role', function(){
-            var url = $(this).attr('data-url');
-            $.ajax({
-                url: url,
-                method: 'GET',
-                success: function(response) {
-                    $('#edit-role-body').html(response);
-                    $('#editRoleModal').modal('show');
-                }
-            });
-        });
-    </script> --}}
+    </script>
 @endpush

@@ -62,17 +62,17 @@
         </a>
         <ul class="menu-sub">
           <li class="menu-item">
-            <a href="<?php echo e(route('employees')); ?>" class="menu-link">
+            <a href="<?php echo e(route('employees.index')); ?>" class="menu-link">
               <div data-i18n="Salary Details">Salary Details</div>
             </a>
           </li>
           <li class="menu-item">
-            <a href="<?php echo e(route('employees')); ?>" class="menu-link">
+            <a href="<?php echo e(route('employees.index')); ?>" class="menu-link">
               <div data-i18n="Bank Details">Bank Details</div>
             </a>
           </li>
           <li class="menu-item">
-            <a href="<?php echo e(route('employees')); ?>" class="menu-link">
+            <a href="<?php echo e(route('employees.index')); ?>" class="menu-link">
               <div data-i18n="Team Bank Details">Team Bank Details</div>
             </a>
           </li>
@@ -88,7 +88,7 @@
         </a>
         <ul class="menu-sub">
           <li class="menu-item <?php echo e(request()->is('employees')?'active':''); ?>">
-            <a href="<?php echo e(route('employees')); ?>" class="menu-link">
+            <a href="<?php echo e(route('employees.index')); ?>" class="menu-link">
               <div data-i18n="Employees">Employees</div>
             </a>
           </li>
@@ -111,17 +111,17 @@
         </a>
         <ul class="menu-sub">
           <li class="menu-item">
-            <a href="<?php echo e(route('employees')); ?>" class="menu-link">
+            <a href="<?php echo e(route('employees.index')); ?>" class="menu-link">
               <div data-i18n="Leave Status">Leave Status</div>
             </a>
           </li>
           <li class="menu-item">
-            <a href="<?php echo e(route('employees')); ?>" class="menu-link">
+            <a href="<?php echo e(route('employees.index')); ?>" class="menu-link">
               <div data-i18n="Leave Report">Leave Report</div>
             </a>
           </li>
           <li class="menu-item">
-            <a href="<?php echo e(route('employees')); ?>" class="menu-link">
+            <a href="<?php echo e(route('employees.index')); ?>" class="menu-link">
               <div data-i18n="Team Leaves">Team Leaves</div>
             </a>
           </li>

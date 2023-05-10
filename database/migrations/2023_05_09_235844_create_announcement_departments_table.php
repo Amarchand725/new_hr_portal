@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('announcement_departments', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('announcement_id');
+            $table->unsignedBigInteger('department_id');
+
+            $table->foreign('announcement_id')->references('id')->on('announcements')->onDelete('cascade');
+            $table->foreign('department_id')->references('id')->on('departments')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

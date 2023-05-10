@@ -37,10 +37,10 @@
     });
   }
 
-  // Revenue Generated Area Chart
+  // Half Day Summary Chart
   // --------------------------------------------------------------------
-  const revenueGeneratedEl = document.querySelector('#revenueGenerated'),
-    revenueGeneratedConfig = {
+  const halfdayEl = document.querySelector('#halfdaySummary'),
+    halfdayConfig = {
       chart: {
         height: 130,
         type: 'area',
@@ -59,7 +59,82 @@
       grid: {
         show: false
       },
-      colors: [config.colors.success],
+      colors: [config.colors.danger],
+      fill: {
+        type: 'gradient',
+        gradient: {
+          shade: shadeColor,
+          shadeIntensity: 0.8,
+          opacityFrom: 0.6,
+          opacityTo: 0.1
+        }
+      },
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        width: 2,
+        curve: 'smooth'
+      },
+      series: [
+        {
+          data: [300, 300, 400, 300, 300, 400, 400]
+        }
+      ],
+      xaxis: {
+        show: true,
+        lines: {
+          show: false
+        },
+        labels: {
+          show: false
+        },
+        stroke: {
+          width: 0
+        },
+        axisBorder: {
+          show: false
+        }
+      },
+      yaxis: {
+        stroke: {
+          width: 0
+        },
+        show: false
+      },
+      tooltip: {
+        enabled: false
+      }
+    };
+  if (typeof halfdaydEl !== undefined && halfdayEl !== null) {
+    const halfday = new ApexCharts(halfdayEl, halfdayConfig);
+    halfday.render();
+  }
+
+
+  // Latein Summary Chart
+  // --------------------------------------------------------------------
+  const lateinSummaryEl = document.querySelector('#lateinSummary'),
+    lateinSummaryConfig = {
+      chart: {
+        height: 130,
+        type: 'area',
+        parentHeightOffset: 0,
+        toolbar: {
+          show: false
+        },
+        sparkline: {
+          enabled: true
+        }
+      },
+      markers: {
+        colors: 'transparent',
+        strokeColors: 'transparent'
+      },
+      grid: {
+        show: false
+      },
+      colors: [config.colors.warning],
       fill: {
         type: 'gradient',
         gradient: {
@@ -106,9 +181,83 @@
         enabled: false
       }
     };
-  if (typeof revenueGeneratedEl !== undefined && revenueGeneratedEl !== null) {
-    const revenueGenerated = new ApexCharts(revenueGeneratedEl, revenueGeneratedConfig);
-    revenueGenerated.render();
+  if (typeof lateinSummarydEl !== undefined && lateinSummaryEl !== null) {
+    const lateinSummary = new ApexCharts(lateinSummaryEl, lateinSummaryConfig);
+    lateinSummary.render();
+  }
+
+  // Regular Summary Chart
+  // --------------------------------------------------------------------
+  const absentEl = document.querySelector('#absentSummary'),
+    absentConfig = {
+      chart: {
+        height: 130,
+        type: 'area',
+        parentHeightOffset: 0,
+        toolbar: {
+          show: false
+        },
+        sparkline: {
+          enabled: true
+        }
+      },
+      markers: {
+        colors: 'transparent',
+        strokeColors: 'transparent'
+      },
+      grid: {
+        show: false
+      },
+      colors: [config.colors.danger],
+      fill: {
+        type: 'gradient',
+        gradient: {
+          shade: shadeColor,
+          shadeIntensity: 0.8,
+          opacityFrom: 0.6,
+          opacityTo: 0.1
+        }
+      },
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        width: 2,
+        curve: 'smooth'
+      },
+      series: [
+        {
+          data: [300, 300, 400, 400, 400, 400, 300]
+        }
+      ],
+      xaxis: {
+        show: true,
+        lines: {
+          show: false
+        },
+        labels: {
+          show: true,
+        },
+        stroke: {
+          width: 0
+        },
+        axisBorder: {
+          show: false
+        }
+      },
+      yaxis: {
+        stroke: {
+          width: 0
+        },
+        show: false
+      },
+      tooltip: {
+        enabled: false
+      }
+    };
+  if (typeof absentdEl !== undefined && absentEl !== null) {
+    const absent = new ApexCharts(absentEl, absentConfig);
+    absent.render();
   }
 
   // Earning Reports Bar Chart
@@ -630,18 +779,18 @@
             var data = $.map(columns, function (col, i) {
               return col.title !== '' // ? Do not show row in modal popup if title is blank (for check box)
                 ? '<tr data-dt-row="' +
-                    col.rowIndex +
-                    '" data-dt-column="' +
-                    col.columnIndex +
-                    '">' +
-                    '<td>' +
-                    col.title +
-                    ':' +
-                    '</td> ' +
-                    '<td>' +
-                    col.data +
-                    '</td>' +
-                    '</tr>'
+                col.rowIndex +
+                '" data-dt-column="' +
+                col.columnIndex +
+                '">' +
+                '<td>' +
+                col.title +
+                ':' +
+                '</td> ' +
+                '<td>' +
+                col.data +
+                '</td>' +
+                '</tr>'
                 : '';
             }).join('');
 
@@ -660,3 +809,8 @@
     $('.dataTables_length .form-select').removeClass('form-select-sm');
   }, 300);
 })();
+
+
+
+
+

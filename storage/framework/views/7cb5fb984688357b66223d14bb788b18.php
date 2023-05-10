@@ -1,10 +1,9 @@
-@extends('admin.layouts.app')
-@section('title', 'Employees - Cyberonix')
+<?php $__env->startSection('title', 'Employees - Cyberonix'); ?>
 
-@push('styles')
-@endpush
+<?php $__env->startPush('styles'); ?>
+<?php $__env->stopPush(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="content-wrapper">
     <div class="container-xxl flex-grow-1 container-p-y">
         <!-- Users List Table -->
@@ -47,14 +46,7 @@
                         <div class="col-md-2">
                             <div class="me-3">
                                 <div class="dataTables_length" id="DataTables_Table_0_length">
-                                    {{-- <label>
-                                        <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select" fdprocessedid="o5g1n8">
-                                            <option value="10">10</option>
-                                            <option value="25">25</option>
-                                            <option value="50">50</option>
-                                            <option value="100">100</option>
-                                        </select>
-                                    </label> --}}
+                                    
                                 </div>
                             </div>
                         </div>
@@ -67,7 +59,7 @@
                                     </label>
                                 </div>
                                 <div class="dt-buttons btn-group flex-wrap">
-                                    <button class="btn btn-secondary add-new btn-primary mx-3" data-toggle="tooltip" data-placement="top" title="Add New Employee" id="add-btn" data-url="{{ route('employees.store') }}">
+                                    <button class="btn btn-secondary add-new btn-primary mx-3" data-toggle="tooltip" data-placement="top" title="Add New Employee" id="add-btn" data-url="<?php echo e(route('employees.store')); ?>">
                                         <span>
                                             <i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
                                             <span class="d-none d-sm-inline-block">Add New</span>
@@ -192,14 +184,17 @@
                             </div>
                             <!-- Add role form -->
                             <form class="pt-0 fv-plugins-bootstrap5 fv-plugins-framework" data-method="" data-modal-id="create-form-modal" id="create-form">
-                                @csrf
+                                <?php echo csrf_field(); ?>
 
                                 <span id="edit-content">
                                     <div class="mb-3">
                                         <label class="form-label" for="position">Position</label>
                                         <select id="position" class="form-select">
-                                            <option value="" selected>Select position</option>
-
+                                            <option value="subscriber">Subscriber</option>
+                                            <option value="editor">Editor</option>
+                                            <option value="maintainer">Maintainer</option>
+                                            <option value="author">Author</option>
+                                            <option value="admin">Admin</option>
                                         </select>
                                     </div>
                                     <div class="mb-3 fv-plugins-icon-container">
@@ -314,128 +309,13 @@
             <!--/ Add Role Modal -->
 
             <!-- Offcanvas to add new user -->
-            {{-- <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasAddUser" aria-labelledby="offcanvasAddUserLabel">
-                <div class="offcanvas-header">
-                    <h5 id="offcanvasAddUserLabel" class="offcanvas-title">Add Employee</h5>
-                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body mx-0 flex-grow-0 pt-0 h-100">
-                    <form class="add-new-user pt-0 fv-plugins-bootstrap5 fv-plugins-framework" id="addNewUserForm" onsubmit="return false" novalidate="novalidate">
-                        <div class="mb-3">
-                            <label class="form-label" for="position">Position</label>
-                            <select id="position" class="form-select">
-                                <option value="subscriber">Subscriber</option>
-                                <option value="editor">Editor</option>
-                                <option value="maintainer">Maintainer</option>
-                                <option value="author">Author</option>
-                                <option value="admin">Admin</option>
-                            </select>
-                        </div>
-                        <div class="mb-3 fv-plugins-icon-container">
-                            <label class="form-label" for="first_name">First Name</label>
-                            <input type="text" class="form-control" id="first_name" placeholder="John Doe" name="userFullname" aria-label="John">
-                            <div class="fv-plugins-message-container invalid-feedback"></div>
-                        </div>
-                        <div class="mb-3 fv-plugins-icon-container">
-                            <label class="form-label" for="last_name">Last Name</label>
-                            <input type="text" class="form-control" id="last_name" placeholder="John Doe" name="userFullname" aria-label="Doe">
-                            <div class="fv-plugins-message-container invalid-feedback"></div>
-                        </div>
-                        <div class="mb-3 fv-plugins-icon-container">
-                            <label class="form-label" for="add-user-email">Email</label>
-                            <input type="text" id="add-user-email" class="form-control" placeholder="john.doe@example.com" aria-label="john.doe@example.com" name="userEmail">
-                            <div class="fv-plugins-message-container invalid-feedback"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="d-block form-label">Gender</label>
-                            <div class="form-check mb-2">
-                              <input
-                                type="radio"
-                                id="basic-default-radio-male"
-                                name="basic-default-radio"
-                                class="form-check-input"
-                                required
-                              />
-                              <label class="form-check-label" for="basic-default-radio-male">Male</label>
-                            </div>
-                            <div class="form-check">
-                              <input
-                                type="radio"
-                                id="basic-default-radio-female"
-                                name="basic-default-radio"
-                                class="form-check-input"
-                                required
-                              />
-                              <label class="form-check-label" for="basic-default-radio-female">Female</label>
-                            </div>
-                          </div>
-
-                        <div class="mb-3">
-                            <label class="form-label" for="employee-id">Employee ID</label>
-                            <input type="text" id="employee-id" class="form-control phone-mask" placeholder="Enter employee id">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="department-id">Departments</label>
-                            <select id="department-id" class="form-select">
-                                <option value="subscriber">Subscriber</option>
-                                <option value="editor">Editor</option>
-                                <option value="maintainer">Maintainer</option>
-                                <option value="author">Author</option>
-                                <option value="admin">Admin</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="designation-id">Designation</label>
-                            <select id="designation-id" class="form-select">
-                                <option value="subscriber">Subscriber</option>
-                                <option value="editor">Editor</option>
-                                <option value="maintainer">Maintainer</option>
-                                <option value="author">Author</option>
-                                <option value="admin">Admin</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="employment-status-id">Employment Status</label>
-                            <select id="employment-status-id" class="form-select">
-                                <option value="subscriber">Subscriber</option>
-                                <option value="editor">Editor</option>
-                                <option value="maintainer">Maintainer</option>
-                                <option value="author">Author</option>
-                                <option value="admin">Admin</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="role-id">Role</label>
-                            <select id="role-id" class="form-select">
-                                <option value="subscriber">Subscriber</option>
-                                <option value="editor">Editor</option>
-                                <option value="maintainer">Maintainer</option>
-                                <option value="author">Author</option>
-                                <option value="admin">Admin</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                        <label class="form-label" for="salary">Salary</label>
-                            <input type="number" id="salary" class="form-control" placeholder="Enter salary">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="basic-default-dob">DOB</label>
-                            <input
-                              type="text"
-                              class="form-control flatpickr-validation"
-                              id="basic-default-dob"
-                              required
-                            />
-                          </div>
-                        <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit waves-effect waves-light">Submit</button>
-                        <button type="reset" class="btn btn-label-secondary waves-effect" data-bs-dismiss="offcanvas">Cancel</button>
-                    <input type="hidden"></form>
-                </div>
-            </div> --}}
+            
         </div>
     </div>
 </div>
-@endsection
-@push('js')
-    <script src="{{ asset('public/admin/assets/js/custom/employee.js') }}"></script>
-@endpush
+<?php $__env->stopSection(); ?>
+<?php $__env->startPush('js'); ?>
+    <script src="<?php echo e(asset('public/admin/assets/js/custom/employee.js')); ?>"></script>
+<?php $__env->stopPush(); ?>
+
+<?php echo $__env->make('admin.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\new_hr_portal.local\resources\views/admin/employees/index.blade.php ENDPATH**/ ?>

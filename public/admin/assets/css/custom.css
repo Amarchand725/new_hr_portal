@@ -1,0 +1,41 @@
+.user-profile-header-banner img {
+    height: 230px;
+}
+
+.card-bg {
+    background: url(https://odindesignthemes.com/vikinger/img/cover/22.jpg) center center / cover no-repeat;
+    height: 133px;
+}
+
+.reporting-authority .card-body {
+    margin-top: -60px;
+}
+
+.daily-log.timeline .timeline-item {
+    padding-left: 16px;
+}
+
+.employe-timeline .card-body {
+    height: 540px;
+    overflow-y: auto;
+    margin-right: 16px;
+}
+
+.employe-timeline .card-body::-webkit-scrollbar-track {
+    background-color: #efefef;
+}
+
+.employe-timeline .card-body::-webkit-scrollbar {
+    width: 10px;
+    background-color: #efefef;
+}
+
+.employe-timeline .card-body::-webkit-scrollbar-thumb {
+    background-color: rgba(115, 103, 240, 0.7);
+
+}
+
+.BGgradient {
+    background: linear-gradient(72.47deg, #7367f0 22.16%, rgba(115, 103, 240, 0.7) 76.47%);
+    color: #fff !important;
+}

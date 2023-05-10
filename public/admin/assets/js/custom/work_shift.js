@@ -17,7 +17,6 @@ $(document).on('click', '.edit-btn', function() {
         url: edit_url,
         method: 'GET',
         success: function(response) {
-            // console.log(response);
             $('#edit-content').html(response);
         }
     });

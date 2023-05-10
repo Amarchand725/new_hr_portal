@@ -24,7 +24,16 @@ class AdminController extends Controller
     public function dashboard()
     {
         $title = 'Dashboard';
-        return view('admin.dashboard', compact('title'));
+        $user = Auth::user();
+        $role = $user->getRoleNames()->first();
+        if($role=='Admin'){
+            return view('admin.dashboard', compact('title'));
+        }elseif($role=='Manager'){
+            return view('admin.dashboard', compact('title'));
+        }else{
+            return view('admin.emp-dashboard', compact('title'));
+        }
+
     }
     public function loginForm()
     {

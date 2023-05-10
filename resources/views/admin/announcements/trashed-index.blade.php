@@ -1,13 +1,14 @@
-<?php $__env->startSection('title', $title.' - Cyberonix'); ?>
+@extends('admin.layouts.app')
+@section('title', $title.' - Cyberonix')
 
-<?php $__env->startSection('content'); ?>
-<input type="hidden" id="page_url" value="<?php echo e(route('positions.index')); ?>">
+@section('content')
+<input type="hidden" id="page_url" value="{{ route('positions.index') }}">
 <div class="content-wrapper">
     <div class="container-xxl flex-grow-1 container-p-y">
         <!-- Users List Table -->
         <div class="card">
             <div class="card-header border-bottom">
-                <h5 class="card-title mb-3"><?php echo e($title); ?></h5>
+                <h5 class="card-title mb-3">{{ $title }}</h5>
             </div>
             <div class="card-datatable table-responsive">
                 <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
@@ -16,29 +17,37 @@
                             <div class="me-3">
                                 <div class="dataTables_length" id="DataTables_Table_0_length">
                                     <label>
-                                        
-                                        <?php if(session()->has('message')): ?>
+                                        {{-- <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select" fdprocessedid="o5g1n8">
+                                            <option value="10">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select> --}}
+                                        @if(session()->has('message'))
                                             <div class="alert alert-success" id="message-alert">
-                                                <?php echo e(session()->get('message')); ?>
-
+                                                {{ session()->get('message') }}
                                             </div>
-                                        <?php endif; ?>
+                                        @endif
 
-                                        <?php if(session()->has('error')): ?>
+                                        @if(session()->has('error'))
                                             <div class="alert alert-danger" id="message-alert">
-                                                <?php echo e(session()->get('error')); ?>
-
+                                                {{ session()->get('error') }}
                                             </div>
-                                        <?php endif; ?>
+                                        @endif
                                     </label>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-10">
                             <div class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-3 mb-md-0">
-                                
+                                {{-- <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                                    <label>
+                                        <input type="search" class="form-control" id="search" placeholder="Search.." aria-controls="DataTables_Table_0">
+                                        <input type="hidden" class="form-control" id="status" value="All">
+                                    </label>
+                                </div> --}}
                                 <div class="dt-buttons btn-group flex-wrap">
-                                    <a data-toggle="tooltip" data-placement="top" title="Show All Records" href="<?php echo e(route('work_shifts.index')); ?>" class="btn btn-success btn-primary mx-3">
+                                    <a data-toggle="tooltip" data-placement="top" title="Show All Records" href="{{ route('work_shifts.index') }}" class="btn btn-success btn-primary mx-3">
                                         <span>
                                             <i class="ti ti-eye me-0 me-sm-1 ti-xs"></i>
                                             <span class="d-none d-sm-inline-block">View All Records</span>
@@ -63,43 +72,41 @@
                             </tr>
                         </thead>
                         <tbody id="body">
-                            <?php $__currentLoopData = $models; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$model): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <tr class="odd" id="id-<?php echo e($model->id); ?>">
-                                    <td tabindex="0"><?php echo e($key+1); ?>.</td>
+                            @foreach ($models as $key=>$model)
+                                <tr class="odd" id="id-{{ $model->id }}">
+                                    <td tabindex="0">{{ $key+1 }}.</td>
                                     <td>
-                                        <span class="fw-semibold"><?php echo e($model->name??'-'); ?></span>
+                                        <span class="fw-semibold">{{ $model->name??'-' }}</span>
                                     </td>
-                                    <td><?php echo e(date('d M Y', strtotime($model->start_date))??'-'); ?></td>
-                                    <td><?php echo e(date('d M Y', strtotime($model->end_date))??'-'); ?></td>
+                                    <td>{{ date('d M Y', strtotime($model->start_date))??'-' }}</td>
+                                    <td>{{ date('d M Y', strtotime($model->end_date))??'-' }}</td>
                                     <td>
-                                        <span class="badge bg-label-success" text-capitalized=""><?php echo e(Str::ucfirst($model->type)); ?></span>
+                                        <span class="badge bg-label-success" text-capitalized="">{{ Str::ucfirst($model->type) }}</span>
                                     </td>
                                     <td>
-                                        <?php if(isset($model->hasWorkShiftDetail) && !empty($model->hasWorkShiftDetail->start_time)): ?>
-                                            <?php echo e(date('h:i A', strtotime($model->hasWorkShiftDetail->start_time))); ?>
-
-                                        <?php else: ?>
+                                        @if(isset($model->hasWorkShiftDetail) && !empty($model->hasWorkShiftDetail->start_time))
+                                            {{ date('h:i A', strtotime($model->hasWorkShiftDetail->start_time)) }}
+                                        @else
                                             -
-                                        <?php endif; ?>
+                                        @endif
                                     </td>
                                     <td>
-                                        <?php if(isset($model->hasWorkShiftDetail) && !empty($model->hasWorkShiftDetail->end_time)): ?>
-                                            <?php echo e(date('h:i A', strtotime($model->hasWorkShiftDetail->end_time))); ?>
-
-                                        <?php else: ?>
+                                        @if(isset($model->hasWorkShiftDetail) && !empty($model->hasWorkShiftDetail->end_time))
+                                            {{ date('h:i A', strtotime($model->hasWorkShiftDetail->end_time)) }}
+                                        @else
                                             -
-                                        <?php endif; ?>
+                                        @endif
                                     </td>
                                     <td>
-                                        <?php if($model->status): ?>
+                                        @if($model->status)
                                             <span class="badge bg-label-success" text-capitalized="">Active</span>
-                                        <?php else: ?>
+                                        @else
                                             <span class="badge bg-label-danger" text-capitalized="">De-Active</span>
-                                        <?php endif; ?>
+                                        @endif
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <a href="<?php echo e(route('work_shifts.restore', $model->id)); ?>">
+                                            <a href="{{ route('work_shifts.restore', $model->id) }}">
                                                 <span>
                                                     <i class="ti ti-refresh ti-sm me-2"></i>
                                                 </span>
@@ -107,12 +114,12 @@
                                         </div>
                                     </td>
                                 </tr>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            @endforeach
                             <tr>
                                 <td colspan="9">
                                     <div class="row mx-2">
                                         <div class="col-sm-12 col-md-6">
-                                            <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to <?php echo e($models->count()); ?> of <?php echo e($models->count()); ?> entries</div>
+                                            <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to {{$models->count()}} of {{$models->count()}} entries</div>
                                         </div>
                                     </div>
                                 </td>
@@ -125,13 +132,11 @@
         </div>
     </div>
 </div>
-<?php $__env->stopSection(); ?>
-<?php $__env->startPush('js'); ?>
+@endsection
+@push('js')
     <script>
         setTimeout(function() {
             $('#message-alert').fadeOut('slow');
         }, 2000);
     </script>
-<?php $__env->stopPush(); ?>
-
-<?php echo $__env->make('admin.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\new_hr_portal.local\resources\views/admin/work_shifts/trashed-index.blade.php ENDPATH**/ ?>
+@endpush

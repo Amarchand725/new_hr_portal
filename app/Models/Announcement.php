@@ -11,4 +11,13 @@ class Announcement extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
+
+    public function department()
+    {
+        return $this->belongsTo(AnnouncementDepartment::class, 'announcement_id');
+    }
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
 }
