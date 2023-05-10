@@ -1,8 +1,7 @@
-@extends('admin.layouts.app')
-@section('title', 'Departments - Cyberonix')
+<?php $__env->startSection('title', 'Departments - Cyberonix'); ?>
 
-@section('content')
-<input type="hidden" id="page_url" value="{{ route('departments.index') }}">
+<?php $__env->startSection('content'); ?>
+<input type="hidden" id="page_url" value="<?php echo e(route('departments.index')); ?>">
 <div class="content-wrapper">
     <div class="container-xxl flex-grow-1 container-p-y">
         <!-- Users List Table -->
@@ -19,9 +18,9 @@
                             <div id="DataTables_Table_0_filter" class="dataTables_filter mx-3">
                                 <select name="DataTables_Table_0_length" id="parent-department" aria-controls="DataTables_Table_0" class="form-select search-by-department" fdprocessedid="o5g1n8">
                                     <option value="All" selected>Search by department</option>
-                                    @foreach ($data['departments'] as $f_department)
-                                        <option value="{{ $f_department->id }}">{{ $f_department->name }}</option>
-                                    @endforeach
+                                    <?php $__currentLoopData = $data['departments']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $f_department): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <option value="<?php echo e($f_department->id); ?>"><?php echo e($f_department->name); ?></option>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </select>
                             </div>
                             <div id="DataTables_Table_0_filter" class="dataTables_filter mx-3">
@@ -32,15 +31,15 @@
                                 </select>
                             </div>
                             <div class="dt-buttons btn-group flex-wrap">
-                                <a data-toggle="tooltip" data-placement="top" title="All Trashed Records" href="{{ route('departments.trashed') }}" class="btn btn-danger btn-primary mx-3">
+                                <a data-toggle="tooltip" data-placement="top" title="All Trashed Records" href="<?php echo e(route('departments.trashed')); ?>" class="btn btn-danger btn-primary mx-3">
                                     <span>
                                         <i class="ti ti-trash me-0 me-sm-1 ti-xs"></i>
-                                        <span class="d-none d-sm-inline-block">All Trashed Records ( <span id="trash-record-count">{{ $onlySoftDeleted }}</span> )</span>
+                                        <span class="d-none d-sm-inline-block">All Trashed Records ( <span id="trash-record-count"><?php echo e($onlySoftDeleted); ?></span> )</span>
                                     </span>
                                 </a>
                             </div>
                             <div class="dt-buttons btn-group flex-wrap">
-                                <button class="btn btn-secondary add-new btn-primary" id="add-btn" data-url="{{ route('departments.store') }}" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddDepartment" fdprocessedid="i1qq7b">
+                                <button class="btn btn-secondary add-new btn-primary" id="add-btn" data-url="<?php echo e(route('departments.store')); ?>" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddDepartment" fdprocessedid="i1qq7b">
                                     <span>
                                         <i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
                                         <span class="d-none d-sm-inline-block">Add New Department</span>
@@ -68,75 +67,79 @@
                             </tr>
                         </thead>
                         <tbody id="body">
-                            @foreach ($data['models'] as $key=>$model)
-                                <tr class="odd" id="id-{{ $model->id }}">
-                                    <td tabindex="0">{{ $data['models']->firstItem()+$key }}.</td>
+                            <?php $__currentLoopData = $data['models']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$model): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <tr class="odd" id="id-<?php echo e($model->id); ?>">
+                                    <td tabindex="0"><?php echo e($data['models']->firstItem()+$key); ?>.</td>
                                     <td class="sorting_1">
-                                        {{ $model->name??'-' }}
+                                        <?php echo e($model->name??'-'); ?>
+
                                     </td>
                                     <td>
                                         <span class="text-truncate d-flex align-items-center">
-                                            @if(isset($model->parentDepartment) && !empty($model->parentDepartment->name))
-                                                {{ $model->parentDepartment->name }}
-                                            @else
+                                            <?php if(isset($model->parentDepartment) && !empty($model->parentDepartment->name)): ?>
+                                                <?php echo e($model->parentDepartment->name); ?>
+
+                                            <?php else: ?>
                                                 -
-                                            @endif
+                                            <?php endif; ?>
                                         </span>
                                     </td>
                                     <td>
                                         <span class="fw-semibold">
-                                            @if(isset($model->manager) && !empty($model->manager->first_name))
-                                                {{ $model->manager->first_name }} {{ $model->manager->last_name }}
-                                            @else
+                                            <?php if(isset($model->manager) && !empty($model->manager->first_name)): ?>
+                                                <?php echo e($model->manager->first_name); ?> <?php echo e($model->manager->last_name); ?>
+
+                                            <?php else: ?>
                                                 -
-                                            @endif
+                                            <?php endif; ?>
                                         </span>
                                     </td>
-                                    <td>{!! \Illuminate\Support\Str::limit($model->description,50)??'-' !!}</td>
-                                    <td>{{ $model->location??'-' }}</td>
-                                    <td>{{ date('d M Y', strtotime($model->created_at)) }}</td>
+                                    <td><?php echo \Illuminate\Support\Str::limit($model->description,50)??'-'; ?></td>
+                                    <td><?php echo e($model->location??'-'); ?></td>
+                                    <td><?php echo e(date('d M Y', strtotime($model->created_at))); ?></td>
                                     <td>
-                                        @if($model->status)
+                                        <?php if($model->status): ?>
                                             <span class="badge bg-label-success" text-capitalized="">Active</span>
-                                        @else
+                                        <?php else: ?>
                                             <span class="badge bg-label-danger" text-capitalized="">De-Active</span>
-                                        @endif
+                                        <?php endif; ?>
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <button data-toggle="tooltip" data-placement="top" title="Edit Record" data-edit-url="{{ route('departments.edit', $model->id) }}" data-url="{{ route('departments.update', $model->id) }}" data-value="{{ $model }}" class="btn btn-default edit-btn edit-btn" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddDepartment" fdprocessedid="i1qq7b">
+                                            <button data-toggle="tooltip" data-placement="top" title="Edit Record" data-edit-url="<?php echo e(route('departments.edit', $model->id)); ?>" data-url="<?php echo e(route('departments.update', $model->id)); ?>" data-value="<?php echo e($model); ?>" class="btn btn-default edit-btn edit-btn" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddDepartment" fdprocessedid="i1qq7b">
                                                 <span>
                                                     <i class="ti ti-edit ti-sm me-2"></i>
                                                 </span>
                                             </button>
-                                            <a data-toggle="tooltip" data-placement="top" title="Delete Record" href="javascript:;" class="text-body delete" data-slug="{{ $model->id }}" data-del-url="{{ route('departments.destroy', $model->id) }}">
+                                            <a data-toggle="tooltip" data-placement="top" title="Delete Record" href="javascript:;" class="text-body delete" data-slug="<?php echo e($model->id); ?>" data-del-url="<?php echo e(route('departments.destroy', $model->id)); ?>">
                                                 <i class="ti ti-trash ti-sm mx-2"></i>
                                             </a>
                                             <a href="javascript:;" class="text-body dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                                 <i class="ti ti-dots-vertical ti-sm mx-1"></i>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-end m-0">
-                                                <a href="#" class="dropdown-item dept-status-btn" data-status-url='{{ route('departments.status', $model->id) }}'>
-                                                    @if($model->status==1)
+                                                <a href="#" class="dropdown-item dept-status-btn" data-status-url='<?php echo e(route('departments.status', $model->id)); ?>'>
+                                                    <?php if($model->status==1): ?>
                                                         De-active
-                                                    @else
+                                                    <?php else: ?>
                                                         Active
-                                                    @endif
+                                                    <?php endif; ?>
                                                 </a>
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             <tr>
                                 <td colspan="9">
                                     <div class="row mx-2">
                                         <div class="col-sm-12 col-md-6">
-                                            <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing {{$data['models']->firstItem()}} to {{$data['models']->lastItem()}} of {{$data['models']->total()}} entries</div>
+                                            <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing <?php echo e($data['models']->firstItem()); ?> to <?php echo e($data['models']->lastItem()); ?> of <?php echo e($data['models']->total()); ?> entries</div>
                                         </div>
                                         <div class="col-sm-12 col-md-6">
                                             <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-                                                {!! $data['models']->links('pagination::bootstrap-4') !!}
+                                                <?php echo $data['models']->links('pagination::bootstrap-4'); ?>
+
                                             </div>
                                         </div>
                                     </div>
@@ -154,7 +157,7 @@
                 </div>
                 <div class="offcanvas-body mx-0 flex-grow-0 pt-0 h-100">
                     <form id="create-form" class="row g-3" data-method="" data-modal-id="offcanvasAddDepartment">
-                        @csrf
+                        <?php echo csrf_field(); ?>
 
                         <span id="edit-content">
                             <div class="mb-3 fv-plugins-icon-container">
@@ -167,9 +170,9 @@
                                 <div class="position-relative">
                                     <select id="parent_department_id" name="parent_department_id" class="select2 form-select">
                                         <option value="">Select parent department</option>
-                                        @foreach ($data['departments'] as $department)
-                                            <option value="{{ $department->id }}">{{ $department->name }}</option>
-                                        @endforeach
+                                        <?php $__currentLoopData = $data['departments']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $department): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option value="<?php echo e($department->id); ?>"><?php echo e($department->name); ?></option>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </select>
                                 </div>
                             </div>
@@ -178,9 +181,9 @@
                                 <div class="position-relative">
                                     <select id="manager_id" name="manager_id" class="select2 form-select">
                                         <option value="">Select manager</option>
-                                        @foreach ($data['users'] as $user)
-                                            <option value="{{ $user->id }}">{{ $user->first_name }} {{ $user->last_name }}</option>
-                                        @endforeach
+                                        <?php $__currentLoopData = $data['users']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option value="<?php echo e($user->id); ?>"><?php echo e($user->first_name); ?> <?php echo e($user->last_name); ?></option>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </select>
                                 </div>
                             </div>
@@ -189,9 +192,9 @@
                                 <div class="position-relative">
                                     <select id="work_shift_id" name="work_shift_id" class="select2 form-select">
                                         <option value="">Select work shift</option>
-                                        @foreach ($data['work_shifts'] as $work_shift)
-                                            <option value="{{ $work_shift->id }}">{{ $work_shift->name }}</option>
-                                        @endforeach
+                                        <?php $__currentLoopData = $data['work_shifts']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $work_shift): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option value="<?php echo e($work_shift->id); ?>"><?php echo e($work_shift->name); ?></option>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </select>
                                 </div>
                             </div>
@@ -213,7 +216,9 @@
         </div>
     </div>
 </div>
-@endsection
-@push('js')
-    <script src="{{ asset('public/admin/assets/js/custom/department.js') }}"></script>
-@endpush
+<?php $__env->stopSection(); ?>
+<?php $__env->startPush('js'); ?>
+    <script src="<?php echo e(asset('public/admin/assets/js/custom/department.js')); ?>"></script>
+<?php $__env->stopPush(); ?>
+
+<?php echo $__env->make('admin.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\new_hr_portal.local\resources\views/admin/departments/index.blade.php ENDPATH**/ ?>

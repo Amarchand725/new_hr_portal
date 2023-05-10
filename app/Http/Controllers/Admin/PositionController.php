@@ -6,6 +6,7 @@ use App\Models\Position;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
+use Illuminate\Validation\Rule;
 
 class PositionController extends Controller
 {
@@ -64,7 +65,26 @@ class PositionController extends Controller
      */
     public function update(Request $request, Position $position)
     {
-        \LogActivity::addToLog('New Position Updated');
+        $request->validate([
+            'title' => 'required|max:255|unique:positions,id,'.$position->id,
+            'description' => ['max:500'],
+        ]);
+
+        DB::beginTransaction();
+
+        try{
+            $model = $position->update($request->all());
+            if($model){
+                DB::commit();
+            }
+
+            \LogActivity::addToLog('Position Updated');
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()->with('error', 'Error. '.$e->getMessage());
+        }
     }
 
     /**

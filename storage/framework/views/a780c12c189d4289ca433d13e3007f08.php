@@ -1,7 +1,6 @@
-@extends('admin.layouts.app')
-@section('title', 'Announcements - Cyberonix')
+<?php $__env->startSection('title', 'Announcements - Cyberonix'); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
             <!-- Users List Table -->
@@ -15,14 +14,7 @@
                             <div class="col-md-2">
                                 <div class="me-3">
                                     <div class="dataTables_length" id="DataTables_Table_0_length">
-                                        {{-- <label>
-                                            <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select" fdprocessedid="o5g1n8">
-                                                <option value="10">10</option>
-                                                <option value="25">25</option>
-                                                <option value="50">50</option>
-                                                <option value="100">100</option>
-                                            </select>
-                                        </label> --}}
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -34,7 +26,7 @@
                                         </label>
                                     </div>
                                     <div class="dt-buttons btn-group flex-wrap">
-                                        <button type="button" class="btn btn-secondary add-new btn-primary mx-3" id="add-btn" data-url="{{ route('announcements.store') }}">
+                                        <button type="button" class="btn btn-secondary add-new btn-primary mx-3" id="add-btn" data-url="<?php echo e(route('announcements.store')); ?>">
                                             <span>
                                                 <i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
                                                 <span class="d-none d-sm-inline-block">Add New Announcement</span>
@@ -143,7 +135,7 @@
                         <h3 class="mb-2" id="modal-title"></h3>
                     </div>
                     <form id="create-form" class="row g-3" data-method="" data-modal-id="announcement-modal">
-                        @csrf
+                        <?php echo csrf_field(); ?>
                         <div class="col-12 col-md-12">
                             <label class="form-label" for="title">Title</label>
                             <input type="text" id="title" class="form-control" placeholder="Enter title" />
@@ -166,7 +158,7 @@
 
                         <div class="col-12 col-md-12">
                             <label class="form-label" for="description">Description ( <small>Optional</small> )</label>
-                            <textarea class="form-control" name="description" id="description" placeholder="Enter description">{{ old('description') }}</textarea>
+                            <textarea class="form-control" name="description" id="description" placeholder="Enter description"><?php echo e(old('description')); ?></textarea>
                         </div>
                         <div class="col-12 text-center">
                         <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
@@ -185,7 +177,9 @@
         </div>
     </div>
     <!--/ Edit Employment Status Modal -->
-@endsection
-@push('js')
-    <script src="{{ asset('public/admin/assets/js/custom/announcement.js') }}"></script>
-@endpush
+<?php $__env->stopSection(); ?>
+<?php $__env->startPush('js'); ?>
+    <script src="<?php echo e(asset('public/admin/assets/js/custom/announcement.js')); ?>"></script>
+<?php $__env->stopPush(); ?>
+
+<?php echo $__env->make('admin.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\new_hr_portal.local\resources\views/admin/announcements/index.blade.php ENDPATH**/ ?>

@@ -29,8 +29,7 @@ class AnnouncementController extends Controller
      */
     public function store(Request $request)
     {
-        //
-
+        return $request;
         \LogActivity::addToLog('New Announcement Inserted');
     }
 

@@ -1,3 +1,7 @@
+setTimeout(function() {
+    $('#message-alert').fadeOut('slow');
+}, 2000);
+
 $(document).on('change', '#status', function(e) {
     select = $(this);
     selectedOption = select.find("option[value=" + select.val() + "]");
@@ -62,7 +66,7 @@ $('.delete').on('click', function() {
                         $('#trash-record-count').html(response.trash_records);
                         Swal.fire(
                             'Deleted!',
-                            'Your file has been deleted.',
+                            'Your record has been deleted.',
                             'success'
                         )
                     } else {
@@ -82,7 +86,8 @@ $(document).ready(function() {
     $('.submitBtn').click(function(e) {
         e.preventDefault(); // Prevent the form from submitting normally
 
-        var url = $(this).attr('data-url');
+        var url = $(this).closest('form').attr('action');
+        var method = $(this).closest('form').attr('data-method');
 
         var formId = $(this).closest('form').attr('id');
         var modal_id = $(this).closest('form').attr('data-modal-id');
@@ -93,7 +98,7 @@ $(document).ready(function() {
         // Send the AJAX request
         $.ajax({
             url: url,
-            method: 'POST',
+            method: method,
             data: formData,
             success: function(response) {
                 if (response.success) {
@@ -112,6 +117,11 @@ $(document).ready(function() {
             error: function(xhr) {
                 // Parse the JSON response to get the error messages
                 var errors = JSON.parse(xhr.responseText);
+
+                // Reset the form errors
+                $('.is-invalid').removeClass('is-invalid');
+                $('.invalid-feedback').empty();
+                $('.error').empty();
 
                 // Loop through the errors and display them
                 $.each(errors.errors, function(key, value) {

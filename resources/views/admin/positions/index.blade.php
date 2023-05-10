@@ -83,7 +83,7 @@
                                         <td>{{ date('d F Y', strtotime($model->created_at)) }}</td>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <button data-toggle="tooltip" data-placement="top" title="Edit Record" data-url="{{ route('positions.update', $model->id) }}" data-value="{{ $model }}" class="btn btn-default edit-btn edit-btn" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser" fdprocessedid="i1qq7b">
+                                                <button data-toggle="tooltip" data-placement="top" title="Edit Record" data-edit-url="{{ route('positions.edit', $model->id) }}" data-url="{{ route('positions.update', $model->id) }}" data-value="{{ $model }}" class="btn btn-default edit-btn edit-btn" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddPosition" fdprocessedid="i1qq7b">
                                                     <span>
                                                         <i class="ti ti-edit ti-sm me-2"></i>
                                                     </span>
@@ -120,7 +120,7 @@
                         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body mx-0 flex-grow-0 pt-0 h-100">
-                        <form class="pt-0 fv-plugins-bootstrap5 fv-plugins-framework" data-modal-id="offcanvasAddPosition" id="addNewPositionForm">
+                        <form class="pt-0 fv-plugins-bootstrap5 fv-plugins-framework" data-method="" data-modal-id="offcanvasAddPosition" id="addNewPositionForm">
                             @csrf
 
                             <div class="mb-3 fv-plugins-icon-container">
@@ -138,49 +138,14 @@
 
                             <div class="mb-4">
                                 <label class="form-label" for="status">Select Status</label>
-                                <select id="status" class="form-select">
-                                    <option value="1" selected>Active</option>
+                                <select id="status" name="status" class="form-select">
+                                    <option value="1">Active</option>
                                     <option value="0">De-active</option>
                                 </select>
                             </div>
-                            <button type="submit" data-url="{{ route('positions.store') }}" class="submitBtn btn btn-primary me-sm-3 me-1 data-submit waves-effect waves-light">Submit</button>
+                            <button type="submit" class="submitBtn btn btn-primary me-sm-3 me-1 data-submit waves-effect waves-light">Submit</button>
                             <button type="reset" class="btn btn-label-secondary waves-effect" data-bs-dismiss="offcanvas">Cancel</button>
-                        <input type="hidden"></form>
-                    </div>
-                </div>
-
-                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEditPosition" aria-labelledby="offcanvasEditPositionLabel">
-                    <div class="offcanvas-header">
-                        <h5 id="offcanvasEditPositionLabel" class="offcanvas-title">Edit Position</h5>
-                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body mx-0 flex-grow-0 pt-0 h-100">
-                        <form class="pt-0 fv-plugins-bootstrap5 fv-plugins-framework" data-modal-id="offcanvasEditPosition" id="EditNewPositionForm">
-                            @csrf
-
-                            <div class="mb-3 fv-plugins-icon-container">
-                                <label class="form-label" for="title">Title</label>
-                                <input type="text" class="form-control" id="title" placeholder="Enter position title" name="title">
-                                <div class="fv-plugins-message-container invalid-feedback"></div>
-                                <span id="title_error" class="text-danger"></span>
-                            </div>
-                            <div class="mb-3 fv-plugins-icon-container">
-                                <label class="form-label" for="description">Description</label>
-                                <textarea class="form-control" name="description" id="description" placeholder="Enter description"></textarea>
-                                <div class="fv-plugins-message-container invalid-feedback"></div>
-                                <span id="description_error" class="text-danger"></span>
-                            </div>
-
-                            <div class="mb-4">
-                                <label class="form-label" for="status">Select Status</label>
-                                <select id="status" class="form-select">
-                                    <option value="1" selected>Active</option>
-                                    <option value="0">De-active</option>
-                                </select>
-                            </div>
-                            <button type="submit" data-url="" class="submitBtn btn btn-primary me-sm-3 me-1 data-submit waves-effect waves-light" id="position-update-btn">Submit</button>
-                            <button type="reset" class="btn btn-label-secondary waves-effect" data-bs-dismiss="offcanvas">Cancel</button>
-                        <input type="hidden"></form>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -188,15 +153,5 @@
     </div>
 @endsection
 @push('js')
-    <script>
-        $(document).on('click', '.edit-btn', function(){
-            var data = $(this).data('value');
-            var url = $(this).attr('data-url');
-            $("#position-update-btn").attr("data-url", url);
-            $('#title').val(data.title);
-            $('#description').val(data.description);
-            $('#status').val(data.status);
-            $('#offcanvasEditPosition').modal('show');
-        });
-    </script>
+    <script src="{{ asset('public/admin/assets/js/custom/position.js') }}"></script>
 @endpush

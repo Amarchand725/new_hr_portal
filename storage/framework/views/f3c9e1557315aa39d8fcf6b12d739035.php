@@ -1,7 +1,6 @@
-@extends('admin.layouts.app')
-@section('title', 'Work Shifts - Cyberonix')
+<?php $__env->startSection('title', 'Work Shifts - Cyberonix'); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="content-wrapper">
     <div class="container-xxl flex-grow-1 container-p-y">
         <!-- Users List Table -->
@@ -15,14 +14,7 @@
                         <div class="col-md-2">
                             <div class="me-3">
                                 <div class="dataTables_length" id="DataTables_Table_0_length">
-                                    {{-- <label>
-                                        <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select" fdprocessedid="o5g1n8">
-                                            <option value="10">10</option>
-                                            <option value="25">25</option>
-                                            <option value="50">50</option>
-                                            <option value="100">100</option>
-                                        </select>
-                                    </label> --}}
+                                    
                                 </div>
                             </div>
                         </div>
@@ -34,15 +26,15 @@
                                     </label>
                                 </div>
                                 <div class="dt-buttons btn-group flex-wrap">
-                                    <a data-toggle="tooltip" data-placement="top" title="All Trashed Records" href="{{ route('work_shifts.trashed') }}" class="btn btn-danger btn-primary mx-3">
+                                    <a data-toggle="tooltip" data-placement="top" title="All Trashed Records" href="<?php echo e(route('work_shifts.trashed')); ?>" class="btn btn-danger btn-primary mx-3">
                                         <span>
                                             <i class="ti ti-trash me-0 me-sm-1 ti-xs"></i>
-                                            <span class="d-none d-sm-inline-block">All Trashed Records ( <span id="trash-record-count">{{ $onlySoftDeleted }}</span> )</span>
+                                            <span class="d-none d-sm-inline-block">All Trashed Records ( <span id="trash-record-count"><?php echo e($onlySoftDeleted); ?></span> )</span>
                                         </span>
                                     </a>
                                 </div>
                                 <div class="dt-buttons btn-group flex-wrap">
-                                    <button data-toggle="tooltip" data-placement="top" title="Add New" id="add-work-shift-btn" data-url="{{ route('work_shifts.store') }}" class="btn btn-success add-new btn-primary mx-3">
+                                    <button data-toggle="tooltip" data-placement="top" title="Add New" id="add-work-shift-btn" data-url="<?php echo e(route('work_shifts.store')); ?>" class="btn btn-success add-new btn-primary mx-3">
                                         <span>
                                             <i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
                                             <span class="d-none d-sm-inline-block">Add New </span>
@@ -67,44 +59,46 @@
                             </tr>
                         </thead>
                         <tbody id="body">
-                            @foreach ($models as $key=>$model)
-                                <tr class="odd" id="id-{{ $model->id }}">
-                                    <td tabindex="0">{{ $models->firstItem()+$key }}.</td>
+                            <?php $__currentLoopData = $models; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$model): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <tr class="odd" id="id-<?php echo e($model->id); ?>">
+                                    <td tabindex="0"><?php echo e($models->firstItem()+$key); ?>.</td>
                                     <td>
-                                        <span class="fw-semibold">{{ $model->name??'-' }}</span>
+                                        <span class="fw-semibold"><?php echo e($model->name??'-'); ?></span>
                                     </td>
-                                    <td>{{ date('d M Y', strtotime($model->start_date))??'-' }}</td>
-                                    <td>{{ date('d M Y', strtotime($model->end_date))??'-' }}</td>
+                                    <td><?php echo e(date('d M Y', strtotime($model->start_date))??'-'); ?></td>
+                                    <td><?php echo e(date('d M Y', strtotime($model->end_date))??'-'); ?></td>
                                     <td>
-                                        <span class="badge bg-label-success" text-capitalized="">{{ Str::ucfirst($model->type) }}</span>
+                                        <span class="badge bg-label-success" text-capitalized=""><?php echo e(Str::ucfirst($model->type)); ?></span>
                                     </td>
                                     <td>
-                                        @if(isset($model->hasWorkShiftDetail) && !empty($model->hasWorkShiftDetail->start_time))
-                                            {{ date('h:i A', strtotime($model->hasWorkShiftDetail->start_time)) }}
-                                        @else
+                                        <?php if(isset($model->hasWorkShiftDetail) && !empty($model->hasWorkShiftDetail->start_time)): ?>
+                                            <?php echo e(date('h:i A', strtotime($model->hasWorkShiftDetail->start_time))); ?>
+
+                                        <?php else: ?>
                                             -
-                                        @endif
+                                        <?php endif; ?>
                                     </td>
                                     <td>
-                                        @if(isset($model->hasWorkShiftDetail) && !empty($model->hasWorkShiftDetail->end_time))
-                                            {{ date('h:i A', strtotime($model->hasWorkShiftDetail->end_time)) }}
-                                        @else
+                                        <?php if(isset($model->hasWorkShiftDetail) && !empty($model->hasWorkShiftDetail->end_time)): ?>
+                                            <?php echo e(date('h:i A', strtotime($model->hasWorkShiftDetail->end_time))); ?>
+
+                                        <?php else: ?>
                                             -
-                                        @endif
+                                        <?php endif; ?>
                                     </td>
                                     <td>
-                                        @if($model->status)
+                                        <?php if($model->status): ?>
                                             <span class="badge bg-label-success" text-capitalized="">Active</span>
-                                        @else
+                                        <?php else: ?>
                                             <span class="badge bg-label-danger" text-capitalized="">De-Active</span>
-                                        @endif
+                                        <?php endif; ?>
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <a href="javascript:;" class="text-body edit-btn" data-toggle="tooltip" data-placement="top" title="Edit Record" data-edit-url="{{ route('work_shifts.edit', $model->id) }}" data-url="{{ route('work_shifts.update', $model->id) }}">
+                                            <a href="javascript:;" class="text-body edit-btn" data-toggle="tooltip" data-placement="top" title="Edit Record" data-edit-url="<?php echo e(route('work_shifts.edit', $model->id)); ?>" data-url="<?php echo e(route('work_shifts.update', $model->id)); ?>">
                                                 <i class="ti ti-edit ti-sm me-2"></i>
                                             </a>
-                                            <a data-toggle="tooltip" data-placement="top" title="Delete Record" href="javascript:;" class="text-body delete" data-slug="{{ $model->id }}" data-del-url="{{ route('work_shifts.destroy', $model->id) }}">
+                                            <a data-toggle="tooltip" data-placement="top" title="Delete Record" href="javascript:;" class="text-body delete" data-slug="<?php echo e($model->id); ?>" data-del-url="<?php echo e(route('work_shifts.destroy', $model->id)); ?>">
                                                 <i class="ti ti-trash ti-sm mx-2"></i>
                                             </a>
                                             <a href="javascript:;" class="text-body dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
@@ -113,16 +107,17 @@
                                         </div>
                                     </td>
                                 </tr>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             <tr>
                                 <td colspan="9">
                                     <div class="row mx-2">
                                         <div class="col-sm-12 col-md-6">
-                                            <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing {{$models->firstItem()}} to {{$models->lastItem()}} of {{$models->total()}} entries</div>
+                                            <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing <?php echo e($models->firstItem()); ?> to <?php echo e($models->lastItem()); ?> of <?php echo e($models->total()); ?> entries</div>
                                         </div>
                                         <div class="col-sm-12 col-md-6">
                                             <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-                                                {!! $models->links('pagination::bootstrap-4') !!}
+                                                <?php echo $models->links('pagination::bootstrap-4'); ?>
+
                                             </div>
                                         </div>
                                     </div>
@@ -146,7 +141,7 @@
             <h3 class="mb-2" id="modal-title"></h3>
           </div>
           <form id="create-form" class="row g-3" data-method="" data-modal-id="create-form-modal">
-            @csrf
+            <?php echo csrf_field(); ?>
 
             <span id="edit-content">
                 <div class="mb-3 fv-plugins-icon-container">
@@ -159,7 +154,7 @@
                     <div class="col-sm-6">
                         <div class="mb-3 fv-plugins-icon-container">
                             <label class="form-label" for="start_date">Start Date</label>
-                            <input type="date" class="form-control" name="start_date" value="{{ date('d-m-Y') }}" id="start_date">
+                            <input type="date" class="form-control" name="start_date" value="<?php echo e(date('d-m-Y')); ?>" id="start_date">
                             <div class="fv-plugins-message-container invalid-feedback"></div>
                             <span id="start_date_error" class="text-danger error"></span>
                         </div>
@@ -167,7 +162,7 @@
                     <div class="col-sm-6">
                         <div class="mb-3 fv-plugins-icon-container">
                             <label class="form-label" for="end_date">End Date</label>
-                            <input type="date" class="form-control" name="end_date" value="{{ date('d-m-Y') }}" id="end_date">
+                            <input type="date" class="form-control" name="end_date" value="<?php echo e(date('d-m-Y')); ?>" id="end_date">
                             <div class="fv-plugins-message-container invalid-feedback"></div>
                             <span id="end_date_error" class="text-danger error"></span>
                         </div>
@@ -239,7 +234,7 @@
                 </div>
                 <div class="col-12 col-md-12">
                     <label class="form-label" for="description">Description ( <small>Optional</small> )</label>
-                    <textarea class="form-control" name="description" id="description" placeholder="Enter description">{{ old('description') }}</textarea>
+                    <textarea class="form-control" name="description" id="description" placeholder="Enter description"><?php echo e(old('description')); ?></textarea>
                 </div>
             </span>
             <div class="col-12 text-center">
@@ -254,7 +249,9 @@
     </div>
 </div>
 <!-- Add New Work SHift Modal -->
-@endsection
-@push('js')
-    <script src="{{ asset('public/admin/assets/js/custom/work_shift.js') }}"></script>
-@endpush
+<?php $__env->stopSection(); ?>
+<?php $__env->startPush('js'); ?>
+    <script src="<?php echo e(asset('public/admin/assets/js/custom/work_shift.js')); ?>"></script>
+<?php $__env->stopPush(); ?>
+
+<?php echo $__env->make('admin.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\new_hr_portal.local\resources\views/admin/work_shifts/index.blade.php ENDPATH**/ ?>

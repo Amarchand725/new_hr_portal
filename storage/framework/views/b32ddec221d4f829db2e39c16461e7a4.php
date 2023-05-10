@@ -136,7 +136,7 @@
                     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
                 <div class="offcanvas-body mx-0 flex-grow-0 pt-0 h-100">
-                    <form class="pt-0 fv-plugins-bootstrap5 fv-plugins-framework" id="addNewDesignationForm" method="post">
+                    <form class="pt-0 fv-plugins-bootstrap5 fv-plugins-framework" data-method="" id="addNewDesignationForm" method="post">
                         <?php echo csrf_field(); ?>
 
                         <input type="hidden" name="_method" id="_method" value="post">
@@ -153,6 +153,7 @@
                         <div class="mb-3 fv-plugins-icon-container">
                             <label class="form-label" for="status">Status</label>
                             <select name="status" id="status" class="form-control">
+                                <option value="" selected>Select Status</option>
                                 <option value="1" <?php echo e(old('status')==1?'selected':''); ?>>Active</option>
                                 <option value="0" <?php echo e(old('status')==0?'selected':''); ?>>De-Active</option>
                             </select>
@@ -168,48 +169,7 @@
 </div>
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('js'); ?>
-    <script>
-        setTimeout(function() {
-            $('#message-alert').fadeOut('slow');
-        }, 2000);
-
-        //Submit Record
-        $('.data-submit').on('click', function(e){
-            var url = $(this).attr('data-url');
-            $("#addNewDesignationForm").attr("action", url);
-            if($('#title').val()==''){
-                $('#title').addClass('invalid');
-                $('#error-msg').html('Please enter designation title.!');
-                return false;
-            }else{
-                $('#title').removeClass('invalid');
-                $('#error-msg').html('');
-                return true;
-            }
-        });
-
-        //Add & Edit Record
-        $('#add-btn').on('click', function(e){
-            var url = $(this).attr('data-url');
-            $('#offcanvasAddUserLabel').html('Add Designation');
-            $("#addNewDesignationForm").attr("action", url);
-
-            $("#_method").val('POST');
-            $('#title').val('');
-            $('#description').val('');
-            $("#status").val(1);
-        });
-        $('.edit-btn').on('click', function(){
-            var model = $(this).data('value');
-            var url = $(this).attr('data-url');
-            $('#offcanvasAddUserLabel').html('Update Designation');
-            $("#_method").val('PUT');
-            $("#addNewDesignationForm").attr("action", url);
-            $('#title').val(model.title);
-            $('#description').val(model.description);
-            $("#status").val(model.status);
-        });
-    </script>
+    <script src="<?php echo e(asset('public/admin/assets/js/custom/designation.js')); ?>"></script>
 <?php $__env->stopPush(); ?>
 
 <?php echo $__env->make('admin.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\new_hr_portal.local\resources\views/admin/designations/index.blade.php ENDPATH**/ ?>

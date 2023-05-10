@@ -47,7 +47,7 @@
                                     </label>
                                 </div> --}}
                                 <div class="dt-buttons btn-group flex-wrap">
-                                    <a data-toggle="tooltip" data-placement="top" title="Show All Records" href="{{ route('positions.index') }}" class="btn btn-success btn-primary mx-3">
+                                    <a data-toggle="tooltip" data-placement="top" title="Show All Records" href="{{ route('departments.index') }}" class="btn btn-success btn-primary mx-3">
                                         <span>
                                             <i class="ti ti-eye me-0 me-sm-1 ti-xs"></i>
                                             <span class="d-none d-sm-inline-block">View All Records</span>
@@ -60,29 +60,45 @@
                     <table class="datatables-users table border-top dataTable no-footer dtr-column" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 1227px;">
                         <thead>
                             <tr>
-                                <th class="sorting sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">S.No#</th>
-                                <th class="sorting sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">Name</th>
-                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">Description</th>
-                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">No. of employees</th>
+                                <th class="control sorting_disabled dtr-hidden" rowspan="1" colspan="1" ria-label="Avatar">S.No#</th>
+                                <th class="sorting sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="descending">Name</th>
+                                <th class="sorting sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="descending">Parent Department</th>
+                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">Manager</th>
+                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 97px;" aria-label="Role: activate to sort column ascending">Description</th>
+                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 97px;" aria-label="Role: activate to sort column ascending">Location</th>
+                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 97px;" aria-label="Role: activate to sort column ascending">Created At</th>
                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">Status</th>
                                 <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 135px;" aria-label="Actions">Actions</th>
                             </tr>
                         </thead>
                         <tbody id="body">
-                            @foreach ($models as $key=>$model)
+                            @foreach ($data['models'] as $key=>$model)
                                 <tr class="odd" id="id-{{ $model->id }}">
                                     <td tabindex="0">{{ $key+1 }}.</td>
+                                    <td class="sorting_1">
+                                        {{ $model->name??'-' }}
+                                    </td>
                                     <td>
                                         <span class="text-truncate d-flex align-items-center">
-                                            {{ $model->title??'-' }}
+                                            @if(isset($model->parentDepartment) && !empty($model->parentDepartment->name))
+                                                {{ $model->parentDepartment->name }}
+                                            @else
+                                                -
+                                            @endif
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="fw-semibold">
+                                            @if(isset($model->manager) && !empty($model->manager->first_name))
+                                                {{ $model->manager->first_name }} {{ $model->manager->last_name }}
+                                            @else
+                                                -
+                                            @endif
                                         </span>
                                     </td>
                                     <td>{!! \Illuminate\Support\Str::limit($model->description,50)??'-' !!}</td>
-                                    <td>
-                                        <span class="badge badge-center rounded-pill bg-label-primary w-px-30 h-px-30 me-2">
-                                            5
-                                        </span>
-                                    </td>
+                                    <td>{{ $model->location??'-' }}</td>
+                                    <td>{{ date('d M Y', strtotime($model->created_at)) }}</td>
                                     <td>
                                         @if($model->status)
                                             <span class="badge bg-label-success" text-capitalized="">Active</span>
@@ -92,7 +108,7 @@
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <a href="{{ route('positions.restore', $model->id) }}">
+                                            <a href="{{ route('departments.restore', $model->id) }}">
                                                 <span>
                                                     <i class="ti ti-refresh ti-sm me-2"></i>
                                                 </span>
@@ -105,7 +121,7 @@
                                 <td colspan="6">
                                     <div class="row mx-2">
                                         <div class="col-sm-12 col-md-6">
-                                            <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to {{$models->count()}} of {{$models->count()}} entries</div>
+                                            <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to {{$data['models']->count()}} of {{$data['models']->count()}} entries</div>
                                         </div>
                                     </div>
                                 </td>

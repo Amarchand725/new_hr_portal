@@ -47,7 +47,7 @@
                                     </label>
                                 </div> --}}
                                 <div class="dt-buttons btn-group flex-wrap">
-                                    <a data-toggle="tooltip" data-placement="top" title="Show All Records" href="{{ route('positions.index') }}" class="btn btn-success btn-primary mx-3">
+                                    <a data-toggle="tooltip" data-placement="top" title="Show All Records" href="{{ route('work_shifts.index') }}" class="btn btn-success btn-primary mx-3">
                                         <span>
                                             <i class="ti ti-eye me-0 me-sm-1 ti-xs"></i>
                                             <span class="d-none d-sm-inline-block">View All Records</span>
@@ -60,10 +60,13 @@
                     <table class="datatables-users table border-top dataTable no-footer dtr-column" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 1227px;">
                         <thead>
                             <tr>
-                                <th class="sorting sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">S.No#</th>
-                                <th class="sorting sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">Name</th>
-                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">Description</th>
-                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">No. of employees</th>
+                                <th class="control sorting_disabled dtr-hidden" rowspan="1" colspan="1" aria-label="Avatar">S.No#</th>
+                                <th class="sorting sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="descending">Name</th>
+                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">Start Date</th>
+                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">End Date</th>
+                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">Type</th>
+                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">Start Time</th>
+                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">End Time</th>
                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">Status</th>
                                 <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 135px;" aria-label="Actions">Actions</th>
                             </tr>
@@ -73,15 +76,26 @@
                                 <tr class="odd" id="id-{{ $model->id }}">
                                     <td tabindex="0">{{ $key+1 }}.</td>
                                     <td>
-                                        <span class="text-truncate d-flex align-items-center">
-                                            {{ $model->title??'-' }}
-                                        </span>
+                                        <span class="fw-semibold">{{ $model->name??'-' }}</span>
                                     </td>
-                                    <td>{!! \Illuminate\Support\Str::limit($model->description,50)??'-' !!}</td>
+                                    <td>{{ date('d M Y', strtotime($model->start_date))??'-' }}</td>
+                                    <td>{{ date('d M Y', strtotime($model->end_date))??'-' }}</td>
                                     <td>
-                                        <span class="badge badge-center rounded-pill bg-label-primary w-px-30 h-px-30 me-2">
-                                            5
-                                        </span>
+                                        <span class="badge bg-label-success" text-capitalized="">{{ Str::ucfirst($model->type) }}</span>
+                                    </td>
+                                    <td>
+                                        @if(isset($model->hasWorkShiftDetail) && !empty($model->hasWorkShiftDetail->start_time))
+                                            {{ date('h:i A', strtotime($model->hasWorkShiftDetail->start_time)) }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if(isset($model->hasWorkShiftDetail) && !empty($model->hasWorkShiftDetail->end_time))
+                                            {{ date('h:i A', strtotime($model->hasWorkShiftDetail->end_time)) }}
+                                        @else
+                                            -
+                                        @endif
                                     </td>
                                     <td>
                                         @if($model->status)
@@ -92,7 +106,7 @@
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <a href="{{ route('positions.restore', $model->id) }}">
+                                            <a href="{{ route('work_shifts.restore', $model->id) }}">
                                                 <span>
                                                     <i class="ti ti-refresh ti-sm me-2"></i>
                                                 </span>
@@ -102,7 +116,7 @@
                                 </tr>
                             @endforeach
                             <tr>
-                                <td colspan="6">
+                                <td colspan="9">
                                     <div class="row mx-2">
                                         <div class="col-sm-12 col-md-6">
                                             <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to {{$models->count()}} of {{$models->count()}} entries</div>
