@@ -50,6 +50,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/departments/restore/{id}', [App\Http\Controllers\Admin\DepartmentController::class, 'restore'])->name('departments.restore');
     Route::get('/departments/status/{id}', [App\Http\Controllers\Admin\DepartmentController::class, 'status'])->name('departments.status');
 
+    Route::get('/employees/trashed', [App\Http\Controllers\Admin\EmployeeController::class, 'trashed'])->name('employees.trashed');
+    Route::get('/employees/restore/{id}', [App\Http\Controllers\Admin\EmployeeController::class, 'restore'])->name('employees.restore');
+
     Route::resource('/roles', App\Http\Controllers\Admin\RoleController::class);
     Route::resource('/permissions', App\Http\Controllers\Admin\PermissionController::class);
     Route::resource('/designations', App\Http\Controllers\Admin\DesignationController::class);

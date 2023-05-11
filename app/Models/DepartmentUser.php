@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class DepartmentUser extends Model
 {
     use HasFactory;
+
+    protected $guarded = [];
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class, 'department_id');
+    }
 }

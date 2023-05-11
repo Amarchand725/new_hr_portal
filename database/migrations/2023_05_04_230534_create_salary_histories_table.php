@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('salary_histories', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('job_history_id');
+            $table->bigInteger('created_by');
             $table->bigInteger('user_id');
-            $table->salary('salary')->nullable();
-            $table->boolean('status')->default(0);
+            $table->bigInteger('job_history_id');
+            $table->bigInteger('salary')->nullable();
+            $table->date('implement_date')->nullable();
+            $table->boolean('status')->default(1);
             $table->timestamps();
         });
     }

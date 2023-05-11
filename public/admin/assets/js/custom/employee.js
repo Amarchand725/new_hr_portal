@@ -52,23 +52,20 @@ $('#add-btn').on('click', function(e) {
 
     $('#create-form-modal').modal('show');
 });
-$('.edit-role').on('click', function() {
+$('#edit-btn').on('click', function() {
     var url = $(this).attr('data-url');
     var edit_url = $(this).attr('data-edit-url');
-    $('#role-title').html('Edit Role');
+    $('#employee-title-label').html('Edit Employee');
     $("#create-form").attr("action", url);
     $("#create-form").attr("data-method", 'PUT');
 
-    $(document).on('click', '.edit-role', function() {
-        var url = $(this).attr('data-url');
-        $.ajax({
-            url: edit_url,
-            method: 'GET',
-            success: function(response) {
-                $('#edit-content').html(response);
-            }
-        });
-
-        $('#create-form-modal').modal('show');
+    $.ajax({
+        url: edit_url,
+        method: 'GET',
+        success: function(response) {
+            $('#edit-content').html(response);
+        }
     });
+
+    $('#create-form-modal').modal('show');
 });

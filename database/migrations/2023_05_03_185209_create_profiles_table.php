@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id');
-            $table->bigInteger('employee_id')->nullable();
+            $table->bigInteger('employment_id')->nullable();
             $table->date('joining_date')->nullable();
             $table->date('date_of_birth')->nullable();
             $table->enum('gender', ['male', 'female', 'other'])->nullable();
@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('phone_number')->nullable();
             $table->text('about_me')->nullable();
             $table->string('address')->nullable();
+            $table->string('profile')->nullable();
             $table->timestamps();
         });
     }

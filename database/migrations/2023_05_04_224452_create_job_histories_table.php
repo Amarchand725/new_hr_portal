@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('created_by');
             $table->bigInteger('user_id');
-            $table->bigInteger('position_id');
+            $table->bigInteger('designation_id')->nullable();
+            $table->bigInteger('position_id')->nullable();
             $table->bigInteger('employment_status_id');
             $table->date('joining_date');
             $table->date('end_date')->nullable();
