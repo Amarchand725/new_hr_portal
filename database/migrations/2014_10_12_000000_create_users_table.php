@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('created_by')->nullable();
             $table->boolean('status')->default(1)->coment('1=>Active, 0=>De-Active');
             $table->boolean('is_employee')->default(1);
+            $table->boolean('is_removed')->default(0)->comment('1=if want to remove from list');
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('email')->unique();

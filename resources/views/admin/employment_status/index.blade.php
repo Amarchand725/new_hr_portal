@@ -21,12 +21,6 @@
                             <div class="me-3">
                                 <div class="dataTables_length" id="DataTables_Table_0_length">
                                     <label>
-                                        {{-- <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select" fdprocessedid="o5g1n8">
-                                            <option value="10">10</option>
-                                            <option value="25">25</option>
-                                            <option value="50">50</option>
-                                            <option value="100">100</option>
-                                        </select> --}}
                                         @if(session()->has('message'))
                                             <div class="alert alert-success" id="message-alert">
                                                 {{ session()->get('message') }}
@@ -51,7 +45,7 @@
                                     </label>
                                 </div>
                                 <div class="dt-buttons btn-group flex-wrap">
-                                    <a data-toggle="tooltip" data-placement="top" title="All Trashed Records" href="{{ route('employment_status.trashed') }}" class="btn btn-danger btn-primary mx-3">
+                                    <a data-toggle="tooltip" data-placement="top" title="All Trashed Records" href="{{ route('employment_status.trashed') }}" class="btn btn-danger mx-3">
                                         <span>
                                             <i class="ti ti-trash me-0 me-sm-1 ti-xs"></i>
                                             <span class="d-none d-sm-inline-block">All Trashed Records ( <span id="trash-record-count">{{ $onlySoftDeleted }}</span> )</span>
@@ -221,7 +215,7 @@
             $('#name').val(model.name);
             $('#description').val(model.description);
             $('#class_name').val(model.class);
-            $('#modal-title').html('Update Employment Status');
+            $('#modal-title').html('Edit Employment Status');
             $('#employment-status-modal').modal('show');
         });
 

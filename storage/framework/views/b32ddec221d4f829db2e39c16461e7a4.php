@@ -16,7 +16,6 @@
                             <div class="me-3">
                                 <div class="dataTables_length" id="DataTables_Table_0_length">
                                     <label>
-                                        
                                         <?php if(session()->has('message')): ?>
                                             <div class="alert alert-success" id="message-alert">
                                                 <?php echo e(session()->get('message')); ?>
@@ -43,7 +42,7 @@
                                     </label>
                                 </div>
                                 <div class="dt-buttons btn-group flex-wrap">
-                                    <a data-toggle="tooltip" data-placement="top" title="All Trashed Records" href="<?php echo e(route('designations.trashed')); ?>" class="btn btn-danger btn-primary mx-3">
+                                    <a data-toggle="tooltip" data-placement="top" title="All Trashed Records" href="<?php echo e(route('designations.trashed')); ?>" class="btn btn-danger mx-3">
                                         <span>
                                             <i class="ti ti-trash me-0 me-sm-1 ti-xs"></i>
                                             <span class="d-none d-sm-inline-block">All Trashed Records ( <span id="trash-record-count"><?php echo e($onlySoftDeleted); ?></span> )</span>

@@ -96,7 +96,7 @@ class WorkShiftController extends Controller
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect()->back()->with('error', 'Error. '.$e->getMessage());
+            return response()->json(['error' => $e->getMessage()]);
         }
     }
 
@@ -171,7 +171,7 @@ class WorkShiftController extends Controller
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect()->back()->with('error', 'Error. '.$e->getMessage());
+            return response()->json(['error' => $e->getMessage()]);
         }
     }
 

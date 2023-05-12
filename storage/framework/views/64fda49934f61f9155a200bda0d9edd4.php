@@ -199,6 +199,11 @@
               <div data-i18n="Announcements">Announcements</div>
             </a>
           </li>
+          <li class="menu-item <?php echo e(request()->is('profile_cover_images')?'active':''); ?>">
+            <a href="<?php echo e(route('profile_cover_images.index')); ?>" class="menu-link">
+              <div data-i18n="Profile Conver Imges">Profile Conver Imges</div>
+            </a>
+          </li>
         </ul>
       </li>
     </ul>

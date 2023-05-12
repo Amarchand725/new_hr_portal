@@ -42,6 +42,7 @@ class PermissionController extends Controller
     public function store(Request $request)
     {
         $request['label'] = Str::lower($request->name);
+
         $this->validate($request, [
             'label' => 'unique:permissions,label',
             'name' => 'required',
@@ -49,17 +50,27 @@ class PermissionController extends Controller
             'permissions' => 'required'
         ]);
 
-        if(!empty($request->permissions)){
-            foreach($request->permissions as $permission){
-                Permission::create([
-                    'label' =>  Str::lower($request->name),
-                    'name' =>  str_replace(' ', '-', Str::lower($request->name)).'-'.$permission,
-                    'guard_name' => 'web',
-                ]);
-            }
-        }
+        DB::beginTransaction();
 
-        return response()->json(['success' => true]);
+        try{
+            if(!empty($request->permissions)){
+                foreach($request->permissions as $permission){
+                    Permission::create([
+                        'label' =>  Str::lower($request->name),
+                        'name' =>  str_replace(' ', '-', Str::lower($request->name)).'-'.$permission,
+                        'guard_name' => 'web',
+                    ]);
+                }
+            }
+
+            DB::commit();
+            \LogActivity::addToLog('New Permission Added');
+            return response()->json(['success' => true]);
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['error' => $e->getMessage()]);
+        }
     }
 
     /**

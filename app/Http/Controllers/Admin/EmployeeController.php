@@ -8,6 +8,7 @@ use App\Models\Profile;
 use App\Models\JobHistory;
 use App\Models\SalaryHistory;
 use App\Models\Department;
+use App\Models\DepartmentUser;
 use Illuminate\Http\Request;
 use App\Models\Position;
 use App\Models\Designation;
@@ -30,13 +31,38 @@ class EmployeeController extends Controller
         if($request->ajax()){
             $query = User::orderby('id', 'desc')->where('id', '>', 0);
             if($request['search'] != ""){
-                $query->where('title', 'like', '%'. $request['search'] .'%');
+                // $users = Profile::where('employment_id', 'like', '%'. $request['search'] .'%')->get(['user_id']);
+
+                $query->where('first_name', 'like', '%'. $request['search'] .'%');
+                $query->orWhere('last_name', 'like', '%'. $request['search'] .'%');
+                $query->orWhere('email', 'like', '%'. $request['search'] .'%');
+
+                // if(!empty($users)) {
+                //     $emp_users = [];
+                //     foreach($users as $user){
+                //         $emp_users[] = $user->user_id;
+                //     }
+                //     $query->whereIn('id', $emp_users);
+                // }
             }
             if($request['status'] != "All"){
+                if($request['status']==2){
+                    $request['status'] = 0;
+                }
                 $query->where('status', $request['status']);
             }
-            $models = $query->paginate(10);
-            return (string) view('admin.positions.search', compact('models'));
+
+            if($request['department_id'] != "All"){
+                $users = DepartmentUser::where('department_id', $request['department_id'])->get(['user_id']);
+                $query->whereIn('id', $users);
+            }
+            if($request['role_id'] != "All"){
+                $query->role($request['role_id']);
+            }
+
+            return $data['employees'] = $query->where('is_removed', 0)->paginate(10);
+
+            return (string) view('admin.employees.search', compact('data'));
         }
 
         $data['positions'] = Position::orderby('id', 'desc')->where('status', 1)->get();
@@ -44,8 +70,9 @@ class EmployeeController extends Controller
         $data['roles'] = Role::orderby('id', 'desc')->get();
         $data['departments'] = Department::orderby('id', 'desc')->get();
         $data['employment_statues'] = EmploymentStatus::orderby('id', 'desc')->get();
-        $data['employees'] = User::orderby('id', 'desc')->paginate(10);
-        $onlySoftDeleted = Position::onlyTrashed()->count();
+        $data['employees'] = User::orderby('id', 'desc')->where('is_removed', 0)->paginate(10);
+
+        $onlySoftDeleted = User::onlyTrashed()->count();
         return view('admin.employees.index', compact('title', 'data', 'onlySoftDeleted'));
     }
 
@@ -109,12 +136,14 @@ class EmployeeController extends Controller
                 DB::commit();
             }
 
+            //send email with password.
+
             \LogActivity::addToLog('Employee added');
 
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect()->back()->with('error', 'Error. '.$e->getMessage());
+            return response()->json(['error' => $e->getMessage()]);
         }
     }
 
@@ -207,13 +236,23 @@ class EmployeeController extends Controller
                 DB::commit();
             }
 
+            //send email if email changed and generated new password.
+
             \LogActivity::addToLog('Employee updated');
 
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect()->back()->with('error', 'Error. '.$e->getMessage());
+            return response()->json(['error' => $e->getMessage()]);
         }
+    }
+
+    public function show($id)
+    {
+        $title = 'Show Details';
+        $model = User::where('id', $id)->first();
+        $histories = SalaryHistory::orderby('id','desc')->where('user_id', $id)->take(2)->get();
+        return view('admin.employees.show', compact('model', 'histories', 'title'));
     }
 
     /**
@@ -243,5 +282,74 @@ class EmployeeController extends Controller
     {
         User::onlyTrashed()->where('id', $id)->restore();
         return redirect()->back()->with('message', 'Record Restored Successfully.');
+    }
+
+    public function status(Request $request, $user_id)
+    {
+        $model = User::where('id', $user_id)->first();
+
+        if($request->status_type=='status') {
+            if($model->status==1) {
+                $model->status = 0;
+            } else {
+                $model->status = 1;
+            }
+
+            $model->save();
+
+            //send email if possible
+        }elseif($request->status_type=='remove'){
+            if($model->is_removed==1) {
+                $model->is_removed = 0;
+            } else {
+                $model->is_removed = 1;
+            }
+
+            $model->save();
+        }elseif($request->status_type=='terminate'){
+            //send email here
+            $model->delete();
+        }
+
+        return true;
+    }
+    public function addSalary(Request $request)
+    {
+        $request->validate([
+            'amount' => 'required|max:255',
+            'effective_date' => 'required',
+        ]);
+
+        DB::beginTransaction();
+
+        try{
+            $job_history = JobHistory::orderby('id', 'desc')->where('user_id', $request->user_id)->first();
+            $last_salary = SalaryHistory::where('job_history_id', $job_history->id)->where('status', 1)->first();
+
+            if(!empty($last_salary)){
+                $last_salary->status = 0;
+                $last_salary->end_date = $request->effective_date;
+                $last_salary->save();
+            }
+
+            SalaryHistory::create([
+                'created_by' => Auth::user()->id,
+                'user_id' => $request->user_id,
+                'job_history_id' => $job_history->id,
+                'salary' => $request->amount,
+                'effective_date' => $request->effective_date,
+            ]);
+
+            DB::commit();
+
+            //send email on salary increments.
+
+            \LogActivity::addToLog('Salary added');
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['error' => $e->getMessage()]);
+        }
     }
 }

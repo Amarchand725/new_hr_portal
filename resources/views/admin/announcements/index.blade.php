@@ -34,6 +34,14 @@
                                         </label>
                                     </div>
                                     <div class="dt-buttons btn-group flex-wrap">
+                                        <a data-toggle="tooltip" data-placement="top" title="All Trashed Records" href="{{ route('announcements.trashed') }}" class="btn btn-danger mx-3">
+                                            <span>
+                                                <i class="ti ti-trash me-0 me-sm-1 ti-xs"></i>
+                                                <span class="d-none d-sm-inline-block">All Trashed Records ( <span id="trash-record-count">{{ $onlySoftDeleted }}</span> )</span>
+                                            </span>
+                                        </a>
+                                    </div>
+                                    <div class="dt-buttons btn-group flex-wrap">
                                         <button type="button" class="btn btn-secondary add-new btn-primary mx-3" id="add-btn" data-url="{{ route('announcements.store') }}">
                                             <span>
                                                 <i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
@@ -77,7 +85,11 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <span class="fw-semibold">{{ date('d M Y', strtotime($model->end_date)) }}</span>
+                                            @if(!empty($model->end_date))
+                                                <span class="fw-semibold">{{ date('d M Y', strtotime($model->end_date)) }}</span>
+                                            @else
+                                                -
+                                            @endif
                                         </td>
                                         <td>{!! \Illuminate\Support\Str::limit($model->description,50)??'-' !!}</td>
                                         <td>

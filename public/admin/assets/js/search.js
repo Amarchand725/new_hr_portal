@@ -112,7 +112,20 @@ $(document).ready(function() {
                     setTimeout(function() {
                         location.reload();
                     }, 2000); // 5000 milliseconds = 5 seconds
+                } else if (response.error) {
+                    $('#' + modal_id).modal('hide');
+
+                    Swal.fire({
+                        title: 'Alert!',
+                        text: response.error,
+                        icon: 'warning',
+                        customClass: {
+                            title: 'text-danger',
+                            content: 'text-danger'
+                        }
+                    });
                 }
+
             },
             error: function(xhr) {
                 // Parse the JSON response to get the error messages

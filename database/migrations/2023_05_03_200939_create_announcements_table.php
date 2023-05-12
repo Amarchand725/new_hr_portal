@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('created_by');
             $table->string('title');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->boolean('status')->default(1);

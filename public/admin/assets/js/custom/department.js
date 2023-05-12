@@ -48,6 +48,13 @@ $('#add-btn').on('click', function(e) {
     $('#offcanvasAddDepartmentLabel').html('Add Department');
     $("#create-form").attr("action", url);
     $("#create-form").attr("data-method", 'POST');
+
+    //reset
+    $('#create-form input[type="text"], #create-form textarea').val('');
+    $('#create-form input[type="date"]').val('');
+    $('#create-form input[type="time"]').val('');
+    $('#create-form select').val('');
+    $('#create-form input[type="checkbox"], #create-form input[type="radio"]').prop('checked', false);
 });
 $('.edit-btn').on('click', function() {
     var url = $(this).attr('data-url');

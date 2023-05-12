@@ -205,8 +205,12 @@
                     </div>
                     </div>
                     <div class="flex-grow-1">
-                    <span class="fw-semibold d-block">John Doe</span>
-                    <small class="text-muted">Admin</small>
+                    <span class="fw-semibold d-block">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</span>
+                    <small class="text-muted">
+                        @foreach (Auth::user()->getRoleNames() as $role_name)
+                            {{ $role_name }},
+                        @endforeach
+                    </small>
                     </div>
                 </div>
                 </a>

@@ -18,9 +18,9 @@
                             </div>
                             <div id="DataTables_Table_0_filter" class="dataTables_filter mx-3">
                                 <select name="DataTables_Table_0_length" id="parent-department" aria-controls="DataTables_Table_0" class="form-select search-by-department" fdprocessedid="o5g1n8">
-                                    <option value="All" selected>Search by department</option>
-                                    @foreach ($data['departments'] as $f_department)
-                                        <option value="{{ $f_department->id }}">{{ $f_department->name }}</option>
+                                    <option value="All" selected>Search By Parent Department</option>
+                                    @foreach ($data['parent_departments'] as $p_department)
+                                        <option value="{{ $p_department->id }}">{{ $p_department->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -32,7 +32,7 @@
                                 </select>
                             </div>
                             <div class="dt-buttons btn-group flex-wrap">
-                                <a data-toggle="tooltip" data-placement="top" title="All Trashed Records" href="{{ route('departments.trashed') }}" class="btn btn-danger btn-primary mx-3">
+                                <a data-toggle="tooltip" data-placement="top" title="All Trashed Records" href="{{ route('departments.trashed') }}" class="btn btn-danger mx-3">
                                     <span>
                                         <i class="ti ti-trash me-0 me-sm-1 ti-xs"></i>
                                         <span class="d-none d-sm-inline-block">All Trashed Records ( <span id="trash-record-count">{{ $onlySoftDeleted }}</span> )</span>
@@ -104,11 +104,9 @@
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <button data-toggle="tooltip" data-placement="top" title="Edit Record" data-edit-url="{{ route('departments.edit', $model->id) }}" data-url="{{ route('departments.update', $model->id) }}" data-value="{{ $model }}" class="btn btn-default edit-btn edit-btn" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddDepartment" fdprocessedid="i1qq7b">
-                                                <span>
-                                                    <i class="ti ti-edit ti-sm me-2"></i>
-                                                </span>
-                                            </button>
+                                            <a href="javascript:;" class="text-body edit-btn" data-toggle="tooltip" data-placement="top" title="Edit Record" data-edit-url="{{ route('departments.edit', $model->id) }}" data-url="{{ route('departments.update', $model->id) }}" data-value="{{ $model }}" class="btn btn-default edit-btn edit-btn" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddDepartment" fdprocessedid="i1qq7b">
+                                                <i class="ti ti-edit ti-sm me-2"></i>
+                                            </a>
                                             <a data-toggle="tooltip" data-placement="top" title="Delete Record" href="javascript:;" class="text-body delete" data-slug="{{ $model->id }}" data-del-url="{{ route('departments.destroy', $model->id) }}">
                                                 <i class="ti ti-trash ti-sm mx-2"></i>
                                             </a>
@@ -161,16 +159,18 @@
                                 <label class="form-label" for="name">Name</label>
                                 <input type="text" class="form-control" id="name" placeholder="Enter department name" name="name">
                                 <div class="fv-plugins-message-container invalid-feedback"></div>
+                                <span id="name_error" class="text-danger error"></span>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label" for="parent_department_id">Parent Department</label>
                                 <div class="position-relative">
                                     <select id="parent_department_id" name="parent_department_id" class="select2 form-select">
                                         <option value="">Select parent department</option>
-                                        @foreach ($data['departments'] as $department)
+                                        @foreach ($data['parent_departments'] as $department)
                                             <option value="{{ $department->id }}">{{ $department->name }}</option>
                                         @endforeach
                                     </select>
+                                    <span id="parent_department_id_error" class="text-danger error"></span>
                                 </div>
                             </div>
                             <div class="mb-3">
@@ -182,6 +182,7 @@
                                             <option value="{{ $user->id }}">{{ $user->first_name }} {{ $user->last_name }}</option>
                                         @endforeach
                                     </select>
+                                    <span id="manager_id_error" class="text-danger error"></span>
                                 </div>
                             </div>
                             <div class="mb-3">
@@ -193,6 +194,7 @@
                                             <option value="{{ $work_shift->id }}">{{ $work_shift->name }}</option>
                                         @endforeach
                                     </select>
+                                    <span id="work_shift_id_error" class="text-danger error"></span>
                                 </div>
                             </div>
 

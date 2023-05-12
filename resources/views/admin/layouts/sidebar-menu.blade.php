@@ -203,6 +203,11 @@
               <div data-i18n="Announcements">Announcements</div>
             </a>
           </li>
+          <li class="menu-item {{ request()->is('profile_cover_images')?'active':'' }}">
+            <a href="{{ route('profile_cover_images.index') }}" class="menu-link">
+              <div data-i18n="Profile Conver Imges">Profile Conver Imges</div>
+            </a>
+          </li>
         </ul>
       </li>
     </ul>

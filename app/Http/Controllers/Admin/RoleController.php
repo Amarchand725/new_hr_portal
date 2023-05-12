@@ -47,12 +47,23 @@ class RoleController extends Controller
             'name' => ['required', 'unique:roles', 'max:100'],
         ]);
 
-        $role = Role::create(['name' => $request->name]);
-        $role->syncPermissions($request->input('permissions'));
+        DB::beginTransaction();
 
-        \LogActivity::addToLog('New Role Added');
+        try{
+            $role = Role::create(['name' => $request->name]);
+            $role->syncPermissions($request->input('permissions'));
 
-        return response()->json(['success' => true]);
+            if($role){
+                DB::commit();
+            }
+
+            \LogActivity::addToLog('New Role Added');
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['error' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -77,14 +88,23 @@ class RoleController extends Controller
             'name' => 'required|max:150|unique:roles,id,'.$id,
         ]);
 
-        $role = Role::where('id', $id)->first();
-        $role->name = $request->name;
-        $role->save();
-        $role->syncPermissions($request->input('permissions'));
+        DB::beginTransaction();
 
-        \LogActivity::addToLog('Role Updated');
+        try{
+            $role = Role::where('id', $id)->first();
+            $role->name = $request->name;
+            $role->save();
+            $role->syncPermissions($request->input('permissions'));
 
-        return response()->json(['success' => true]);
+            DB::commit();
+
+            \LogActivity::addToLog('Role Updated');
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['error' => $e->getMessage()]);
+        }
     }
 
     /**

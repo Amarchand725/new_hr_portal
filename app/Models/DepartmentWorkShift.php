@@ -10,4 +10,9 @@ class DepartmentWorkShift extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function workShift()
+    {
+        return $this->belongsTo(WorkShift::class, 'work_shift_id')
+    }
 }

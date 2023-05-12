@@ -10,4 +10,9 @@ class SalaryHistory extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function jobHistory()
+    {
+        return $this->belongsTo(JobHistory::class, 'job_history_id');
+    }
 }

@@ -205,8 +205,12 @@
                     </div>
                     </div>
                     <div class="flex-grow-1">
-                    <span class="fw-semibold d-block">John Doe</span>
-                    <small class="text-muted">Admin</small>
+                    <span class="fw-semibold d-block"><?php echo e(Auth::user()->first_name); ?> <?php echo e(Auth::user()->last_name); ?></span>
+                    <small class="text-muted">
+                        <?php $__currentLoopData = Auth::user()->getRoleNames(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $role_name): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <?php echo e($role_name); ?>,
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    </small>
                     </div>
                 </div>
                 </a>

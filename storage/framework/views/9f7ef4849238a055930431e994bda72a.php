@@ -72,7 +72,14 @@
     <select id="department_id" name="department_id" class="form-select">
         <option value="" selected>Select department</option>
         <?php $__currentLoopData = $data['departments']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $department): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <option value="<?php echo e($department->id); ?>" <?php echo e($data['model']->departmentBridge->department_id==$department->id?'selected':''); ?>><?php echo e($department->name); ?></option>
+            <option value="<?php echo e($department->id); ?>"
+                <?php if(isset($data['model']->departmentBridge->department_id) && !empty($data['model']->departmentBridge->department_id)): ?>
+                    <?php echo e($data['model']->departmentBridge->department_id==$department->id?'selected':''); ?>
+
+                <?php endif; ?>>
+                    <?php echo e($department->name); ?>
+
+            </option>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     </select>
     <div class="fv-plugins-message-container invalid-feedback"></div>

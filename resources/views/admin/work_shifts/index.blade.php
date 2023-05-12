@@ -34,7 +34,7 @@
                                     </label>
                                 </div>
                                 <div class="dt-buttons btn-group flex-wrap">
-                                    <a data-toggle="tooltip" data-placement="top" title="All Trashed Records" href="{{ route('work_shifts.trashed') }}" class="btn btn-danger btn-primary mx-3">
+                                    <a data-toggle="tooltip" data-placement="top" title="All Trashed Records" href="{{ route('work_shifts.trashed') }}" class="btn btn-danger mx-3">
                                         <span>
                                             <i class="ti ti-trash me-0 me-sm-1 ti-xs"></i>
                                             <span class="d-none d-sm-inline-block">All Trashed Records ( <span id="trash-record-count">{{ $onlySoftDeleted }}</span> )</span>
@@ -107,9 +107,6 @@
                                             <a data-toggle="tooltip" data-placement="top" title="Delete Record" href="javascript:;" class="text-body delete" data-slug="{{ $model->id }}" data-del-url="{{ route('work_shifts.destroy', $model->id) }}">
                                                 <i class="ti ti-trash ti-sm mx-2"></i>
                                             </a>
-                                            <a href="javascript:;" class="text-body dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                                <i class="ti ti-dots-vertical ti-sm mx-1"></i>
-                                            </a>
                                         </div>
                                     </td>
                                 </tr>
@@ -151,7 +148,7 @@
             <span id="edit-content">
                 <div class="mb-3 fv-plugins-icon-container">
                     <label class="form-label" for="name">Name </label>
-                    <input type="text" class="form-control" id="name" value="Night" placeholder="Enter Working Shift Name e.g Night" name="name">
+                    <input type="text" class="form-control" id="name" value="" placeholder="Enter Working Shift Name e.g Night" name="name">
                     <div class="fv-plugins-message-container invalid-feedback"></div>
                     <span id="name_error" class="text-danger error"></span>
                 </div>
@@ -208,7 +205,7 @@
                     <label class="form-label">Select weekend day (off days) </label>
                     <div class="app-checkbox-group row edit-days">
                         <div class="customized-checkbox checkbox-default col-md-3">
-                            <input type="checkbox" name="weekend_days[]" id="formData_weekdays-sun" placeholder="" value="sun" checked>
+                            <input type="checkbox" name="weekend_days[]" id="formData_weekdays-sun" placeholder="" value="sun">
                             <label for="formData_weekdays-sun" class=""> Sunday</label>
                         </div>
                         <div class="customized-checkbox checkbox-default col-md-3">
@@ -232,7 +229,7 @@
                             <label for="formData_weekdays-fri" class=""> Friday </label>
                         </div>
                         <div class="customized-checkbox checkbox-default col-md-3">
-                            <input type="checkbox" name="weekend_days[]" id="formData_weekdays-sat" placeholder="" value="sat" checked>
+                            <input type="checkbox" name="weekend_days[]" id="formData_weekdays-sat" placeholder="" value="sat">
                             <label for="formData_weekdays-sat" class=""> Saturday </label>
                         </div>
                     </div>

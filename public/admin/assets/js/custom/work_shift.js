@@ -1,5 +1,12 @@
 $(document).on('click', '#add-work-shift-btn', function() {
     var url = $(this).attr('data-url');
+
+    //reset
+    $('#create-form input[type="text"], #create-form textarea').val('');
+    $('#create-form input[type="date"]').val('');
+    $('#create-form input[type="time"]').val('');
+    $('#create-form input[type="checkbox"], #create-form input[type="radio"]').prop('checked', false);
+
     $("#create-form").attr("action", url);
     $("#create-form").attr("data-method", 'POST');
     $('#modal-title').html('Add Work Shift');

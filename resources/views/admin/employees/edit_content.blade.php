@@ -72,7 +72,12 @@
     <select id="department_id" name="department_id" class="form-select">
         <option value="" selected>Select department</option>
         @foreach ($data['departments'] as $department)
-            <option value="{{ $department->id }}" {{ $data['model']->departmentBridge->department_id==$department->id?'selected':'' }}>{{ $department->name }}</option>
+            <option value="{{ $department->id }}"
+                @if(isset($data['model']->departmentBridge->department_id) && !empty($data['model']->departmentBridge->department_id))
+                    {{ $data['model']->departmentBridge->department_id==$department->id?'selected':'' }}
+                @endif>
+                    {{ $department->name }}
+            </option>
         @endforeach
     </select>
     <div class="fv-plugins-message-container invalid-feedback"></div>

@@ -5,6 +5,8 @@
 @endpush
 
 @section('content')
+<input type="hidden" id="page_url" value="{{ route('employees.index') }}">
+
 <div class="content-wrapper">
     <div class="container-xxl flex-grow-1 container-p-y">
         <!-- Users List Table -->
@@ -13,30 +15,26 @@
                 <h5 class="card-title mb-3">Search Filter</h5>
                 <div class="d-flex justify-content-between align-items-center row pb-2 gap-3 gap-md-0">
                     <div class="col-md-4 user_role">
-                        <select id="UserRole" class="form-select text-capitalize" fdprocessedid="vq8lxk">
-                            <option value=""> Select Role </option>
-                            <option value="Admin">Admin</option>
-                            <option value="Author">Author</option>
-                            <option value="Editor">Editor</option>
-                            <option value="Maintainer">Maintainer</option>
-                            <option value="Subscriber">Subscriber</option>
+                        <select id="role_id" class="form-select text-capitalize" fdprocessedid="vq8lxk">
+                            <option value="All"> Search by role </option>
+                            @foreach ($data['roles'] as $role)
+                                <option value="{{ $role->id }}">{{ $role->name }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="col-md-4 user_plan">
-                        <select id="UserPlan" class="form-select text-capitalize" fdprocessedid="bgqe8c">
-                            <option value=""> Select Plan </option>
-                            <option value="Basic">Basic</option>
-                            <option value="Company">Company</option>
-                            <option value="Enterprise">Enterprise</option>
-                            <option value="Team">Team</option>
+                        <select id="department_id" class="form-select text-capitalize" fdprocessedid="bgqe8c">
+                            <option value="All"> Search by department </option>
+                            @foreach ($data['departments'] as $department)
+                                <option value="{{ $department->id }}">{{ $department->name }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="col-md-4 user_status">
-                        <select id="FilterTransaction" class="form-select text-capitalize" fdprocessedid="fwa9of">
-                            <option value=""> Select Status </option>
-                            <option value="Pending" class="text-capitalize">Pending</option>
-                            <option value="Active" class="text-capitalize">Active</option>
-                            <option value="Inactive" class="text-capitalize">Inactive</option>
+                        <select id="status" class="form-select text-capitalize" fdprocessedid="fwa9of">
+                            <option value="All"> Search by Status </option>
+                            <option value="1" class="text-capitalize">Active</option>
+                            <option value="2" class="text-capitalize">De-active</option>
                         </select>
                     </div>
                 </div>
@@ -55,11 +53,10 @@
                                 <div id="DataTables_Table_0_filter" class="dataTables_filter">
                                     <label>
                                         <input type="search" class="form-control" id="search" name="search" placeholder="Search.." aria-controls="DataTables_Table_0">
-                                        <input type="hidden" id="status" name="status" class="form-control" value="All">
                                     </label>
                                 </div>
                                 <div class="dt-buttons btn-group flex-wrap">
-                                    <a data-toggle="tooltip" data-placement="top" title="All Trashed Records" href="{{ route('employees.trashed') }}" class="btn btn-danger btn-primary mx-3">
+                                    <a data-toggle="tooltip" data-placement="top" title="All Trashed Records" href="{{ route('employees.trashed') }}" class="btn btn-danger mx-3">
                                         <span>
                                             <i class="ti ti-trash me-0 me-sm-1 ti-xs"></i>
                                             <span class="d-none d-sm-inline-block">All Trashed Records ( <span id="trash-record-count">{{ $onlySoftDeleted }}</span> )</span>
@@ -152,16 +149,13 @@
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <a href="javascript:;" class="text-body"
+                                            <a href="javascript:;"
+                                                class="text-body edit-btn"
                                                 data-toggle="tooltip"
                                                 data-placement="top"
                                                 title="Edit Record"
                                                 data-edit-url="{{ route('employees.edit', $employee->id) }}"
-                                                data-url="{{ route('employees.update', $employee->id) }}"
-                                                class="btn btn-default edit-btn"
-                                                id="edit-btn"
-                                                type="button"
-                                                >
+                                                data-url="{{ route('employees.update', $employee->id) }}">
                                                 <i class="ti ti-edit ti-sm me-2"></i>
                                             </a>
                                             <a href="javascript:;" class="text-body delete" data-slug="{{ $employee->id }}" data-del-url="{{ route('employees.destroy', $employee->id) }}">
@@ -171,10 +165,17 @@
                                                 <i class="ti ti-dots-vertical ti-sm mx-1"></i>
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-end m-0">
-                                                <a href="app-user-view-account.html" class="dropdown-item">View</a>
-                                                <a href="app-user-view-account.html" class="dropdown-item">Add Salary</a>
-                                                <a href="javascript:;" class="dropdown-item">Terminate</a>
-                                                <a href="javascript:;" class="dropdown-item">Remove from employee list</a>
+                                                <a href="javascript:;" class="dropdown-item emp-status-btn" data-status-type="status" data-status-url='{{ route('employees.status', $employee->id) }}'>
+                                                    @if($employee->status)
+                                                        De-Active
+                                                    @else
+                                                        Active
+                                                    @endif
+                                                </a>
+                                                <a href="{{ route('employees.show', $employee->id) }}" class="dropdown-item">View</a>
+                                                <a href="javascript:;" class="dropdown-item add-salary-btn" data-user-id="{{ $employee->id }}" data-url='{{ route('employees.add_salary') }}'>Add Salary</a>
+                                                <a href="javascript:;" class="dropdown-item emp-status-btn" data-status-type="terminate" data-status-url='{{ route('employees.status', $employee->id) }}'>Terminate</a>
+                                                <a href="javascript:;" class="dropdown-item emp-status-btn" data-status-type="remove" data-status-url='{{ route('employees.status', $employee->id) }}'>Remove from employee list</a>
                                             </div>
                                         </div>
                                     </td>
@@ -345,6 +346,47 @@
                 </div>
             </div>
             <!--/ Add Role Modal -->
+
+            <!-- Add Salary Modal -->
+            <div class="modal fade" id="add-salary-modal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
+                    <div class="modal-content p-3 p-md-5">
+                        <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <div class="modal-body">
+                            <div class="text-center mb-4">
+                                <h3 class="role-title mb-2" id="salary-title-label"></h3>
+                            </div>
+                            <!-- Add role form -->
+                            <form class="pt-0 fv-plugins-bootstrap5 fv-plugins-framework" data-method="" data-modal-id="add-salary-modal" id="add-salary-form">
+                                @csrf
+
+                                <input type="hidden" name="user_id" id="user-id">
+                                <div class="mb-3 fv-plugins-icon-container">
+                                    <label class="form-label" for="amount">Amount</label>
+                                    <input type="text" class="form-control" id="amount" placeholder="Enter first name" name="amount">
+                                    <div class="fv-plugins-message-container invalid-feedback"></div>
+                                    <span id="amount_error" class="text-danger error"></span>
+                                </div>
+                                <div class="mb-3 fv-plugins-icon-container">
+                                    <label class="form-label" for="effective_date">Effective Date</label>
+                                    <input type="date" class="form-control" id="effective_date" placeholder="Enter last name" name="effective_date">
+                                    <div class="fv-plugins-message-container invalid-feedback"></div>
+                                    <span id="effective_date_error" class="text-danger error"></span>
+                                </div>
+
+                                <div class="col-12 text-center mt-4">
+                                    <button type="submit" class="btn btn-primary me-sm-3 me-1 submitBtn">Submit</button>
+                                    <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">
+                                    Cancel
+                                    </button>
+                                </div>
+                            </form>
+                            <!--/ Add role form -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/ Add Salary Modal -->
         </div>
     </div>
 </div>

@@ -74,8 +74,7 @@ class AnnouncementController extends Controller
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
             DB::rollback();
-            // return redirect()->back()->with('error', 'Error. '.$e->getMessage());
-            return $e->getMessage();
+            return response()->json(['error' => $e->getMessage()]);
         }
     }
 
@@ -93,8 +92,40 @@ class AnnouncementController extends Controller
      */
     public function update(Request $request, Announcement $announcement)
     {
-        //
-        \LogActivity::addToLog('New Announcement Updated');
+        $this->validate($request, [
+            'title' => ['required', 'max:255'],
+            'start_date' => ['required'],
+            'description' => ['max:500'],
+        ]);
+
+        $announcement_inputs = $request->except(['department_ids']);
+        $announcement_inputs['created_by'] = Auth::user()->id;
+
+        DB::beginTransaction();
+
+        try{
+            $model = $announcement->update($announcement_inputs);
+            if($model){
+                if(isset($request->department_ids[0]) && $request->department_ids[0] != ''){
+                    AnnouncementDepartment::where('announcement_id', )->delete();
+                    foreach($request->department_ids as $department_id){
+                        AnnouncementDepartment::create([
+                            'announcement_id' => $announcement->id,
+                            'department_id ' => $department_id
+                        ]);
+                    }
+                }
+
+                DB::commit();
+            }
+
+            \LogActivity::addToLog('Announcement Updated');
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['error' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -102,6 +133,28 @@ class AnnouncementController extends Controller
      */
     public function destroy(Announcement $announcement)
     {
-        //
+        $model = $announcement->delete();
+        if($model){
+            $onlySoftDeleted = Announcement::onlyTrashed()->count();
+            return response()->json([
+                'status' => true,
+                'trash_records' => $onlySoftDeleted
+            ]);
+        }else{
+            return false;
+        }
+    }
+
+    public function trashed()
+    {
+        $data = [];
+        $data['models'] = Announcement::onlyTrashed()->get();
+        $title = 'All Trashed Records';
+        return view('admin.announcements.trashed-index', compact('title', 'data'));
+    }
+    public function restore($id)
+    {
+        Announcement::onlyTrashed()->where('id', $id)->restore();
+        return redirect()->back()->with('message', 'Record Restored Successfully.');
     }
 }

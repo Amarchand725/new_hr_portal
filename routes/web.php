@@ -52,6 +52,11 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/employees/trashed', [App\Http\Controllers\Admin\EmployeeController::class, 'trashed'])->name('employees.trashed');
     Route::get('/employees/restore/{id}', [App\Http\Controllers\Admin\EmployeeController::class, 'restore'])->name('employees.restore');
+    Route::post('/employees/status/{id}', [App\Http\Controllers\Admin\EmployeeController::class, 'status'])->name('employees.status');
+    Route::post('/employees/add_salary', [App\Http\Controllers\Admin\EmployeeController::class, 'addSalary'])->name('employees.add_salary');
+
+    Route::get('/announcements/trashed', [App\Http\Controllers\Admin\AnnouncementController::class, 'trashed'])->name('announcements.trashed');
+    Route::get('/announcements/restore/{id}', [App\Http\Controllers\Admin\AnnouncementController::class, 'restore'])->name('announcements.restore');
 
     Route::resource('/roles', App\Http\Controllers\Admin\RoleController::class);
     Route::resource('/permissions', App\Http\Controllers\Admin\PermissionController::class);
@@ -62,6 +67,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/announcements', App\Http\Controllers\Admin\AnnouncementController::class);
     Route::resource('/employment_status', App\Http\Controllers\Admin\EmploymentStatusController::class);
     Route::resource('/employees', App\Http\Controllers\Admin\EmployeeController::class);
+    Route::resource('/profile_cover_images', App\Http\Controllers\Admin\ProfileCoverImageController::class);
 });
 
 require __DIR__.'/auth.php';

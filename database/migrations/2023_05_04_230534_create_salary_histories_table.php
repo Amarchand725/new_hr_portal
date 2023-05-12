@@ -17,7 +17,8 @@ return new class extends Migration
             $table->bigInteger('user_id');
             $table->bigInteger('job_history_id');
             $table->bigInteger('salary')->nullable();
-            $table->date('implement_date')->nullable();
+            $table->date('effective_date')->nullable();
+            $table->date('end_date')->nullable();
             $table->boolean('status')->default(1);
             $table->timestamps();
         });

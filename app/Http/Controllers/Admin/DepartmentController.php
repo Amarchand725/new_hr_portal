@@ -37,7 +37,7 @@ class DepartmentController extends Controller
         }
 
         $data['models'] = Department::orderby('id', 'desc')->paginate(10);
-        $data['departments'] = Department::where('status', 1)->get();
+        $data['parent_departments'] = Department::where('status', 1)->where('parent_department_id', NULL)->get();
         $data['work_shifts'] = WorkShift::where('status', 1)->get();
         $data['users'] = User::get();
         $onlySoftDeleted = Department::onlyTrashed()->count();
@@ -51,6 +51,8 @@ class DepartmentController extends Controller
     {
         $this->validate($request, [
             'name' => ['required', 'unique:departments', 'max:255'],
+            'manager_id' => ['required'],
+            'work_shift_id' => ['required'],
             'description' => ['max:500'],
             'location' => ['max:250'],
         ]);
@@ -75,7 +77,7 @@ class DepartmentController extends Controller
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect()->back()->with('error', 'Error. '.$e->getMessage());
+            return response()->json(['error' => $e->getMessage()]);
         }
     }
 
@@ -121,7 +123,7 @@ class DepartmentController extends Controller
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect()->back()->with('error', 'Error. '.$e->getMessage());
+            return response()->json(['error' => $e->getMessage()]);
         }
     }
 
