@@ -11,4 +11,9 @@ class ProfileCoverImage extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
+
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
 }

@@ -17,6 +17,8 @@ class RoleController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('role-list');
+
         $per_page_records = 10;
 
         if($request->ajax()){
@@ -71,6 +73,7 @@ class RoleController extends Controller
      */
     public function edit(string $id)
     {
+        $this->authorize('role-edit');
         $role = Role::where('id', $id)->first();
         $role_permissions = $role->getPermissionNames();
         $models = Permission::orderby('id','DESC')->groupBy('label')->get();
@@ -112,6 +115,6 @@ class RoleController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $this->authorize('role-delete');
     }
 }

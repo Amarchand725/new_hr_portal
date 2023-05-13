@@ -1,6 +1,6 @@
-@foreach ($data['models'] as $key=>$model)
+@foreach ($models as $key=>$model)
     <tr class="odd" id="id-{{ $model->id }}">
-        <td tabindex="0">{{ $data['models']->firstItem()+$key }}.</td>
+        <td tabindex="0">{{ $models->firstItem()+$key }}.</td>
         <td class="sorting_1">
             {{ $model->name??'-' }}
         </td>
@@ -62,11 +62,11 @@
     <td colspan="9">
         <div class="row mx-2">
             <div class="col-sm-12 col-md-6">
-                <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing {{$data['models']->firstItem()}} to {{$data['models']->lastItem()}} of {{$data['models']->total()}} entries</div>
+                <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing {{$models->firstItem()}} to {{$models->lastItem()}} of {{$models->total()}} entries</div>
             </div>
             <div class="col-sm-12 col-md-6">
                 <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-                    {!! $data['models']->links('pagination::bootstrap-4') !!}
+                    {!! $models->links('pagination::bootstrap-4') !!}
                 </div>
             </div>
         </div>

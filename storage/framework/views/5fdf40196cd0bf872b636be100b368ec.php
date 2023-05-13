@@ -1,14 +1,13 @@
-@extends('admin.layouts.app')
-@section('title', $title.' - Cyberonix')
+<?php $__env->startSection('title', $title.' - Cyberonix'); ?>
 
-@section('content')
-<input type="hidden" id="page_url" value="{{ route('positions.index') }}">
+<?php $__env->startSection('content'); ?>
+<input type="hidden" id="page_url" value="<?php echo e(route('positions.index')); ?>">
 <div class="content-wrapper">
     <div class="container-xxl flex-grow-1 container-p-y">
         <!-- Users List Table -->
         <div class="card">
             <div class="card-header border-bottom">
-                <h5 class="card-title mb-3">{{ $title }}</h5>
+                <h5 class="card-title mb-3"><?php echo e($title); ?></h5>
             </div>
             <div class="card-datatable table-responsive">
                 <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
@@ -17,17 +16,19 @@
                             <div class="me-3">
                                 <div class="dataTables_length" id="DataTables_Table_0_length">
                                     <label>
-                                        @if(session()->has('message'))
+                                        <?php if(session()->has('message')): ?>
                                             <div class="alert alert-success" id="message-alert">
-                                                {{ session()->get('message') }}
-                                            </div>
-                                        @endif
+                                                <?php echo e(session()->get('message')); ?>
 
-                                        @if(session()->has('error'))
-                                            <div class="alert alert-danger" id="message-alert">
-                                                {{ session()->get('error') }}
                                             </div>
-                                        @endif
+                                        <?php endif; ?>
+
+                                        <?php if(session()->has('error')): ?>
+                                            <div class="alert alert-danger" id="message-alert">
+                                                <?php echo e(session()->get('error')); ?>
+
+                                            </div>
+                                        <?php endif; ?>
                                     </label>
                                 </div>
                             </div>
@@ -35,7 +36,7 @@
                         <div class="col-md-10">
                             <div class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-3 mb-md-0">
                                 <div class="dt-buttons btn-group flex-wrap">
-                                    <a data-toggle="tooltip" data-placement="top" title="Show All Records" href="{{ route('profile_cover_images.index') }}" class="btn btn-success btn-primary mx-3">
+                                    <a data-toggle="tooltip" data-placement="top" title="Show All Records" href="<?php echo e(route('profile_cover_images.index')); ?>" class="btn btn-success btn-primary mx-3">
                                         <span>
                                             <i class="ti ti-eye me-0 me-sm-1 ti-xs"></i>
                                             <span class="d-none d-sm-inline-block">View All Records</span>
@@ -57,34 +58,35 @@
                             </tr>
                         </thead>
                         <tbody id="body">
-                            @foreach ($models as $key=>$model)
-                                <tr class="odd" id="id-{{ $model->id }}">
-                                    <td tabindex="0">{{ $key+1 }}.</td>
+                            <?php $__currentLoopData = $models; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$model): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <tr class="odd" id="id-<?php echo e($model->id); ?>">
+                                    <td tabindex="0"><?php echo e($key+1); ?>.</td>
                                     <td>
                                         <span class="fw-semibold">
-                                            <img src="{{ asset('public/admin/profile_cover_images') }}/{{ $model->image }}" style="width:100px" alt="">
+                                            <img src="<?php echo e(asset('public/admin/profile_cover_images')); ?>/<?php echo e($model->image); ?>" style="width:100px" alt="">
                                         </span>
                                     </td>
                                     <td>
                                         <span class="fw-semibold">
-                                            @if(isset($model->createdBy) && !empty($model->createdBy))
-                                                {{ $model->createdBy->first_name }} {{ $model->createdBy->last_name }}
-                                            @else
+                                            <?php if(isset($model->createdBy) && !empty($model->createdBy)): ?>
+                                                <?php echo e($model->createdBy->first_name); ?> <?php echo e($model->createdBy->last_name); ?>
+
+                                            <?php else: ?>
                                                 -
-                                            @endif
+                                            <?php endif; ?>
                                         </span>
                                     </td>
-                                    <td>{{ date('d F Y', strtotime($model->created_at)) }}</td>
+                                    <td><?php echo e(date('d F Y', strtotime($model->created_at))); ?></td>
                                     <td>
-                                        @if($model->status)
+                                        <?php if($model->status): ?>
                                             <span class="badge bg-label-success" text-capitalized="">Active</span>
-                                        @else
+                                        <?php else: ?>
                                             <span class="badge bg-label-danger" text-capitalized="">De-Active</span>
-                                        @endif
+                                        <?php endif; ?>
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <a href="{{ route('profile_cover_images.restore', $model->id) }}">
+                                            <a href="<?php echo e(route('profile_cover_images.restore', $model->id)); ?>">
                                                 <span>
                                                     <i class="ti ti-refresh ti-sm me-2"></i>
                                                 </span>
@@ -92,12 +94,12 @@
                                         </div>
                                     </td>
                                 </tr>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             <tr>
                                 <td colspan="9">
                                     <div class="row mx-2">
                                         <div class="col-sm-12 col-md-6">
-                                            <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to {{$models->count()}} of {{$models->count()}} entries</div>
+                                            <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to <?php echo e($models->count()); ?> of <?php echo e($models->count()); ?> entries</div>
                                         </div>
                                     </div>
                                 </td>
@@ -109,11 +111,13 @@
         </div>
     </div>
 </div>
-@endsection
-@push('js')
+<?php $__env->stopSection(); ?>
+<?php $__env->startPush('js'); ?>
     <script>
         setTimeout(function() {
             $('#message-alert').fadeOut('slow');
         }, 2000);
     </script>
-@endpush
+<?php $__env->stopPush(); ?>
+
+<?php echo $__env->make('admin.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\new_hr_portal.local\resources\views/admin/profile_cover_images/trashed-index.blade.php ENDPATH**/ ?>

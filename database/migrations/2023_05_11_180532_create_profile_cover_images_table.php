@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('profile_cover_images', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('created_by');
-            $table->string('title')->nullable();
             $table->string('image');
+            $table->boolean('status')->default(0);
             $table->string('deleted_at')->nullable();
+
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Models\ProfileCoverImage;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Auth;
+use DB;
 
 class ProfileCoverImageController extends Controller
 {
@@ -32,43 +34,38 @@ class ProfileCoverImageController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
-    }
+        $this->validate($request, [
+            'image' => ['required'],
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(ProfileCoverImage $profileCoverImage)
-    {
-        //
-    }
+        DB::beginTransaction();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(ProfileCoverImage $profileCoverImage)
-    {
-        //
-    }
+        try{
+            $model = new ProfileCoverImage();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, ProfileCoverImage $profileCoverImage)
-    {
-        //
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $imageName = time() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('admin/profile_cover_images'), $imageName);
+
+                $model->created_by = Auth::user()->id;
+                $model->image = $imageName;
+                $model->save();
+
+                DB::commit();
+            }
+
+            \LogActivity::addToLog('New Cover Image Added');
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['error' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -76,6 +73,42 @@ class ProfileCoverImageController extends Controller
      */
     public function destroy(ProfileCoverImage $profileCoverImage)
     {
-        //
+        $model = $profileCoverImage->delete();
+        if($model){
+            $onlySoftDeleted = ProfileCoverImage::onlyTrashed()->count();
+            return response()->json([
+                'status' => true,
+                'trash_records' => $onlySoftDeleted
+            ]);
+        }else{
+            return false;
+        }
+    }
+
+    public function trashed()
+    {
+        $models = ProfileCoverImage::onlyTrashed()->get();
+        $title = 'All Trashed Records';
+        return view('admin.profile_cover_images.trashed-index', compact('models', 'title'));
+    }
+    public function restore($id)
+    {
+        ProfileCoverImage::onlyTrashed()->where('id', $id)->restore();
+        return redirect()->back()->with('message', 'Record Restored Successfully.');
+    }
+
+    public function status(Request $request, $id)
+    {
+        $model = ProfileCoverImage::where('id', $id)->first();
+
+        if($model->status==1) {
+            $model->status = 0;
+        } else {
+            $model->status = 1;
+        }
+
+        $model->save();
+
+        return true;
     }
 }

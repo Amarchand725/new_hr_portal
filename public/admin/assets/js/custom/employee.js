@@ -146,9 +146,15 @@ function fetchAll(pageurl, page, search, status, department, role_id) {
 $(document).on('click', '.emp-status-btn', function() {
     var status_url = $(this).attr('data-status-url');
     var status_type = $(this).attr('data-status-type');
+    $title = "Do you want to change change status?";
+    if (status_type == 'terminate') {
+        $title = 'Do you want to terminate?'
+    } else if (status_type == 'remove') {
+        $title = 'Do you want to remove from employee list?'
+    }
     Swal.fire({
         title: 'Are you sure?',
-        text: "You want to change status!",
+        text: $title,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -169,7 +175,7 @@ $(document).on('click', '.emp-status-btn', function() {
                     if (response) {
                         Swal.fire(
                             'Done!',
-                            'Your record has been updated successfully.',
+                            'You have updated successfully.',
                             'success'
                         )
                         setTimeout(function() {

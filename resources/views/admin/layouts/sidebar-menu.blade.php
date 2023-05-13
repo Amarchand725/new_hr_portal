@@ -210,5 +210,69 @@
           </li>
         </ul>
       </li>
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ti ti-tag"></i>
+                <div data-i18n="Team">Team</div>
+            </a>
+            <ul class="menu-sub">
+                <li class="menu-item {{ request()->is('roles')?'active':'' }}">
+                    <a href="{{ route('roles.index') }}" class="menu-link">
+                    <div data-i18n="Members">Members</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('roles')?'active':'' }}">
+                    <a href="{{ route('roles.index') }}" class="menu-link">
+                        <div data-i18n="Bank Accounts">Bank Accounts</div>
+                    </a>
+                </li>
+                <li class="menu-item">
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <i class="menu-icon tf-icons ti ti-cell"></i>
+                        <div data-i18n="Leaves">Leaves</div>
+                    </a>
+                    <ul class="menu-sub">
+                        <li class="menu-item {{ request()->is('roles')?'active':'' }}">
+                            <a href="{{ route('roles.index') }}" class="menu-link">
+                            <div data-i18n="Leave Status">Leave Status</div>
+                            </a>
+                        </li>
+                        <li class="menu-item {{ request()->is('roles')?'active':'' }}">
+                            <a href="{{ route('roles.index') }}" class="menu-link">
+                            <div data-i18n="Leave Reports">Leave Reports</div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="menu-item">
+                    <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <i class="menu-icon tf-icons ti ti-cell"></i>
+                        <div data-i18n="Attendance">Attendance</div>
+                    </a>
+                    <ul class="menu-sub">
+                        <li class="menu-item {{ request()->is('roles')?'active':'' }}">
+                            <a href="{{ route('roles.index') }}" class="menu-link">
+                            <div data-i18n="Daily Log">Daily Log</div>
+                            </a>
+                        </li>
+                        <li class="menu-item {{ request()->is('roles')?'active':'' }}">
+                            <a href="{{ route('roles.index') }}" class="menu-link">
+                            <div data-i18n="Discrepencies">Discrepencies</div>
+                            </a>
+                        </li>
+                        <li class="menu-item {{ request()->is('roles')?'active':'' }}">
+                            <a href="{{ route('roles.index') }}" class="menu-link">
+                            <div data-i18n="Summary">Summary</div>
+                            </a>
+                        </li>
+                        <li class="menu-item {{ request()->is('roles')?'active':'' }}">
+                            <a href="{{ route('roles.index') }}" class="menu-link">
+                            <div data-i18n="Attendance Filter">Attendance Filter</div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
     </ul>
 </aside>

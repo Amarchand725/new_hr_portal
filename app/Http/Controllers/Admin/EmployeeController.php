@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Models\Position;
 use App\Models\Designation;
 use App\Models\EmploymentStatus;
+use App\Models\UserEmploymentStatus;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -60,7 +61,7 @@ class EmployeeController extends Controller
                 $query->role($request['role_id']);
             }
 
-            return $data['employees'] = $query->where('is_removed', 0)->paginate(10);
+            return $data['employees'] = $query->where('is_employee', 1)->paginate(10);
 
             return (string) view('admin.employees.search', compact('data'));
         }
@@ -70,7 +71,7 @@ class EmployeeController extends Controller
         $data['roles'] = Role::orderby('id', 'desc')->get();
         $data['departments'] = Department::orderby('id', 'desc')->get();
         $data['employment_statues'] = EmploymentStatus::orderby('id', 'desc')->get();
-        $data['employees'] = User::orderby('id', 'desc')->where('is_removed', 0)->paginate(10);
+        $data['employees'] = User::orderby('id', 'desc')->where('is_employee', 1)->paginate(10);
 
         $onlySoftDeleted = User::onlyTrashed()->count();
         return view('admin.employees.index', compact('title', 'data', 'onlySoftDeleted'));
@@ -132,6 +133,12 @@ class EmployeeController extends Controller
                         'status' => 1,
                     ]);
                 }
+
+                UserEmploymentStatus::create([
+                    'user_id' => $model->id,
+                    'employment_status_id' =>$request->employment_status_id,
+                    'start_date' => $request->joining_date,
+                ]);
 
                 DB::commit();
             }
@@ -233,6 +240,11 @@ class EmployeeController extends Controller
                     }
                 }
 
+                $user_emp_status = UserEmploymentStatus::orderby('id', 'desc')->where('user_id', $id)->first();
+                $user_emp_status->employment_status_id = $request->employment_status_id;
+                $user_emp_status->start_date = $request->joining_date;
+                $user_emp_status->save();
+
                 DB::commit();
             }
 
@@ -292,24 +304,36 @@ class EmployeeController extends Controller
             if($model->status==1) {
                 $model->status = 0;
             } else {
-                $model->status = 1;
+                $model->status = 1; //Active
             }
-
-            $model->save();
-
             //send email if possible
-        }elseif($request->status_type=='remove'){
-            if($model->is_removed==1) {
-                $model->is_removed = 0;
-            } else {
-                $model->is_removed = 1;
-            }
 
-            $model->save();
+            \LogActivity::addToLog('Status updated');
+
+        }elseif($request->status_type=='remove'){
+            $model->is_employee = 0;
+
+            \LogActivity::addToLog('Removed from list');
         }elseif($request->status_type=='terminate'){
+            $user_emp_status = UserEmploymentStatus::orderby('id', 'desc')->where('user_id', $user_id)->first();
+            $user_emp_status->end_date = date('Y-m-d');
+            $user_emp_status->save();
+
+            $terminate_status_id = EmploymentStatus::where('name', 'Terminated')->first()->id;
+
+            UserEmploymentStatus::create([
+                'user_id' => $user_id,
+                'employment_status_id' => $terminate_status_id,
+                'start_date' => date('Y-m-d'),
+            ]);
+
+            $model->status = 0; //set to deactive
+
+            \LogActivity::addToLog('Terminated employee');
+
             //send email here
-            $model->delete();
         }
+        $model->save();
 
         return true;
     }

@@ -58,6 +58,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/announcements/trashed', [App\Http\Controllers\Admin\AnnouncementController::class, 'trashed'])->name('announcements.trashed');
     Route::get('/announcements/restore/{id}', [App\Http\Controllers\Admin\AnnouncementController::class, 'restore'])->name('announcements.restore');
 
+    Route::get('/profile_cover_images/trashed', [App\Http\Controllers\Admin\ProfileCoverImageController::class, 'trashed'])->name('profile_cover_images.trashed');
+    Route::get('/profile_cover_images/restore/{id}', [App\Http\Controllers\Admin\ProfileCoverImageController::class, 'restore'])->name('profile_cover_images.restore');
+    Route::get('/profile_cover_images/status/{id}', [App\Http\Controllers\Admin\ProfileCoverImageController::class, 'status'])->name('profile_cover_images.status');
+
     Route::resource('/roles', App\Http\Controllers\Admin\RoleController::class);
     Route::resource('/permissions', App\Http\Controllers\Admin\PermissionController::class);
     Route::resource('/designations', App\Http\Controllers\Admin\DesignationController::class);
