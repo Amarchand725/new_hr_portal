@@ -17,14 +17,6 @@
                         <div class="col-md-2">
                             <div class="me-3">
                                 <div class="dataTables_length" id="DataTables_Table_0_length">
-                                    {{-- <label>
-                                        <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select" fdprocessedid="o5g1n8">
-                                            <option value="10">10</option>
-                                            <option value="25">25</option>
-                                            <option value="50">50</option>
-                                            <option value="100">100</option>
-                                        </select>
-                                    </label> --}}
                                 </div>
                             </div>
                         </div>
@@ -37,7 +29,14 @@
                                     </label>
                                 </div>
                                 <div class="dt-buttons btn-group flex-wrap">
-                                    <button class="btn add-new btn-primary mb-3 mb-md-0 mx-3" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="modal" data-bs-target="#addPermissionModal">
+                                    <button
+                                        id="add-btn"
+                                        data-toggle="tooltip" data-placement="top" title="Add Permission"
+                                        data-url="{{ route('permissions.store') }}"
+                                        class="btn add-new btn-primary mb-3 mb-md-0 mx-3"
+                                        tabindex="0" aria-controls="DataTables_Table_0"
+                                        type="button" data-bs-toggle="modal"
+                                        data-bs-target="#addPermissionModal">
                                         <span>Add Permission</span>
                                     </button>
                                 </div>
@@ -47,10 +46,10 @@
                     <table class="datatables-users table border-top dataTable no-footer dtr-column" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 1227px;">
                         <thead>
                             <tr>
-                                <th class="control sorting_disabled dtr-hidden" rowspan="1" colspan="1" aria-label="Avatar">S.No#</th>
-                                <th class="sorting sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1">Name</th>
-                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 247px;">Permissions</th>
-                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">Created at</th>
+                                <th class="control sorting_disabled dtr-hidden" colspan="1" aria-label="Avatar">S.No#</th>
+                                <th class="sorting sorting_desc">Name</th>
+                                <th class="sorting" colspan="1">Permissions</th>
+                                <th class="sorting" colspan="1">Created at</th>
                                 <th rowspan="1" colspan="1">Actions</th>
                             </tr>
                         </thead>
@@ -64,10 +63,27 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <span class="badge bg-label-success p-1" text-capitalized="">View</span>
-                                        <span class="badge bg-label-info" text-capitalized="">Read</span>
-                                        <span class="badge bg-label-warning" text-capitalized="">Write</span>
-                                        <span class="badge bg-label-danger" text-capitalized="">Delete</span>
+                                        @foreach(SubPermissions($model->label) as $label)
+                                            @php $permission_lab = explode('-', $label->name) @endphp
+                                            @if($permission_lab[1]=='list')
+                                                <span class="badge bg-label-success p-1">List</span>
+                                            @elseif($permission_lab[1]=='create')
+                                                <span class="badge bg-label-primary">Create</span>
+                                            @elseif($permission_lab[1]=='edit')
+                                                <span class="badge bg-label-info">Edit</span>
+                                            @elseif($permission_lab[1]=='delete')
+                                                <span class="badge bg-label-danger">Delete</span>
+                                            @elseif($permission_lab[1]=='status')
+                                                <span class="badge bg-label-success">Status</span>
+                                            @elseif($permission_lab[1]=='trashed')
+                                                <span class="badge bg-label-warning">Trashed</span>
+                                            @elseif($permission_lab[1]=='restore')
+                                                <span class="badge bg-label-info">Restore</span>
+                                            @else
+                                                <span class="badge bg-label-success">Custom</span>
+                                            @endif
+                                        @endforeach
+
                                     </td>
                                     <td>{{ date('d, F Y', strtotime($model->created_at)) }}</td>
                                     <td>
@@ -106,10 +122,10 @@
                         <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal" aria-label="Close"></button>
                         <div class="modal-body">
                             <div class="text-center mb-4">
-                                <h3 class="mb-2">Add New Permission</h3>
+                                <h3 class="mb-2" id="modal-label">Add New Permission</h3>
                                 <p class="text-muted">Permissions you may use and assign to your users.</p>
                             </div>
-                            <form id="addPermissionForm" data-modal-id="addPermissionModal" class="row" method="POST">
+                            <form id="create-form" data-modal-id="addPermissionModal" class="row">
                                 @csrf
 
                                 <div class="col-12 mb-3">
@@ -117,7 +133,15 @@
                                     <input type="text" id="name" name="name" class="form-control" placeholder="Permission Name" autofocus />
                                     <span id="name_error" class="text-danger"></span>
                                     <input type="hidden" id="label"/>
-                                    <span id="label_error" class="text-danger"></span>
+                                    <span id="label_error" class="text-danger error"></span>
+                                </div>
+
+                                <div class="col-12 mb-3">
+                                    <label class="form-label" for="custom">Custom Permission <small>If needed</small></label>
+                                    <input type="text" id="custom" name="custom" class="form-control" placeholder="Permission Name" autofocus />
+                                    <span id="custom_error" class="text-danger"></span>
+                                    <input type="hidden" id="label"/>
+                                    <span id="label_error" class="text-danger error"></span>
                                 </div>
                                 <div class="col-12 mb-2">
                                     <div class="card-body border-top p-9">
@@ -163,6 +187,30 @@
                                                     <div class="form-check">
                                                         <input class="form-check-input" name="permissions[]" type="checkbox" value="delete" id="delete"/>
                                                         <label class="form-check-label" for="delete"> <strong>Delete</strong></label>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Checked checkbox -->
+                                                <div class="col-lg-3 mt-2">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" name="permissions[]" type="checkbox" value="status" id="status"/>
+                                                        <label class="form-check-label" for="status"> <strong>Status</strong></label>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Checked checkbox -->
+                                                <div class="col-lg-6 mt-2">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" name="permissions[]" type="checkbox" value="trashed" id="trashed"/>
+                                                        <label class="form-check-label" for="trashed"> <strong>Trashed List</strong></label>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Checked checkbox -->
+                                                <div class="col-lg-3 mt-2">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" name="permissions[]" type="checkbox" value="restore" id="restore"/>
+                                                        <label class="form-check-label" for="restore"> <strong>Restore</strong></label>
                                                     </div>
                                                 </div>
 

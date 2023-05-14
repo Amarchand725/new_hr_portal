@@ -64,7 +64,17 @@
                                     </a>
                                 </div>
                                 <div class="dt-buttons btn-group flex-wrap">
-                                    <button class="btn btn-secondary add-new btn-primary mx-3" data-toggle="tooltip" data-placement="top" title="Add New Employee" id="add-btn" data-url="{{ route('employees.store') }}">
+                                    <button
+                                        class="btn btn-secondary add-new btn-primary mx-3"
+                                        data-toggle="tooltip"
+                                        data-placement="top"
+                                        title="Add New Employee"
+                                        id="add-btn"
+                                        data-url="{{ route('employees.store') }}"
+                                        tabindex="0" aria-controls="DataTables_Table_0"
+                                        type="button" data-bs-toggle="modal"
+                                        data-bs-target="#create-form-modal"
+                                        >
                                         <span>
                                             <i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
                                             <span class="d-none d-sm-inline-block">Add New</span>
@@ -207,10 +217,11 @@
                         <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal" aria-label="Close"></button>
                         <div class="modal-body">
                             <div class="text-center mb-4">
-                                <h3 class="role-title mb-2" id="employee-title-label"></h3>
+                                <h3 class="role-title mb-2" id="modal-label"></h3>
                             </div>
                             <!-- Add role form -->
-                            <form class="pt-0 fv-plugins-bootstrap5 fv-plugins-framework" data-method="" data-modal-id="create-form-modal" id="create-form">
+                            <form class="pt-0 fv-plugins-bootstrap5 fv-plugins-framework"
+                                data-method="" data-modal-id="create-form-modal" id="create-form">
                                 @csrf
 
                                 <span id="edit-content">

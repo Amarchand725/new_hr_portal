@@ -42,26 +42,22 @@ $('.delete').on('click', function() {
     })
 });
 
-// //Add
-// $('#add-btn').on('click', function(e) {
-//     var url = $(this).attr('data-url');
-//     $('#offcanvasAddPositionLabel').html('Add Position');
-//     $("#addNewPositionForm").attr("action", url);
+//Open modal for editing
+$('.edit-btn').on('click', function() {
+    var url = $(this).attr('data-url');
+    var modal_label = $(this).attr('title');
 
-//     $("#addNewPositionForm").attr("data-method", 'POST');
-//     $('#title').val('');
-//     $('#description').val('');
-//     $('#status option[value="1"]').prop('selected', true);
-// });
+    $('#modal-label').html(modal_label);
+    $("#create-form").attr("action", url);
+    $("#create-form").attr("data-method", 'PUT');
 
-// //Edit
-// $('.edit-btn').on('click', function() {
-//     var model = $(this).data('value');
-//     var url = $(this).attr('data-url');
-//     $('#offcanvasAddPositionLabel').html('Edit Position');
-//     $("#addNewPositionForm").attr("action", url);
-//     $("#addNewPositionForm").attr("data-method", 'PUT');
-//     $('#title').val(model.title);
-//     $('#description').val(model.description);
-//     $('#status option[value="' + model.status + '"]').prop('selected', true);
-// });
+    var edit_url = $(this).attr('data-edit-url');
+    $.ajax({
+        url: edit_url,
+        method: 'GET',
+        success: function(response) {
+            $('#edit-content').html(response);
+        }
+    });
+
+});

@@ -29,7 +29,11 @@
                                     data-toggle="tooltip" data-placement="top" title="Edit Record"
                                     data-edit-url="{{ route('roles.edit', $role->id) }}"
                                     data-url="{{ route('roles.update', $role->id) }}"
-                                    class="role-edit-modal edit-role"><span>Edit Role</span>
+                                    class="role-edit-modal edit-btn"
+                                    tabindex="0" aria-controls="DataTables_Table_0"
+                                    type="button" data-bs-toggle="modal"
+                                    data-bs-target="#addRoleModal">
+                                    <span>Edit Role</span>
                                 </a>
                             </div>
                             <a href="javascript:void(0);" class="text-muted"><i class="ti ti-copy ti-md"></i></a>
@@ -49,8 +53,15 @@
                     </div>
                     <div class="col-sm-7">
                         <div class="card-body text-sm-end text-center ps-sm-0">
-                            <button data-toggle="tooltip" data-placement="top" title="Add New Role" id="add-btn" data-url="{{ route('roles.store') }}" class="btn btn-primary mb-2 text-nowrap add-new-role">
-                                Add New Role
+                            <button
+                                id="add-btn"
+                                data-toggle="tooltip" data-placement="top" title="Add Permission"
+                                data-url="{{ route('permissions.store') }}"
+                                class="btn add-new btn-primary mb-md-0 mx-3"
+                                tabindex="0" aria-controls="DataTables_Table_0"
+                                type="button" data-bs-toggle="modal"
+                                data-bs-target="#addRoleModal">
+                                <span>Add Role</span>
                             </button>
                             <p class="mb-0 mt-1">Add role, if it does not exist</p>
                         </div>
@@ -103,14 +114,6 @@
                             <div class="col-md-2">
                                 <div class="me-3">
                                     <div class="dataTables_length" id="DataTables_Table_0_length">
-                                        {{-- <label>
-                                            <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select" fdprocessedid="o5g1n8">
-                                                <option value="10">10</option>
-                                                <option value="25">25</option>
-                                                <option value="50">50</option>
-                                                <option value="100">100</option>
-                                            </select>
-                                        </label> --}}
                                     </div>
                                 </div>
                             </div>
@@ -229,7 +232,7 @@
                                     <p class="text-muted">Set role permissions</p>
                                 </div>
                                 <!-- Add role form -->
-                                <form class="pt-0 fv-plugins-bootstrap5 fv-plugins-framework" data-method="" data-modal-id="addRoleModal" id="addRoleForm">
+                                <form class="pt-0 fv-plugins-bootstrap5 fv-plugins-framework" data-method="" data-modal-id="addRoleModal" id="create-form">
                                     @csrf
 
                                     <span id="edit-content">
@@ -297,7 +300,6 @@
 </div>
 @endsection
 @push('js')
-    <script src="{{ asset('public/admin/assets/js/custom/role.js') }}"></script>
     <script>
         $("#selectAll").click(function () {
             $('input:checkbox').not(this).prop('checked', this.checked);

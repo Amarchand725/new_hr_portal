@@ -21,12 +21,17 @@
         </td>
         <td>
             <div class="d-flex align-items-center">
-                <button data-url="{{ route('designations.update', $model->id) }}" data-value="{{ $model }}" class="btn btn-default edit-btn" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser" fdprocessedid="i1qq7b">
-                    <span>
-                        <i class="ti ti-edit ti-sm me-2"></i>
-                    </span>
-                </button>
-                <a href="javascript:;" class="text-body delete" data-del-url="{{ route('designations.destroy', $model->id) }}">
+                <a href="javascript:;"
+                    class="text-body edit-btn"
+                    data-toggle="tooltip" data-placement="top"
+                    title="Edit Designation"
+                    tabindex="0" aria-controls="DataTables_Table_0" type="button"
+                    data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser"
+                    data-edit-url="{{ route('designations.edit', $model->id) }}"
+                    data-url="{{ route('designations.update', $model->id) }}">
+                    <i class="ti ti-edit ti-sm me-2"></i>
+                </a>
+                <a data-toggle="tooltip" data-placement="top" title="Delete Record" href="javascript:;" class="text-body delete" data-slug="{{ $model->id }}" data-del-url="{{ route('designations.destroy', $model->id) }}">
                     <i class="ti ti-trash ti-sm mx-2"></i>
                 </a>
             </div>
@@ -48,4 +53,4 @@
     </td>
 </tr>
 
-<script src="{{ asset('public/admin/assets/js/custom/designation.js') }}"></script>
+<script src="{{ asset('public/admin/assets/js/search.js') }}"></script>

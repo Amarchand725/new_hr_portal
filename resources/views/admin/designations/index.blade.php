@@ -49,7 +49,15 @@
                                     </a>
                                 </div>
                                 <div class="dt-buttons btn-group flex-wrap">
-                                    <button data-toggle="tooltip" data-placement="top" title="Add New Designation" id="add-btn" data-url="{{ route('designations.store') }}" class="btn btn-success add-new btn-primary mx-3" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser" fdprocessedid="i1qq7b">
+                                    <button
+                                        data-toggle="tooltip" data-placement="top"
+                                        title="Add New Designation" id="add-btn"
+                                        data-url="{{ route('designations.store') }}"
+                                        class="btn btn-success add-new btn-primary mx-3"
+                                        tabindex="0" aria-controls="DataTables_Table_0"
+                                        type="button" data-bs-toggle="offcanvas"
+                                        data-bs-target="#offcanvasAddUser"
+                                        fdprocessedid="i1qq7b">
                                         <span>
                                             <i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
                                             <span class="d-none d-sm-inline-block">Add New Designation</span>
@@ -94,11 +102,16 @@
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <button data-toggle="tooltip" data-placement="top" title="Edit Record" data-url="{{ route('designations.update', $model->id) }}" data-value="{{ $model }}" class="btn btn-default edit-btn" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser" fdprocessedid="i1qq7b">
-                                                <span>
-                                                    <i class="ti ti-edit ti-sm me-2"></i>
-                                                </span>
-                                            </button>
+                                            <a href="javascript:;"
+                                                class="text-body edit-btn"
+                                                data-toggle="tooltip" data-placement="top"
+                                                title="Edit Designation"
+                                                tabindex="0" aria-controls="DataTables_Table_0" type="button"
+                                                data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddUser"
+                                                data-edit-url="{{ route('designations.edit', $model->id) }}"
+                                                data-url="{{ route('designations.update', $model->id) }}">
+                                                <i class="ti ti-edit ti-sm me-2"></i>
+                                            </a>
                                             <a data-toggle="tooltip" data-placement="top" title="Delete Record" href="javascript:;" class="text-body delete" data-slug="{{ $model->id }}" data-del-url="{{ route('designations.destroy', $model->id) }}">
                                                 <i class="ti ti-trash ti-sm mx-2"></i>
                                             </a>
@@ -128,32 +141,33 @@
             <!-- Offcanvas to add new user -->
             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasAddUser" aria-labelledby="offcanvasAddUserLabel">
                 <div class="offcanvas-header">
-                    <h5 id="offcanvasAddUserLabel" class="offcanvas-title">Add Designation</h5>
+                    <h5 id="modal-label" class="offcanvas-title">Add Designation</h5>
                     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
                 <div class="offcanvas-body mx-0 flex-grow-0 pt-0 h-100">
-                    <form class="pt-0 fv-plugins-bootstrap5 fv-plugins-framework" data-method="" id="addNewDesignationForm" method="post">
+                    <form class="pt-0 fv-plugins-bootstrap5 fv-plugins-framework" data-method="" id="create-form">
                         @csrf
 
-                        <input type="hidden" name="_method" id="_method" value="post">
-                        <div class="mb-3 fv-plugins-icon-container">
-                            <label class="form-label" for="title">Title</label>
-                            <input type="text" class="form-control" value="{{ old('title') }}" id="title" placeholder="Enter Title" name="title">
-                            <div class="fv-plugins-message-container invalid-feedback" id="error-msg">{{ $errors->first('title') }}</div>
-                        </div>
-                        <div class="mb-3 fv-plugins-icon-container">
-                            <label class="form-label" for="description">Description <small>(optional)</small></label>
-                            <textarea class="form-control" name="description" id="description" cols="30" rows="5" placeholder="Enter description">{{ old('description') }}</textarea>
-                            <div class="fv-plugins-message-container invalid-feedback"></div>
-                        </div>
-                        <div class="mb-3 fv-plugins-icon-container">
-                            <label class="form-label" for="status">Status</label>
-                            <select name="status" id="status" class="form-control">
-                                <option value="" selected>Select Status</option>
-                                <option value="1" {{ old('status')==1?'selected':'' }}>Active</option>
-                                <option value="0" {{ old('status')==0?'selected':'' }}>De-Active</option>
-                            </select>
-                            <div class="fv-plugins-message-container invalid-feedback"></div>
+                        <div id="edit-content">
+                            <div class="mb-3 fv-plugins-icon-container">
+                                <label class="form-label" for="title">Title</label>
+                                <input type="text" class="form-control" value="{{ old('title') }}" id="title" placeholder="Enter Title" name="title">
+                                <div class="fv-plugins-message-container invalid-feedback" id="error-msg">{{ $errors->first('title') }}</div>
+                            </div>
+                            <div class="mb-3 fv-plugins-icon-container">
+                                <label class="form-label" for="description">Description <small>(optional)</small></label>
+                                <textarea class="form-control" name="description" id="description" cols="30" rows="5" placeholder="Enter description">{{ old('description') }}</textarea>
+                                <div class="fv-plugins-message-container invalid-feedback"></div>
+                            </div>
+                            <div class="mb-3 fv-plugins-icon-container">
+                                <label class="form-label" for="status">Status</label>
+                                <select name="status" id="status" class="form-control">
+                                    <option value="" selected>Select Status</option>
+                                    <option value="1" {{ old('status')==1?'selected':'' }}>Active</option>
+                                    <option value="0" {{ old('status')==0?'selected':'' }}>De-Active</option>
+                                </select>
+                                <div class="fv-plugins-message-container invalid-feedback"></div>
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit waves-effect waves-light">Submit</button>
                         <button type="reset" class="btn btn-label-secondary waves-effect" data-bs-dismiss="offcanvas">Cancel</button>
@@ -165,5 +179,5 @@
 </div>
 @endsection
 @push('js')
-    <script src="{{ asset('public/admin/assets/js/custom/designation.js') }}"></script>
+    {{-- <script src="{{ asset('public/admin/assets/js/custom/designation.js') }}"></script> --}}
 @endpush

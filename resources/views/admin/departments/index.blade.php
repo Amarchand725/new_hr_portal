@@ -40,7 +40,17 @@
                                 </a>
                             </div>
                             <div class="dt-buttons btn-group flex-wrap">
-                                <button class="btn btn-secondary add-new btn-primary" id="add-btn" data-url="{{ route('departments.store') }}" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddDepartment" fdprocessedid="i1qq7b">
+                                <button
+                                    class="btn btn-secondary add-new btn-primary"
+                                    id="add-btn"
+                                    data-url="{{ route('departments.store') }}"
+                                    tabindex="0" aria-controls="DataTables_Table_0"
+                                    type="button" data-bs-toggle="offcanvas"
+                                    data-bs-target="#offcanvasAddDepartment"
+                                    data-toggle="tooltip"
+                                    data-placement="top"
+                                    title="Add Department"
+                                    fdprocessedid="i1qq7b">
                                     <span>
                                         <i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
                                         <span class="d-none d-sm-inline-block">Add New Department</span>
@@ -60,8 +70,6 @@
                                 <th class="sorting sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="descending">Name</th>
                                 <th class="sorting sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="descending">Parent Department</th>
                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">Manager</th>
-                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 97px;" aria-label="Role: activate to sort column ascending">Description</th>
-                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 97px;" aria-label="Role: activate to sort column ascending">Location</th>
                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 97px;" aria-label="Role: activate to sort column ascending">Created At</th>
                                 <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">Status</th>
                                 <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 135px;" aria-label="Actions">Actions</th>
@@ -92,8 +100,6 @@
                                             @endif
                                         </span>
                                     </td>
-                                    <td>{!! \Illuminate\Support\Str::limit($model->description,50)??'-' !!}</td>
-                                    <td>{{ $model->location??'-' }}</td>
                                     <td>{{ date('d M Y', strtotime($model->created_at)) }}</td>
                                     <td>
                                         @if($model->status)
@@ -104,7 +110,13 @@
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <a href="javascript:;" class="text-body edit-btn" data-toggle="tooltip" data-placement="top" title="Edit Record" data-edit-url="{{ route('departments.edit', $model->id) }}" data-url="{{ route('departments.update', $model->id) }}" data-value="{{ $model }}" class="btn btn-default edit-btn edit-btn" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddDepartment" fdprocessedid="i1qq7b">
+                                            <a href="javascript:;"
+                                                class="text-body edit-btn"
+                                                data-toggle="tooltip"
+                                                data-placement="top"
+                                                title="Edit Department"
+                                                data-edit-url="{{ route('departments.edit', $model->id) }}" data-url="{{ route('departments.update', $model->id) }}" data-value="{{ $model }}" class="btn btn-default edit-btn edit-btn" tabindex="0" aria-controls="DataTables_Table_0" type="button"
+                                                data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddDepartment" fdprocessedid="i1qq7b">
                                                 <i class="ti ti-edit ti-sm me-2"></i>
                                             </a>
                                             <a data-toggle="tooltip" data-placement="top" title="Delete Record" href="javascript:;" class="text-body delete" data-slug="{{ $model->id }}" data-del-url="{{ route('departments.destroy', $model->id) }}">
@@ -147,7 +159,7 @@
             <!-- Offcanvas to add new user -->
             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasAddDepartment" aria-labelledby="offcanvasAddDepartmentLabel">
                 <div class="offcanvas-header">
-                    <h5 id="offcanvasAddDepartmentLabel" class="offcanvas-title">Add Department</h5>
+                    <h5 id="modal-label" class="offcanvas-title">Add Department</h5>
                     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
                 <div class="offcanvas-body mx-0 flex-grow-0 pt-0 h-100">

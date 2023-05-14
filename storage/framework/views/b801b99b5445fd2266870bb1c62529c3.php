@@ -272,4 +272,4 @@
         </li>
     </ul>
 </aside>
-<?php /**PATH C:\xampp\htdocs\new_hr_portal.local\resources\views/admin/layouts/sidebar-menu.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\wamp64\www\new_hr_portal\resources\views/admin/layouts/sidebar-menu.blade.php ENDPATH**/ ?>

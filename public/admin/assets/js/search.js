@@ -82,6 +82,7 @@ $('.delete').on('click', function() {
     })
 });
 
+//submit
 $(document).ready(function() {
     $('.submitBtn').click(function(e) {
         e.preventDefault(); // Prevent the form from submitting normally
@@ -144,4 +145,43 @@ $(document).ready(function() {
             }
         });
     });
+});
+
+//Open modal for adding
+$('#add-btn').on('click', function() {
+    //reset
+    $('#create-form input[type="text"], #create-form textarea').val('');
+    $('#create-form input[type="date"]').val('');
+    $('#create-form input[type="email"]').val('');
+    $('#create-form input[type="time"]').val('');
+    $('#create-form select').val('');
+    $('#create-form input[type="checkbox"], #create-form input[type="radio"]').prop('checked', false);
+    //reset
+
+    var url = $(this).attr('data-url');
+    var modal_label = $(this).attr('title');
+
+    $('#modal-label').html(modal_label);
+    $("#create-form").attr("action", url);
+    $("#create-form").attr("data-method", 'POST');
+});
+
+//Open modal for editing
+$('.edit-btn').on('click', function() {
+    var url = $(this).attr('data-url');
+    var modal_label = $(this).attr('title');
+
+    $('#modal-label').html(modal_label);
+    $("#create-form").attr("action", url);
+    $("#create-form").attr("data-method", 'PUT');
+
+    var edit_url = $(this).attr('data-edit-url');
+    $.ajax({
+        url: edit_url,
+        method: 'GET',
+        success: function(response) {
+            $('#edit-content').html(response);
+        }
+    });
+
 });

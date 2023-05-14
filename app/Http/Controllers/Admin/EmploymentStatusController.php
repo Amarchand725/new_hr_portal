@@ -11,6 +11,7 @@ class EmploymentStatusController extends Controller
 {
     public function index(Request $request)
     {
+        // $this->authorize('employment_status-list');
         $title = 'Employment Status';
         if($request->ajax()){
             $query = EmploymentStatus::orderby('id', 'desc')->where('id', '>', 0);
@@ -92,12 +93,14 @@ class EmploymentStatusController extends Controller
 
     public function trashed()
     {
+        // $this->authorize('employment_status-trashed');
         $models = EmploymentStatus::onlyTrashed()->get();
         $title = 'All Trashed Records';
         return view('admin.employment_status.trashed-index', compact('models', 'title'));
     }
     public function restore($id)
     {
+        // $this->authorize('employment_status-restore');
         EmploymentStatus::onlyTrashed()->where('id', $id)->restore();
         return redirect()->back()->with('message', 'Record Restored Successfully.');
     }

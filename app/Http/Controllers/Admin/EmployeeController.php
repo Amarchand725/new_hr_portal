@@ -26,6 +26,7 @@ class EmployeeController extends Controller
 {
     public function index(Request $request)
     {
+        // $this->authorize('user-list');
         $data = [];
 
         $title = 'All Employees';
@@ -261,6 +262,7 @@ class EmployeeController extends Controller
 
     public function show($id)
     {
+        // $this->authorize('user-list');
         $title = 'Show Details';
         $model = User::where('id', $id)->first();
         $histories = SalaryHistory::orderby('id','desc')->where('user_id', $id)->take(2)->get();
@@ -286,18 +288,21 @@ class EmployeeController extends Controller
 
     public function trashed()
     {
+        // $this->authorize('user-trashed');
         $models = User::onlyTrashed()->get();
         $title = 'All Trashed Records';
         return view('admin.employees.trashed-index', compact('models', 'title'));
     }
     public function restore($id)
     {
+        // $this->authorize('user-restore');
         User::onlyTrashed()->where('id', $id)->restore();
         return redirect()->back()->with('message', 'Record Restored Successfully.');
     }
 
     public function status(Request $request, $user_id)
     {
+        // $this->authorize('user-status');
         $model = User::where('id', $user_id)->first();
 
         if($request->status_type=='status') {
@@ -339,6 +344,7 @@ class EmployeeController extends Controller
     }
     public function addSalary(Request $request)
     {
+        // $this->authorize('user-add-salary');
         $request->validate([
             'amount' => 'required|max:255',
             'effective_date' => 'required',

@@ -17,6 +17,7 @@ class AnnouncementController extends Controller
      */
     public function index(Request $request)
     {
+        // $this->authorize('announcement-list');
         $title = 'All Announcements';
         if($request->ajax()){
             $query = Announcement::orderby('id', 'desc')->where('id', '>', 0);
@@ -29,7 +30,7 @@ class AnnouncementController extends Controller
                 $query->where('status', $request['status']);
             }
             $models = $query->paginate(10);
-            return (string) view('admin.work_shifts.search', compact('models'));
+            return (string) view('admin.announcements.search', compact('models'));
         }
 
         $models = Announcement::orderby('id', 'desc')->paginate(10);
@@ -133,6 +134,7 @@ class AnnouncementController extends Controller
      */
     public function destroy(Announcement $announcement)
     {
+        // $this->authorize('announcement-delete');
         $model = $announcement->delete();
         if($model){
             $onlySoftDeleted = Announcement::onlyTrashed()->count();
@@ -147,6 +149,7 @@ class AnnouncementController extends Controller
 
     public function trashed()
     {
+        // $this->authorize('announcement-trashed');
         $data = [];
         $data['models'] = Announcement::onlyTrashed()->get();
         $title = 'All Trashed Records';
@@ -154,6 +157,7 @@ class AnnouncementController extends Controller
     }
     public function restore($id)
     {
+        // $this->authorize('announcement-restore');
         Announcement::onlyTrashed()->where('id', $id)->restore();
         return redirect()->back()->with('message', 'Record Restored Successfully.');
     }

@@ -13,6 +13,6 @@ class DepartmentWorkShift extends Model
 
     public function workShift()
     {
-        return $this->belongsTo(WorkShift::class, 'work_shift_id')
+        return $this->belongsTo(WorkShift::class, 'work_shift_id');
     }
 }

@@ -10,10 +10,12 @@ class AdminController extends Controller
 {
     public function departments()
     {
+        // $this->authorize('department-list');
         return view('admin.departments');
     }
     public function calendar()
     {
+        // $this->authorize('calendar-list');
         return view('admin.calendar.index');
     }
     public function logOut()

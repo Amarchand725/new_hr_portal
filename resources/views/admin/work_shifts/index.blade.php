@@ -2,6 +2,7 @@
 @section('title', 'Work Shifts - Cyberonix')
 
 @section('content')
+<input type="hidden" id="page_url" value="{{ route('work_shifts.index') }}">
 <div class="content-wrapper">
     <div class="container-xxl flex-grow-1 container-p-y">
         <!-- Users List Table -->
@@ -15,14 +16,6 @@
                         <div class="col-md-2">
                             <div class="me-3">
                                 <div class="dataTables_length" id="DataTables_Table_0_length">
-                                    {{-- <label>
-                                        <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select" fdprocessedid="o5g1n8">
-                                            <option value="10">10</option>
-                                            <option value="25">25</option>
-                                            <option value="50">50</option>
-                                            <option value="100">100</option>
-                                        </select>
-                                    </label> --}}
                                 </div>
                             </div>
                         </div>
@@ -30,7 +23,16 @@
                             <div class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-3 mb-md-0">
                                 <div id="DataTables_Table_0_filter" class="dataTables_filter">
                                     <label>
-                                        <input type="search" class="form-control" placeholder="Search.." aria-controls="DataTables_Table_0">
+                                        <input type="search" id="search" class="form-control" placeholder="Search.." aria-controls="DataTables_Table_0">
+                                    </label>
+                                </div>
+                                <div id="DataTables_Table_0_filter" class="dataTables_filter mx-3">
+                                    <label>
+                                        <select name="status" id="status" class="form-control">
+                                            <option value="All" selected>Search by status</option>
+                                            <option value="1">Active</option>
+                                            <option value="0">De-Active</option>
+                                        </select>
                                     </label>
                                 </div>
                                 <div class="dt-buttons btn-group flex-wrap">
@@ -42,7 +44,18 @@
                                     </a>
                                 </div>
                                 <div class="dt-buttons btn-group flex-wrap">
-                                    <button data-toggle="tooltip" data-placement="top" title="Add New" id="add-work-shift-btn" data-url="{{ route('work_shifts.store') }}" class="btn btn-success add-new btn-primary mx-3">
+                                    <button
+                                        data-toggle="tooltip"
+                                        data-placement="top"
+                                        title="Add New"
+                                        id="add-btn"
+                                        data-url="{{ route('work_shifts.store') }}"
+                                        class="btn btn-success add-new btn-primary mx-3"
+                                        data-url="{{ route('employees.store') }}"
+                                        tabindex="0" aria-controls="DataTables_Table_0"
+                                        type="button" data-bs-toggle="modal"
+                                        data-bs-target="#create-form-modal"
+                                        >
                                         <span>
                                             <i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
                                             <span class="d-none d-sm-inline-block">Add New </span>
@@ -73,8 +86,20 @@
                                     <td>
                                         <span class="fw-semibold">{{ $model->name??'-' }}</span>
                                     </td>
-                                    <td>{{ date('d M Y', strtotime($model->start_date))??'-' }}</td>
-                                    <td>{{ date('d M Y', strtotime($model->end_date))??'-' }}</td>
+                                    <td>
+                                        @if(!empty($model->start_date))
+                                            {{ date('d M Y', strtotime($model->start_date)) }}
+                                        @else
+                                        -
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if(!empty($model->end_date))
+                                            {{ date('d M Y', strtotime($model->end_date)) }}
+                                        @else
+                                        -
+                                        @endif
+                                    </td>
                                     <td>
                                         <span class="badge bg-label-success" text-capitalized="">{{ Str::ucfirst($model->type) }}</span>
                                     </td>
@@ -101,7 +126,17 @@
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <a href="javascript:;" class="text-body edit-btn" data-toggle="tooltip" data-placement="top" title="Edit Record" data-edit-url="{{ route('work_shifts.edit', $model->id) }}" data-url="{{ route('work_shifts.update', $model->id) }}">
+                                            <a href="javascript:;"
+                                                class="text-body edit-btn"
+                                                data-toggle="tooltip"
+                                                data-placement="top"
+                                                title="Edit Employee"
+                                                data-edit-url="{{ route('work_shifts.edit', $model->id) }}"
+                                                data-url="{{ route('work_shifts.update', $model->id) }}"
+                                                tabindex="0" aria-controls="DataTables_Table_0"
+                                                type="button" data-bs-toggle="modal"
+                                                data-bs-target="#create-form-modal"
+                                                >
                                                 <i class="ti ti-edit ti-sm me-2"></i>
                                             </a>
                                             <a data-toggle="tooltip" data-placement="top" title="Delete Record" href="javascript:;" class="text-body delete" data-slug="{{ $model->id }}" data-del-url="{{ route('work_shifts.destroy', $model->id) }}">
@@ -140,7 +175,7 @@
         <div class="modal-body">
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           <div class="text-center mb-4">
-            <h3 class="mb-2" id="modal-title"></h3>
+            <h3 class="mb-2" id="modal-label"></h3>
           </div>
           <form id="create-form" class="row g-3" data-method="" data-modal-id="create-form-modal">
             @csrf
@@ -253,5 +288,4 @@
 <!-- Add New Work SHift Modal -->
 @endsection
 @push('js')
-    <script src="{{ asset('public/admin/assets/js/custom/work_shift.js') }}"></script>
 @endpush

@@ -2,6 +2,7 @@
 @section('title', $title.' - Cyberonix')
 
 @section('content')
+<input type="hidden" id="page_url" value="{{ route('announcements.index') }}">
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
             <!-- Users List Table -->
@@ -15,14 +16,6 @@
                             <div class="col-md-2">
                                 <div class="me-3">
                                     <div class="dataTables_length" id="DataTables_Table_0_length">
-                                        {{-- <label>
-                                            <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select" fdprocessedid="o5g1n8">
-                                                <option value="10">10</option>
-                                                <option value="25">25</option>
-                                                <option value="50">50</option>
-                                                <option value="100">100</option>
-                                            </select>
-                                        </label> --}}
                                     </div>
                                 </div>
                             </div>
@@ -30,7 +23,8 @@
                                 <div class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-3 mb-md-0">
                                     <div id="DataTables_Table_0_filter" class="dataTables_filter">
                                         <label>
-                                            <input type="search" class="form-control" placeholder="Search.." aria-controls="DataTables_Table_0">
+                                            <input type="search" id="search" class="form-control" placeholder="Search.." aria-controls="DataTables_Table_0">
+                                            <input type="hidden" id="status" value="All" class="form-control" placeholder="Search.." aria-controls="DataTables_Table_0">
                                         </label>
                                     </div>
                                     <div class="dt-buttons btn-group flex-wrap">
@@ -42,7 +36,15 @@
                                         </a>
                                     </div>
                                     <div class="dt-buttons btn-group flex-wrap">
-                                        <button type="button" class="btn btn-secondary add-new btn-primary mx-3" id="add-btn" data-url="{{ route('announcements.store') }}">
+                                        <button
+                                            type="button"
+                                            class="btn btn-secondary add-new btn-primary mx-3"
+                                            id="add-btn"
+                                            data-url="{{ route('announcements.store') }}"
+                                            tabindex="0" aria-controls="DataTables_Table_0"
+                                            type="button" data-bs-toggle="modal"
+                                            data-bs-target="#offcanvasAddAnnouncement"
+                                            >
                                             <span>
                                                 <i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
                                                 <span class="d-none d-sm-inline-block">Add New Announcement</span>
@@ -104,13 +106,15 @@
                                                 <a href="javascript:;" class="text-body"
                                                     data-toggle="tooltip"
                                                     data-placement="top"
-                                                    title="Edit Record"
+                                                    title="Edit Announcement"
                                                     data-edit-url="{{ route('announcements.edit', $model->id) }}"
                                                     data-url="{{ route('announcements.update', $model->id) }}"
                                                     class="btn btn-default edit-btn"
-                                                    id="edit-btn"
                                                     type="button"
-                                                    data-bs-target="#offcanvasAddAnnouncement" fdprocessedid="i1qq7b">
+                                                    tabindex="0" aria-controls="DataTables_Table_0"
+                                                    type="button" data-bs-toggle="modal"
+                                                    data-bs-target="#offcanvasAddAnnouncement"
+                                                    fdprocessedid="i1qq7b">
                                                     <i class="ti ti-edit ti-sm me-2"></i>
                                                 </a>
                                                 <a href="javascript:;" class="text-body delete" data-slug="{{ $model->id }}" data-del-url="{{ route('announcements.destroy', $model->id) }}">
@@ -143,15 +147,15 @@
     </div>
 
     <!-- Add Employment Status Modal -->
-    <div class="modal fade" id="create-form-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="offcanvasAddAnnouncement" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered1 modal-simple modal-add-new-cc">
             <div class="modal-content p-3 p-md-5">
                 <div class="modal-body">
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     <div class="text-center mb-4">
-                        <h3 class="mb-2" id="modal-title"></h3>
+                        <h3 class="mb-2" id="modal-label"></h3>
                     </div>
-                    <form id="create-form" class="row g-3" data-method="" data-modal-id="create-form-modal">
+                    <form id="create-form" class="row g-3" data-method="" data-modal-id="offcanvasAddAnnouncement">
                         @csrf
 
                         <span id="edit-content">
@@ -215,5 +219,4 @@
     <!--/ Edit Employment Status Modal -->
 @endsection
 @push('js')
-    <script src="{{ asset('public/admin/assets/js/custom/announcement.js') }}"></script>
 @endpush

@@ -22,8 +22,6 @@
                 @endif
             </span>
         </td>
-        <td>{!! \Illuminate\Support\Str::limit($model->description,50)??'-' !!}</td>
-        <td>{{ $model->location??'-' }}</td>
         <td>{{ date('d M Y', strtotime($model->created_at)) }}</td>
         <td>
             @if($model->status)
@@ -34,11 +32,15 @@
         </td>
         <td>
             <div class="d-flex align-items-center">
-                <button data-toggle="tooltip" data-placement="top" title="Edit Record" data-edit-url="{{ route('departments.edit', $model->id) }}" data-url="{{ route('departments.update', $model->id) }}" data-value="{{ $model }}" class="btn btn-default edit-btn edit-btn" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddDepartment" fdprocessedid="i1qq7b">
-                    <span>
-                        <i class="ti ti-edit ti-sm me-2"></i>
-                    </span>
-                </button>
+                <a href="javascript:;"
+                    class="text-body edit-btn"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="Edit Department"
+                    data-edit-url="{{ route('departments.edit', $model->id) }}" data-url="{{ route('departments.update', $model->id) }}" data-value="{{ $model }}" class="btn btn-default edit-btn edit-btn" tabindex="0" aria-controls="DataTables_Table_0" type="button"
+                    data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddDepartment" fdprocessedid="i1qq7b">
+                    <i class="ti ti-edit ti-sm me-2"></i>
+                </a>
                 <a data-toggle="tooltip" data-placement="top" title="Delete Record" href="javascript:;" class="text-body delete" data-slug="{{ $model->id }}" data-del-url="{{ route('departments.destroy', $model->id) }}">
                     <i class="ti ti-trash ti-sm mx-2"></i>
                 </a>
@@ -57,8 +59,8 @@
             </div>
         </td>
     </tr>
-    @endforeach
-    <tr>
+@endforeach
+<tr>
     <td colspan="9">
         <div class="row mx-2">
             <div class="col-sm-12 col-md-6">
@@ -71,6 +73,6 @@
             </div>
         </div>
     </td>
-    </tr>
+</tr>
 
-<script src="{{ asset('public/admin/assets/js/custom/position.js') }}"></script>
+<script src="{{ asset('public/admin/assets/js/search-delete.js') }}"></script>

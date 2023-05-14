@@ -15,6 +15,7 @@ class DesignationController extends Controller
      */
     public function index(Request $request)
     {
+        // $this->authorize('designation-list');
         $title = 'All Designations';
         if($request->ajax()){
             $query = Designation::orderby('id', 'desc')->where('id', '>', 0);
@@ -61,6 +62,12 @@ class DesignationController extends Controller
         }
     }
 
+    public function edit($id)
+    {
+        $model = Designation::where('id', $id)->first();
+        return (string) view('admin.designations.edit_content', compact('model'));
+    }
+
     /**
      * Update the specified resource in storage.
      */
@@ -99,12 +106,14 @@ class DesignationController extends Controller
 
     public function trashed()
     {
+        // $this->authorize('designation-trashed');
         $models = Designation::onlyTrashed()->get();
         $title = 'All Trashed Records';
         return view('admin.designations.trashed-index', compact('models', 'title'));
     }
     public function restore($id)
     {
+        // $this->authorize('designation-restore');
         Designation::onlyTrashed()->where('id', $id)->restore();
         return redirect()->back()->with('message', 'Record Restored Successfully.');
     }

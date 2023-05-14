@@ -263,4 +263,4 @@
         <i class="ti ti-x ti-sm search-toggler cursor-pointer"></i>
     </div>
 </nav>
-<?php /**PATH C:\xampp\htdocs\new_hr_portal.local\resources\views/admin/layouts/header.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\wamp64\www\new_hr_portal\resources\views/admin/layouts/header.blade.php ENDPATH**/ ?>

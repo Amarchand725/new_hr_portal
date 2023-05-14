@@ -17,6 +17,7 @@ class DepartmentController extends Controller
      */
     public function index(Request $request)
     {
+        // $this->authorize('department-list');
         $data = [];
 
         $title = 'All Departments';
@@ -146,6 +147,7 @@ class DepartmentController extends Controller
 
     public function trashed()
     {
+        // $this->authorize('department-trashed');
         $data = [];
         $data['models'] = Department::onlyTrashed()->get();
         $title = 'All Trashed Records';
@@ -153,6 +155,7 @@ class DepartmentController extends Controller
     }
     public function restore($id)
     {
+        // $this->authorize('department-restore');
         Department::onlyTrashed()->where('id', $id)->restore();
         return redirect()->back()->with('message', 'Record Restored Successfully.');
     }

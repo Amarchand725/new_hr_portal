@@ -43,18 +43,32 @@ class PermissionController extends Controller
     {
         $request['label'] = Str::lower($request->name);
 
-        $this->validate($request, [
-            'label' => 'unique:permissions,label',
-            'name' => 'required',
-            'permissions.*' => 'required',
-            'permissions' => 'required'
-        ]);
+        if(!empty($request->custom)){
+            $this->validate($request, [
+                'label' => 'unique:permissions,label',
+                'name' => 'required|max:191',
+                'custom' => 'max:191',
+            ]);
+        }else{
+            $this->validate($request, [
+                'label' => 'unique:permissions,label',
+                'name' => 'required|max:191',
+                'custom' => 'max:191',
+                'permissions.*' => 'required',
+                'permissions' => 'required'
+            ]);
+        }
 
         DB::beginTransaction();
 
         try{
-            if(!empty($request->permissions)){
-                foreach($request->permissions as $permission){
+            $input_permissions = $request->permissions;
+            if(!empty($request->custom)){
+                $input_permissions[] = $request->custom;
+            }
+
+            if(!empty($input_permissions)){
+                foreach($input_permissions as $permission){
                     Permission::create([
                         'label' =>  Str::lower($request->name),
                         'name' =>  str_replace(' ', '-', Str::lower($request->name)).'-'.$permission,

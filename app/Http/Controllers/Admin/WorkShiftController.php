@@ -17,11 +17,15 @@ class WorkShiftController extends Controller
      */
     public function index(Request $request)
     {
+        // $this->authorize('work_shift-list');
         $title = 'All Work Shifts';
         if($request->ajax()){
             $query = WorkShift::orderby('id', 'desc')->where('id', '>', 0);
             if($request['search'] != ""){
-                $query->where('title', 'like', '%'. $request['search'] .'%');
+                $query->where('name', 'like', '%'. $request['search'] .'%');
+                $query->orWhere('start_date', 'like', '%'. $request['search'] .'%');
+                $query->orWhere('end_date', 'like', '%'. $request['search'] .'%');
+                $query->orWhere('type', 'like', '%'. $request['search'] .'%');
             }
             if($request['status'] != "All"){
                 $query->where('status', $request['status']);
@@ -193,12 +197,14 @@ class WorkShiftController extends Controller
     }
     public function trashed()
     {
+        // $this->authorize('work_shift-trashed');
         $models = WorkShift::onlyTrashed()->get();
         $title = 'All Trashed Records';
         return view('admin.work_shifts.trashed-index', compact('models', 'title'));
     }
     public function restore($id)
     {
+        // $this->authorize('work_shift-restore');
         WorkShift::onlyTrashed()->where('id', $id)->restore();
         return redirect()->back()->with('message', 'Record Restored Successfully.');
     }

@@ -20,7 +20,7 @@
                 </a>
             </div>
         </td>
-    </tr>
+</tr>
 @endforeach
 <tr>
     <td colspan="5">
