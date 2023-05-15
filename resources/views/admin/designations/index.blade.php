@@ -179,5 +179,4 @@
 </div>
 @endsection
 @push('js')
-    {{-- <script src="{{ asset('public/admin/assets/js/custom/designation.js') }}"></script> --}}
 @endpush

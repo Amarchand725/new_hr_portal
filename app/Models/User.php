@@ -47,7 +47,7 @@ class User extends Authenticatable
     }
     public function departmentBridge()
     {
-        return $this->belongsTo(DepartmentUser::class, 'user_id');
+        return $this->hasOne(DepartmentUser::class, 'user_id', 'id');
     }
     public function jobHistory()
     {

@@ -105,7 +105,7 @@
                                         <div class="d-flex justify-content-start align-items-center user-name">
                                             <div class="avatar-wrapper">
                                                 <div class="avatar avatar-sm me-3">
-                                                    <img src="http://localhost/new_hr_portal.local/public/admin/assets/img/avatars/2.png" alt="Avatar" class="rounded-circle">
+                                                    <img src="{{ asset('public/admin/assets/img/avatars/2.png') }}" alt="Avatar" class="rounded-circle">
                                                 </div>
                                             </div>
                                             <div class="d-flex flex-column">
@@ -145,7 +145,7 @@
                                     </td>
                                     <td>
                                         @if(isset($employee->departmentBridge->department->departmentWorkShift) && !empty($employee->departmentBridge->department->departmentWorkShift))
-                                            {{ $employee->department->departmentBridge->departmentWorkShift }}
+                                            {{ $employee->departmentBridge->department->departmentWorkShift->workShift->name }}
                                         @else
                                             -
                                         @endif
@@ -163,7 +163,7 @@
                                                 class="text-body edit-btn"
                                                 data-toggle="tooltip"
                                                 data-placement="top"
-                                                title="Edit Record"
+                                                title="Edit Employee"
                                                 data-edit-url="{{ route('employees.edit', $employee->id) }}"
                                                 data-url="{{ route('employees.update', $employee->id) }}">
                                                 <i class="ti ti-edit ti-sm me-2"></i>

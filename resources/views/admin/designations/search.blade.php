@@ -53,4 +53,4 @@
     </td>
 </tr>
 
-<script src="{{ asset('public/admin/assets/js/search.js') }}"></script>
+<script src="{{ asset('public/admin/assets/js/search-delete.js') }}"></script>

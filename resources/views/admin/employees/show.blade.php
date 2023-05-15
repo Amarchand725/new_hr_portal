@@ -40,8 +40,8 @@
                                             @endif
                                         </li>
                                         <li class="list-inline-item"><i class="ti ti-clock"></i>
-                                            @if(isset($model->departmentBridge->departmentWorkShift->workShift) && !empty($model->departmentBridge->departmentWorkShift->workShift->name))
-                                                {{ $model->departmentBridge->departmentWorkShift->workShift->name }}
+                                            @if(isset($model->departmentBridge->department->departmentWorkShift->workShift) && !empty($model->departmentBridge->department->departmentWorkShift->workShift->name))
+                                                {{ $model->departmentBridge->department->departmentWorkShift->workShift->name }}
                                             @else
                                                 -
                                             @endif

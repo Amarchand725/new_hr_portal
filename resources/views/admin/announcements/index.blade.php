@@ -37,6 +37,9 @@
                                     </div>
                                     <div class="dt-buttons btn-group flex-wrap">
                                         <button
+                                            data-toggle="tooltip"
+                                            data-placement="top"
+                                            title="Add Announcement"
                                             type="button"
                                             class="btn btn-secondary add-new btn-primary mx-3"
                                             id="add-btn"
@@ -103,13 +106,13 @@
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <a href="javascript:;" class="text-body"
+                                                <a href="javascript:;"
                                                     data-toggle="tooltip"
                                                     data-placement="top"
                                                     title="Edit Announcement"
                                                     data-edit-url="{{ route('announcements.edit', $model->id) }}"
                                                     data-url="{{ route('announcements.update', $model->id) }}"
-                                                    class="btn btn-default edit-btn"
+                                                    class="text-body edit-btn"
                                                     type="button"
                                                     tabindex="0" aria-controls="DataTables_Table_0"
                                                     type="button" data-bs-toggle="modal"

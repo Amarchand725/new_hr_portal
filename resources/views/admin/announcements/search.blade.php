@@ -33,16 +33,18 @@
         </td>
         <td>
             <div class="d-flex align-items-center">
-                <a href="javascript:;" class="text-body"
+                <a href="javascript:;"
                     data-toggle="tooltip"
                     data-placement="top"
-                    title="Edit Record"
+                    title="Edit Announcement"
                     data-edit-url="{{ route('announcements.edit', $model->id) }}"
                     data-url="{{ route('announcements.update', $model->id) }}"
-                    class="btn btn-default edit-btn"
-                    id="edit-btn"
+                    class="text-body edit-btn"
                     type="button"
-                    data-bs-target="#offcanvasAddAnnouncement" fdprocessedid="i1qq7b">
+                    tabindex="0" aria-controls="DataTables_Table_0"
+                    type="button" data-bs-toggle="modal"
+                    data-bs-target="#offcanvasAddAnnouncement"
+                    fdprocessedid="i1qq7b">
                     <i class="ti ti-edit ti-sm me-2"></i>
                 </a>
                 <a href="javascript:;" class="text-body delete" data-slug="{{ $model->id }}" data-del-url="{{ route('announcements.destroy', $model->id) }}">

@@ -131,13 +131,13 @@
                                     <label class="form-label" for="title">Title</label>
                                     <input type="text" class="form-control" id="title" placeholder="Enter position title" name="title">
                                     <div class="fv-plugins-message-container invalid-feedback"></div>
-                                    <span id="title_error" class="text-danger"></span>
+                                    <span id="title_error" class="text-danger error"></span>
                                 </div>
                                 <div class="mb-3 fv-plugins-icon-container">
                                     <label class="form-label" for="description">Description</label>
                                     <textarea class="form-control" name="description" id="description" placeholder="Enter description"></textarea>
                                     <div class="fv-plugins-message-container invalid-feedback"></div>
-                                    <span id="description_error" class="text-danger"></span>
+                                    <span id="description_error" class="text-danger error"></span>
                                 </div>
 
                                 <div class="mb-4">

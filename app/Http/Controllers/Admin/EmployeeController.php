@@ -119,6 +119,7 @@ class EmployeeController extends Controller
                 $job_history = JobHistory::create([
                     'created_by' => Auth::user()->id,
                     'user_id' => $model->id,
+                    'designation_id' => $request->designation_id,
                     'position_id' => $request->position_id,
                     'employment_status_id' => $request->employment_status_id,
                     'joining_date' => $request->joining_date,
@@ -130,8 +131,15 @@ class EmployeeController extends Controller
                         'user_id' => $model->id,
                         'job_history_id' => $job_history->id,
                         'salary' => $request->salary,
-                        'implement_date' => $request->implement_date,
+                        'effective_date' => $request->effective_date,
                         'status' => 1,
+                    ]);
+                }
+
+                if(!empty($request->department_id)){
+                    DepartmentUser::create([
+                        'department_id' => $request->department_id,
+                        'user_id' => $model->id,
                     ]);
                 }
 
@@ -227,7 +235,7 @@ class EmployeeController extends Controller
                     $salary_history = SalaryHistory::where('user_id', $user->id)->first();
                     if(!empty($salary_history)){
                         $salary_history->salary = $request->salary;
-                        $salary_history->implement_date = $request->implement_date;
+                        $salary_history->effective_date = $request->effective_date;
                         $salary_history->save();
                     }else{
                         SalaryHistory::create([
@@ -235,7 +243,7 @@ class EmployeeController extends Controller
                             'user_id' => $user->id,
                             'job_history_id' => $user->jobHistory->id,
                             'salary' => $request->salary,
-                            'implement_date' => $request->implement_date,
+                            'effective_date' => $request->effective_date,
                             'status' => 1,
                         ]);
                     }

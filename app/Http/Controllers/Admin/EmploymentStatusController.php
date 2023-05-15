@@ -36,7 +36,7 @@ class EmploymentStatusController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|max:200',
+            'name' => ['required', 'unique:employment_statuses', 'max:255'],
             'class' => 'required',
             'description' => 'max:255',
         ]);
@@ -48,32 +48,44 @@ class EmploymentStatusController extends Controller
 
             if($model){
                 DB::commit();
-
-                \LogActivity::addToLog('New Employment Status Added');
-                return redirect()->route('employment_status.index')->with('message', 'Employment status created successfully.!');
-            }else{
-                return redirect()->route('employment_status.index')->with('error', 'Something went wrong try again.!');
             }
+
+            \LogActivity::addToLog('New Employment Status Added');
+            return response()->json(['success' => true]);
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect()->back()->with('error', 'Error. '.$e->getMessage());
+            return response()->json(['error' => $e->getMessage()]);
         }
+    }
+
+    public function edit($id)
+    {
+        $model = EmploymentStatus::where('id', $id)->first();
+        return (string) view('admin.employment_status.edit_content', compact('model'));
     }
 
     public function update(Request $request, EmploymentStatus $employment_status)
     {
         $this->validate($request, [
-            'name' => 'required|max:200',
+            'name' => 'required|max:255|unique:employment_statuses,id,'.$employment_status->id,
             'class' => 'required',
             'description' => 'max:255',
         ]);
 
-        $model = $employment_status->update($request->all());
-        if($model){
-            \LogActivity::addToLog('New Employment Status Updated');
-            return redirect()->back()->with('message', 'employment_status updated successfully.!');
-        }else{
-            return redirect()->back()->with('error', 'Something went wrong try again.!');
+        DB::beginTransaction();
+
+        try{
+            $model = $employment_status->update($request->all());
+            if($model){
+                DB::commit();
+            }
+
+            \LogActivity::addToLog('Employment Status Updated');
+
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['error' => $e->getMessage()]);
         }
     }
 
