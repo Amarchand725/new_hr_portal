@@ -250,9 +250,17 @@ class EmployeeController extends Controller
                 }
 
                 $user_emp_status = UserEmploymentStatus::orderby('id', 'desc')->where('user_id', $id)->first();
-                $user_emp_status->employment_status_id = $request->employment_status_id;
-                $user_emp_status->start_date = $request->joining_date;
-                $user_emp_status->save();
+                if(!empty($user_emp_status)){
+                    $user_emp_status->employment_status_id = $request->employment_status_id;
+                    $user_emp_status->start_date = $request->joining_date;
+                    $user_emp_status->save();
+                }else{
+                    UserEmploymentStatus::create([
+                        'user_id' => $id,
+                        'employment_status_id' => $request->employment_status_id,
+                        'start_date' => $request->joining_date,
+                    ]);
+                }
 
                 DB::commit();
             }
@@ -389,5 +397,63 @@ class EmployeeController extends Controller
             DB::rollback();
             return response()->json(['error' => $e->getMessage()]);
         }
+    }
+
+    public function salaryDetails()
+    {
+        $title = 'Salary Details';
+        $data = [];
+        $authUserID=Auth::user()->id;
+
+        $all_departments = DB::table('departments')->get();
+        $my_departments = DB::table('departments')->where('manager_id',$authUserID)->pluck('id')->toArray();
+        $child_departments=array();
+        foreach($all_departments as $all_department){
+            if(in_array($all_department->id, $my_departments)){
+                array_push($child_departments,$all_department->id);
+            }else{
+                $check_department=DB::table('departments')->where('id',$all_department->id)->first();
+                if(in_array($check_department->id, $my_departments)){
+                    array_push($child_departments,$all_department->id);
+                }
+            }
+        }
+        $departments = array_values(array_unique(array_merge($my_departments,$child_departments)));
+
+        $department_users = DB::table('department_users')->where('end_date',NULL)->whereIn('department_id',$departments)->pluck('user_id')->toArray();
+        if(count($department_users)>0){
+            $data['allUsers'] = DB::table('users')->where('id','!=',$authUserID)->whereIn('id',$department_users)->get();
+        }else{
+            $data['allUsers'] = null;
+        }
+        if(date('d')>25){
+            $data['month'] = date('m',strtotime('first day of +1 month'));
+            $data['year'] = date('Y',strtotime('first day of +1 month'));
+        }else{
+            $data['month'] = date('m');
+            $data['year'] = date('Y');
+        }
+
+        $data['authUserID'] = $authUserID;
+        $data['user'] = DB::table('users')->where('id',$authUserID)->first();
+        // $files = DB::table('files')->where('fileable_id',$authUserID)->first();
+        $department_user = DB::table('department_users')->where('user_id',$authUserID)->where('end_date',NULL)->first();
+        $data['department'] = DB::table('departments')->where('id',$department_user->department_id)->first();
+        $userDesignation = DB::table('job_histories')->where('user_id',$authUserID)->where('end_date',NULL)->first();
+        $data['designation'] = DB::table('designations')->where('id',$userDesignation->designation_id)->first();
+        $salary = DB::table('salary_histories')->where('user_id',$authUserID)->first();
+        $data['salary'] = $salary!=null ? $salary->salary : 0;
+        $data['profile'] = DB::table('profiles')->where('user_id',$authUserID)->first();
+        return view('admin.employees.salary-details', compact('title', 'data'));
+    }
+    public function filterSalaryDetails(Request $request)
+    {
+        // return date('m-Y', strtotime($request->payslip_month));
+        $user_id = Auth::user()->id;
+        if(!empty($request->user_id)){
+            $user_id = $request->user_id;
+        }
+
+        $model = User::where('id', $user_id)->first();
     }
 }

@@ -135,89 +135,91 @@
                                 </div>
                             </div>
                         </div>
-                        <table class="datatables-users table border-top dataTable no-footer dtr-column" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 1227px;">
-                            <thead>
-                                <tr>
-                                    <th class="control sorting_disabled dtr-hidden" rowspan="1" colspan="1" aria-label="Avatar">S.No#</th>
-                                    <th class="sorting sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="descending">Employee</th>
-                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 97px;" aria-label="Role: activate to sort column ascending">Role</th>
-                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 182px;" aria-label="Department: activate to sort column ascending">Department</th>
-                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 92px;" aria-label="Shift: activate to sort column ascending">Shift</th>
-                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 92px;" aria-label="Shift: activate to sort column ascending">Status</th>
-                                    <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 135px;" aria-label="Actions">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="body">
-                                @foreach ($employees as $key=>$employee)
-                                    <tr class="odd" id="id-{{ $employee->id }}">
-                                        <td tabindex="0">{{ $employees->firstItem()+$key }}.</td>
-                                        <td class="sorting_1">
-                                            <div class="d-flex justify-content-start align-items-center user-name">
-                                                <div class="avatar-wrapper">
-                                                    <div class="avatar avatar-sm me-3">
-                                                        <img src="http://localhost/new_hr_portal.local/public/admin/assets/img/avatars/2.png" alt="Avatar" class="rounded-circle">
+                        <div class="container">
+                            <table class="datatables-users table border-top dataTable no-footer dtr-column" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 1227px;">
+                                <thead>
+                                    <tr>
+                                        <th>S.No#</th>
+                                        <th>Employee</th>
+                                        <th>Role</th>
+                                        <th>Department</th>
+                                        <th>Shift</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="body">
+                                    @foreach ($employees as $key=>$employee)
+                                        <tr class="odd" id="id-{{ $employee->id }}">
+                                            <td tabindex="0">{{ $employees->firstItem()+$key }}.</td>
+                                            <td class="sorting_1">
+                                                <div class="d-flex justify-content-start align-items-center user-name">
+                                                    <div class="avatar-wrapper">
+                                                        <div class="avatar avatar-sm me-3">
+                                                            <img src="http://localhost/new_hr_portal.local/public/admin/assets/img/avatars/2.png" alt="Avatar" class="rounded-circle">
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex flex-column">
+                                                        <a href="app-user-view-account.html" class="text-body text-truncate">
+                                                            <span class="fw-semibold">{{ $employee->first_name }} {{ $employee->last_name }}</span>
+                                                        </a>
+                                                        <small class="text-muted">{{ $employee->email }}</small>
                                                     </div>
                                                 </div>
-                                                <div class="d-flex flex-column">
-                                                    <a href="app-user-view-account.html" class="text-body text-truncate">
-                                                        <span class="fw-semibold">{{ $employee->first_name }} {{ $employee->last_name }}</span>
-                                                    </a>
-                                                    <small class="text-muted">{{ $employee->email }}</small>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <span class="text-truncate d-flex align-items-center">
-                                                <span class="badge badge-center rounded-pill bg-label-primary w-px-30 h-px-30 me-2">
-                                                    <i class="ti ti-chart-pie-2 ti-sm"></i>
+                                            </td>
+                                            <td>
+                                                <span class="text-truncate d-flex align-items-center">
+                                                    <span class="badge badge-center rounded-pill bg-label-primary w-px-30 h-px-30 me-2">
+                                                        <i class="ti ti-chart-pie-2 ti-sm"></i>
+                                                    </span>
+                                                    Maintainer
                                                 </span>
-                                                Maintainer
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span class="fw-semibold">Enterprise</span>
-                                        </td>
-                                        <td>Auto Debit</td>
-                                        <td>
-                                            <span class="badge bg-label-success" text-capitalized="">Active</span>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <a href="javascript:;" class="text-body">
-                                                    <i class="ti ti-edit ti-sm me-2"></i>
-                                                </a>
-                                                <a href="javascript:;" class="text-body delete-record">
-                                                    <i class="ti ti-trash ti-sm mx-2"></i>
-                                                </a>
-                                                <a href="javascript:;" class="text-body dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                                    <i class="ti ti-dots-vertical ti-sm mx-1"></i>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-end m-0">
-                                                    <a href="app-user-view-account.html" class="dropdown-item">View</a>
-                                                    <a href="app-user-view-account.html" class="dropdown-item">Add Salary</a>
-                                                    <a href="javascript:;" class="dropdown-item">Terminate</a>
-                                                    <a href="javascript:;" class="dropdown-item">Remove from employee list</a>
+                                            </td>
+                                            <td>
+                                                <span class="fw-semibold">Enterprise</span>
+                                            </td>
+                                            <td>Auto Debit</td>
+                                            <td>
+                                                <span class="badge bg-label-success" text-capitalized="">Active</span>
+                                            </td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <a href="javascript:;" class="text-body">
+                                                        <i class="ti ti-edit ti-sm me-2"></i>
+                                                    </a>
+                                                    <a href="javascript:;" class="text-body delete-record">
+                                                        <i class="ti ti-trash ti-sm mx-2"></i>
+                                                    </a>
+                                                    <a href="javascript:;" class="text-body dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                                        <i class="ti ti-dots-vertical ti-sm mx-1"></i>
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-end m-0">
+                                                        <a href="app-user-view-account.html" class="dropdown-item">View</a>
+                                                        <a href="app-user-view-account.html" class="dropdown-item">Add Salary</a>
+                                                        <a href="javascript:;" class="dropdown-item">Terminate</a>
+                                                        <a href="javascript:;" class="dropdown-item">Remove from employee list</a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    <tr>
+                                        <td colspan="5">
+                                            <div class="row mx-2">
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing {{$employees->firstItem()}} to {{$employees->lastItem()}} of {{$employees->total()}} entries</div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                                                        {!! $employees->links('pagination::bootstrap-4') !!}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </td>
                                     </tr>
-                                @endforeach
-                                <tr>
-                                    <td colspan="5">
-                                        <div class="row mx-2">
-                                            <div class="col-sm-12 col-md-6">
-                                                <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing {{$employees->firstItem()}} to {{$employees->lastItem()}} of {{$employees->total()}} entries</div>
-                                            </div>
-                                            <div class="col-sm-12 col-md-6">
-                                                <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-                                                    {!! $employees->links('pagination::bootstrap-4') !!}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
 

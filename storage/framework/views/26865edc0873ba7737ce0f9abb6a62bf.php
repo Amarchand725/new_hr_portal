@@ -156,7 +156,7 @@
                             <div class="d-flex">
                             <div class="flex-shrink-0 me-3">
                                 <div class="avatar">
-                                <img src="{{ asset('public/admin') }}/assets/img/avatars/1.png" alt class="h-auto rounded-circle" />
+                                <img src="<?php echo e(asset('public/admin')); ?>/assets/img/avatars/1.png" alt class="h-auto rounded-circle" />
                                 </div>
                             </div>
                             <div class="flex-grow-1">
@@ -192,34 +192,35 @@
         <li class="nav-item navbar-dropdown dropdown-user dropdown">
             <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
             <div class="avatar avatar-online">
-                @if(isset(Auth::user()->profile) && !empty(Auth::user()->profile->profile))
-                    <img src="{{ asset('public/admin/assets/img/avatars') }}/{{ Auth::user()->profile->profile }}" style="width:40px !important; height:40px !important" alt class="h-auto rounded-circle" />
-                @else
-                    <img src="{{ asset('public/admin') }}/default.png" style="width:40px !important; height:40px !important" alt class="h-auto rounded-circle" />
-                @endif
+                <?php if(isset(Auth::user()->profile) && !empty(Auth::user()->profile->profile)): ?>
+                    <img src="<?php echo e(asset('public/admin/assets/img/avatars')); ?>/<?php echo e(Auth::user()->profile->profile); ?>" style="width:40px !important; height:40px !important" alt class="h-auto rounded-circle" />
+                <?php else: ?>
+                    <img src="<?php echo e(asset('public/admin')); ?>/default.png" style="width:40px !important; height:40px !important" alt class="h-auto rounded-circle" />
+                <?php endif; ?>
             </div>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
             <li>
-                <a class="dropdown-item" href="{{ route('profile.edit') }}">
+                <a class="dropdown-item" href="<?php echo e(route('profile.edit')); ?>">
                     <div class="d-flex">
                         <div class="flex-shrink-0 me-3">
                             <div class="avatar avatar-online">
-                                @if(isset(Auth::user()->profile) && !empty(Auth::user()->profile->profile))
-                                    <img src="{{ asset('public/admin/assets/img/avatars') }}/{{ Auth::user()->profile->profile }}" style="width:40px !important; height:40px !important" alt class="h-auto rounded-circle" />
-                                @else
-                                    <img src="{{ asset('public/admin') }}/default.png" style="width:40px !important; height:40px !important" alt class="h-auto rounded-circle" />
-                                @endif
+                                <?php if(isset(Auth::user()->profile) && !empty(Auth::user()->profile->profile)): ?>
+                                    <img src="<?php echo e(asset('public/admin/assets/img/avatars')); ?>/<?php echo e(Auth::user()->profile->profile); ?>" style="width:40px !important; height:40px !important" alt class="h-auto rounded-circle" />
+                                <?php else: ?>
+                                    <img src="<?php echo e(asset('public/admin')); ?>/default.png" style="width:40px !important; height:40px !important" alt class="h-auto rounded-circle" />
+                                <?php endif; ?>
                             </div>
                         </div>
                         <div class="flex-grow-1">
-                            <span class="fw-semibold d-block">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</span>
+                            <span class="fw-semibold d-block"><?php echo e(Auth::user()->first_name); ?> <?php echo e(Auth::user()->last_name); ?></span>
                             <small class="text-muted">
-                                @if(isset(Auth::user()->jobHistory->position->title) && !empty(Auth::user()->jobHistory->position->title))
-                                    {{ Auth::user()->jobHistory->position->title }}
-                                @else
+                                <?php if(isset(Auth::user()->jobHistory->position->title) && !empty(Auth::user()->jobHistory->position->title)): ?>
+                                    <?php echo e(Auth::user()->jobHistory->position->title); ?>
+
+                                <?php else: ?>
                                     -
-                                @endif
+                                <?php endif; ?>
                             </small>
                         </div>
                     </div>
@@ -229,7 +230,7 @@
                 <div class="dropdown-divider"></div>
             </li>
             <li>
-                <a class="dropdown-item" href="{{ route('profile.edit') }}">
+                <a class="dropdown-item" href="<?php echo e(route('profile.edit')); ?>">
                 <i class="ti ti-user-check me-2 ti-sm"></i>
                 <span class="align-middle">My Profile</span>
                 </a>
@@ -244,7 +245,7 @@
                 <div class="dropdown-divider"></div>
             </li>
             <li>
-                <a class="dropdown-item" href="{{ route('user.logout') }}">
+                <a class="dropdown-item" href="<?php echo e(route('user.logout')); ?>">
                     <i class="ti ti-logout me-2 ti-sm"></i>
                     <span class="align-middle">Log Out</span>
                 </a>
@@ -266,3 +267,4 @@
         <i class="ti ti-x ti-sm search-toggler cursor-pointer"></i>
     </div>
 </nav>
+<?php /**PATH C:\xampp\htdocs\hr_portal\resources\views/admin/layouts/header.blade.php ENDPATH**/ ?>

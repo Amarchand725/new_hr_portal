@@ -57,92 +57,94 @@
                                 </div>
                             </div>
                         </div>
-                        <table class="datatables-users table border-top dataTable no-footer dtr-column" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 1227px;">
-                            <thead>
-                                <tr>
-                                    <th class="control sorting_disabled dtr-hidden" rowspan="1" colspan="1" aria-label="Avatar">S.No#</th>
-                                    <th class="sorting sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="descending">Title</th>
-                                    <th class="sorting sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="descending">Department</th>
-                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">Start Date</th>
-                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">End Date</th>
-                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 200px;">Description</th>
-                                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">Created By</th>
-                                    <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 135px;" aria-label="Actions">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="body">
-                                @foreach ($models as $key=>$model)
-                                    <tr class="odd" id="id-{{ $model->id }}">
-                                        <td tabindex="0">{{ $models->firstItem()+$key }}.</td>
-                                        <td>
-                                            <span class="text-truncate d-flex align-items-center">
-                                                {{ $model->title??'-' }}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span class="text-truncate d-flex align-items-center">
-                                                {{ $model->department->name??'-' }}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span class="text-truncate d-flex align-items-center">
-                                                {{ date('d M Y', strtotime($model->start_date))??'-' }}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            @if(!empty($model->end_date))
-                                                <span class="fw-semibold">{{ date('d M Y', strtotime($model->end_date)) }}</span>
-                                            @else
-                                                -
-                                            @endif
-                                        </td>
-                                        <td>{!! \Illuminate\Support\Str::limit($model->description,50)??'-' !!}</td>
-                                        <td>
-                                            @if($model->createdBy)
-                                                {{ $model->createdBy->first_name }} {{ $model->createdBy->last_name }}
-                                            @else
-                                                -
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <a href="javascript:;"
-                                                    data-toggle="tooltip"
-                                                    data-placement="top"
-                                                    title="Edit Announcement"
-                                                    data-edit-url="{{ route('announcements.edit', $model->id) }}"
-                                                    data-url="{{ route('announcements.update', $model->id) }}"
-                                                    class="text-body edit-btn"
-                                                    type="button"
-                                                    tabindex="0" aria-controls="DataTables_Table_0"
-                                                    type="button" data-bs-toggle="modal"
-                                                    data-bs-target="#offcanvasAddAnnouncement"
-                                                    fdprocessedid="i1qq7b">
-                                                    <i class="ti ti-edit ti-sm me-2"></i>
-                                                </a>
-                                                <a href="javascript:;" class="text-body delete" data-slug="{{ $model->id }}" data-del-url="{{ route('announcements.destroy', $model->id) }}">
-                                                    <i class="ti ti-trash ti-sm mx-2"></i>
-                                                </a>
+                        <div class="container">
+                            <table class="datatables-users table border-top dataTable no-footer dtr-column" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 1227px;">
+                                <thead>
+                                    <tr>
+                                        <th>S.No#</th>
+                                        <th>Title</th>
+                                        <th>Department</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <th style="width: 200px;">Description</th>
+                                        <th>Created By</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="body">
+                                    @foreach ($models as $key=>$model)
+                                        <tr class="odd" id="id-{{ $model->id }}">
+                                            <td tabindex="0">{{ $models->firstItem()+$key }}.</td>
+                                            <td>
+                                                <span class="text-truncate d-flex align-items-center">
+                                                    {{ $model->title??'-' }}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span class="text-truncate d-flex align-items-center">
+                                                    {{ $model->department->name??'-' }}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span class="text-truncate d-flex align-items-center">
+                                                    {{ date('d M Y', strtotime($model->start_date))??'-' }}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                @if(!empty($model->end_date))
+                                                    <span class="fw-semibold">{{ date('d M Y', strtotime($model->end_date)) }}</span>
+                                                @else
+                                                    -
+                                                @endif
+                                            </td>
+                                            <td>{!! \Illuminate\Support\Str::limit($model->description,50)??'-' !!}</td>
+                                            <td>
+                                                @if($model->createdBy)
+                                                    {{ $model->createdBy->first_name }} {{ $model->createdBy->last_name }}
+                                                @else
+                                                    -
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <a href="javascript:;"
+                                                        data-toggle="tooltip"
+                                                        data-placement="top"
+                                                        title="Edit Announcement"
+                                                        data-edit-url="{{ route('announcements.edit', $model->id) }}"
+                                                        data-url="{{ route('announcements.update', $model->id) }}"
+                                                        class="text-body edit-btn"
+                                                        type="button"
+                                                        tabindex="0" aria-controls="DataTables_Table_0"
+                                                        type="button" data-bs-toggle="modal"
+                                                        data-bs-target="#offcanvasAddAnnouncement"
+                                                        fdprocessedid="i1qq7b">
+                                                        <i class="ti ti-edit ti-sm me-2"></i>
+                                                    </a>
+                                                    <a href="javascript:;" class="text-body delete" data-slug="{{ $model->id }}" data-del-url="{{ route('announcements.destroy', $model->id) }}">
+                                                        <i class="ti ti-trash ti-sm mx-2"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    <tr>
+                                        <td colspan="8">
+                                            <div class="row mx-2">
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing {{$models->firstItem()}} to {{$models->lastItem()}} of {{$models->total()}} entries</div>
+                                                </div>
+                                                <div class="col-sm-12 col-md-6">
+                                                    <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                                                        {!! $models->links('pagination::bootstrap-4') !!}
+                                                    </div>
+                                                </div>
                                             </div>
                                         </td>
                                     </tr>
-                                @endforeach
-                                <tr>
-                                    <td colspan="8">
-                                        <div class="row mx-2">
-                                            <div class="col-sm-12 col-md-6">
-                                                <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing {{$models->firstItem()}} to {{$models->lastItem()}} of {{$models->total()}} entries</div>
-                                            </div>
-                                            <div class="col-sm-12 col-md-6">
-                                                <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-                                                    {!! $models->links('pagination::bootstrap-4') !!}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

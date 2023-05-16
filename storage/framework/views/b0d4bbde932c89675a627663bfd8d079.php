@@ -1,11 +1,10 @@
-@extends('admin.layouts.app')
-@section('title', $title.' - Cyberonix')
+<?php $__env->startSection('title', $title.' - Cyberonix'); ?>
 
-@push('styles')
-@endpush
+<?php $__env->startPush('styles'); ?>
+<?php $__env->stopPush(); ?>
 
-@section('content')
-<input type="hidden" id="page_url" value="{{ route('employees.index') }}">
+<?php $__env->startSection('content'); ?>
+<input type="hidden" id="page_url" value="<?php echo e(route('employees.index')); ?>">
 
 <div class="content-wrapper">
     <div class="container-xxl flex-grow-1 container-p-y">
@@ -17,17 +16,17 @@
                     <div class="col-md-4 user_role">
                         <select id="role_id" class="select2 form-select text-capitalize" >
                             <option value="All"> Search by role </option>
-                            @foreach ($data['roles'] as $role)
-                                <option value="{{ $role->id }}">{{ $role->name }}</option>
-                            @endforeach
+                            <?php $__currentLoopData = $data['roles']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $role): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <option value="<?php echo e($role->id); ?>"><?php echo e($role->name); ?></option>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </select>
                     </div>
                     <div class="col-md-4 user_plan">
                         <select id="department_id" class="select2 form-select text-capitalize" >
                             <option value="All"> Search by department </option>
-                            @foreach ($data['departments'] as $department)
-                                <option value="{{ $department->id }}">{{ $department->name }}</option>
-                            @endforeach
+                            <?php $__currentLoopData = $data['departments']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $department): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <option value="<?php echo e($department->id); ?>"><?php echo e($department->name); ?></option>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </select>
                     </div>
                     <div class="col-md-4 user_status">
@@ -56,10 +55,10 @@
                                     </label>
                                 </div>
                                 <div class="dt-buttons btn-group flex-wrap">
-                                    <a data-toggle="tooltip" data-placement="top" title="All Trashed Records" href="{{ route('employees.trashed') }}" class="btn btn-danger mx-3">
+                                    <a data-toggle="tooltip" data-placement="top" title="All Trashed Records" href="<?php echo e(route('employees.trashed')); ?>" class="btn btn-danger mx-3">
                                         <span>
                                             <i class="ti ti-trash me-0 me-sm-1 ti-xs"></i>
-                                            <span class="d-none d-sm-inline-block">All Trashed Records ( <span id="trash-record-count">{{ $onlySoftDeleted }}</span> )</span>
+                                            <span class="d-none d-sm-inline-block">All Trashed Records ( <span id="trash-record-count"><?php echo e($onlySoftDeleted); ?></span> )</span>
                                         </span>
                                     </a>
                                 </div>
@@ -70,7 +69,7 @@
                                         data-placement="top"
                                         title="Add New Employee"
                                         id="add-btn"
-                                        data-url="{{ route('employees.store') }}"
+                                        data-url="<?php echo e(route('employees.store')); ?>"
                                         tabindex="0" aria-controls="DataTables_Table_0"
                                         type="button" data-bs-toggle="modal"
                                         data-bs-target="#create-form-modal"
@@ -99,68 +98,72 @@
                                 </tr>
                             </thead>
                             <tbody id="body">
-                                @foreach ($data['employees'] as $key=>$employee)
-                                    <tr class="odd" id="id-{{ $employee->id }}">
-                                        <td tabindex="0">{{ $data['employees']->firstItem()+$key }}.</td>
+                                <?php $__currentLoopData = $data['employees']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$employee): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <tr class="odd" id="id-<?php echo e($employee->id); ?>">
+                                        <td tabindex="0"><?php echo e($data['employees']->firstItem()+$key); ?>.</td>
                                         <td class="sorting_1">
                                             <div class="d-flex justify-content-start align-items-center user-name">
                                                 <div class="avatar-wrapper">
                                                     <div class="avatar avatar-sm me-3">
-                                                        @if(!empty($employee->image))
-                                                            <img src="{{ asset('public/admin/assets/img/avatars') }}/{{ $employee->image }}" alt="Avatar" class="rounded-circle">
-                                                        @else
-                                                            <img src="{{ asset('public/admin/default.png') }}" alt="Avatar" class="rounded-circle">
-                                                        @endif
+                                                        <?php if(!empty($employee->image)): ?>
+                                                            <img src="<?php echo e(asset('public/admin/assets/img/avatars')); ?>/<?php echo e($employee->image); ?>" alt="Avatar" class="rounded-circle">
+                                                        <?php else: ?>
+                                                            <img src="<?php echo e(asset('public/admin/default.png')); ?>" alt="Avatar" class="rounded-circle">
+                                                        <?php endif; ?>
                                                     </div>
                                                 </div>
                                                 <div class="d-flex flex-column">
                                                     <a href="app-user-view-account.html" class="text-body text-truncate">
-                                                        <span class="fw-semibold">{{ $employee->first_name??'' }} {{ $employee->last_name??'' }}</span>
+                                                        <span class="fw-semibold"><?php echo e($employee->first_name??''); ?> <?php echo e($employee->last_name??''); ?></span>
                                                     </a>
-                                                    <small class="text-muted">{{ $employee->email??'-' }}</small>
+                                                    <small class="text-muted"><?php echo e($employee->email??'-'); ?></small>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
                                             <span class="text-truncate d-flex align-items-center">
-                                                @if(isset($employee->profile) && !empty($employee->profile->employment_id))
-                                                    {{ $employee->profile->employment_id }}
-                                                @else
+                                                <?php if(isset($employee->profile) && !empty($employee->profile->employment_id)): ?>
+                                                    <?php echo e($employee->profile->employment_id); ?>
+
+                                                <?php else: ?>
                                                     -
-                                                @endif
+                                                <?php endif; ?>
                                             </span>
                                         </td>
                                         <td>
                                             <span class="fw-semibold">
-                                                @if(!empty($employee->getRoleNames()->first()))
+                                                <?php if(!empty($employee->getRoleNames()->first())): ?>
                                                     <span class="badge bg-label-primary" text-capitalized="">
-                                                        {{ $employee->getRoleNames()->first() }}
+                                                        <?php echo e($employee->getRoleNames()->first()); ?>
+
                                                     </span>
-                                                @else
+                                                <?php else: ?>
                                                     -
-                                                @endif
+                                                <?php endif; ?>
                                             </span>
                                         </td>
                                         <td>
-                                            @if(isset($employee->departmentBridge->department) && !empty($employee->departmentBridge->department))
-                                                {{ $employee->departmentBridge->department->name }}
-                                            @else
+                                            <?php if(isset($employee->departmentBridge->department) && !empty($employee->departmentBridge->department)): ?>
+                                                <?php echo e($employee->departmentBridge->department->name); ?>
+
+                                            <?php else: ?>
                                                 -
-                                            @endif
+                                            <?php endif; ?>
                                         </td>
                                         <td>
-                                            @if(isset($employee->departmentBridge->department->departmentWorkShift) && !empty($employee->departmentBridge->department->departmentWorkShift))
-                                                {{ $employee->departmentBridge->department->departmentWorkShift->workShift->name }}
-                                            @else
+                                            <?php if(isset($employee->departmentBridge->department->departmentWorkShift) && !empty($employee->departmentBridge->department->departmentWorkShift)): ?>
+                                                <?php echo e($employee->departmentBridge->department->departmentWorkShift->workShift->name); ?>
+
+                                            <?php else: ?>
                                                 -
-                                            @endif
+                                            <?php endif; ?>
                                         </td>
                                         <td>
-                                            @if($employee->status)
+                                            <?php if($employee->status): ?>
                                                 <span class="badge bg-label-success" text-capitalized="">Active</span>
-                                            @else
+                                            <?php else: ?>
                                                 <span class="badge bg-label-danger" text-capitalized="">De-Active</span>
-                                            @endif
+                                            <?php endif; ?>
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center">
@@ -169,46 +172,47 @@
                                                     data-toggle="tooltip"
                                                     data-placement="top"
                                                     title="Edit Employee"
-                                                    data-edit-url="{{ route('employees.edit', $employee->id) }}"
-                                                    data-url="{{ route('employees.update', $employee->id) }}"
+                                                    data-edit-url="<?php echo e(route('employees.edit', $employee->id)); ?>"
+                                                    data-url="<?php echo e(route('employees.update', $employee->id)); ?>"
                                                     tabindex="0" aria-controls="DataTables_Table_0"
                                                     type="button" data-bs-toggle="modal"
                                                     data-bs-target="#create-form-modal"
                                                     >
                                                     <i class="ti ti-edit ti-sm me-2"></i>
                                                 </a>
-                                                <a href="javascript:;" class="text-body delete" data-slug="{{ $employee->id }}" data-del-url="{{ route('employees.destroy', $employee->id) }}">
+                                                <a href="javascript:;" class="text-body delete" data-slug="<?php echo e($employee->id); ?>" data-del-url="<?php echo e(route('employees.destroy', $employee->id)); ?>">
                                                     <i class="ti ti-trash ti-sm mx-2"></i>
                                                 </a>
                                                 <a href="javascript:;" class="text-body dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                                     <i class="ti ti-dots-vertical ti-sm mx-1"></i>
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-end m-0">
-                                                    <a href="javascript:;" class="dropdown-item emp-status-btn" data-status-type="status" data-status-url='{{ route('employees.status', $employee->id) }}'>
-                                                        @if($employee->status)
+                                                    <a href="javascript:;" class="dropdown-item emp-status-btn" data-status-type="status" data-status-url='<?php echo e(route('employees.status', $employee->id)); ?>'>
+                                                        <?php if($employee->status): ?>
                                                             De-Active
-                                                        @else
+                                                        <?php else: ?>
                                                             Active
-                                                        @endif
+                                                        <?php endif; ?>
                                                     </a>
-                                                    <a href="{{ route('employees.show', $employee->id) }}" class="dropdown-item">View</a>
-                                                    <a href="javascript:;" class="dropdown-item add-salary-btn" data-user-id="{{ $employee->id }}" data-url='{{ route('employees.add_salary') }}'>Add Salary</a>
-                                                    <a href="javascript:;" class="dropdown-item emp-status-btn" data-status-type="terminate" data-status-url='{{ route('employees.status', $employee->id) }}'>Terminate</a>
-                                                    <a href="javascript:;" class="dropdown-item emp-status-btn" data-status-type="remove" data-status-url='{{ route('employees.status', $employee->id) }}'>Remove from employee list</a>
+                                                    <a href="<?php echo e(route('employees.show', $employee->id)); ?>" class="dropdown-item">View</a>
+                                                    <a href="javascript:;" class="dropdown-item add-salary-btn" data-user-id="<?php echo e($employee->id); ?>" data-url='<?php echo e(route('employees.add_salary')); ?>'>Add Salary</a>
+                                                    <a href="javascript:;" class="dropdown-item emp-status-btn" data-status-type="terminate" data-status-url='<?php echo e(route('employees.status', $employee->id)); ?>'>Terminate</a>
+                                                    <a href="javascript:;" class="dropdown-item emp-status-btn" data-status-type="remove" data-status-url='<?php echo e(route('employees.status', $employee->id)); ?>'>Remove from employee list</a>
                                                 </div>
                                             </div>
                                         </td>
                                     </tr>
-                                @endforeach
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
                                     <td colspan="8">
                                         <div class="row mx-2">
                                             <div class="col-sm-12 col-md-6">
-                                                <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing {{$data['employees']->firstItem()}} to {{$data['employees']->lastItem()}} of {{$data['employees']->total()}} entries</div>
+                                                <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing <?php echo e($data['employees']->firstItem()); ?> to <?php echo e($data['employees']->lastItem()); ?> of <?php echo e($data['employees']->total()); ?> entries</div>
                                             </div>
                                             <div class="col-sm-12 col-md-6">
                                                 <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-                                                    {!! $data['employees']->links('pagination::bootstrap-4') !!}
+                                                    <?php echo $data['employees']->links('pagination::bootstrap-4'); ?>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -232,16 +236,16 @@
                             <!-- Add role form -->
                             <form class="pt-0 fv-plugins-bootstrap5 fv-plugins-framework"
                                 data-method="" data-modal-id="create-form-modal" id="create-form">
-                                @csrf
+                                <?php echo csrf_field(); ?>
 
                                 <span id="edit-content">
                                     <div class="mb-3">
                                         <label class="form-label" for="position">Position</label>
                                         <select id="position" name="position_id" class="select2 form-select">
                                             <option selected>Select position</option>
-                                            @foreach ($data['positions'] as $position)
-                                                <option value="{{ $position->id }}">{{ $position->title }}</option>
-                                            @endforeach
+                                            <?php $__currentLoopData = $data['positions']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $position): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <option value="<?php echo e($position->id); ?>"><?php echo e($position->title); ?></option>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </select>
                                     </div>
                                     <div class="mb-3 fv-plugins-icon-container">
@@ -301,9 +305,9 @@
                                         <label class="form-label" for="department_id">Departments</label>
                                         <select id="department_id" name="department_id" class="select2 form-select">
                                             <option selected>Select department</option>
-                                            @foreach ($data['departments'] as $department)
-                                                <option value="{{ $department->id }}">{{ $department->name }}</option>
-                                            @endforeach
+                                            <?php $__currentLoopData = $data['departments']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $department): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <option value="<?php echo e($department->id); ?>"><?php echo e($department->name); ?></option>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </select>
                                         <div class="fv-plugins-message-container invalid-feedback"></div>
                                         <span id="department_id_error" class="text-danger error"></span>
@@ -312,9 +316,9 @@
                                         <label class="form-label" for="designation_id">Designation</label>
                                         <select id="designation_id" name="designation_id" class="select2 form-select">
                                             <option selected>Select designation</option>
-                                            @foreach ($data['designations'] as $designation)
-                                                <option value="{{ $designation->id }}">{{ $designation->title }}</option>
-                                            @endforeach
+                                            <?php $__currentLoopData = $data['designations']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $designation): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <option value="<?php echo e($designation->id); ?>"><?php echo e($designation->title); ?></option>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </select>
                                         <div class="fv-plugins-message-container invalid-feedback"></div>
                                         <span id="designation_id_error" class="text-danger error"></span>
@@ -323,9 +327,9 @@
                                         <label class="form-label" for="employment_status_id">Employment Status</label>
                                         <select id="employment_status_id" name="employment_status_id" class="select2 form-select">
                                             <option selected>Select Status</option>
-                                            @foreach ($data['employment_statues'] as $employment_status)
-                                                <option value="{{ $employment_status->id }}">{{ $employment_status->name }}</option>
-                                            @endforeach
+                                            <?php $__currentLoopData = $data['employment_statues']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $employment_status): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <option value="<?php echo e($employment_status->id); ?>"><?php echo e($employment_status->name); ?></option>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </select>
                                         <div class="fv-plugins-message-container invalid-feedback"></div>
                                         <span id="employment_status_id_error" class="text-danger error"></span>
@@ -333,9 +337,9 @@
                                     <div class="mb-3">
                                         <label class="form-label" for="role_id">Role</label>
                                         <select id="role_id" name="role_id" class="select2 select2 form-select" data-allow-clear                                            <option value="" selected>Select Role</option>
-                                            @foreach ($data['roles'] as $role)
-                                                <option value="{{ $role->id }}">{{ $role->name }}</option>
-                                            @endforeach
+                                            <?php $__currentLoopData = $data['roles']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $role): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <option value="<?php echo e($role->id); ?>"><?php echo e($role->name); ?></option>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </select>
                                         <div class="fv-plugins-message-container invalid-feedback"></div>
                                         <span id="role_id_error" class="text-danger error"></span>
@@ -383,7 +387,7 @@
                             </div>
                             <!-- Add role form -->
                             <form class="pt-0 fv-plugins-bootstrap5 fv-plugins-framework" data-method="" data-modal-id="add-salary-modal" id="add-salary-form">
-                                @csrf
+                                <?php echo csrf_field(); ?>
 
                                 <input type="hidden" name="user_id" id="user-id">
                                 <div class="mb-3 fv-plugins-icon-container">
@@ -415,7 +419,9 @@
         </div>
     </div>
 </div>
-@endsection
-@push('js')
-    <script src="{{ asset('public/admin/assets/js/custom/employee.js') }}"></script>
-@endpush
+<?php $__env->stopSection(); ?>
+<?php $__env->startPush('js'); ?>
+    <script src="<?php echo e(asset('public/admin/assets/js/custom/employee.js')); ?>"></script>
+<?php $__env->stopPush(); ?>
+
+<?php echo $__env->make('admin.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\hr_portal\resources\views/admin/employees/index.blade.php ENDPATH**/ ?>

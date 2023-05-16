@@ -35,67 +35,73 @@
             </div>
             <div class="card-datatable table-responsive">
                 <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
-                    <table class="datatables-users table border-top dataTable no-footer dtr-column" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 1227px;">
-                        <thead>
-                            <tr>
-                                <th class="control sorting_disabled dtr-hidden" rowspan="1" colspan="1" ria-label="Avatar">S.No#</th>
-                                <th class="sorting sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="descending">Image</th>
-                                <th class="sorting sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="descending">Created By</th>
-                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 97px;" aria-label="Role: activate to sort column ascending">Created At</th>
-                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">Status</th>
-                                <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 135px;" aria-label="Actions">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="body">
-                            @foreach ($models as $key=>$model)
-                                <tr class="odd" id="id-{{ $model->id }}">
-                                    <td tabindex="0">{{ $models->firstItem()+$key }}.</td>
-                                    <td>
-                                        <span class="fw-semibold">
-                                            <img src="{{ asset('public/admin/profile_cover_images') }}/{{ $model->image }}" style="width:100px" alt="">
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <span class="fw-semibold">
-                                            @if(isset($model->createdBy) && !empty($model->createdBy))
-                                                {{ $model->createdBy->first_name }} {{ $model->createdBy->last_name }}
-                                            @else
-                                                -
-                                            @endif
-                                        </span>
-                                    </td>
-                                    <td>{{ date('d F Y', strtotime($model->created_at)) }}</td>
-                                    <td>
-                                        @if($model->status)
-                                            <span class="badge bg-label-success" text-capitalized="">Active</span>
-                                        @else
-                                            <span class="badge bg-label-danger" text-capitalized="">De-Active</span>
-                                        @endif
-                                    </td>
-
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <a data-toggle="tooltip" data-placement="top" title="Delete Record" href="javascript:;" class="text-body delete" data-slug="{{ $model->id }}" data-del-url="{{ route('profile_cover_images.destroy', $model->id) }}">
-                                                <i class="ti ti-trash ti-sm mx-2"></i>
-                                            </a>
-                                            <a href="javascript:;" class="text-body dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                                <i class="ti ti-dots-vertical ti-sm mx-1"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-end m-0">
-                                                <a href="javascript:;" class="dropdown-item status-btn" data-status-type="status" data-status-url='{{ route('profile_cover_images.status', $model->id) }}'>
-                                                    @if($model->status)
-                                                        De-Active
-                                                    @else
-                                                        Active
-                                                    @endif
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </td>
+                    <div class="container">
+                        <table class="datatables-users table border-top dataTable no-footer dtr-column" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 1227px;">
+                            <thead>
+                                <tr>
+                                    <th>S.No#</th>
+                                    <th>Image</th>
+                                    <th>Created By</th>
+                                    <th>Created At</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody id="body">
+                                @foreach ($models as $key=>$model)
+                                    <tr class="odd" id="id-{{ $model->id }}">
+                                        <td tabindex="0">{{ $models->firstItem()+$key }}.</td>
+                                        <td>
+                                            <span class="fw-semibold">
+                                                @if(!empty($model->image))
+                                                    <img src="{{ asset('public/admin/profile_cover_images') }}/{{ $model->image }}" style="width:100px" alt="">
+                                                @else
+                                                    <img src="{{ asset('public/admin/default.png') }}" style="width:100px" alt="">
+                                                @endif
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="fw-semibold">
+                                                @if(isset($model->createdBy) && !empty($model->createdBy))
+                                                    {{ $model->createdBy->first_name }} {{ $model->createdBy->last_name }}
+                                                @else
+                                                    -
+                                                @endif
+                                            </span>
+                                        </td>
+                                        <td>{{ date('d F Y', strtotime($model->created_at)) }}</td>
+                                        <td>
+                                            @if($model->status)
+                                                <span class="badge bg-label-success" text-capitalized="">Active</span>
+                                            @else
+                                                <span class="badge bg-label-danger" text-capitalized="">De-Active</span>
+                                            @endif
+                                        </td>
+
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <a data-toggle="tooltip" data-placement="top" title="Delete Record" href="javascript:;" class="text-body delete" data-slug="{{ $model->id }}" data-del-url="{{ route('profile_cover_images.destroy', $model->id) }}">
+                                                    <i class="ti ti-trash ti-sm mx-2"></i>
+                                                </a>
+                                                <a href="javascript:;" class="text-body dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                                    <i class="ti ti-dots-vertical ti-sm mx-1"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-end m-0">
+                                                    <a href="javascript:;" class="dropdown-item status-btn" data-status-type="status" data-status-url='{{ route('profile_cover_images.status', $model->id) }}'>
+                                                        @if($model->status)
+                                                            De-Active
+                                                        @else
+                                                            Active
+                                                        @endif
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
             <!-- Offcanvas to add new user -->

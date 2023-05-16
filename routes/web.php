@@ -54,6 +54,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/employees/restore/{id}', [App\Http\Controllers\Admin\EmployeeController::class, 'restore'])->name('employees.restore');
     Route::post('/employees/status/{id}', [App\Http\Controllers\Admin\EmployeeController::class, 'status'])->name('employees.status');
     Route::post('/employees/add_salary', [App\Http\Controllers\Admin\EmployeeController::class, 'addSalary'])->name('employees.add_salary');
+    Route::get('/employees/salary_details', [App\Http\Controllers\Admin\EmployeeController::class, 'salaryDetails'])->name('employees.salary_details');
+    Route::get('/employees/filter-salary-details', [App\Http\Controllers\Admin\EmployeeController::class, 'filterSalaryDetails'])->name('employees.filter-salary-details');
 
     Route::get('/announcements/trashed', [App\Http\Controllers\Admin\AnnouncementController::class, 'trashed'])->name('announcements.trashed');
     Route::get('/announcements/restore/{id}', [App\Http\Controllers\Admin\AnnouncementController::class, 'restore'])->name('announcements.restore');
@@ -72,6 +74,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/employment_status', App\Http\Controllers\Admin\EmploymentStatusController::class);
     Route::resource('/employees', App\Http\Controllers\Admin\EmployeeController::class);
     Route::resource('/profile_cover_images', App\Http\Controllers\Admin\ProfileCoverImageController::class);
+    Route::resource('/bank_details', App\Http\Controllers\Admin\BankDetailController::class);
 });
 
 require __DIR__.'/auth.php';

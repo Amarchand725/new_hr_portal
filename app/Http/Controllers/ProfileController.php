@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
+use App\Models\SalaryHistory;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
+use App\Http\Requests\ProfileUpdateRequest;
 
 class ProfileController extends Controller
 {
@@ -16,9 +17,10 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
-        return view('admin.profile.my-profile', [
-            'user' => $request->user(),
-        ]);
+        $title = 'Profile';
+        $model = $request->user();
+        $histories = SalaryHistory::orderby('id','desc')->where('user_id', $model->id)->take(2)->get();
+        return view('admin.profile.my-profile', compact('title', 'model', 'histories'));
     }
 
     /**

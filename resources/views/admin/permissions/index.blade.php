@@ -43,74 +43,76 @@
                             </div>
                         </div>
                     </div>
-                    <table class="datatables-users table border-top dataTable no-footer dtr-column" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 1227px;">
-                        <thead>
-                            <tr>
-                                <th class="control sorting_disabled dtr-hidden" colspan="1" aria-label="Avatar">S.No#</th>
-                                <th class="sorting sorting_desc">Name</th>
-                                <th class="sorting" colspan="1">Permissions</th>
-                                <th class="sorting" colspan="1">Created at</th>
-                                <th rowspan="1" colspan="1">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="body">
-                            @foreach ($models as $key=>$model)
-                                <tr class="odd" id="id-{{ $model->label }}">
-                                    <td tabindex="0">{{ $models->firstItem()+$key }}.</td>
-                                    <td>
-                                        <span class="text-truncate d-flex align-items-center">
-                                            {{ Illuminate\Support\Str::upper($model->label) }}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        @foreach(SubPermissions($model->label) as $label)
-                                            @php $permission_lab = explode('-', $label->name) @endphp
-                                            @if($permission_lab[1]=='list')
-                                                <span class="badge bg-label-success p-1">List</span>
-                                            @elseif($permission_lab[1]=='create')
-                                                <span class="badge bg-label-primary">Create</span>
-                                            @elseif($permission_lab[1]=='edit')
-                                                <span class="badge bg-label-info">Edit</span>
-                                            @elseif($permission_lab[1]=='delete')
-                                                <span class="badge bg-label-danger">Delete</span>
-                                            @elseif($permission_lab[1]=='status')
-                                                <span class="badge bg-label-success">Status</span>
-                                            @elseif($permission_lab[1]=='trashed')
-                                                <span class="badge bg-label-warning">Trashed</span>
-                                            @elseif($permission_lab[1]=='restore')
-                                                <span class="badge bg-label-info">Restore</span>
-                                            @else
-                                                <span class="badge bg-label-success">Custom</span>
-                                            @endif
-                                        @endforeach
+                    <div class="container">
+                        <table class="datatables-users table border-top dataTable no-footer dtr-column" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 1227px;">
+                            <thead>
+                                <tr>
+                                    <th>S.No#</th>
+                                    <th>Name</th>
+                                    <th>Permissions</th>
+                                    <th>Created at</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="body">
+                                @foreach ($models as $key=>$model)
+                                    <tr class="odd" id="id-{{ $model->label }}">
+                                        <td tabindex="0">{{ $models->firstItem()+$key }}.</td>
+                                        <td>
+                                            <span class="text-truncate d-flex align-items-center">
+                                                {{ Illuminate\Support\Str::upper($model->label) }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            @foreach(SubPermissions($model->label) as $label)
+                                                @php $permission_lab = explode('-', $label->name) @endphp
+                                                @if($permission_lab[1]=='list')
+                                                    <span class="badge bg-label-success p-1">List</span>
+                                                @elseif($permission_lab[1]=='create')
+                                                    <span class="badge bg-label-primary">Create</span>
+                                                @elseif($permission_lab[1]=='edit')
+                                                    <span class="badge bg-label-info">Edit</span>
+                                                @elseif($permission_lab[1]=='delete')
+                                                    <span class="badge bg-label-danger">Delete</span>
+                                                @elseif($permission_lab[1]=='status')
+                                                    <span class="badge bg-label-success">Status</span>
+                                                @elseif($permission_lab[1]=='trashed')
+                                                    <span class="badge bg-label-warning">Trashed</span>
+                                                @elseif($permission_lab[1]=='restore')
+                                                    <span class="badge bg-label-info">Restore</span>
+                                                @else
+                                                    <span class="badge bg-label-success">Custom</span>
+                                                @endif
+                                            @endforeach
 
-                                    </td>
-                                    <td>{{ date('d, F Y', strtotime($model->created_at)) }}</td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <a data-toggle="tooltip" data-placement="top" title="Delete Record" href="javascript:;" class="text-body delete" data-slug="{{ $model->label }}" data-del-url="{{ route('permissions.destroy', $model->label) }}">
-                                                <i class="ti ti-trash ti-sm mx-2"></i>
-                                            </a>
+                                        </td>
+                                        <td>{{ date('d, F Y', strtotime($model->created_at)) }}</td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <a data-toggle="tooltip" data-placement="top" title="Delete Record" href="javascript:;" class="text-body delete" data-slug="{{ $model->label }}" data-del-url="{{ route('permissions.destroy', $model->label) }}">
+                                                    <i class="ti ti-trash ti-sm mx-2"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                <tr>
+                                    <td colspan="5">
+                                        <div class="row mx-2">
+                                            <div class="col-sm-12 col-md-6">
+                                                <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing {{$models->firstItem()}} to {{$models->lastItem()}} of {{$models->total()}} entries</div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-6">
+                                                <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                                                    {!! $models->links('pagination::bootstrap-4') !!}
+                                                </div>
+                                            </div>
                                         </div>
                                     </td>
                                 </tr>
-                            @endforeach
-                            <tr>
-                                <td colspan="5">
-                                    <div class="row mx-2">
-                                        <div class="col-sm-12 col-md-6">
-                                            <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing {{$models->firstItem()}} to {{$models->lastItem()}} of {{$models->total()}} entries</div>
-                                        </div>
-                                        <div class="col-sm-12 col-md-6">
-                                            <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-                                                {!! $models->links('pagination::bootstrap-4') !!}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 

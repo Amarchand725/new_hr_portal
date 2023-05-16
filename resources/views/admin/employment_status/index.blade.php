@@ -73,62 +73,64 @@
                             </div>
                         </div>
                     </div>
-                    <table class="datatables-users table border-top dataTable no-footer dtr-column" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 1227px;">
-                        <thead>
-                            <tr>
-                                <th class="control sorting_disabled dtr-hidden" rowspan="1" colspan="1">S.No#</th>
-                                <th class="control sorting_disabled dtr-hidden" rowspan="1" colspan="1">Name</th>
-                                <th class="sorting sorting_desc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">Preview</th>
-                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1">Description</th>
-                                <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 135px;" aria-label="Actions">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="body">
-                            @foreach ($models as $key=>$model)
-                                <tr class="odd" id="id-{{ $model->id }}">
-                                    <td>{{ $key+1 }}.</td>
-                                    <td class="sorting_1">
-                                        <span class="fw-semibold">{{ $model->name??'-' }}</span>
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-{{ $model->class }}" text-capitalized="">{{ $model->name }}</span>
-                                    </td>
-                                    <td>
-                                        <span class="fw-semibold">{{ $model->description??'-' }}</span>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <a href="javascript:;"
-                                                class="text-body edit-btn"
-                                                data-edit-url="{{ route('employment_status.edit', $model->id) }}"
-                                                data-url="{{ route('employment_status.update', $model->id) }}"
-                                                data-toggle="tooltip"
-                                                data-placement="top"
-                                                title="Edit Employment Status"
-                                                tabindex="0" aria-controls="DataTables_Table_0"
-                                                type="button" data-bs-toggle="modal"
-                                                data-bs-target="#create-form-modal"
-                                                >
-                                                <i class="ti ti-edit ti-sm me-2"></i>
-                                            </a>
-                                            <a data-toggle="tooltip" data-placement="top" title="Delete Record" href="javascript:;" class="text-body delete" data-slug="{{ $model->id }}" data-del-url="{{ route('employment_status.destroy', $model->id) }}">
-                                                <i class="ti ti-trash ti-sm mx-2"></i>
-                                            </a>
+                    <div class="container">
+                        <table class="datatables-users table border-top dataTable no-footer dtr-column" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 1227px;">
+                            <thead>
+                                <tr>
+                                    <th>S.No#</th>
+                                    <th>Name</th>
+                                    <th>Preview</th>
+                                    <th>Description</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="body">
+                                @foreach ($models as $key=>$model)
+                                    <tr class="odd" id="id-{{ $model->id }}">
+                                        <td>{{ $key+1 }}.</td>
+                                        <td class="sorting_1">
+                                            <span class="fw-semibold">{{ $model->name??'-' }}</span>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-{{ $model->class }}" text-capitalized="">{{ $model->name }}</span>
+                                        </td>
+                                        <td>
+                                            <span class="fw-semibold">{{ $model->description??'-' }}</span>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <a href="javascript:;"
+                                                    class="text-body edit-btn"
+                                                    data-edit-url="{{ route('employment_status.edit', $model->id) }}"
+                                                    data-url="{{ route('employment_status.update', $model->id) }}"
+                                                    data-toggle="tooltip"
+                                                    data-placement="top"
+                                                    title="Edit Employment Status"
+                                                    tabindex="0" aria-controls="DataTables_Table_0"
+                                                    type="button" data-bs-toggle="modal"
+                                                    data-bs-target="#create-form-modal"
+                                                    >
+                                                    <i class="ti ti-edit ti-sm me-2"></i>
+                                                </a>
+                                                <a data-toggle="tooltip" data-placement="top" title="Delete Record" href="javascript:;" class="text-body delete" data-slug="{{ $model->id }}" data-del-url="{{ route('employment_status.destroy', $model->id) }}">
+                                                    <i class="ti ti-trash ti-sm mx-2"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                <tr>
+                                    <td colspan="5">
+                                        <div class="row mx-2">
+                                            <div class="col-sm-12 col-md-6">
+                                                <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to {{ $models->count() }} of {{ $models->count() }} entries</div>
+                                            </div>
                                         </div>
                                     </td>
                                 </tr>
-                            @endforeach
-                            <tr>
-                                <td colspan="5">
-                                    <div class="row mx-2">
-                                        <div class="col-sm-12 col-md-6">
-                                            <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to {{ $models->count() }} of {{ $models->count() }} entries</div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
