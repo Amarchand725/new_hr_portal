@@ -144,6 +144,7 @@
     <!-- Main JS -->
     <script src="<?php echo e(asset('public/admin/assets/js/main.js')); ?>"></script>
     
+    
 
     <!-- Page JS -->
     <script src="<?php echo e(asset('public/admin/assets/js/toastr.min.js')); ?>"></script>

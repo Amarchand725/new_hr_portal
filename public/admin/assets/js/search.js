@@ -94,7 +94,7 @@ $(document).ready(function() {
         var modal_id = $(this).closest('form').attr('data-modal-id');
 
         // Get the form data
-        var formData = $('#' + formId).serialize();
+        var formData = $('#' + modal_id).find('#' + formId).serialize();
 
         // Send the AJAX request
         $.ajax({
@@ -106,7 +106,7 @@ $(document).ready(function() {
                     $('#' + modal_id).modal('hide');
                     Swal.fire(
                         'Success!',
-                        'You have added record sucessfully.!',
+                        'Record is modified successfully.',
                         'success'
                     )
 
@@ -148,40 +148,43 @@ $(document).ready(function() {
 });
 
 //Open modal for adding
-$('#add-btn').on('click', function() {
+$('#add-btn, .add-btn').on('click', function() {
+    var targeted_modal = $(this).attr('data-bs-target');
+
     //reset
-    $('#create-form input[type="text"], #create-form textarea').val('');
-    $('#create-form input[type="date"]').val('');
-    $('#create-form input[type="email"]').val('');
-    $('#create-form input[type="time"]').val('');
-    $('#create-form select').val('');
-    $('#create-form input[type="checkbox"], #create-form input[type="radio"]').prop('checked', false);
+    $(targeted_modal).find('#create-form input[type="text"], #create-form textarea').val('');
+    $(targeted_modal).find('#create-form input[type="date"]').val('');
+    $(targeted_modal).find('#create-form input[type="email"]').val('');
+    $(targeted_modal).find('#create-form input[type="time"]').val('');
+    $(targeted_modal).find('#create-form select').val('');
+    $(targeted_modal).find('#create-form input[type="checkbox"], #create-form input[type="radio"]').prop('checked', false);
     //reset
 
     var url = $(this).attr('data-url');
     var modal_label = $(this).attr('title');
 
-    $('#modal-label').html(modal_label);
-    $("#create-form").attr("action", url);
-    $("#create-form").attr("data-method", 'POST');
+    $(targeted_modal).find('#modal-label').html(modal_label);
+    $(targeted_modal).find("#create-form").attr("action", url);
+    $(targeted_modal).find("#create-form").attr("data-method", 'POST');
 });
 
 //Open modal for editing
 $('.edit-btn').on('click', function() {
+    var targeted_modal = $(this).attr('data-bs-target');
+
     var url = $(this).attr('data-url');
     var modal_label = $(this).attr('title');
 
-    $('#modal-label').html(modal_label);
-    $("#create-form").attr("action", url);
-    $("#create-form").attr("data-method", 'PUT');
+    $(targeted_modal).find('#modal-label').html(modal_label);
+    $(targeted_modal).find("#create-form").attr("action", url);
+    $(targeted_modal).find("#create-form").attr("data-method", 'PUT');
 
     var edit_url = $(this).attr('data-edit-url');
     $.ajax({
         url: edit_url,
         method: 'GET',
         success: function(response) {
-            $('#edit-content').html(response);
+            $(targeted_modal).find('#edit-content').html(response);
         }
     });
-
 });

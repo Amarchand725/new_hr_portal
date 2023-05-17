@@ -25,7 +25,8 @@ Route::post('admin/login', [AdminController::class, 'login'])->name('admin.login
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::patch('/profile/update/{id}', [ProfileController::class, 'update'])->name('profile.update');
+    Route::post('/profile/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/logout', [AdminController::class, 'logOut'])->name('user.logout');
@@ -75,6 +76,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/employees', App\Http\Controllers\Admin\EmployeeController::class);
     Route::resource('/profile_cover_images', App\Http\Controllers\Admin\ProfileCoverImageController::class);
     Route::resource('/bank_details', App\Http\Controllers\Admin\BankDetailController::class);
+    Route::resource('/user_contacts', App\Http\Controllers\Admin\UserContactController::class);
 });
 
 require __DIR__.'/auth.php';

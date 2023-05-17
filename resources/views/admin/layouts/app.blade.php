@@ -143,6 +143,7 @@
 
     <!-- Main JS -->
     <script src="{{ asset('public/admin/assets/js/main.js') }}"></script>
+    {{-- <script src="{{ asset('public/admin/assets/js/forms-editors.js') }}"></script> --}}
     {{-- <script src="{{ asset('public/admin/assets/js/app-user-list.js') }}"></script> --}}
 
     <!-- Page JS -->

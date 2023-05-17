@@ -92,7 +92,14 @@
                                                         data-url="{{ route('positions.update', $model->id) }}">
                                                         <i class="ti ti-edit ti-sm me-2"></i>
                                                     </a>
-                                                    <a data-toggle="tooltip" data-placement="top" title="Delete Record" href="javascript:;" class="text-body delete" data-slug="{{ $model->id }}" data-del-url="{{ route('positions.destroy', $model->id) }}">
+                                                    <a href="javascript:;"
+                                                        data-toggle="tooltip"
+                                                        data-placement="top"
+                                                        title="Delete Record"
+                                                        class="text-body delete"
+                                                        data-slug="{{ $model->id }}"
+                                                        data-del-url="{{ route('positions.destroy', $model->id) }}"
+                                                    >
                                                         <i class="ti ti-trash ti-sm mx-2"></i>
                                                     </a>
                                                 </div>

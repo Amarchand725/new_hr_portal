@@ -63,9 +63,10 @@ class BankDetailController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(BankDetail $model)
+    public function edit($id)
     {
         $title = 'Edit Bank Details';
+        $model = BankDetail::where('id', $id)->where('status', 1)->first();
         return view('admin.bank_details.edit', compact('title', 'model'));
     }
 

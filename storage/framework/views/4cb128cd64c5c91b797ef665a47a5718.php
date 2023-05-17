@@ -69,8 +69,8 @@
             </a>
           </li>
           <li class="menu-item <?php echo e(request()->is('bank_details/*')?'active':''); ?>">
-            <?php if(!empty(bankDetail(Auth::user()->id))): ?>
-                <a href="<?php echo e(route('bank_details.edit', bankDetail(Auth::user()->id)->id)); ?>" class="menu-link">
+            <?php if(!empty(bankDetail())): ?>
+                <a href="<?php echo e(route('bank_details.edit', bankDetail()->id)); ?>" class="menu-link">
                     <div data-i18n="Bank Details">Bank Details</div>
                 </a>
             <?php else: ?>

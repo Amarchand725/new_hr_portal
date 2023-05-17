@@ -187,7 +187,7 @@
 
                             <div class="col-12 col-md-12 mt-2">
                                 <label class="form-label" for="department_id">Departments</label>
-                                <select name="department_ids[]" id="department_id" multiple class="form-control">
+                                <select name="department_ids[]" id="department_id" class="select2 form-select text-capitalize">
                                     <option value="" selected>Select department</option>
                                     @foreach ($departments as $department)
                                         <option value="{{ $department->id }}">{{ $department->name }}</option>
@@ -198,8 +198,8 @@
                             </div>
 
                             <div class="col-12 col-md-12 mt-2">
-                                <label class="form-label" for="description">Description ( <small>Optional</small> )</label>
-                                <textarea class="form-control" name="description" id="description" placeholder="Enter description">{{ old('description') }}</textarea>
+                                <label class="form-label" for="full-editor">Description ( <small>Optional</small> )</label>
+                                <textarea class="form-control" name="description" id="full-editor" placeholder="Enter description">{{ old('description') }}</textarea>
                                 <div class="fv-plugins-message-container invalid-feedback"></div>
                                 <span id="description_error" class="text-danger error"></span>
                             </div>

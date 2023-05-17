@@ -71,8 +71,8 @@
             </a>
           </li>
           <li class="menu-item {{ request()->is('bank_details/*')?'active':'' }}">
-            @if(!empty(bankDetail(Auth::user()->id)))
-                <a href="{{ route('bank_details.edit', bankDetail(Auth::user()->id)->id) }}" class="menu-link">
+            @if(!empty(bankDetail()))
+                <a href="{{ route('bank_details.edit', bankDetail()->id) }}" class="menu-link">
                     <div data-i18n="Bank Details">Bank Details</div>
                 </a>
             @else
