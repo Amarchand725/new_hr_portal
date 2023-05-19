@@ -6,58 +6,66 @@
 <div class="content-wrapper">
     <div class="container-xxl flex-grow-1 container-p-y">
         <!-- Users List Table -->
+        <div class="row me-2">
+            <div class="col-md-4">
+                <div class="me-3">
+                    <div class="dataTables_length" id="DataTables_Table_0_length">
+                        <h2> {{ $title }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-3 mb-md-0">
+                    <div class="dt-buttons btn-group flex-wrap">
+                        <a data-toggle="tooltip" data-placement="top" title="All Trashed Records" href="{{ route('departments.trashed') }}" class="btn btn-danger mx-3">
+                            <span>
+                                <i class="ti ti-trash me-0 me-sm-1 ti-xs"></i>
+                                <span class="d-none d-sm-inline-block">All Trashed Records ( <span id="trash-record-count">{{ $onlySoftDeleted }}</span> )</span>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="dt-buttons btn-group flex-wrap">
+                        <button
+                            class="btn btn-secondary add-new btn-primary"
+                            id="add-btn"
+                            data-url="{{ route('departments.store') }}"
+                            tabindex="0" aria-controls="DataTables_Table_0"
+                            type="button" data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasAddDepartment"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="Add Department"
+                            fdprocessedid="i1qq7b">
+                            <span>
+                                <i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
+                                <span class="d-none d-sm-inline-block">Add New Department</span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="card">
             <div class="card-header border-bottom">
-                <div class="row me-2">
-                    <div class="col-md-12">
-                        <div class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-3 mb-md-0">
-                            <div id="DataTables_Table_0_filter" class="dataTables_filter">
-                                <label>
-                                    <input type="search" class="form-control" id="search" name="search" placeholder="Search.." aria-controls="DataTables_Table_0">
-                                </label>
-                            </div>
-                            <div id="DataTables_Table_0_filter" class="dataTables_filter mx-3">
-                                <select name="DataTables_Table_0_length" id="parent-department" aria-controls="DataTables_Table_0" class="form-select search-by-department" fdprocessedid="o5g1n8">
-                                    <option value="All" selected>Search By Parent Department</option>
-                                    @foreach ($data['parent_departments'] as $p_department)
-                                        <option value="{{ $p_department->id }}">{{ $p_department->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div id="DataTables_Table_0_filter" class="dataTables_filter mx-3">
-                                <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" id="status" class="form-select search-by-status" fdprocessedid="o5g1n8">
-                                    <option value="All" selected>Search status</option>
-                                    <option value="1">Active</option>
-                                    <option value="2">De-Active</option>
-                                </select>
-                            </div>
-                            <div class="dt-buttons btn-group flex-wrap">
-                                <a data-toggle="tooltip" data-placement="top" title="All Trashed Records" href="{{ route('departments.trashed') }}" class="btn btn-danger mx-3">
-                                    <span>
-                                        <i class="ti ti-trash me-0 me-sm-1 ti-xs"></i>
-                                        <span class="d-none d-sm-inline-block">All Trashed Records ( <span id="trash-record-count">{{ $onlySoftDeleted }}</span> )</span>
-                                    </span>
-                                </a>
-                            </div>
-                            <div class="dt-buttons btn-group flex-wrap">
-                                <button
-                                    class="btn btn-secondary add-new btn-primary"
-                                    id="add-btn"
-                                    data-url="{{ route('departments.store') }}"
-                                    tabindex="0" aria-controls="DataTables_Table_0"
-                                    type="button" data-bs-toggle="offcanvas"
-                                    data-bs-target="#offcanvasAddDepartment"
-                                    data-toggle="tooltip"
-                                    data-placement="top"
-                                    title="Add Department"
-                                    fdprocessedid="i1qq7b">
-                                    <span>
-                                        <i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
-                                        <span class="d-none d-sm-inline-block">Add New Department</span>
-                                    </span>
-                                </button>
-                            </div>
-                        </div>
+                <h5 class="card-title mb-3">Search Filter</h5>
+                <div class="d-flex justify-content-between align-items-center row pb-2 gap-3 gap-md-0">
+                    <div class="col-md-3 offset-3">
+                        <select name="search_parent_department_id" id="search_parent_department_id" class="form-select">
+                            <option value="All" selected>Search By Parent Department</option>
+                            @foreach ($data['parent_departments'] as $p_department)
+                                <option value="{{ $p_department->id }}">{{ $p_department->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select name="status" id="status" class="select2 form-select text-capitalize">
+                            <option value="All" selected>Search by status</option>
+                            <option value="1">Active</option>
+                            <option value="0">De-Active</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="search" class="form-control" id="search" name="search" placeholder="Search..">
                     </div>
                 </div>
             </div>

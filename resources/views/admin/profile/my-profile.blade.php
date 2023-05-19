@@ -333,18 +333,7 @@
                                         <div class="fv-plugins-message-container invalid-feedback"></div>
                                         <span id="phone_number_error" class="text-danger error"></span>
                                     </div>
-                                    <div class="mb-3 fv-plugins-icon-container">
-                                        <label class="form-label" for="cover_image_id">Cover Image</label>
-                                        <select name="cover_image_id" id="cover_image_id" class="form-control">
-                                            <option value="" selected>Select cover image</option>
-                                        </select>
-                                        <div class="fv-plugins-message-container invalid-feedback"></div>
-                                        <span id="cover_image_id_error" class="text-danger error"></span>
 
-                                        @if(isset($model->profile->coverImage) && !empty($model->profile->coverImage->image))
-                                            <img src="{{ asset('public/admin/profile_cover_images') }}/{{ $model->profile->coverImage->image }}" alt="">
-                                        @endif
-                                    </div>
                                     <div class="mb-3 fv-plugins-icon-container">
                                         <label class="form-label" for="profile">Upload Profile Image</label>
                                         <input type="file" class="form-control" accept="image/*" id="profile" placeholder="Enter first name" name="profile">
@@ -352,7 +341,9 @@
                                         <span id="profile_error" class="text-danger error"></span>
 
                                         @if(isset($model->profile) && !empty($model->profile->profile))
-                                            <img src="{{ asset('public/admin/assets/img/avatars') }}/{{ $model->profile->profile }}" alt="">
+                                            <span id="profile-preview">
+                                                <img style="width:20%; height:20%" src="{{ asset('public/admin/assets/img/avatars') }}/{{ $model->profile->profile }}" alt="">
+                                            </span>
                                         @endif
                                     </div>
                                 </div>
@@ -391,6 +382,44 @@
                                         <div class="fv-plugins-message-container invalid-feedback"></div>
                                         <span id="marital_status_error" class="text-danger error"></span>
                                     </div>
+                                </div>
+                                <div class="col-xl-12 order-0 order-xl-0">
+                                    <div class="mb-3 fv-plugins-icon-container">
+                                        <label class="form-label" for="cover_image_id">Cover Image</label>
+                                        <div class="row gy-3">
+                                            @foreach ($cover_images as $cover_image)
+                                                <div class="col-md">
+                                                    <div class="form-check custom-option custom-option-icon">
+                                                        <label class="form-check-label custom-option-content" for="cover_image_id{{ $cover_image->id }}">
+                                                            <span class="custom-option-body">
+                                                                <img style="width: 150px; height:50px" src="{{ asset('public/admin/assets/img/pages') }}/{{ $cover_image->image }}" alt="Cover Profile Image">
+                                                            </span>
+                                                            @if(isset($model->profile) && !empty($model->profile->cover_image_id) && $model->profile->cover_image_id==$cover_image->id)
+                                                                <input
+                                                                    name="cover_image_id"
+                                                                    class="form-check-input"
+                                                                    type="radio"
+                                                                    value="{{ $cover_image->id }}"
+                                                                    id="cover_image_id{{ $cover_image->id }}"
+                                                                    checked
+                                                                />
+                                                            @else
+                                                                <input
+                                                                    name="cover_image_id"
+                                                                    class="form-check-input"
+                                                                    type="radio"
+                                                                    value="{{ $cover_image->id }}"
+                                                                    id="cover_image_id{{ $cover_image->id }}"
+                                                                />
+                                                            @endif
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-12 order-0 order-xl-0">
                                     <div class="mb-3 fv-plugins-icon-container">
                                         <label class="form-label" for="about_me">About </label>
                                         <textarea name="about_me" id="about_me" cols="30" rows="5" class="form-control" placeholder="Enter about you.">{{ $model->profile->about_me??'' }}</textarea>
@@ -453,10 +482,10 @@
                                                                 <div class="col-lg-8 col-xl-8">
                                                                     <div class="form-password-toggle">
                                                                         <div class="input-group">
-                                                                            <input type="password" class="form-control" id="new_password" name="new_password" placeholder="············" aria-describedby="basic-default-password2">
-                                                                            <span id="new_password" class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
+                                                                            <input type="password" class="form-control" id="password" name="password" placeholder="············" aria-describedby="basic-default-password2">
+                                                                            <span id="password" class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
                                                                             <div class="fv-plugins-message-container invalid-feedback"></div>
-                                                                            <span id="new_password_error" class="text-danger error"></span>
+                                                                            <span id="password_error" class="text-danger error"></span>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -476,10 +505,10 @@
                                                             <div class="col-lg-8 col-xl-8 col-md-8 col-sm-12">
                                                                 <div class="form-password-toggle">
                                                                     <div class="input-group">
-                                                                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="············" aria-describedby="basic-default-password2">
-                                                                        <span id="confirm_password" class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
+                                                                        <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="············" aria-describedby="basic-default-password2">
+                                                                        <span id="password_confirmation" class="input-group-text cursor-pointer"><i class="ti ti-eye-off"></i></span>
                                                                         <div class="fv-plugins-message-container invalid-feedback"></div>
-                                                                        <span id="confirm_password_error" class="text-danger error"></span>
+                                                                        <span id="password_confirmation_error" class="text-danger error"></span>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -875,42 +904,51 @@
                 <div class="tab-pane fade" id="navs-job-history" role="tabpanel">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-xl-7 col-12">
-                                <dl class="row mb-0">
-                                <dt class="col-sm-4 mb-2 fw-semibold text-nowrap">Company Name:</dt>
-                                <dd class="col-sm-8">Vuexy</dd>
+                            <!-- Timeline Advanced-->
+                            <div class="col-xl-12">
+                                <h5 class="card-header">Job History</h5>
+                                <div class="card-body pb-0">
+                                    <ul class="timeline mt-3 mb-0">
+                                        @foreach ($job_histories as $job_history)
+                                            <li class="timeline-item timeline-item-secondary pb-3 border-0">
+                                                <span class="timeline-indicator timeline-indicator-primary">
+                                                    <i class="ti ti-send"></i>
+                                                </span>
+                                                <div class="timeline-event">
+                                                    <div class="timeline-header border-bottom mb-3">
+                                                        <h6 class="mb-0">{{ $job_history->designation->title??'-' }}</h6>
+                                                        <span class="text-muted">{{ date('d F Y', strtotime($job_history->joining_date)) }}</span>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between flex-wrap mb-2">
+                                                        <div>
+                                                            <span>
+                                                                @if(isset($job_history->user->departmentBridge->department) && !empty($job_history->user->departmentBridge->department))
+                                                                    {{ $job_history->user->departmentBridge->department->name }}
+                                                                @endif
+                                                            </span>
+                                                            <i class="ti ti-arrow-right scaleX-n1-rtl mx-3"></i>
+                                                            <span>PRK. {{ number_format($job_history->salary->salary, 2) }}</span>
+                                                        </div>
+                                                        <div>
+                                                            @if(!empty($job_history->salary->effective_date))
+                                                                Effected Date: <span>{{ date('d F Y', strtotime($job_history->salary->effective_date)) }}</span>
+                                                            @else
+                                                                -
+                                                            @endif
+                                                        </div>
+                                                    </div>
 
-                                <dt class="col-sm-4 mb-2 fw-semibold text-nowrap">Billing Email:</dt>
-                                <dd class="col-sm-8">user@ex.com</dd>
-
-                                <dt class="col-sm-4 mb-2 fw-semibold text-nowrap">Tax ID:</dt>
-                                <dd class="col-sm-8">TAX-357378</dd>
-
-                                <dt class="col-sm-4 mb-2 fw-semibold text-nowrap">VAT Number:</dt>
-                                <dd class="col-sm-8">SDF754K77</dd>
-
-                                <dt class="col-sm-4 mb-2 fw-semibold text-nowrap">Billing Address:</dt>
-                                <dd class="col-sm-8">
-                                    100 Water Plant <br />Avenue, Building 1303<br />
-                                    Wake Island
-                                </dd>
-                                </dl>
+                                                    <a href="javascript:void(0)" target="_blank">
+                                                        <i class="ti ti-link"></i>
+                                                        Appointment Letter.
+                                                    </a>
+                                                </div>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
                             </div>
-                            <div class="col-xl-5 col-12">
-                                <dl class="row mb-0">
-                                <dt class="col-sm-4 mb-2 fw-semibold text-nowrap">Contact:</dt>
-                                <dd class="col-sm-8">+1 (605) 977-32-65</dd>
-
-                                <dt class="col-sm-4 mb-2 fw-semibold text-nowrap">Country:</dt>
-                                <dd class="col-sm-8">Wake Island</dd>
-
-                                <dt class="col-sm-4 mb-2 fw-semibold text-nowrap">State:</dt>
-                                <dd class="col-sm-8">Capholim</dd>
-
-                                <dt class="col-sm-4 mb-2 fw-semibold text-nowrap">Zipcode:</dt>
-                                <dd class="col-sm-8">403114</dd>
-                                </dl>
-                            </div>
+                            <!-- /Timeline Advanced-->
                         </div>
                     </div>
                 </div>
@@ -1212,5 +1250,39 @@
 @endsection
 @push('js')
     <script>
+        $(document).ready(function() {
+            // When the file input changes
+            $('#cover_image_id').change(function() {
+                var file = this.files[0];
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                // Create an image element
+                var img = $('<img style="width:10%; height:5%">').attr('src', e.target.result);
+
+                // Display the image preview
+                $('#cover_image_id-preview').html(img);
+                }
+
+                // Read the image file as a data URL
+                reader.readAsDataURL(file);
+            });
+
+            $('#profile').change(function() {
+                var file = this.files[0];
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                // Create an image element
+                var img = $('<img style="width:20%; height:10%">').attr('src', e.target.result);
+
+                // Display the image preview
+                $('#profile-preview').html(img);
+                }
+
+                // Read the image file as a data URL
+                reader.readAsDataURL(file);
+            });
+        });
     </script>
 @endpush

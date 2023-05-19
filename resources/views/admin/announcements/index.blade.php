@@ -5,58 +5,59 @@
 <input type="hidden" id="page_url" value="{{ route('announcements.index') }}">
     <div class="content-wrapper">
         <div class="container-xxl flex-grow-1 container-p-y">
+            <div class="row me-2">
+                <div class="col-md-4">
+                    <div class="me-3">
+                        <div class="dataTables_length" id="DataTables_Table_0_length">
+                            <h2> {{ $title }}</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-3 mb-md-0">
+                        <div class="dt-buttons btn-group flex-wrap">
+                            <a data-toggle="tooltip" data-placement="top" title="All Trashed Records" href="{{ route('announcements.trashed') }}" class="btn btn-danger mx-3">
+                                <span>
+                                    <i class="ti ti-trash me-0 me-sm-1 ti-xs"></i>
+                                    <span class="d-none d-sm-inline-block">All Trashed Records ( <span id="trash-record-count">{{ $onlySoftDeleted }}</span> )</span>
+                                </span>
+                            </a>
+                        </div>
+                        <div class="dt-buttons btn-group flex-wrap">
+                            <button
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                title="Add Announcement"
+                                type="button"
+                                class="btn btn-secondary add-new btn-primary mx-3"
+                                id="add-btn"
+                                data-url="{{ route('announcements.store') }}"
+                                tabindex="0" aria-controls="DataTables_Table_0"
+                                type="button" data-bs-toggle="modal"
+                                data-bs-target="#offcanvasAddAnnouncement"
+                                >
+                                <span>
+                                    <i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
+                                    <span class="d-none d-sm-inline-block">Add New Announcement</span>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- Users List Table -->
             <div class="card">
                 <div class="card-header border-bottom">
-                    <h5 class="card-title mb-3">{{ $title }}</h5>
+                    <h5 class="card-title mb-3">Search Filter</h5>
+                    <div class="d-flex justify-content-between align-items-center row pb-2 gap-3 gap-md-0">
+                        <div class="col-md-6 offset-6">
+                            <input type="search" class="form-control" id="search" name="search" placeholder="Search..">
+                            <input type="hidden" id="status" value="All" class="form-control" placeholder="Search..">
+                        </div>
+                    </div>
                 </div>
                 <div class="card-datatable table-responsive">
                     <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
-                        <div class="row me-2">
-                            <div class="col-md-2">
-                                <div class="me-3">
-                                    <div class="dataTables_length" id="DataTables_Table_0_length">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-10">
-                                <div class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-3 mb-md-0">
-                                    <div id="DataTables_Table_0_filter" class="dataTables_filter">
-                                        <label>
-                                            <input type="search" id="search" class="form-control" placeholder="Search.." aria-controls="DataTables_Table_0">
-                                            <input type="hidden" id="status" value="All" class="form-control" placeholder="Search.." aria-controls="DataTables_Table_0">
-                                        </label>
-                                    </div>
-                                    <div class="dt-buttons btn-group flex-wrap">
-                                        <a data-toggle="tooltip" data-placement="top" title="All Trashed Records" href="{{ route('announcements.trashed') }}" class="btn btn-danger mx-3">
-                                            <span>
-                                                <i class="ti ti-trash me-0 me-sm-1 ti-xs"></i>
-                                                <span class="d-none d-sm-inline-block">All Trashed Records ( <span id="trash-record-count">{{ $onlySoftDeleted }}</span> )</span>
-                                            </span>
-                                        </a>
-                                    </div>
-                                    <div class="dt-buttons btn-group flex-wrap">
-                                        <button
-                                            data-toggle="tooltip"
-                                            data-placement="top"
-                                            title="Add Announcement"
-                                            type="button"
-                                            class="btn btn-secondary add-new btn-primary mx-3"
-                                            id="add-btn"
-                                            data-url="{{ route('announcements.store') }}"
-                                            tabindex="0" aria-controls="DataTables_Table_0"
-                                            type="button" data-bs-toggle="modal"
-                                            data-bs-target="#offcanvasAddAnnouncement"
-                                            >
-                                            <span>
-                                                <i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
-                                                <span class="d-none d-sm-inline-block">Add New Announcement</span>
-                                            </span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <div class="container">
                             <table class="datatables-users table border-top dataTable no-footer dtr-column" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 1227px;">
                                 <thead>
@@ -153,7 +154,7 @@
 
     <!-- Add Employment Status Modal -->
     <div class="modal fade" id="offcanvasAddAnnouncement" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered1 modal-simple modal-add-new-cc">
+        <div class="modal-dialog modal-xl modal-dialog-centered1 modal-simple modal-add-new-cc">
             <div class="modal-content p-3 p-md-5">
                 <div class="modal-body">
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -187,8 +188,8 @@
 
                             <div class="col-12 col-md-12 mt-2">
                                 <label class="form-label" for="department_id">Departments</label>
-                                <select name="department_ids[]" id="department_id" class="select2 form-select text-capitalize">
-                                    <option value="" selected>Select department</option>
+                                <select name="department_ids[]" id="department_id" multiple class="select2 form-select text-capitalize">
+                                    <option value="All" selected>Select All</option>
                                     @foreach ($departments as $department)
                                         <option value="{{ $department->id }}">{{ $department->name }}</option>
                                     @endforeach
@@ -198,8 +199,9 @@
                             </div>
 
                             <div class="col-12 col-md-12 mt-2">
-                                <label class="form-label" for="full-editor">Description ( <small>Optional</small> )</label>
-                                <textarea class="form-control" name="description" id="full-editor" placeholder="Enter description">{{ old('description') }}</textarea>
+                                <label class="form-label" for="description">Description ( <small>Optional</small> )</label>
+                                <textarea class="form-control texteditor" name="description" id="description" placeholder="Enter description">{{ old('description') }}</textarea>
+                                
                                 <div class="fv-plugins-message-container invalid-feedback"></div>
                                 <span id="description_error" class="text-danger error"></span>
                             </div>
@@ -224,4 +226,22 @@
     <!--/ Edit Employment Status Modal -->
 @endsection
 @push('js')
+<script>
+	$(document).ready(function() {
+		if ($(".texteditor").length > 0) {
+			tinymce.init({
+				selector: "textarea.texteditor",
+				theme: "modern",
+				height: 150,
+				plugins: [
+					"advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
+					"searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+					"save table contextmenu directionality emoticons template paste textcolor"
+				],
+				toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | l      ink image | print preview media fullpage | forecolor backcolor emoticons",
+
+			});
+		}
+	});
+</script>
 @endpush

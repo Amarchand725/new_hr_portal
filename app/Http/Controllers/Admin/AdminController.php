@@ -23,19 +23,28 @@ class AdminController extends Controller
         auth()->logout();
         return redirect()->route('admin.login');
     }
-    public function dashboard()
+    public function dashboard(Request $request)
     {
-        $title = 'Dashboard';
         $user = Auth::user();
+
         $role = $user->getRoleNames()->first();
-        if($role=='Admin'){
-            return view('admin.dashboard', compact('title'));
-        }elseif($role=='Manager'){
-            return view('admin.dashboard', compact('title'));
-        }else{
-            return view('admin.emp-dashboard', compact('title'));
+        foreach($user->getRoleNames() as $user_role){
+            if($user_role=='Admin'){
+                $role = $user_role;
+            }
         }
 
+        if($role=='Admin'){
+            $title = 'Admin Dashboard';
+            $model = $request->user();
+            return view('admin.dashboards.admin-dashboard', compact('title', 'model'));
+        }elseif($role=='Manager'){
+            $title = 'Manager Dashboard';
+            return view('admin.dashboards.manager-dashboard', compact('title'));
+        }else{
+            $title = 'Employee Dashboard';
+            return view('admin.dashboards.emp-dashboard', compact('title'));
+        }
     }
     public function loginForm()
     {

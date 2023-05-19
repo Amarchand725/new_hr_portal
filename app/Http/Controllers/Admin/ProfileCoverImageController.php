@@ -51,7 +51,7 @@ class ProfileCoverImageController extends Controller
             if ($request->hasFile('image')) {
                 $image = $request->file('image');
                 $imageName = time() . '.' . $image->getClientOriginalExtension();
-                $image->move(public_path('admin/profile_cover_images'), $imageName);
+                $image->move(public_path('admin/assets/img/pages'), $imageName);
 
                 $model->created_by = Auth::user()->id;
                 $model->image = $imageName;

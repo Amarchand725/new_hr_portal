@@ -20,6 +20,7 @@
     grayColor = '#817D8D';
   }
 
+
   // swiper loop and autoplay
   // --------------------------------------------------------------------
   const swiperWithPagination = document.querySelector('#swiper-with-pagination-cards');

@@ -57,4 +57,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(SalaryHistory::class, 'user_id');
     }
+    public function designation()
+    {
+        return $this->hasOne(Designation::class, 'user_id');
+    }
 }

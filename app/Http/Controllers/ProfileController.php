@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use App\Models\Profile;
 use Illuminate\View\View;
+use App\Models\JobHistory;
+use App\Models\UserContact;
 use Illuminate\Http\Request;
 use App\Models\SalaryHistory;
+use Illuminate\Validation\Rules;
 use App\Models\ProfileCoverImage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\ProfileUpdateRequest;
-use App\Models\UserContact;
-use DB;
-use Illuminate\Validation\Rules;
-use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
@@ -25,12 +26,14 @@ class ProfileController extends Controller
     {
         $title = 'Profile';
         $model = $request->user();
-        $histories = SalaryHistory::orderby('id','desc')->where('user_id', $model->id)->get();
-        $cover_images = ProfileCoverImage::orderby('id','desc')->where('status', 1)->get();
+        $job_histories = JobHistory::orderby('id','desc')->where('user_id', $model->id)->get();
+        $cover_images = ProfileCoverImage::orderby('id','desc')->where('status', 1)->take(4)->get();
         $user_permanent_address = UserContact::where('user_id', $model->id)->where('key', 'permanent_address')->first();
         $user_current_address = UserContact::where('user_id', $model->id)->where('key', 'current_address')->first();
         $user_emergency_contacts = UserContact::where('user_id', $model->id)->where('key', 'emergency_contact')->get();
-        return view('admin.profile.my-profile', compact('title', 'model', 'histories', 'cover_images', 'user_permanent_address', 'user_current_address', 'user_emergency_contacts'));
+        return view('admin.profile.my-profile',
+            compact('title', 'model', 'job_histories', 'cover_images', 'user_permanent_address', 'user_current_address', 'user_emergency_contacts')
+        );
     }
 
     /**
@@ -131,17 +134,14 @@ class ProfileController extends Controller
     {
         $request->validate([
             'old_password' => 'required',
-            'new_password' => 'required|min:6|confirmed',
-            'new_password_confirmation' => 'required|min:6',
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $user = Auth::user();
 
         if (!Hash::check($request->old_password, $user->password)) {
-            return 'if';
             return response()->json(['error' => false, 'message' => 'The provided old password is incorrect.']);
         }
-        return 'outer';
 
         $user->password = Hash::make($request->new_password);
         $user->save();

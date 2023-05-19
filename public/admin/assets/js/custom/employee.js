@@ -3,19 +3,19 @@ $(document).on('change', '#status', function(e) {
     select = $(this);
     selectedOption = select.find("option[value=" + select.val() + "]");
     var status = selectedOption.val();
-    var department = $('#department_id').val();
-    var role_id = $('#role_id').val();
+    var department = $('#search_department_id').val();
+    var role_id = $('#search_role_id').val();
     var search = $('#search').val();
     var pageurl = $('#page_url').val();
     var page = 1;
     fetchAll(pageurl, page, search, status, department, role_id);
 });
-$(document).on('change', '#epartment_id', function(e) {
+$(document).on('change', '#search_department_id', function(e) {
     select = $(this);
     selectedOption = select.find("option[value=" + select.val() + "]");
     var department = selectedOption.val();
-    var role_id = $('#role_id').val();
-    var status = $('#status').val();
+    var role_id = $('#search_role_id').val();
+    var status = $('#search_status_id').val();
     var search = $('#search').val();
     var pageurl = $('#page_url').val();
     var page = 1;
@@ -25,8 +25,8 @@ $(document).on('change', '#role_id', function(e) {
     select = $(this);
     selectedOption = select.find("option[value=" + select.val() + "]");
     var role_id = selectedOption.val();
-    var department = $('#department_id').val();
-    var status = $('#status').val();
+    var department = $('#search_department_id').val();
+    var status = $('#search_status_id').val();
     var search = $('#search').val();
     var pageurl = $('#page_url').val();
     var page = 1;
@@ -34,9 +34,9 @@ $(document).on('change', '#role_id', function(e) {
 });
 $('#search').keyup((function(e) {
     var search = $(this).val();
-    var status = $('#status').val();
-    var department = $('#department_id').val();
-    var role_id = $('#role_id').val();
+    var status = $('#search_status_id').val();
+    var department = $('#search_department_id').val();
+    var role_id = $('#search_role_id').val();
     var pageurl = $('#page_url').val();
     var page = 1;
     fetchAll(pageurl, page, search, status, department, role_id);
@@ -45,9 +45,9 @@ $('#search').keyup((function(e) {
 $(document).on('click', '.pagination a', function(event) {
     event.preventDefault();
     var search = $('#search').val();
-    var status = $('#status').val();
-    var department = $('#department_id').val();
-    var role_id = $('#role_id').val();
+    var status = $('#search_status_id').val();
+    var department = $('#search_department_id').val();
+    var role_id = $('#search_role_id').val();
     var pageurl = $('#page_url').val();
     var page = $(this).attr('href').split('page=')[1];
     fetchAll(pageurl, page, search, status, department, role_id);

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('created_by');
             $table->string('image');
-            $table->boolean('status')->default(0);
+            $table->boolean('status')->default(1);
             $table->string('deleted_at')->nullable();
 
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');

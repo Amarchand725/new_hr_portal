@@ -44,10 +44,11 @@ class AnnouncementController extends Controller
      */
     public function store(Request $request)
     {
+        return $request;
         $this->validate($request, [
-            'title' => ['required', 'max:255'],
-            'start_date' => ['required'],
-            'description' => ['max:500'],
+            'title' => 'required|max:255',
+            'start_date' => 'required',
+            'description' => 'max:255',
         ]);
 
         $announcement = $request->except(['department_ids']);
@@ -58,12 +59,19 @@ class AnnouncementController extends Controller
         try{
             $model = Announcement::create($announcement);
             if($model){
+                $announcement_department = new AnnouncementDepartment();
+                $announcement_department->announcement_id = $model->id;
+
                 if(isset($request->department_ids[0]) && $request->department_ids[0] != ''){
                     foreach($request->department_ids as $department_id){
-                        AnnouncementDepartment::create([
-                            'announcement_id' => $model->id,
-                            'department_id ' => $department_id
-                        ]);
+                        $announcement_department->department_id = $department_id;
+                        $announcement_department->save();
+                    }
+                }else{
+                    $all_departments = Department::where('status', 1)->get();
+                    foreach($all_departments as $department){
+                        $announcement_department->department_id = $department->id;
+                        $announcement_department->save();
                     }
                 }
 

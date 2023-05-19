@@ -448,7 +448,6 @@ class EmployeeController extends Controller
     }
     public function filterSalaryDetails(Request $request)
     {
-        // return date('m-Y', strtotime($request->payslip_month));
         $user_id = Auth::user()->id;
         if(!empty($request->user_id)){
             $user_id = $request->user_id;

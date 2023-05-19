@@ -9,70 +9,59 @@
 
 <div class="content-wrapper">
     <div class="container-xxl flex-grow-1 container-p-y">
+        <div class="row me-2">
+            <div class="col-md-4">
+                <div class="me-3">
+                    <div class="dataTables_length" id="DataTables_Table_0_length">
+                       <h2> {{ $title }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-3 mb-md-0">
+                    <div class="dt-buttons btn-group flex-wrap">
+                        <a data-toggle="tooltip" data-placement="top" title="All Trashed Records" href="{{ route('employment_status.trashed') }}" class="btn btn-danger mx-3">
+                            <span>
+                                <i class="ti ti-trash me-0 me-sm-1 ti-xs"></i>
+                                <span class="d-none d-sm-inline-block">All Trashed Records ( <span id="trash-record-count">{{ $onlySoftDeleted }}</span> )</span>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="dt-buttons btn-group flex-wrap">
+                        <button
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            title="Add New Employment Status"
+                            id="add-btn"
+                            data-url="{{ route('employment_status.store') }}"
+                            class="btn btn-success add-new btn-primary mx-3"
+                            tabindex="0" aria-controls="DataTables_Table_0"
+                            type="button" data-bs-toggle="modal"
+                            data-bs-target="#create-form-modal"
+                            >
+                            <span>
+                                <i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
+                                <span class="d-none d-sm-inline-block">Add New </span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- Users List Table -->
         <div class="card">
             <div class="card-header border-bottom">
-                <h5 class="card-title mb-3">{{ $title }}</h5>
+                <h5 class="card-title mb-3">Search Filter</h5>
+                <div class="d-flex justify-content-between align-items-center row pb-2 gap-3 gap-md-0">
+                    <div class="col-md-6 offset-6">
+                        <input type="search" class="form-control" id="search" name="search" placeholder="Search.." aria-controls="DataTables_Table_0">
+                        <input type="hidden" class="form-control" id="status" value="All">
+                    </div>
+                </div>
             </div>
             <div class="card-datatable table-responsive">
                 <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
-                    <div class="row me-2">
-                        <div class="col-md-2">
-                            <div class="me-3">
-                                <div class="dataTables_length" id="DataTables_Table_0_length">
-                                    <label>
-                                        @if(session()->has('message'))
-                                            <div class="alert alert-success" id="message-alert">
-                                                {{ session()->get('message') }}
-                                            </div>
-                                        @endif
-
-                                        @if(session()->has('error'))
-                                            <div class="alert alert-danger" id="message-alert">
-                                                {{ session()->get('error') }}
-                                            </div>
-                                        @endif
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-10">
-                            <div class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-3 mb-md-0">
-                                <div id="DataTables_Table_0_filter" class="dataTables_filter">
-                                    <label>
-                                        <input type="search" class="form-control" id="search" placeholder="Search.." aria-controls="DataTables_Table_0">
-                                        <input type="hidden" class="form-control" id="status" value="All">
-                                    </label>
-                                </div>
-                                <div class="dt-buttons btn-group flex-wrap">
-                                    <a data-toggle="tooltip" data-placement="top" title="All Trashed Records" href="{{ route('employment_status.trashed') }}" class="btn btn-danger mx-3">
-                                        <span>
-                                            <i class="ti ti-trash me-0 me-sm-1 ti-xs"></i>
-                                            <span class="d-none d-sm-inline-block">All Trashed Records ( <span id="trash-record-count">{{ $onlySoftDeleted }}</span> )</span>
-                                        </span>
-                                    </a>
-                                </div>
-                                <div class="dt-buttons btn-group flex-wrap">
-                                    <button
-                                        data-toggle="tooltip"
-                                        data-placement="top"
-                                        title="Add New Employment Status"
-                                        id="add-btn"
-                                        data-url="{{ route('employment_status.store') }}"
-                                        class="btn btn-success add-new btn-primary mx-3"
-                                        tabindex="0" aria-controls="DataTables_Table_0"
-                                        type="button" data-bs-toggle="modal"
-                                        data-bs-target="#create-form-modal"
-                                        >
-                                        <span>
-                                            <i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
-                                            <span class="d-none d-sm-inline-block">Add New </span>
-                                        </span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
                     <div class="container">
                         <table class="datatables-users table border-top dataTable no-footer dtr-column" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 1227px;">
                             <thead>
@@ -214,65 +203,10 @@
             $('#badge-class-label').addClass(class_name);
         });
 
-        // $(document).ready(function(){
-        //     var class_name = $('#class_name').val();
-        //     var new_class = 'badge bg-'+class_name;
-        //     $('#badge-class-label').removeClass().addClass(new_class);
-        // });
-
         $(document).on('change', '#class_name', function(){
             var class_name = $(this).val();
             var new_class = 'badge bg-'+class_name;
             $('#badge-class-label').removeClass().addClass(new_class);
         });
-
-        // $(document).on('click', '#add-emp-status-btn', function(){
-        //     var url = $(this).attr('data-url');
-        //     $("#employee-status-form").attr("action", url);
-        //     $('#modal-title').html('Add Employment Status');
-
-        //     $("#_method").val('POST');
-        //     $('#name').val('');
-        //     $('#class_name').val('');
-        //     $('#description').val('');
-
-        //     $('#employment-status-modal').modal('show');
-        // });
-
-        // $(document).on('click', '.edit-btn', function(){
-        //     var model = $(this).data('value');
-
-        //     var url = $(this).attr('data-url');
-        //     $("#employee-status-form").attr("action", url);
-
-        //     $("#_method").val('PUT');
-        //     $('#name').val(model.name);
-        //     $('#description').val(model.description);
-        //     $('#class_name').val(model.class);
-        //     $('#modal-title').html('Edit Employment Status');
-        //     $('#employment-status-modal').modal('show');
-        // });
-
-        // $('.submit-btn').on('click', function(e){
-        //     if($('#name').val()==''){
-        //         $('#name').addClass('invalid');
-        //         $('#error-msg').html('Please enter name.!');
-        //         return false;
-        //     }else{
-        //         $('#name').removeClass('invalid');
-        //         $('#error-msg').html('');
-        //         return true;
-        //     }
-
-        //     if($('#class_name').val()==''){
-        //         $('#classclass_name').addClass('invalid');
-        //         $('#error-msg').html('Please enter class.!');
-        //         return false;
-        //     }else{
-        //         $('#classclass_name').removeClass('invalid');
-        //         $('#error-msg').html('');
-        //         return true;
-        //     }
-        // });
     </script>
 @endpush

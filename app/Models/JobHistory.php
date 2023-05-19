@@ -16,12 +16,21 @@ class JobHistory extends Model
         return $this->belongsTo(EmploymentStatus::class, 'employment_status_id');
     }
 
-    public function position()
+    public function user()
     {
-        return $this->belongsTo(Position::class, 'position_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
     public function designation()
     {
         return $this->belongsTo(Designation::class, 'designation_id');
+    }
+
+    public function lastDesignation()
+    {
+        return $this->belongsTo(Designation::class, 'last_designation_id');
+    }
+    public function salary()
+    {
+        return $this->hasOne(SalaryHistory::class, 'job_history_id', 'id');
     }
 }

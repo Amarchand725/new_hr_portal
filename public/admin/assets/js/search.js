@@ -125,13 +125,21 @@ $(document).ready(function() {
                             content: 'text-danger'
                         }
                     });
+                } else if (response.error == false) {
+                    Swal.fire({
+                        title: 'Alert!',
+                        text: response.message,
+                        icon: 'warning',
+                        customClass: {
+                            title: 'text-danger',
+                            content: 'text-danger'
+                        }
+                    });
                 }
-
             },
             error: function(xhr) {
                 // Parse the JSON response to get the error messages
                 var errors = JSON.parse(xhr.responseText);
-
                 // Reset the form errors
                 $('.is-invalid').removeClass('is-invalid');
                 $('.invalid-feedback').empty();

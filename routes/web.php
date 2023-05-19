@@ -61,6 +61,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/announcements/trashed', [App\Http\Controllers\Admin\AnnouncementController::class, 'trashed'])->name('announcements.trashed');
     Route::get('/announcements/restore/{id}', [App\Http\Controllers\Admin\AnnouncementController::class, 'restore'])->name('announcements.restore');
 
+    Route::get('/leave_types/trashed', [App\Http\Controllers\Admin\LeaveTypeController::class, 'trashed'])->name('leave_types.trashed');
+    Route::get('/leave_types/restore/{id}', [App\Http\Controllers\Admin\LeaveTypeController::class, 'restore'])->name('leave_types.restore');
+
     Route::get('/profile_cover_images/trashed', [App\Http\Controllers\Admin\ProfileCoverImageController::class, 'trashed'])->name('profile_cover_images.trashed');
     Route::get('/profile_cover_images/restore/{id}', [App\Http\Controllers\Admin\ProfileCoverImageController::class, 'restore'])->name('profile_cover_images.restore');
     Route::get('/profile_cover_images/status/{id}', [App\Http\Controllers\Admin\ProfileCoverImageController::class, 'status'])->name('profile_cover_images.status');
@@ -77,6 +80,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('/profile_cover_images', App\Http\Controllers\Admin\ProfileCoverImageController::class);
     Route::resource('/bank_details', App\Http\Controllers\Admin\BankDetailController::class);
     Route::resource('/user_contacts', App\Http\Controllers\Admin\UserContactController::class);
+    Route::resource('/settings', App\Http\Controllers\Admin\SettingController::class);
+    Route::resource('/leave_types', App\Http\Controllers\Admin\LeaveTypeController::class);
 });
 
 require __DIR__.'/auth.php';

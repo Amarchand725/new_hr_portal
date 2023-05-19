@@ -6,43 +6,48 @@
 <input type="hidden" id="page_url" value="{{ route('permissions.index') }}">
 <div class="content-wrapper">
     <div class="container-xxl flex-grow-1 container-p-y">
+        <div class="row me-2">
+            <div class="col-md-4">
+                <div class="me-3">
+                    <div class="dataTables_length" id="DataTables_Table_0_length">
+                        <h2> {{ $title }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-3 mb-md-0">
+                    <div class="dt-buttons btn-group flex-wrap">
+                        <button
+                            id="add-btn"
+                            data-toggle="tooltip" data-placement="top" title="Add Permission"
+                            data-url="{{ route('permissions.store') }}"
+                            class="btn add-new btn-primary mb-3 mb-md-0 mx-3"
+                            tabindex="0" aria-controls="DataTables_Table_0"
+                            type="button" data-bs-toggle="modal"
+                            data-bs-target="#addPermissionModal">
+                            <span>
+                                <i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
+                                <span class="d-none d-sm-inline-block"> Add Permission </span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- Users List Table -->
         <div class="card">
             <div class="card-header border-bottom">
-                <h5 class="card-title mb-3">{{ $title }}</h5>
+                <h5 class="card-title mb-3">Search Filter</h5>
+                <div class="d-flex justify-content-between align-items-center row pb-2 gap-3 gap-md-0">
+                    <div class="col-md-6 offset-6">
+                        <input type="search" class="form-control" id="search" name="search" placeholder="Search.." aria-controls="DataTables_Table_0">
+                        <input type="hidden" class="form-control" id="status" value="All">
+                    </div>
+                </div>
             </div>
             <div class="card-datatable table-responsive">
                 <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
-                    <div class="row me-2">
-                        <div class="col-md-2">
-                            <div class="me-3">
-                                <div class="dataTables_length" id="DataTables_Table_0_length">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-10">
-                            <div class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-3 mb-md-0">
-                                <div id="DataTables_Table_0_filter" class="dataTables_filter">
-                                    <label>
-                                        <input type="search" class="form-control" id="search" placeholder="Search.." aria-controls="DataTables_Table_0">
-                                        <input type="hidden" id="status" value="All">
-                                    </label>
-                                </div>
-                                <div class="dt-buttons btn-group flex-wrap">
-                                    <button
-                                        id="add-btn"
-                                        data-toggle="tooltip" data-placement="top" title="Add Permission"
-                                        data-url="{{ route('permissions.store') }}"
-                                        class="btn add-new btn-primary mb-3 mb-md-0 mx-3"
-                                        tabindex="0" aria-controls="DataTables_Table_0"
-                                        type="button" data-bs-toggle="modal"
-                                        data-bs-target="#addPermissionModal">
-                                        <span>Add Permission</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
                     <div class="container">
                         <table class="datatables-users table border-top dataTable no-footer dtr-column" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 1227px;">
                             <thead>

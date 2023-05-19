@@ -5,34 +5,39 @@
 <input type="hidden" id="page_url" value="{{ route('profile_cover_images.index') }}">
 <div class="content-wrapper">
     <div class="container-xxl flex-grow-1 container-p-y">
-        <!-- Users List Table -->
-        <div class="card">
-            <div class="card-header border-bottom">
-                <div class="row me-2">
-                    <div class="col-md-12">
-                        <div class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-3 mb-md-0">
-                            <div id="DataTables_Table_0_filter" class="dataTables_filter">
-                            </div>
-                            <div class="dt-buttons btn-group flex-wrap">
-                                <a data-toggle="tooltip" data-placement="top" title="All Trashed Records" href="{{ route('profile_cover_images.trashed') }}" class="btn btn-danger mx-3">
-                                    <span>
-                                        <i class="ti ti-trash me-0 me-sm-1 ti-xs"></i>
-                                        <span class="d-none d-sm-inline-block">All Trashed Records ( <span id="trash-record-count">{{ $onlySoftDeleted }}</span> )</span>
-                                    </span>
-                                </a>
-                            </div>
-                            <div class="dt-buttons btn-group flex-wrap">
-                                <button class="btn btn-secondary add-new btn-primary" id="add-btn" data-url="{{ route('profile_cover_images.store') }}" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddCoverImage" fdprocessedid="i1qq7b">
-                                    <span>
-                                        <i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
-                                        <span class="d-none d-sm-inline-block">Add New Cover Image</span>
-                                    </span>
-                                </button>
-                            </div>
-                        </div>
+        <div class="row me-2">
+            <div class="col-md-4">
+                <div class="me-3">
+                    <div class="dataTables_length" id="DataTables_Table_0_length">
+                        <h2> {{ $title }}</h2>
                     </div>
                 </div>
             </div>
+            <div class="col-md-8">
+                <div class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-3 mb-md-0">
+                    <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                    </div>
+                    <div class="dt-buttons btn-group flex-wrap">
+                        <a data-toggle="tooltip" data-placement="top" title="All Trashed Records" href="{{ route('profile_cover_images.trashed') }}" class="btn btn-danger mx-3">
+                            <span>
+                                <i class="ti ti-trash me-0 me-sm-1 ti-xs"></i>
+                                <span class="d-none d-sm-inline-block">All Trashed Records ( <span id="trash-record-count">{{ $onlySoftDeleted }}</span> )</span>
+                            </span>
+                        </a>
+                    </div>
+                    <div class="dt-buttons btn-group flex-wrap">
+                        <button class="btn btn-secondary add-new btn-primary" id="add-btn" data-url="{{ route('profile_cover_images.store') }}" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddCoverImage" fdprocessedid="i1qq7b">
+                            <span>
+                                <i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
+                                <span class="d-none d-sm-inline-block">Add New Cover Image</span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Users List Table -->
+        <div class="card">
             <div class="card-datatable table-responsive">
                 <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
                     <div class="container">
@@ -54,7 +59,7 @@
                                         <td>
                                             <span class="fw-semibold">
                                                 @if(!empty($model->image))
-                                                    <img src="{{ asset('public/admin/profile_cover_images') }}/{{ $model->image }}" style="width:100px" alt="">
+                                                    <img src="{{ asset('public/admin/assets/img/pages') }}/{{ $model->image }}" style="width:100px; height:40px" alt="">
                                                 @else
                                                     <img src="{{ asset('public/admin/default.png') }}" style="width:100px" alt="">
                                                 @endif

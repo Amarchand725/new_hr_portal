@@ -8,7 +8,7 @@
             <script>
                 document.write(new Date().getFullYear());
             </script>
-            <a href="#" target="_blank" class="fw-semibold">Cyberonix Ltd</a>
+            <a href="javascript:void(0);" class="fw-semibold"><?php echo e(settings()->name??'-'); ?></a>
         </div>
       </div>
     </div>

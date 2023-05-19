@@ -1,7 +1,5 @@
 <nav
-    class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
-    id="layout-navbar"
-    >
+    class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar" >
     <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
         <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
         <i class="ti ti-menu-2 ti-sm"></i>
@@ -177,11 +175,9 @@
                     </ul>
                 </li>
                 <li class="dropdown-menu-footer border-top">
-                    <a
-                    href="javascript:void(0);"
-                    class="dropdown-item d-flex justify-content-center text-primary p-2 h-px-40 mb-1 align-items-center"
-                    >
-                    View all notifications
+                    <a href="javascript:void(0);"
+                        class="dropdown-item d-flex justify-content-center text-primary p-2 h-px-40 mb-1 align-items-center">
+                        View all notifications
                     </a>
                 </li>
             </ul>
@@ -215,8 +211,8 @@
                         <div class="flex-grow-1">
                             <span class="fw-semibold d-block">{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}</span>
                             <small class="text-muted">
-                                @if(isset(Auth::user()->jobHistory->position->title) && !empty(Auth::user()->jobHistory->position->title))
-                                    {{ Auth::user()->jobHistory->position->title }}
+                                @if(isset(Auth::user()->jobHistory->designation->title) && !empty(Auth::user()->jobHistory->designation->title))
+                                    {{ Auth::user()->jobHistory->designation->title }}
                                 @else
                                     -
                                 @endif
@@ -235,9 +231,9 @@
                 </a>
             </li>
             <li>
-                <a class="dropdown-item" href="pages-account-settings-account.html">
-                <i class="ti ti-settings me-2 ti-sm"></i>
-                <span class="align-middle">Settings</span>
+                <a class="dropdown-item" href="{{ route('settings.create') }}">
+                    <i class="ti ti-settings me-2 ti-sm"></i>
+                    <span class="align-middle">Settings</span>
                 </a>
             </li>
             <li>
