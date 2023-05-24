@@ -60,6 +60,7 @@
                                         <th>S.No#</th>
                                         <th>Title</th>
                                         <th>Type</th>
+                                        <th>Amount</th>
                                         <th>Status</th>
                                         <th>Created at</th>
                                         <th>Actions</th>
@@ -73,6 +74,7 @@
                                                 <span class="fw-semibold">{{ $model->name??'-' }}</span>
                                             </td>
                                             <td><span class="fw-semibold">{{ Str::ucfirst($model->type)??'-' }}</span></td>
+                                            <td><span class="fw-semibold">{{ number_format($model->amount, 2)??'-' }}</span></td>
                                             <td>
                                                 @if($model->status)
                                                     <span class="badge bg-label-success" text-capitalized="">Active</span>

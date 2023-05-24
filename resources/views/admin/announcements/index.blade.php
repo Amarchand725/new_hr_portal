@@ -187,27 +187,27 @@
                             </div>
 
                             <div class="col-12 col-md-12 mt-2">
-                                <label class="form-label" for="department_id">Departments</label>
-                                <select name="department_ids[]" id="department_id" multiple class="select2 form-select text-capitalize">
+                                <label class="form-label" for="department_ids">Departments</label>
+                                <select name="department_ids[]" id="department_ids" multiple class="form-select">
                                     <option value="All" selected>Select All</option>
                                     @foreach ($departments as $department)
                                         <option value="{{ $department->id }}">{{ $department->name }}</option>
                                     @endforeach
                                 </select>
                                 <div class="fv-plugins-message-container invalid-feedback"></div>
-                                <span id="department_id_error" class="text-danger error"></span>
+                                <span id="department_ids_error" class="text-danger error"></span>
                             </div>
 
                             <div class="col-12 col-md-12 mt-2">
                                 <label class="form-label" for="description">Description ( <small>Optional</small> )</label>
-                                <textarea class="form-control texteditor" name="description" id="description" placeholder="Enter description">{{ old('description') }}</textarea>
-                                
+                                <textarea class="form-control" name="description" id="description" placeholder="Enter description">{{ old('description') }}</textarea>
+
                                 <div class="fv-plugins-message-container invalid-feedback"></div>
                                 <span id="description_error" class="text-danger error"></span>
                             </div>
                         </span>
 
-                        <div class="col-12 text-center">
+                        <div class="col-12">
                             <button type="submit" class="btn btn-primary me-sm-3 me-1 submitBtn">Submit</button>
                             <button
                                 type="reset"
@@ -226,22 +226,4 @@
     <!--/ Edit Employment Status Modal -->
 @endsection
 @push('js')
-<script>
-	$(document).ready(function() {
-		if ($(".texteditor").length > 0) {
-			tinymce.init({
-				selector: "textarea.texteditor",
-				theme: "modern",
-				height: 150,
-				plugins: [
-					"advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
-					"searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
-					"save table contextmenu directionality emoticons template paste textcolor"
-				],
-				toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | l      ink image | print preview media fullpage | forecolor backcolor emoticons",
-
-			});
-		}
-	});
-</script>
 @endpush

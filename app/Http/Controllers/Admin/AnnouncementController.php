@@ -44,11 +44,10 @@ class AnnouncementController extends Controller
      */
     public function store(Request $request)
     {
-        return $request;
         $this->validate($request, [
             'title' => 'required|max:255',
             'start_date' => 'required',
-            'description' => 'max:255',
+            'description' => 'max:1000',
         ]);
 
         $announcement = $request->except(['department_ids']);
@@ -60,16 +59,17 @@ class AnnouncementController extends Controller
             $model = Announcement::create($announcement);
             if($model){
                 $announcement_department = new AnnouncementDepartment();
-                $announcement_department->announcement_id = $model->id;
 
                 if(isset($request->department_ids[0]) && $request->department_ids[0] != ''){
                     foreach($request->department_ids as $department_id){
+                        $announcement_department->announcement_id = $model->id;
                         $announcement_department->department_id = $department_id;
                         $announcement_department->save();
                     }
                 }else{
                     $all_departments = Department::where('status', 1)->get();
                     foreach($all_departments as $department){
+                        $announcement_department->announcement_id = $model->id;
                         $announcement_department->department_id = $department->id;
                         $announcement_department->save();
                     }
@@ -93,7 +93,8 @@ class AnnouncementController extends Controller
     public function edit($id)
     {
         $model = Announcement::where('id', $id)->first();
-        return (string) view('admin.announcements.edit_content', compact('model'));
+        $departments = Department::where('status', 1)->get();
+        return (string) view('admin.announcements.edit_content', compact('model', 'departments'));
     }
 
     /**
@@ -104,24 +105,34 @@ class AnnouncementController extends Controller
         $this->validate($request, [
             'title' => ['required', 'max:255'],
             'start_date' => ['required'],
-            'description' => ['max:500'],
+            'description' => ['max:1000'],
         ]);
 
         $announcement_inputs = $request->except(['department_ids']);
-        $announcement_inputs['created_by'] = Auth::user()->id;
 
         DB::beginTransaction();
 
         try{
             $model = $announcement->update($announcement_inputs);
-            if($model){
-                if(isset($request->department_ids[0]) && $request->department_ids[0] != ''){
-                    AnnouncementDepartment::where('announcement_id', )->delete();
-                    foreach($request->department_ids as $department_id){
-                        AnnouncementDepartment::create([
-                            'announcement_id' => $announcement->id,
-                            'department_id ' => $department_id
-                        ]);
+
+            if($model && isset($request->department_ids[0]) && $request->department_ids[0] != ''){
+                // return $request->department_ids[0];
+                $announcement_department = AnnouncementDepartment::where('announcement_id', $announcement->id)->delete();
+
+                $announcement_department = new AnnouncementDepartment();
+
+                if($request->department_ids[0]=='All') {
+                    $all_departments = Department::where('status', 1)->get();
+                    foreach($all_departments as $department) {
+                        $announcement_department->announcement_id = $announcement->id;
+                        $announcement_department->department_id = $department->id;
+                        $announcement_department->save();
+                    }
+                }else{
+                    foreach($request->department_ids as $department_id) {
+                        $announcement_department->announcement_id = $announcement->id;
+                        $announcement_department->department_id = $department_id;
+                        $announcement_department->save();
                     }
                 }
 

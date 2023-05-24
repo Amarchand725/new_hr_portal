@@ -20,17 +20,26 @@
 </div>
 
 <div class="col-12 col-md-12 mt-2">
-    <label class="form-label" for="department_id">Departments</label>
-    <select name="department_ids[]" id="" class="form-control">
-        <option value="" selected>Select department</option>
+    <label class="form-label" for="department_ids">Departments</label>
+    <select name="department_ids[]" id="department_ids" multiple class="form-select">
+        <option value="All" selected>Select All</option>
+        @foreach ($departments as $department)
+            <option value="{{ $department->id }}">{{ $department->name }}</option>
+        @endforeach
     </select>
     <div class="fv-plugins-message-container invalid-feedback"></div>
-    <span id="department_id_error" class="text-danger error"></span>
+    <span id="department_ids_error" class="text-danger error"></span>
 </div>
 
 <div class="col-12 col-md-12 mt-2">
     <label class="form-label" for="description">Description ( <small>Optional</small> )</label>
-    <textarea class="form-control" name="description" id="description" placeholder="Enter description">{{ $model->description }}</textarea>
+    <textarea class="form-control" name="description" id="description" placeholder="Enter description">{!! $model->description !!}</textarea>
     <div class="fv-plugins-message-container invalid-feedback"></div>
     <span id="description_error" class="text-danger error"></span>
 </div>
+
+
+<script>
+    CKEDITOR.replace('description');
+    $('.form-select').select2();
+</script>

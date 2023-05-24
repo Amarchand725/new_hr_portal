@@ -85,38 +85,48 @@
             </li>
             </ul>
         </li>
-        <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-            <i class="menu-icon tf-icons ti ti-clock"></i>
-            <div data-i18n="Leaves">Leaves</div>
-            </a>
-            <ul class="menu-sub">
-            <li class="menu-item">
-                <a href="{{ route('employees.index') }}" class="menu-link">
-                <div data-i18n="Leave Status">Leave Status</div>
+        @if(!isOnProbation())
+            <li class="menu-item {{
+                request()->is('user_leaves') ||
+                request()->is('user_leaves/report')
+                ?'open active':''
+            }}">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons ti ti-clock"></i>
+                <div data-i18n="Leaves">Leaves</div>
                 </a>
+                <ul class="menu-sub">
+                <li class="menu-item {{ request()->is('user_leaves')?'active':'' }}">
+                    <a href="{{ route('user_leaves.index') }}" class="menu-link">
+                    <div data-i18n="Leave Status">Leave Status</div>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->is('user_leaves/report')?'active':'' }}">
+                    <a href="{{ route('user_leaves.report') }}" class="menu-link">
+                    <div data-i18n="Leave Report">Leave Report</div>
+                    </a>
+                </li>
+                </ul>
             </li>
-            <li class="menu-item">
-                <a href="{{ route('employees.index') }}" class="menu-link">
-                <div data-i18n="Leave Report">Leave Report</div>
-                </a>
-            </li>
-            </ul>
-        </li>
+        @endif
 
-        <li class="menu-item">
+        <li class="menu-item {{
+            request()->is('user/discrepancies') ||
+            request()->is('user/attendance/daily-log')
+            ?'open active':''
+        }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
             <i class="menu-icon tf-icons ti ti-calendar"></i>
             <div data-i18n="Attendance">Attendance</div>
             </a>
             <ul class="menu-sub">
-            <li class="menu-item">
-                <a href="{{ route('roles.index') }}" class="menu-link">
+            <li class="menu-item {{ request()->is('user/attendance/daily-log')?'active':'' }}">
+                <a href="{{ route('user.attendance.daily-log') }}" class="menu-link">
                 <div data-i18n="Daily Log">Daily Log</div>
                 </a>
             </li>
-            <li class="menu-item">
-                <a href="{{ route('permissions.index') }}" class="menu-link">
+            <li class="menu-item {{ request()->is('user/discrepancies')?'active':'' }}">
+                <a href="{{ route('user.discrepancies') }}" class="menu-link">
                 <div data-i18n="Discrepancies">Discrepancies</div>
                 </a>
             </li>
@@ -139,6 +149,7 @@
                 request()->is('work_shifts') ||
                 request()->is('departments') ||
                 request()->is('announcements') ||
+                request()->is('profile_cover_images') ||
                 request()->is('leave_types')
                 ?'open active':''
             }}">

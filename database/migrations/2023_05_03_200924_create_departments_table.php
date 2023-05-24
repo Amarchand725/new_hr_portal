@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('departments', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('manager_id');
-            $table->bigInteger('parent_department_id')->nullable();
+            $table->bigInteger('manager_id')->nullable();
+            $table->bigInteger('parent_department_id');
             $table->string('name');
             $table->text('description')->nullable();
             $table->text('location')->nullable();

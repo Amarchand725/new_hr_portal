@@ -18,12 +18,21 @@
         <td>
             <span class="fw-semibold">
                 <?php if(isset($model->manager) && !empty($model->manager->first_name)): ?>
-                    <?php echo e($model->manager->first_name); ?> <?php echo e($model->manager->last_name); ?>
+                    <span class="badge bg-label-success"><i class="fa fa-check"></i>
+                        <?php echo e($model->manager->first_name); ?> <?php echo e($model->manager->last_name); ?>
 
+                    </span>
                 <?php else: ?>
-                    -
+                    <span class="badge bg-label-danger"><i class="fa fa-times"></i> Not Assigned Manager</span>
                 <?php endif; ?>
             </span>
+        </td>
+        <td>
+            <?php if(isset($model->departmentWorkShift) && !empty($model->departmentWorkShift->workShift->name)): ?>
+                <span class="badge bg-label-success"><i class="fa fa-check"></i> <?php echo e($model->departmentWorkShift->workShift->name); ?></span>
+            <?php else: ?>
+                <span class="badge bg-label-danger"><i class="fa fa-times"></i> Not Assigned Shift</span>
+            <?php endif; ?>
         </td>
         <td><?php echo e(date('d M Y', strtotime($model->created_at))); ?></td>
         <td>
@@ -40,7 +49,11 @@
                     data-toggle="tooltip"
                     data-placement="top"
                     title="Edit Department"
-                    data-edit-url="<?php echo e(route('departments.edit', $model->id)); ?>" data-url="<?php echo e(route('departments.update', $model->id)); ?>" data-value="<?php echo e($model); ?>" class="btn btn-default edit-btn edit-btn" tabindex="0" aria-controls="DataTables_Table_0" type="button"
+                    data-edit-url="<?php echo e(route('departments.edit', $model->id)); ?>"
+                    data-url="<?php echo e(route('departments.update', $model->id)); ?>"
+                    tabindex="0"
+                    aria-controls="DataTables_Table_0"
+                    type="button"
                     data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddDepartment" fdprocessedid="i1qq7b">
                     <i class="ti ti-edit ti-sm me-2"></i>
                 </a>
@@ -57,6 +70,15 @@
                         <?php else: ?>
                             Active
                         <?php endif; ?>
+                    </a>
+                    <a href="#" class="dropdown-item dept-manager-btn" data-status-url='<?php echo e(route('departments.status', $model->id)); ?>'>
+                        Manager
+                    </a>
+                    <a href="#" class="dropdown-item dept-work-shift-btn" data-status-url='<?php echo e(route('departments.status', $model->id)); ?>'>
+                        Shift
+                    </a>
+                    <a href="#" class="dropdown-item dept-view-details-btn" data-status-url='<?php echo e(route('departments.status', $model->id)); ?>'>
+                        View Details
                     </a>
                 </div>
             </div>

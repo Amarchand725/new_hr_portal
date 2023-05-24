@@ -16,11 +16,20 @@
         <td>
             <span class="fw-semibold">
                 @if(isset($model->manager) && !empty($model->manager->first_name))
-                    {{ $model->manager->first_name }} {{ $model->manager->last_name }}
+                    <span class="badge bg-label-success"><i class="fa fa-check"></i>
+                        {{ $model->manager->first_name }} {{ $model->manager->last_name }}
+                    </span>
                 @else
-                    -
+                    <span class="badge bg-label-danger"><i class="fa fa-times"></i> Not Assigned Manager</span>
                 @endif
             </span>
+        </td>
+        <td>
+            @if(isset($model->departmentWorkShift) && !empty($model->departmentWorkShift->workShift->name))
+                <span class="badge bg-label-success"><i class="fa fa-check"></i> {{ $model->departmentWorkShift->workShift->name }}</span>
+            @else
+                <span class="badge bg-label-danger"><i class="fa fa-times"></i> Not Assigned Shift</span>
+            @endif
         </td>
         <td>{{ date('d M Y', strtotime($model->created_at)) }}</td>
         <td>
@@ -37,7 +46,11 @@
                     data-toggle="tooltip"
                     data-placement="top"
                     title="Edit Department"
-                    data-edit-url="{{ route('departments.edit', $model->id) }}" data-url="{{ route('departments.update', $model->id) }}" data-value="{{ $model }}" class="btn btn-default edit-btn edit-btn" tabindex="0" aria-controls="DataTables_Table_0" type="button"
+                    data-edit-url="{{ route('departments.edit', $model->id) }}"
+                    data-url="{{ route('departments.update', $model->id) }}"
+                    tabindex="0"
+                    aria-controls="DataTables_Table_0"
+                    type="button"
                     data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddDepartment" fdprocessedid="i1qq7b">
                     <i class="ti ti-edit ti-sm me-2"></i>
                 </a>
@@ -54,6 +67,15 @@
                         @else
                             Active
                         @endif
+                    </a>
+                    <a href="#" class="dropdown-item dept-manager-btn" data-status-url='{{ route('departments.status', $model->id) }}'>
+                        Manager
+                    </a>
+                    <a href="#" class="dropdown-item dept-work-shift-btn" data-status-url='{{ route('departments.status', $model->id) }}'>
+                        Shift
+                    </a>
+                    <a href="#" class="dropdown-item dept-view-details-btn" data-status-url='{{ route('departments.status', $model->id) }}'>
+                        View Details
                     </a>
                 </div>
             </div>

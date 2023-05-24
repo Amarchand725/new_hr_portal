@@ -9,6 +9,7 @@ use Spatie\Permission\Models\Role;
 use App\Models\Department;
 use App\Models\WorkShift;
 use App\Models\User;
+use DB;
 
 class RoleController extends Controller
 {
@@ -32,7 +33,7 @@ class RoleController extends Controller
         $title = 'All Roles';
 
         $models = Permission::orderby('id','DESC')->groupBy('label')->paginate($per_page_records);
-        $roles = Role::orderby('id', 'desc')->get();
+        $roles = Role::with('users')->orderby('id', 'desc')->get();
         $departments = Department::orderby('id', 'desc')->get();
         $work_shifts = WorkShift::orderby('id', 'desc')->get();
         $employees = User::orderby('id', 'desc')->paginate($per_page_records);

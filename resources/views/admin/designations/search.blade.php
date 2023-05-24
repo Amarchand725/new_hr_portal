@@ -9,7 +9,7 @@
         <td>{!! \Illuminate\Support\Str::limit($model->description,50)??'-' !!}</td>
         <td>
             <span class="badge badge-center rounded-pill bg-label-primary w-px-30 h-px-30 me-2">
-                5
+                {{ count($model->hasUsers) }}
             </span>
         </td>
         <td>

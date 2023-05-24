@@ -59,6 +59,7 @@
                                         <th>S.No#</th>
                                         <th>Title</th>
                                         <th>Type</th>
+                                        <th>Amount</th>
                                         <th>Status</th>
                                         <th>Created at</th>
                                         <th>Actions</th>
@@ -72,6 +73,7 @@
                                                 <span class="fw-semibold"><?php echo e($model->name??'-'); ?></span>
                                             </td>
                                             <td><span class="fw-semibold"><?php echo e(Str::ucfirst($model->type)??'-'); ?></span></td>
+                                            <td><span class="fw-semibold"><?php echo e(number_format($model->amount, 2)??'-'); ?></span></td>
                                             <td>
                                                 <?php if($model->status): ?>
                                                     <span class="badge bg-label-success" text-capitalized="">Active</span>

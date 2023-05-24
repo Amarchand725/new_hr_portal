@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\UserLeave;
 
 class User extends Authenticatable
 {
@@ -51,14 +52,23 @@ class User extends Authenticatable
     }
     public function jobHistory()
     {
-        return $this->hasOne(JobHistory::class, 'user_id');
+        return $this->hasOne(JobHistory::class, 'user_id')->orderby('id', 'desc');
     }
     public function salaryHistory()
     {
         return $this->hasOne(SalaryHistory::class, 'user_id');
     }
-    public function designation()
+    public function employeeStatus()
     {
-        return $this->hasOne(Designation::class, 'user_id');
+        return $this->hasOne(UserEmploymentStatus::class, 'user_id');
+    }
+    public function leaves()
+    {
+        return $this->hasMany(UserLeave::class);
+    }
+
+    public function userWorkingShift()
+    {
+        return $this->hasOne(WorkingShiftUser::class, 'user_id', 'id');
     }
 }

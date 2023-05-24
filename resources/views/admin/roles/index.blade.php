@@ -15,11 +15,17 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
-                            <h6 class="fw-normal mb-2">Total 0 users</h6>
+                            <h6 class="fw-normal mb-2">Total <span class="">{{ count($role->users) }}</span> users</h6>
                             <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
-                                <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Vinnie Mostowy" class="avatar avatar-sm pull-up">
-                                    <img class="rounded-circle" src="{{ asset('public/admin') }}/assets/img/avatars/5.png" alt="Avatar" />
-                                </li>
+                                @foreach ($role->users as $role_user)
+                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Vinnie Mostowy" class="avatar avatar-sm pull-up">
+                                        @if(isset($role_user->profile) && !empty($role_user->profile->profile))
+                                            <img class="rounded-circle" src="{{ asset('public/admin/assets/img/avatars') }}/{{ $role_user->profile->profile }}" alt="Avatar" />
+                                        @else
+                                            <img class="rounded-circle" src="{{ asset('public/admin/assets/img/avatars/default.png') }}" alt="Avatar" />
+                                        @endif
+                                    </li>
+                                @endforeach
                             </ul>
                         </div>
                         <div class="d-flex justify-content-between align-items-end mt-1">
@@ -33,10 +39,10 @@
                                     tabindex="0" aria-controls="DataTables_Table_0"
                                     type="button" data-bs-toggle="modal"
                                     data-bs-target="#addRoleModal">
-                                    <span>Edit Role</span>
+                                    <span><i class="fa fa-edit"></i> Edit Role</span>
                                 </a>
                             </div>
-                            <a href="javascript:void(0);" class="text-muted"><i class="ti ti-copy ti-md"></i></a>
+                            {{-- <a href="javascript:void(0);" class="text-muted"><i class="ti ti-copy ti-md"></i></a> --}}
                         </div>
                     </div>
                 </div>
@@ -55,8 +61,8 @@
                         <div class="card-body text-sm-end text-center ps-sm-0">
                             <button
                                 id="add-btn"
-                                data-toggle="tooltip" data-placement="top" title="Add Permission"
-                                data-url="{{ route('permissions.store') }}"
+                                data-toggle="tooltip" data-placement="top" title="Add Role"
+                                data-url="{{ route('roles.store') }}"
                                 class="btn add-new btn-primary mb-md-0 mx-3"
                                 tabindex="0" aria-controls="DataTables_Table_0"
                                 type="button" data-bs-toggle="modal"
@@ -125,7 +131,7 @@
                                         </label>
                                     </div>
                                     <div class="dt-buttons btn-group flex-wrap">
-                                        <button data-toggle="tooltip" data-placement="top" title="Add New User" data-url="{{ route('roles.store') }}" class="btn btn-secondary add-new btn-primary mx-3" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#addRoleModal" fdprocessedid="i1qq7b">
+                                        <button class="btn btn-secondary add-new btn-primary mx-3" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#addRoleModal">
                                             <span>
                                                 <i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
                                                 <span class="d-none d-sm-inline-block">Add New User</span>

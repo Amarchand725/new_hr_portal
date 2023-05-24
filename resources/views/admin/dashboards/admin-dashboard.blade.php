@@ -14,12 +14,16 @@
                 @if(isset($model->profile->coverImage) && !empty($model->profile->coverImage))
                     <img src="{{ asset('public/admin/assets/img/pages') }}/{{ $model->profile->coverImage->image }}" alt="Banner image" class="rounded-top img-fluid">
                 @else
-                    <img src="{{ asset('public/admin/assets/img/pages/default.jpg') }}" alt="Banner image" class="rounded-top img-fluid">
+                    <img src="{{ asset('public/admin/assets/img/pages/default.png') }}" alt="Banner image" class="rounded-top img-fluid">
                 @endif
             </div>
             <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
                <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
-                  <img src="{{ asset('public/admin/assets/img/avatars/14.png') }}" alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
+                    @if(isset($model->profile->profile) && !empty($model->profile->profile))
+                        <img src="{{ asset('public/admin/assets/img/avatars') }}/{{ $model->profile->profile }}" alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
+                    @else
+                        <img src="{{ asset('public/admin/assets/img/avatars/default.png') }}" alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
+                    @endif
                </div>
                <div class="flex-grow-1 mt-3 mt-sm-5">
                   <div class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
@@ -136,42 +140,20 @@
                   <h5 class="card-header">News & Update</h5>
                   <div class="card-body pb-0">
                      <ul class="timeline mb-0">
-                        <li class="timeline-item timeline-item-transparent">
-                           <span class="timeline-point timeline-point-primary"></span>
-                           <div class="timeline-event">
-                              <div class="timeline-header border-bottom mb-3">
-                                 <h6 class="mb-0">Dear Employees,</h6>
-                                 <span class="text-primary">3rd October</span>
-                              </div>
-                              <div class="d-flex justify-content-between flex-wrap mb-2">
-                                 <div>
-                                    <span class="mb-3 d-block">As part of our efforts to streamline our payment processes, we would like to request that all employees provide their IBAN # through the form provided below.</span>
-                                    <span class="mb-3 d-block">Please take a few moments to fill out the form with your accurate and complete IBAN information. This will ensure that your salaries, arrears, and reimbursements, are processed efficiently and without delay.</span>
-                                    <span class="mb-3 d-block">If you encounter any issues or have any questions, please reach out to Sameer at +92 336 1227503. Thank you for your cooperation in this matter.
-                                    Management,
-                                    Cyberonix Consulting</span>
-                                 </div>
-                              </div>
-                           </div>
-                        </li>
-                        <li class="timeline-item timeline-item-transparent">
-                           <span class="timeline-point timeline-point-primary"></span>
-                           <div class="timeline-event">
-                              <div class="timeline-header border-bottom mb-3">
-                                 <h6 class="mb-0">Dear Employees,</h6>
-                                 <span class="text-primary">3rd October</span>
-                              </div>
-                              <div class="d-flex justify-content-between flex-wrap mb-2">
-                                 <div>
-                                    <span class="mb-3 d-block">As part of our efforts to streamline our payment processes, we would like to request that all employees provide their IBAN # through the form provided below.</span>
-                                    <span class="mb-3 d-block">Please take a few moments to fill out the form with your accurate and complete IBAN information. This will ensure that your salaries, arrears, and reimbursements, are processed efficiently and without delay.</span>
-                                    <span class="mb-3 d-block">If you encounter any issues or have any questions, please reach out to Sameer at +92 336 1227503. Thank you for your cooperation in this matter.
-                                    Management,
-                                    Cyberonix Consulting</span>
-                                 </div>
-                              </div>
-                           </div>
-                        </li>
+                        @foreach ($data['announcements'] as $announcement)
+                            <li class="timeline-item timeline-item-transparent">
+                                <span class="timeline-point timeline-point-primary"></span>
+                                <div class="timeline-event">
+                                    <div class="timeline-header border-bottom mb-3">
+                                        <h6 class="mb-0">{{ $announcement->title }},</h6>
+                                        <span class="text-primary">{{ date('d M', strtotime($announcement->created_at)) }}</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between flex-wrap mb-2">
+                                        <div>{!! $announcement->description !!}</div>
+                                    </div>
+                                </div>
+                            </li>
+                        @endforeach
                      </ul>
                   </div>
                </div>
@@ -788,7 +770,7 @@
                                  </div>
                                  <div class="col-md-6">
                                     <div class="text-end mt-4 pe-4">
-                                       <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#teamModal" class="btn btn-primary waves-effect waves-light btn-sm">View All</a>
+                                       <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#teamModal" data-url="{{ route('employees.get-team-members', $model->id) }}" class="btn btn-primary waves-effect waves-light btn-sm view-all-team-members-btn">View All</a>
                                     </div>
                                  </div>
                               </div>
@@ -802,75 +784,51 @@
                                        </tr>
                                     </thead>
                                     <tbody class="table-border-bottom-0">
-                                       <tr>
-                                          <td>
-                                             <div class="d-flex justify-content-start align-items-center user-name">
-                                                <div class="avatar-wrapper">
-                                                   <div class="avatar me-2">
-                                                      <img src="{{ asset('public/admin/assets/img/avatars/3.png') }}" alt="Avatar" class="rounded-circle">
-                                                   </div>
-                                                </div>
-                                                <div class="d-flex flex-column">
-                                                   <span class="emp_name text-truncate">Glyn Giacoppo</span>
-                                                   <small class="emp_post text-truncate text-muted">Software Test Engineer</small>
-                                                </div>
-                                             </div>
-                                          </td>
-                                          <td><span class="badge bg-label-success me-1">Permanent</span></td>
-                                       </tr>
-                                       <tr>
-                                          <td>
-                                             <div class="d-flex justify-content-start align-items-center user-name">
-                                                <div class="avatar-wrapper">
-                                                   <div class="avatar me-2">
-                                                      <img src="{{ asset('public/admin/assets/img/avatars/3.png') }}" alt="Avatar" class="rounded-circle">
-                                                   </div>
-                                                </div>
-                                                <div class="d-flex flex-column">
-                                                   <span class="emp_name text-truncate">Glyn Giacoppo</span>
-                                                   <small class="emp_post text-truncate text-muted">Software Test Engineer</small>
-                                                </div>
-                                             </div>
-                                          </td>
-                                          <td><span class="badge bg-label-success me-1">Permanent</span></td>
-                                       </tr>
-                                       <tr>
-                                          <td>
-                                             <div class="d-flex justify-content-start align-items-center user-name">
-                                                <div class="avatar-wrapper">
-                                                   <div class="avatar me-2">
-                                                      <img src="{{ asset('public/admin/assets/img/avatars/3.png') }}" alt="Avatar" class="rounded-circle">
-                                                   </div>
-                                                </div>
-                                                <div class="d-flex flex-column">
-                                                   <span class="emp_name text-truncate">Glyn Giacoppo</span>
-                                                   <small class="emp_post text-truncate text-muted">Software Test Engineer</small>
-                                                </div>
-                                             </div>
-                                          </td>
-                                          <td><span class="badge bg-label-success me-1">Permanent</span></td>
-                                       </tr>
-                                       <tr>
-                                          <td>
-                                             <div class="d-flex justify-content-start align-items-center user-name">
-                                                <div class="avatar-wrapper">
-                                                   <div class="avatar me-2">
-                                                      <img src="{{ asset('public/admin/assets/img/avatars/3.png') }}" alt="Avatar" class="rounded-circle">
-                                                   </div>
-                                                </div>
-                                                <div class="d-flex flex-column">
-                                                   <span class="emp_name text-truncate">Glyn Giacoppo</span>
-                                                   <small class="emp_post text-truncate text-muted">Software Test Engineer</small>
-                                                </div>
-                                             </div>
-                                          </td>
-                                          <td><span class="badge bg-label-warning me-1">Prohibition</span></td>
-                                       </tr>
+                                        @foreach ($team_members as $team_member)
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex justify-content-start align-items-center user-name">
+                                                        <div class="avatar-wrapper">
+                                                            <div class="avatar me-2">
+                                                                @if(isset($team_member->profile) && !empty($team_member->profile->profile))
+                                                                    <img src="{{ asset('public/admin/assets/img/avatars') }}/{{ $team_member->profile->profile }}" alt="Avatar" class="rounded-circle">
+                                                                @else
+                                                                    <img src="{{ asset('public/admin/assets/img/avatars/default.png') }}" alt="Avatar" class="rounded-circle">
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                        <div class="d-flex flex-column">
+                                                            <span class="emp_name text-truncate">{{ $team_member->first_name }} {{ $team_member->last_name }}</span>
+                                                            <small class="emp_post text-truncate text-muted">
+                                                                @if(isset($team_member->jobHistory->designation) && !empty($team_member->jobHistory->designation->title))
+                                                                    {{ $team_member->jobHistory->designation->title }}
+                                                                @else
+                                                                    -
+                                                                @endif
+                                                            </small>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    @if(isset($team_member->employeeStatus->employmentStatus) && !empty($team_member->employeeStatus->employmentStatus->name))
+                                                        @if($team_member->employeeStatus->employmentStatus->name=='Terminated')
+                                                            <span class="badge bg-label-{{ $team_member->employeeStatus->employmentStatus->class }} me-1">{{ $team_member->employeeStatus->employmentStatus->Terminated }}</span>
+                                                        @elseif($team_member->employeeStatus->employmentStatus->name=='Permanent')
+                                                            <span class="badge bg-label-{{ $team_member->employeeStatus->employmentStatus->class }} me-1">{{ $team_member->employeeStatus->employmentStatus->Terminated }}</span>
+                                                        @elseif($team_member->employeeStatus->employmentStatus->name=='Probation')
+                                                            <span class="badge bg-label-{{ $team_member->employeeStatus->employmentStatus->class }} me-1">{{ $team_member->employeeStatus->employmentStatus->Terminated }}</span>
+                                                        @endif
+                                                    @else
+                                                        -
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                       @endforeach
                                     </tbody>
                                  </table>
                               </div>
                            </div>
-                     </div>
+                        </div>
                      </div>
                   </div>
                </div>
@@ -1495,127 +1453,7 @@
                            <th>Status</th>
                         </tr>
                      </thead>
-                     <tbody class="table-border-bottom-0">
-                        <tr>
-                           <td>
-                              <div class="d-flex justify-content-start align-items-center user-name">
-                                 <div class="avatar-wrapper">
-                                    <div class="avatar me-2">
-                                       <img src="{{ asset('public/admin/assets/img/avatars/3.png') }}" alt="Avatar" class="rounded-circle">
-                                    </div>
-                                 </div>
-                                 <div class="d-flex flex-column">
-                                    <span class="emp_name text-truncate">Muhammad Yousuf Khan</span>
-                                    <small class="emp_post text-truncate text-muted">Senior Executive UI/UX</small>
-                                 </div>
-                              </div>
-                           </td>
-                           <td>4966</td>
-                           <td>muhammad.yousuf@abtach.org</td>
-                           <td>03343624253</td>
-                           <td>05-10-2021</td>
-                           <td><span class="badge bg-label-success me-1">Permanent</span></td>
-                        </tr>
-                        <tr>
-                           <td>
-                              <div class="d-flex justify-content-start align-items-center user-name">
-                                 <div class="avatar-wrapper">
-                                    <div class="avatar me-2">
-                                       <img src="{{ asset('public/admin/assets/img/avatars/1.png') }}" alt="Avatar" class="rounded-circle">
-                                    </div>
-                                 </div>
-                                 <div class="d-flex flex-column">
-                                    <span class="emp_name text-truncate">Muhammad Yousuf Khan</span>
-                                    <small class="emp_post text-truncate text-muted">Senior Executive UI/UX</small>
-                                 </div>
-                              </div>
-                           </td>
-                           <td>4966</td>
-                           <td>muhammad.yousuf@abtach.org</td>
-                           <td>03343624253</td>
-                           <td>05-10-2021</td>
-                           <td><span class="badge bg-label-success me-1">Permanent</span></td>
-                        </tr>
-                        <tr>
-                           <td>
-                              <div class="d-flex justify-content-start align-items-center user-name">
-                                 <div class="avatar-wrapper">
-                                    <div class="avatar me-2">
-                                       <img src="{{ asset('public/admin/assets/img/avatars/2.png') }}" alt="Avatar" class="rounded-circle">
-                                    </div>
-                                 </div>
-                                 <div class="d-flex flex-column">
-                                    <span class="emp_name text-truncate">Muhammad Yousuf Khan</span>
-                                    <small class="emp_post text-truncate text-muted">Senior Executive UI/UX</small>
-                                 </div>
-                              </div>
-                           </td>
-                           <td>4966</td>
-                           <td>muhammad.yousuf@abtach.org</td>
-                           <td>03343624253</td>
-                           <td>05-10-2021</td>
-                           <td><span class="badge bg-label-success me-1">Permanent</span></td>
-                        </tr>
-                        <tr>
-                           <td>
-                              <div class="d-flex justify-content-start align-items-center user-name">
-                                 <div class="avatar-wrapper">
-                                    <div class="avatar me-2">
-                                       <img src="{{ asset('public/admin/assets/img/avatars/4.png') }}" alt="Avatar" class="rounded-circle">
-                                    </div>
-                                 </div>
-                                 <div class="d-flex flex-column">
-                                    <span class="emp_name text-truncate">Muhammad Yousuf Khan</span>
-                                    <small class="emp_post text-truncate text-muted">Senior Executive UI/UX</small>
-                                 </div>
-                              </div>
-                           </td>
-                           <td>4966</td>
-                           <td>muhammad.yousuf@abtach.org</td>
-                           <td>03343624253</td>
-                           <td>05-10-2021</td>
-                           <td><span class="badge bg-label-success me-1">Permanent</span></td>
-                        </tr>
-                        <tr>
-                           <td>
-                              <div class="d-flex justify-content-start align-items-center user-name">
-                                 <div class="avatar-wrapper">
-                                    <div class="avatar me-2">
-                                       <img src="{{ asset('public/admin/assets/img/avatars/5.png') }}" alt="Avatar" class="rounded-circle">
-                                    </div>
-                                 </div>
-                                 <div class="d-flex flex-column">
-                                    <span class="emp_name text-truncate">Muhammad Yousuf Khan</span>
-                                    <small class="emp_post text-truncate text-muted">Senior Executive UI/UX</small>
-                                 </div>
-                              </div>
-                           </td>
-                           <td>4966</td>
-                           <td>muhammad.yousuf@abtach.org</td>
-                           <td>03343624253</td>
-                           <td>05-10-2021</td>
-                           <td><span class="badge bg-label-success me-1">Permanent</span></td>
-                        </tr>
-                        <tr>
-                           <td>
-                              <div class="d-flex justify-content-start align-items-center user-name">
-                                 <div class="avatar-wrapper">
-                                    <div class="avatar me-2">
-                                       <img src="{{ asset('public/admin/assets/img/avatars/6.png') }}" alt="Avatar" class="rounded-circle">
-                                    </div>
-                                 </div>
-                                 <div class="d-flex flex-column">
-                                    <span class="emp_name text-truncate">Muhammad Yousuf Khan</span>
-                                    <small class="emp_post text-truncate text-muted">Senior Executive UI/UX</small>
-                                 </div>
-                              </div>
-                           </td>
-                           <td>4966</td>
-                           <td>muhammad.yousuf@abtach.org</td>
-                           <td>03343624253</td>
-                           <td>05-10-2021</td>
-                           <td><span class="badge bg-label-success me-1">Permanent</span></td>
-                        </tr>
+                     <tbody class="table-border-bottom-0 team-modal-body">
                      </tbody>
                   </table>
                </div>
@@ -1755,7 +1593,18 @@
 </div>
 @endsection
 @push('js')
-<script src="{{ asset('public/admin/assets/js/dashboards-analytics.js') }}"></script>
-<script src="{{ asset('public/admin/assets/js/charts-apex.js') }}"></script>
-
+    <script src="{{ asset('public/admin/assets/js/dashboards-analytics.js') }}"></script>
+    <script src="{{ asset('public/admin/assets/js/charts-apex.js') }}"></script>
+    <script>
+        $(document).on('click', '.view-all-team-members-btn',function(){
+            var get_url = $(this).attr('data-url');
+            $.ajax({
+                url: get_url,
+                method: 'GET',
+                success: function(response) {
+                    $('.team-modal-body').html(response);
+                }
+            });
+        });
+    </script>
 @endpush

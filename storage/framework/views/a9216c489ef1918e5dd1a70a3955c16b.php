@@ -14,11 +14,17 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
-                            <h6 class="fw-normal mb-2">Total 0 users</h6>
+                            <h6 class="fw-normal mb-2">Total <span class=""><?php echo e(count($role->users)); ?></span> users</h6>
                             <ul class="list-unstyled d-flex align-items-center avatar-group mb-0">
-                                <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Vinnie Mostowy" class="avatar avatar-sm pull-up">
-                                    <img class="rounded-circle" src="<?php echo e(asset('public/admin')); ?>/assets/img/avatars/5.png" alt="Avatar" />
-                                </li>
+                                <?php $__currentLoopData = $role->users; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $role_user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" title="Vinnie Mostowy" class="avatar avatar-sm pull-up">
+                                        <?php if(isset($role_user->profile) && !empty($role_user->profile->profile)): ?>
+                                            <img class="rounded-circle" src="<?php echo e(asset('public/admin/assets/img/avatars')); ?>/<?php echo e($role_user->profile->profile); ?>" alt="Avatar" />
+                                        <?php else: ?>
+                                            <img class="rounded-circle" src="<?php echo e(asset('public/admin/assets/img/avatars/default.png')); ?>" alt="Avatar" />
+                                        <?php endif; ?>
+                                    </li>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </ul>
                         </div>
                         <div class="d-flex justify-content-between align-items-end mt-1">
@@ -32,10 +38,10 @@
                                     tabindex="0" aria-controls="DataTables_Table_0"
                                     type="button" data-bs-toggle="modal"
                                     data-bs-target="#addRoleModal">
-                                    <span>Edit Role</span>
+                                    <span><i class="fa fa-edit"></i> Edit Role</span>
                                 </a>
                             </div>
-                            <a href="javascript:void(0);" class="text-muted"><i class="ti ti-copy ti-md"></i></a>
+                            
                         </div>
                     </div>
                 </div>
@@ -54,8 +60,8 @@
                         <div class="card-body text-sm-end text-center ps-sm-0">
                             <button
                                 id="add-btn"
-                                data-toggle="tooltip" data-placement="top" title="Add Permission"
-                                data-url="<?php echo e(route('permissions.store')); ?>"
+                                data-toggle="tooltip" data-placement="top" title="Add Role"
+                                data-url="<?php echo e(route('roles.store')); ?>"
                                 class="btn add-new btn-primary mb-md-0 mx-3"
                                 tabindex="0" aria-controls="DataTables_Table_0"
                                 type="button" data-bs-toggle="modal"
@@ -124,7 +130,7 @@
                                         </label>
                                     </div>
                                     <div class="dt-buttons btn-group flex-wrap">
-                                        <button data-toggle="tooltip" data-placement="top" title="Add New User" data-url="<?php echo e(route('roles.store')); ?>" class="btn btn-secondary add-new btn-primary mx-3" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#addRoleModal" fdprocessedid="i1qq7b">
+                                        <button class="btn btn-secondary add-new btn-primary mx-3" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="offcanvas" data-bs-target="#addRoleModal">
                                             <span>
                                                 <i class="ti ti-plus me-0 me-sm-1 ti-xs"></i>
                                                 <span class="d-none d-sm-inline-block">Add New User</span>

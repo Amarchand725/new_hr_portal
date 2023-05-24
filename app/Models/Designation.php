@@ -11,4 +11,9 @@ class Designation extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
+
+    public function hasUsers()
+    {
+        return $this->hasMany(JobHistory::class, 'designation_id', 'id')->where('end_date', null);
+    }
 }

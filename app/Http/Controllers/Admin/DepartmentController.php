@@ -52,8 +52,9 @@ class DepartmentController extends Controller
     {
         $this->validate($request, [
             'name' => ['required', 'unique:departments', 'max:255'],
-            'manager_id' => ['required'],
-            'work_shift_id' => ['required'],
+            'parent_department_id' => ['required'],
+            // 'manager_id' => ['required'],
+            // 'work_shift_id' => ['required'],
             'description' => ['max:500'],
             'location' => ['max:250'],
         ]);
@@ -64,14 +65,14 @@ class DepartmentController extends Controller
 
         try{
             $model = Department::create($department);
-            if($model){
+            if($model && isset( $request->work_shift_id) && !empty( $request->work_shift_id)){
                 DepartmentWorkShift::create([
                     'department_id' => $model->id,
                     'work_shift_id' => $request->work_shift_id,
                 ]);
-
-                DB::commit();
             }
+
+            DB::commit();
 
             \LogActivity::addToLog('New Department Added');
 
@@ -174,5 +175,10 @@ class DepartmentController extends Controller
         if($model){
             return true;
         }
+    }
+
+    public function addManager($id)
+    {
+        return 'good';
     }
 }

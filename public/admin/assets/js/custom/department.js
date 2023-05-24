@@ -1,3 +1,26 @@
+//dept-manager-btn
+$(document).on('click', '.dept-manager-btn', function() {
+    $.ajax({
+        url: status_url,
+        type: 'get',
+        success: function(response) {
+            if (response) {
+
+            }
+        }
+    });
+});
+
+//dept-manager-btn
+$(document).on('click', '.dept-shift-btn', function() {
+    alert();
+});
+
+//dept-manager-btn
+$(document).on('click', '.dept-view-details-btn', function() {
+    alert();
+});
+
 //Active or deactive
 $(document).on('click', '.dept-status-btn', function() {
     var status_url = $(this).attr('data-status-url');

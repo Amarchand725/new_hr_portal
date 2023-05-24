@@ -50,6 +50,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/departments/trashed', [App\Http\Controllers\Admin\DepartmentController::class, 'trashed'])->name('departments.trashed');
     Route::get('/departments/restore/{id}', [App\Http\Controllers\Admin\DepartmentController::class, 'restore'])->name('departments.restore');
     Route::get('/departments/status/{id}', [App\Http\Controllers\Admin\DepartmentController::class, 'status'])->name('departments.status');
+    Route::get('/departments/add-manager/{id}', [App\Http\Controllers\Admin\DepartmentController::class, 'addManager'])->name('departments.add-manager');
+    Route::get('/departments/add-shift/{id}', [App\Http\Controllers\Admin\DepartmentController::class, 'addShift'])->name('departments.add-shift');
 
     Route::get('/employees/trashed', [App\Http\Controllers\Admin\EmployeeController::class, 'trashed'])->name('employees.trashed');
     Route::get('/employees/restore/{id}', [App\Http\Controllers\Admin\EmployeeController::class, 'restore'])->name('employees.restore');
@@ -57,6 +59,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/employees/add_salary', [App\Http\Controllers\Admin\EmployeeController::class, 'addSalary'])->name('employees.add_salary');
     Route::get('/employees/salary_details', [App\Http\Controllers\Admin\EmployeeController::class, 'salaryDetails'])->name('employees.salary_details');
     Route::get('/employees/filter-salary-details', [App\Http\Controllers\Admin\EmployeeController::class, 'filterSalaryDetails'])->name('employees.filter-salary-details');
+    Route::get('/employees/get-team-members/{id}', [App\Http\Controllers\Admin\EmployeeController::class, 'getTeamMembers'])->name('employees.get-team-members');
 
     Route::get('/announcements/trashed', [App\Http\Controllers\Admin\AnnouncementController::class, 'trashed'])->name('announcements.trashed');
     Route::get('/announcements/restore/{id}', [App\Http\Controllers\Admin\AnnouncementController::class, 'restore'])->name('announcements.restore');
@@ -67,6 +70,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile_cover_images/trashed', [App\Http\Controllers\Admin\ProfileCoverImageController::class, 'trashed'])->name('profile_cover_images.trashed');
     Route::get('/profile_cover_images/restore/{id}', [App\Http\Controllers\Admin\ProfileCoverImageController::class, 'restore'])->name('profile_cover_images.restore');
     Route::get('/profile_cover_images/status/{id}', [App\Http\Controllers\Admin\ProfileCoverImageController::class, 'status'])->name('profile_cover_images.status');
+
+    Route::get('/user_leaves/report', [App\Http\Controllers\UserLeaveController::class, 'leaveReport'])->name('user_leaves.report');
+
+    Route::get('/user/discrepancies', [App\Http\Controllers\AttendanceController::class, 'discrepancies'])->name('user.discrepancies');
+    Route::get('/user/discrepancies/show/{id}', [App\Http\Controllers\AttendanceController::class, 'show'])->name('user.discrepancies.show');
+    Route::get('/user/attendance/daily-log', [App\Http\Controllers\AttendanceController::class, 'dailyLog'])->name('user.attendance.daily-log');
 
     Route::resource('/roles', App\Http\Controllers\Admin\RoleController::class);
     Route::resource('/permissions', App\Http\Controllers\Admin\PermissionController::class);
@@ -82,6 +91,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/user_contacts', App\Http\Controllers\Admin\UserContactController::class);
     Route::resource('/settings', App\Http\Controllers\Admin\SettingController::class);
     Route::resource('/leave_types', App\Http\Controllers\Admin\LeaveTypeController::class);
+    Route::resource('/user_leaves', App\Http\Controllers\UserLeaveController::class);
 });
 
 require __DIR__.'/auth.php';

@@ -70,7 +70,7 @@ class EmployeeController extends Controller
         $data['positions'] = Position::orderby('id', 'desc')->where('status', 1)->get();
         $data['designations'] = Designation::orderby('id', 'desc')->where('status', 1)->get();
         $data['roles'] = Role::orderby('id', 'desc')->get();
-        $data['departments'] = Department::orderby('id', 'desc')->get();
+        $data['departments'] = Department::orderby('id', 'desc')->where('status', 1)->where('manager_id', '!=', NULL)->get();
         $data['employment_statues'] = EmploymentStatus::orderby('id', 'desc')->get();
         $data['employees'] = User::orderby('id', 'desc')->where('is_employee', 1)->paginate(10);
 
@@ -454,5 +454,45 @@ class EmployeeController extends Controller
         }
 
         $model = User::where('id', $user_id)->first();
+    }
+
+    public function getTeamMembers($user_id)
+    {
+        $user = User::findOrFail($user_id);
+        $data = [];
+
+        $role = $user->getRoleNames()->first();
+        foreach($user->getRoleNames() as $user_role){
+            if($user_role=='Admin'){
+                $role = $user_role;
+            }
+        }
+
+        $team_members = [];
+
+        if($role == 'Admin' || $role=='Manager'){
+            $department = Department::where('manager_id', $user->id)->where('status', 1)->first();
+            $department_users = DepartmentUser::where('department_id', $department->id)->where('end_date', null)->get(['user_id']);
+            $dep_users_ids = [];
+            foreach($department_users as $department_user){
+                // if($department_user->user_id != $user->id) {
+                    $dep_users_ids[] = $department_user->user_id;
+                // }
+            }
+
+            $team_members = User::whereIn('id', $dep_users_ids)->get();
+        }else{
+            if(isset($user->departmentBridge->department) && !empty($user->departmentBridge->department->id)) {
+                $user_department_id = $user->departmentBridge->department->id;
+                $team_member_ids = DepartmentUser::where('department_id', $user_department_id)->where('user_id', '!=', $user->id)->get(['user_id']);
+
+                $team_members = [];
+                foreach($team_member_ids as $team_member_id){
+                    $team_members[] = User::where('id', $team_member_id->user_id)->first();
+                }
+            }
+        }
+
+        return (string) view('admin.employees.team-members', compact('team_members'));
     }
 }

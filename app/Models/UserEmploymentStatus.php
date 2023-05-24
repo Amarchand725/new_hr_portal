@@ -10,4 +10,9 @@ class UserEmploymentStatus extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function employmentStatus()
+    {
+        return $this->hasOne(EmploymentStatus::class, 'id', 'employment_status_id');
+    }
 }

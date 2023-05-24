@@ -18,3 +18,8 @@
         <option value="0" {{ $model->status==0?'selected':'' }}>De-active</option>
     </select>
 </div>
+
+<script>
+    CKEDITOR.replace('description');
+    $('.form-select').select2();
+</script>

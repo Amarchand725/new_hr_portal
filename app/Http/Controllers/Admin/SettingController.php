@@ -26,7 +26,6 @@ class SettingController extends Controller
         $this->validate($request, [
             'name' => 'required|max:255',
             'currency_symbol' => 'required|max:5',
-            'address' => 'required|max:500',
             'logo' => 'required|image|mimes:jpeg,png,gif|max:2048',
             'favicon' => 'required|image|mimes:jpeg,png'
         ]);
@@ -78,7 +77,7 @@ class SettingController extends Controller
             return redirect()->route('settings.edit', $model->id)->with('message', 'Setting details added successfully.');
         } catch (\Exception $e) {
             DB::rollback();
-            return response()->json(['error' => $e->getMessage()]);
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 

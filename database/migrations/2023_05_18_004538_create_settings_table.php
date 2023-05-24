@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('city')->nullable();
             $table->string('state')->nullable();
             $table->string('zip_code')->nullable();
-            $table->text('address');
+            $table->text('address')->nullable();
             $table->string('currency_symbol');
             $table->timestamps();
         });

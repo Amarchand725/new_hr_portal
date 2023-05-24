@@ -47,18 +47,15 @@ class DesignationController extends Controller
         DB::beginTransaction();
 
         try{
-            $model = Designation::create($request->all());
+            Designation::create($request->all());
 
-            if($model){
-                DB::commit();
-                \LogActivity::addToLog('New Designation Added');
-                return redirect()->route('designations.index')->with('message', 'Designation created successfully.!');
-            }else{
-                return redirect()->route('designations.index')->with('error', 'Something went wrong try again.!');
-            }
+            DB::commit();
+
+            \LogActivity::addToLog('New Designation Added');
+            return response()->json(['success' => true]);
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect()->back()->with('error', 'Error. '.$e->getMessage());
+            return response()->json(['error' => $e->getMessage()]);
         }
     }
 
@@ -74,16 +71,22 @@ class DesignationController extends Controller
     public function update(Request $request, Designation $designation)
     {
         $this->validate($request, [
-            'title' => 'required|max:200',
+            'title' => 'required|max:200|unique:designations,id,'.$designation->id,
             'description' => 'max:500',
         ]);
 
-        $model = $designation->update($request->all());
-        if($model){
-            \LogActivity::addToLog('New designation Updated');
-            return redirect()->back()->with('message', 'Designation updated successfully.!');
-        }else{
-            return redirect()->back()->with('error', 'Something went wrong try again.!');
+        DB::beginTransaction();
+
+        try{
+            $designation->update($request->all());
+
+            DB::commit();
+
+            \LogActivity::addToLog('Designation Updated');
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['error' => $e->getMessage()]);
         }
     }
 

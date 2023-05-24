@@ -19,9 +19,15 @@
     <div class="position-relative">
         <select id="manager_id" name="manager_id" class="select2 form-select">
             <option value="">Select manager</option>
-            @foreach ($data['users'] as $user)
-                <option value="{{ $user->id }}" {{ $data['model']->manager->id==$user->id?'selected':'' }}>{{ $user->first_name }} {{ $user->last_name }}</option>
-            @endforeach
+            @if(isset($data['model']->manager) && !empty($data['model']->manager->id))
+                @foreach ($data['users'] as $user)
+                    <option value="{{ $user->id }}" {{ $data['model']->manager->id==$user->id?'selected':'' }}>{{ $user->first_name }} {{ $user->last_name }}</option>
+                @endforeach
+            @else
+                @foreach ($data['users'] as $user)
+                    <option value="{{ $user->id }}">{{ $user->first_name }} {{ $user->last_name }}</option>
+                @endforeach
+            @endif
         </select>
     </div>
 </div>
@@ -45,3 +51,8 @@
     <label class="form-label" for="description">Description ( <small>Optional</small> )</label>
     <textarea name="description" id="description" class="form-control" placeholder="Enter description">{{ $data['model']->description }}</textarea>
 </div>
+
+<script>
+    CKEDITOR.replace('description');
+    $('.form-select').select2();
+</script>

@@ -76,9 +76,10 @@
                             <thead>
                                 <tr>
                                     <th>S.No#</th>
-                                    <th>Name</th>
+                                    <th>Department</th>
                                     <th>Parent Department</th>
                                     <th>Manager</th>
+                                    <th>Shift</th>
                                     <th style="width: 97px;" aria-label="Role: activate to sort column ascending">Created At</th>
                                     <th>Status</th>
                                     <th>Actions</th>
@@ -103,11 +104,20 @@
                                         <td>
                                             <span class="fw-semibold">
                                                 @if(isset($model->manager) && !empty($model->manager->first_name))
-                                                    {{ $model->manager->first_name }} {{ $model->manager->last_name }}
+                                                    <span class="badge bg-label-success"><i class="fa fa-check"></i>
+                                                        {{ $model->manager->first_name }} {{ $model->manager->last_name }}
+                                                    </span>
                                                 @else
-                                                    -
+                                                    <span class="badge bg-label-danger"><i class="fa fa-times"></i> Not Assigned Manager</span>
                                                 @endif
                                             </span>
+                                        </td>
+                                        <td>
+                                            @if(isset($model->departmentWorkShift) && !empty($model->departmentWorkShift->workShift->name))
+                                                <span class="badge bg-label-success"><i class="fa fa-check"></i> {{ $model->departmentWorkShift->workShift->name }}</span>
+                                            @else
+                                                <span class="badge bg-label-danger"><i class="fa fa-times"></i> Not Assigned Shift</span>
+                                            @endif
                                         </td>
                                         <td>{{ date('d M Y', strtotime($model->created_at)) }}</td>
                                         <td>
@@ -124,7 +134,11 @@
                                                     data-toggle="tooltip"
                                                     data-placement="top"
                                                     title="Edit Department"
-                                                    data-edit-url="{{ route('departments.edit', $model->id) }}" data-url="{{ route('departments.update', $model->id) }}" data-value="{{ $model }}" class="btn btn-default edit-btn edit-btn" tabindex="0" aria-controls="DataTables_Table_0" type="button"
+                                                    data-edit-url="{{ route('departments.edit', $model->id) }}"
+                                                    data-url="{{ route('departments.update', $model->id) }}"
+                                                    tabindex="0"
+                                                    aria-controls="DataTables_Table_0"
+                                                    type="button"
                                                     data-bs-toggle="offcanvas" data-bs-target="#offcanvasAddDepartment" fdprocessedid="i1qq7b">
                                                     <i class="ti ti-edit ti-sm me-2"></i>
                                                 </a>
@@ -141,6 +155,23 @@
                                                         @else
                                                             Active
                                                         @endif
+                                                    </a>
+                                                    <a href="#"
+                                                        class="dropdown-item dept-manager-btn"
+                                                        tabindex="0" aria-controls="DataTables_Table_0"
+                                                        type="button" data-bs-toggle="modal"
+                                                        data-bs-target="#add-manager-modal"
+                                                        data-toggle="tooltip"
+                                                        data-placement="top"
+                                                        title="Add or Update Manager"
+                                                        data-status-url='{{ route('departments.add-manager', $model->id) }}'>
+                                                        Manager
+                                                    </a>
+                                                    <a href="#" class="dropdown-item dept-work-shift-btn" data-status-url='{{ route('departments.add-shift', $model->id) }}'>
+                                                        Shift
+                                                    </a>
+                                                    <a href="#" class="dropdown-item dept-view-details-btn" data-status-url='{{ route('departments.show', $model->id) }}'>
+                                                        View Details
                                                     </a>
                                                 </div>
                                             </div>
@@ -189,7 +220,7 @@
                                     <select id="parent_department_id" name="parent_department_id" class="select2 form-select">
                                         <option value="">Select parent department</option>
                                         @foreach ($data['parent_departments'] as $department)
-                                            <option value="{{ $department->id }}">{{ $department->name }}</option>
+                                            <option value="{{ $department->id }}" {{ $department->name=='Main Department'?'selected':'' }}>{{ $department->name }}</option>
                                         @endforeach
                                     </select>
                                     <span id="parent_department_id_error" class="text-danger error"></span>
@@ -234,6 +265,67 @@
                     <input type="hidden"></form>
                 </div>
             </div>
+
+            <!-- Add Manager Modal -->
+            <div class="modal fade" id="add-manager-modal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-xl modal-dialog-centered1 modal-simple modal-add-new-cc">
+                    <div class="modal-content p-3 p-md-5">
+                        <div class="modal-body">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <div class="text-center mb-4">
+                                <h3 class="mb-2" id="modal-label"></h3>
+                            </div>
+                            <form id="create-form" class="row g-3" data-method="" data-modal-id="offcanvasAddAnnouncement">
+                                @csrf
+
+                                <span id="edit-content">
+                                    <div class="col-12 col-md-12">
+                                        <label class="form-label" for="title">Title</label>
+                                        <input type="text" id="title" name="title" class="form-control" placeholder="Enter title" />
+                                        <div class="fv-plugins-message-container invalid-feedback"></div>
+                                        <span id="title_error" class="text-danger error"></span>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="start_date">Start Date</label>
+                                            <input type="date" id="start_date" name="start_date" class="form-control" placeholder="Enter start date" />
+                                            <div class="fv-plugins-message-container invalid-feedback"></div>
+                                            <span id="start_date_error" class="text-danger error"></span>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="end_date">End Date</label>
+                                            <input type="date" id="end_date" name="end_date" class="form-control" placeholder="Enter end date" />
+                                            <div class="fv-plugins-message-container invalid-feedback"></div>
+                                            <span id="end_date_error" class="text-danger error"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-12 mt-2">
+                                        <label class="form-label" for="description">Description ( <small>Optional</small> )</label>
+                                        <textarea class="form-control" name="description" id="description" placeholder="Enter description">{{ old('description') }}</textarea>
+
+                                        <div class="fv-plugins-message-container invalid-feedback"></div>
+                                        <span id="description_error" class="text-danger error"></span>
+                                    </div>
+                                </span>
+
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary me-sm-3 me-1 submitBtn">Submit</button>
+                                    <button
+                                        type="reset"
+                                        class="btn btn-label-secondary btn-reset"
+                                        data-bs-dismiss="modal"
+                                        aria-label="Close"
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/ Edit Manager Modal -->
         </div>
     </div>
 </div>

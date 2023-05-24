@@ -96,6 +96,16 @@ $(document).ready(function() {
         // Get the form data
         var formData = $('#' + modal_id).find('#' + formId).serialize();
 
+        // Check if the description variable exists in the serialized form data
+        var fieldExists = formData.indexOf('description=') > -1;
+
+        if (fieldExists) {
+            //Get editor value.
+            var editorData = CKEDITOR.instances.description.getData();
+            // Combine the editor data with the serialized form data
+            formData = formData + '&description=' + encodeURIComponent(editorData);
+        }
+
         // Send the AJAX request
         $.ajax({
             url: url,
@@ -166,6 +176,11 @@ $('#add-btn, .add-btn').on('click', function() {
     $(targeted_modal).find('#create-form input[type="time"]').val('');
     $(targeted_modal).find('#create-form select').val('');
     $(targeted_modal).find('#create-form input[type="checkbox"], #create-form input[type="radio"]').prop('checked', false);
+
+    if (typeof CKEDITOR !== 'undefined' && CKEDITOR.instances.description) {
+        CKEDITOR.instances.description.setData('');
+    }
+
     //reset
 
     var url = $(this).attr('data-url');
@@ -193,6 +208,23 @@ $('.edit-btn').on('click', function() {
         method: 'GET',
         success: function(response) {
             $(targeted_modal).find('#edit-content').html(response);
+        }
+    });
+});
+
+$('.show').on('click', function() {
+    var targeted_modal = $(this).attr('data-bs-target');
+
+    var modal_label = $(this).attr('title');
+
+    $(targeted_modal).find('#modal-label').html(modal_label);
+
+    var show_url = $(this).attr('data-show-url');
+    $.ajax({
+        url: show_url,
+        method: 'GET',
+        success: function(response) {
+            $(targeted_modal).find('#show-content').html(response);
         }
     });
 });

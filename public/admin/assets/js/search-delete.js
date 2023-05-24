@@ -59,5 +59,4 @@ $('.edit-btn').on('click', function() {
             $('#edit-content').html(response);
         }
     });
-
 });

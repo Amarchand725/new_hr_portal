@@ -18,7 +18,7 @@
                             <div class="col-md-10">
                                 <input class="form-control" type="text" value="" name="name" id="name" placeholder="Enter company name"/>
                                 <div class="fv-plugins-message-container invalid-feedback"></div>
-                                <span id="name_error" class="text-danger error"></span>
+                                <span id="name_error" class="text-danger error">{{ $errors->first('name') }}</span>
                             </div>
                         </div>
                         <div class="mb-3 row">
@@ -26,7 +26,7 @@
                             <div class="col-md-10">
                                 <input class="form-control" name="logo" type="file" id="logo" />
                                 <div class="fv-plugins-message-container invalid-feedback"></div>
-                                <span id="logo_error" class="text-danger error"></span>
+                                <span id="logo_error" class="text-danger error">{{ $errors->first('logo') }}</span>
                             </div>
                         </div>
                         <div class="mb-3 row">
@@ -41,7 +41,7 @@
                             <div class="col-md-10">
                                 <input class="form-control" name="favicon" type="file" id="favicon" />
                                 <div class="fv-plugins-message-container invalid-feedback"></div>
-                                <span id="favicon_error" class="text-danger error"></span>
+                                <span id="favicon_error" class="text-danger error">{{ $errors->first('favicon') }}</span>
                             </div>
                         </div>
                         <div class="mb-3 row">
@@ -56,7 +56,7 @@
                             <div class="col-md-10">
                                 <input class="form-control" name="banner" type="file" id="banner" />
                                 <div class="fv-plugins-message-container invalid-feedback"></div>
-                                <span id="banner_error" class="text-danger error"></span>
+                                <span id="banner_error" class="text-danger error">{{ $errors->first('banner') }}</span>
                             </div>
                         </div>
                         <div class="mb-3 row">
@@ -69,17 +69,17 @@
                         <div class="mb-3 row">
                             <label for="lanaguage" class="col-md-2 col-form-label">Language</label>
                             <div class="col-md-10">
-                                <input class="form-control" type="text" name="language" value="" id="lanaguage" placeholder="Enter language" />
+                                <input class="form-control" type="text" name="language" value="{{ old('language') }}" id="lanaguage" placeholder="Enter language" />
                                 <div class="fv-plugins-message-container invalid-feedback"></div>
-                                <span id="language_error" class="text-danger error"></span>
+                                <span id="language_error" class="text-danger error">{{ $errors->first('language') }}</span>
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label for="currency_symbol" class="col-md-2 col-form-label">Currency Symbol</label>
                             <div class="col-md-10">
-                                <input class="form-control" type="text" name="currency_symbol" value="" id="currency_symbol" placeholder="Enter currency symbol"/>
+                                <input class="form-control" type="text" name="currency_symbol" value="{{ old('currency_symbol') }}" id="currency_symbol" placeholder="Enter currency symbol"/>
                                 <div class="fv-plugins-message-container invalid-feedback"></div>
-                                <span id="currency_symbol_error" class="text-danger error"></span>
+                                <span id="currency_symbol_error" class="text-danger error">{{ $errors->first('name') }}</span>
                             </div>
                         </div>
 
@@ -87,50 +87,50 @@
                             <label for="country" class="col-md-2 col-form-label">Country</label>
                             <div class="col-md-10">
                                 <select name="country" id="country" class="form-control">
-                                    <option value="pakistan" selected>Pakistan</option>
+                                    <option value="pakistan" selected {{ old('country')=='pakistan'?'selected':'' }}>Pakistan</option>
                                 </select>
                                 <div class="fv-plugins-message-container invalid-feedback"></div>
-                                <span id="country_error" class="text-danger error"></span>
+                                <span id="country_error" class="text-danger error">{{ $errors->first('country') }}</span>
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label for="area" class="col-md-2 col-form-label">Area</label>
                             <div class="col-md-10">
-                                <input class="form-control" type="text" name="area" value="" id="area" placeholder="Enter area"/>
+                                <input class="form-control" type="text" name="area" value="{{ old('area') }}" id="area" placeholder="Enter area"/>
                                 <div class="fv-plugins-message-container invalid-feedback"></div>
-                                <span id="area_error" class="text-danger error"></span>
+                                <span id="area_error" class="text-danger error">{{ $errors->first('area') }}</span>
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label for="city" class="col-md-2 col-form-label">City</label>
                             <div class="col-md-10">
-                                <input class="form-control" type="text" name="city" value="" id="city" placeholder="Enter city"/>
+                                <input class="form-control" type="text" name="city" value="{{ old('city') }}" id="city" placeholder="Enter city"/>
                                 <div class="fv-plugins-message-container invalid-feedback"></div>
-                                <span id="city_error" class="text-danger error"></span>
+                                <span id="city_error" class="text-danger error">{{ $errors->first('city') }}</span>
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label for="state" class="col-md-2 col-form-label">State</label>
                             <div class="col-md-10">
-                                <input class="form-control" type="text" name="state" value="" id="state" placeholder="Enter state"/>
+                                <input class="form-control" type="text" name="state" value="{{ old('state') }}" id="state" placeholder="Enter state"/>
                                 <div class="fv-plugins-message-container invalid-feedback"></div>
-                                <span id="state_error" class="text-danger error"></span>
+                                <span id="state_error" class="text-danger error">{{ $errors->first('state') }}</span>
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label for="zip_code" class="col-md-2 col-form-label">Zipcode</label>
                             <div class="col-md-10">
-                                <input class="form-control" type="text" name="zip_code" value="" id="zip_code" placeholder="Enter zip code"/>
+                                <input class="form-control" type="text" name="zip_code" value="{{ old('zip_code') }}" id="zip_code" placeholder="Enter zip code"/>
                                 <div class="fv-plugins-message-container invalid-feedback"></div>
-                                <span id="zip_code_error" class="text-danger error"></span>
+                                <span id="zip_code_error" class="text-danger error">{{ $errors->first('zip_code') }}</span>
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label for="address" class="col-md-2 col-form-label">Address</label>
                             <div class="col-md-10">
-                                <textarea name="address" id="address" class="form-control" placeholder="Enter address"></textarea>
+                                <textarea name="address" id="address" class="form-control" placeholder="Enter address">{{ old('address') }}</textarea>
                                 <div class="fv-plugins-message-container invalid-feedback"></div>
-                                <span id="address_error" class="text-danger error"></span>
+                                <span id="address_error" class="text-danger error">{{ $errors->first('address') }}</span>
                             </div>
                         </div>
                         <div class="mb-3 row">

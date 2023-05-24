@@ -11,9 +11,9 @@ class JobHistory extends Model
 
     protected $guarded = [];
 
-    public function employmentStatus()
+    public function userEmploymentStatus()
     {
-        return $this->belongsTo(EmploymentStatus::class, 'employment_status_id');
+        return $this->hasOne(UserEmploymentStatus::class, 'id', 'employment_status_id')->where('end_date', null);
     }
 
     public function user()

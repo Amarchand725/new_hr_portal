@@ -55,7 +55,7 @@
             </div>
             <div class="card-datatable table-responsive">
                 <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
-                   
+
                     <div class="container">
                         <table class="datatables-users table border-top dataTable no-footer dtr-column" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 1227px;">
                             <thead>
@@ -80,7 +80,7 @@
                                         <td>{!! \Illuminate\Support\Str::limit($model->description,50)??'-' !!}</td>
                                         <td>
                                             <span class="badge badge-center rounded-pill bg-label-primary w-px-30 h-px-30 me-2">
-                                                5
+                                                {{ count($model->hasUsers) }}
                                             </span>
                                         </td>
                                         <td>
@@ -135,31 +135,33 @@
                     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
                 <div class="offcanvas-body mx-0 flex-grow-0 pt-0 h-100">
-                    <form class="pt-0 fv-plugins-bootstrap5 fv-plugins-framework" data-method="" id="create-form">
+                    <form class="pt-0 fv-plugins-bootstrap5 fv-plugins-framework" data-modal-id="offcanvasAddUser"  data-method="" id="create-form">
                         @csrf
 
                         <div id="edit-content">
                             <div class="mb-3 fv-plugins-icon-container">
                                 <label class="form-label" for="title">Title</label>
                                 <input type="text" class="form-control" value="{{ old('title') }}" id="title" placeholder="Enter Title" name="title">
-                                <div class="fv-plugins-message-container invalid-feedback" id="error-msg">{{ $errors->first('title') }}</div>
+                                <div class="fv-plugins-message-container invalid-feedback"></div>
+                                <span id="title_error" class="text-danger error"></span>
                             </div>
                             <div class="mb-3 fv-plugins-icon-container">
                                 <label class="form-label" for="description">Description <small>(optional)</small></label>
                                 <textarea class="form-control" name="description" id="description" cols="30" rows="5" placeholder="Enter description">{{ old('description') }}</textarea>
                                 <div class="fv-plugins-message-container invalid-feedback"></div>
+                                <span id="description_error" class="text-danger error"></span>
                             </div>
                             <div class="mb-3 fv-plugins-icon-container">
-                                <label class="form-label" for="status">Status</label>
-                                <select name="status" id="status" class="form-control">
-                                    <option value="" selected>Select Status</option>
-                                    <option value="1" {{ old('status')==1?'selected':'' }}>Active</option>
-                                    <option value="0" {{ old('status')==0?'selected':'' }}>De-Active</option>
+                                <label class="form-label" for="status">Select Status</label>
+                                <select id="status" name="status" class="form-select">
+                                    <option value="1">Active</option>
+                                    <option value="0">De-active</option>
                                 </select>
                                 <div class="fv-plugins-message-container invalid-feedback"></div>
+                                <span id="status_error" class="text-danger error"></span>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit waves-effect waves-light">Submit</button>
+                        <button type="submit" class="submitBtn btn btn-primary me-sm-3 me-1 data-submit waves-effect waves-light">Submit</button>
                         <button type="reset" class="btn btn-label-secondary waves-effect" data-bs-dismiss="offcanvas">Cancel</button>
                     </form>
                 </div>

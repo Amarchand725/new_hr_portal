@@ -19,7 +19,7 @@ class LeaveTypeController extends Controller
         if($request->ajax()){
             $query = LeaveType::orderby('id', 'desc')->where('id', '>', 0);
             if($request['search'] != ""){
-                $query->where('title', 'like', '%'. $request['search'] .'%');
+                $query->where('name', 'like', '%'. $request['search'] .'%');
             }
             if($request['status'] != "All"){
                 $query->where('status', $request['status']);

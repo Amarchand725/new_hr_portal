@@ -28,7 +28,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    
+
     <link
       href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
       rel="stylesheet"
@@ -139,7 +139,7 @@
     <script src="{{ asset('public/admin/assets/vendor/libs/apex-charts/apexcharts.js') }}"></script>
     <script src="{{ asset('public/admin/assets/vendor/libs/swiper/swiper.js') }}"></script>
     <script src="{{ asset('public/admin/assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
-    <script src="{{ asset('public/admin/assets/vendor/libs/select2/select2.js') }}"></script>
+    {{-- <script src="{{ asset('public/admin/assets/vendor/libs/select2/select2.js') }}"></script> --}}
 
     {{-- <script src="{{ asset('public/admin/assets/vendor/libs/formvalidation/dist/js/FormValidation.min.js') }}"></script>
     <script src="{{ asset('public/admin/assets/vendor/libs/formvalidation/dist/js/plugins/Bootstrap5.min.js') }}"></script>
@@ -149,7 +149,7 @@
 
     <!-- Main JS -->
     <script src="{{ asset('public/admin/assets/js/main.js') }}"></script>
-    <script src="{{asset('public/admin/assets/js/tinymce/tinymce.min.js')}}"></script>
+    <script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
     {{-- <script src="{{ asset('public/admin/assets/js/app-user-list.js') }}"></script> --}}
 
     <!-- Page JS -->
@@ -201,9 +201,7 @@
             $('.form-select').select2();
         });
 
-        // tinymce.init({
-        //     selector: '.texteditor'
-        // });
+        CKEDITOR.replace('description');
     </script>
 
     <!-- custom js content -->

@@ -45,8 +45,8 @@
                     <span class="badge bg-label-primary p-2 rounded"><i class="ti ti-checkbox ti-sm"></i></span>
                     <div>
                         <p class="mb-0 fw-semibold">
-                            @if(isset($model->departmentBridge->department->departmentWorkShift->workShift) && !empty($model->departmentBridge->department->departmentWorkShift->workShift->name))
-                                {{ $model->departmentBridge->department->departmentWorkShift->workShift->name }}
+                            @if(isset($model->userWorkingShift->workShift) && !empty($model->userWorkingShift->workShift->name))
+                                {{ $model->userWorkingShift->workShift->name }}
                             @else
                                 -
                             @endif
@@ -84,11 +84,11 @@
                         <li class="mb-2">
                             <span class="fw-semibold me-1">Employment Status:</span>
                             <span>
-                            @if(isset($model->jobHistory->employmentStatus) && !empty($model->jobHistory->employmentStatus->name))
-                                {{ $model->jobHistory->employmentStatus->name }}
-                            @else
-                            -
-                            @endif
+                                @if(isset($model->jobHistory->userEmploymentStatus->employmentStatus) && !empty($model->jobHistory->userEmploymentStatus->employmentStatus->name))
+                                    {{ $model->jobHistory->userEmploymentStatus->employmentStatus->name }}
+                                @else
+                                -
+                                @endif
                             </span>
                         </li>
                         <li class="mb-2">
@@ -927,7 +927,13 @@
                                                                 @endif
                                                             </span>
                                                             <i class="ti ti-arrow-right scaleX-n1-rtl mx-3"></i>
-                                                            <span>PRK. {{ number_format($job_history->salary->salary, 2) }}</span>
+                                                            <span>PRK.
+                                                                @if(isset($job_history->salary) && !empty($job_history->salary->salary))
+                                                                    {{ number_format($job_history->salary->salary, 2) }}
+                                                                @else
+                                                                -
+                                                                @endif
+                                                            </span>
                                                         </div>
                                                         <div>
                                                             @if(!empty($job_history->salary->effective_date))
