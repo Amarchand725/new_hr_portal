@@ -62,15 +62,14 @@ class EmployeeController extends Controller
                 $query->role($request['role_id']);
             }
 
-            return $data['employees'] = $query->where('is_employee', 1)->paginate(10);
+            $data['employees'] = $query->where('is_employee', 1)->paginate(10);
 
             return (string) view('admin.employees.search', compact('data'));
         }
 
-        $data['positions'] = Position::orderby('id', 'desc')->where('status', 1)->get();
         $data['designations'] = Designation::orderby('id', 'desc')->where('status', 1)->get();
         $data['roles'] = Role::orderby('id', 'desc')->get();
-        $data['departments'] = Department::orderby('id', 'desc')->where('status', 1)->where('manager_id', '!=', NULL)->get();
+        $data['departments'] = Department::orderby('id', 'desc')->where('status', 1)->get();
         $data['employment_statues'] = EmploymentStatus::orderby('id', 'desc')->get();
         $data['employees'] = User::orderby('id', 'desc')->where('is_employee', 1)->paginate(10);
 
@@ -85,7 +84,8 @@ class EmployeeController extends Controller
             'last_name' => ['string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
             'employment_status_id' => 'required',
-            'role_id' => 'required',
+            'role_ids' => 'required',
+            'role_ids*' => 'required',
             'joining_date' => 'required',
             'employment_id' => 'max:200',
             'salary' => 'max:255',
@@ -106,7 +106,7 @@ class EmployeeController extends Controller
 
         try{
             $model = User::create($model);
-            $model->assignRole($request->role_id);
+            $model->assignRole($request->role_ids);
 
             if($model){
                 Profile::create([
@@ -114,6 +114,7 @@ class EmployeeController extends Controller
                     'employment_id' => $request->employment_id,
                     'joining_date' => $request->joining_date,
                     'gender' => $request->gender,
+                    'phone_number' => $request->phone_number,
                 ]);
 
                 $job_history = JobHistory::create([

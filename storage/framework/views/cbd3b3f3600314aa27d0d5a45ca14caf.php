@@ -1,6 +1,5 @@
-@extends('admin.layouts.app')
-@section('title', $title.' - Cyberonix')
-@section('content')
+<?php $__env->startSection('title', $title.' - Cyberonix'); ?>
+<?php $__env->startSection('content'); ?>
 <div class="content-wrapper">
     <!-- Content -->
 
@@ -12,76 +11,81 @@
             <div class="col-12">
                 <div class="card mb-4">
                     <div class="user-profile-header-banner">
-                        @if(isset($model->profile->coverImage) && !empty($model->profile->coverImage))
-                            <img src="{{ asset('public/admin/assets/img/pages') }}/{{ $model->profile->coverImage->image }}" style="width:100%" alt="Banner image" class="rounded-top img-fluid">
-                        @else
-                            <img src="{{ asset('public/admin/assets/img/pages/default.png') }}" alt="Banner image" style="width:100%" class="rounded-top img-fluid">
-                        @endif
+                        <?php if(isset($model->profile->coverImage) && !empty($model->profile->coverImage)): ?>
+                            <img src="<?php echo e(asset('public/admin/assets/img/pages')); ?>/<?php echo e($model->profile->coverImage->image); ?>" style="width:100%" alt="Banner image" class="rounded-top img-fluid">
+                        <?php else: ?>
+                            <img src="<?php echo e(asset('public/admin/assets/img/pages/default.png')); ?>" alt="Banner image" style="width:100%" class="rounded-top img-fluid">
+                        <?php endif; ?>
                     </div>
                     <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
                         <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
-                            @if(isset($model->profile) && !empty($model->profile->profile))
-                                <img src="{{ asset('public/admin/assets/img/avatars') }}/{{ $model->profile->profile }}" style="width: 100px !important; height:100px !important" alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img"/>
-                            @else
-                                <img src="{{ asset('public/admin') }}/default.png" style="width: 100px !important; height:100px !important" alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img"/>
-                            @endif
+                            <?php if(isset($model->profile) && !empty($model->profile->profile)): ?>
+                                <img src="<?php echo e(asset('public/admin/assets/img/avatars')); ?>/<?php echo e($model->profile->profile); ?>" style="width: 100px !important; height:100px !important" alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img"/>
+                            <?php else: ?>
+                                <img src="<?php echo e(asset('public/admin')); ?>/default.png" style="width: 100px !important; height:100px !important" alt="user image" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img"/>
+                            <?php endif; ?>
                         </div>
                         <div class="flex-grow-1 mt-3 mt-sm-5">
                             <div class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
                                 <div class="user-profile-info">
-                                    <h4>{{ $model->first_name }} {{ $model->last_name }} <span data-toggle="tooltip" data-placement="top" title="Employment ID">( {{ $model->profile->employment_id??'-' }} )</span></h4>
+                                    <h4><?php echo e($model->first_name); ?> <?php echo e($model->last_name); ?> <span data-toggle="tooltip" data-placement="top" title="Employment ID">( <?php echo e($model->profile->employment_id??'-'); ?> )</span></h4>
                                     <ul class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2" >
                                         <li class="list-inline-item" data-toggle="tooltip" data-placement="top" title="Position">
                                             <i class="ti ti-color-swatch"></i>
-                                            @if(isset($model->jobHistory->designation->title) && !empty($model->jobHistory->designation->title))
-                                                {{ $model->jobHistory->designation->title }}
-                                            @else
+                                            <?php if(isset($model->jobHistory->designation->title) && !empty($model->jobHistory->designation->title)): ?>
+                                                <?php echo e($model->jobHistory->designation->title); ?>
+
+                                            <?php else: ?>
                                                 -
-                                            @endif
+                                            <?php endif; ?>
                                         </li>
                                         <li class="list-inline-item" data-toggle="tooltip" data-placement="top" title="Employment Status">
                                             <i class="ti ti-tag"></i>
-                                            @if(isset($model->jobHistory->userEmploymentStatus->employmentStatus) && !empty($model->jobHistory->userEmploymentStatus->employmentStatus->name))
-                                                {{ $model->jobHistory->userEmploymentStatus->employmentStatus->name }}
-                                            @else
+                                            <?php if(isset($model->jobHistory->userEmploymentStatus->employmentStatus) && !empty($model->jobHistory->userEmploymentStatus->employmentStatus->name)): ?>
+                                                <?php echo e($model->jobHistory->userEmploymentStatus->employmentStatus->name); ?>
+
+                                            <?php else: ?>
                                                 -
-                                            @endif
+                                            <?php endif; ?>
                                         </li>
                                         <li class="list-inline-item" data-toggle="tooltip" data-placement="top" title="Department">
                                             <i class="ti ti-building"></i>
-                                            @if(isset($model->departmentBridge->department) && !empty($model->departmentBridge->department->name))
-                                                {{ $model->departmentBridge->department->name }}
-                                            @else
+                                            <?php if(isset($model->departmentBridge->department) && !empty($model->departmentBridge->department->name)): ?>
+                                                <?php echo e($model->departmentBridge->department->name); ?>
+
+                                            <?php else: ?>
                                                 -
-                                            @endif
+                                            <?php endif; ?>
                                         </li>
                                         <li class="list-inline-item" data-toggle="tooltip" data-placement="top" title="Work Shift">
                                             <i class="ti ti-clock"></i>
-                                            @if(isset($model->departmentBridge->department->departmentWorkShift->workShift) && !empty($model->departmentBridge->department->departmentWorkShift->workShift->name))
-                                                {{ $model->departmentBridge->department->departmentWorkShift->workShift->name }}
-                                            @else
+                                            <?php if(isset($model->departmentBridge->department->departmentWorkShift->workShift) && !empty($model->departmentBridge->department->departmentWorkShift->workShift->name)): ?>
+                                                <?php echo e($model->departmentBridge->department->departmentWorkShift->workShift->name); ?>
+
+                                            <?php else: ?>
                                                 -
-                                            @endif
+                                            <?php endif; ?>
                                         </li>
                                         <li class="list-inline-item" data-toggle="tooltip" data-placement="top" title="Joining Date">
                                             <i class="ti ti-calendar"></i>
-                                            @if(isset($model->jobHistory) && !empty($model->jobHistory->joining_date))
-                                                Joined {{ date('d M Y', strtotime($model->jobHistory->joining_date)) }}
-                                            @else
+                                            <?php if(isset($model->jobHistory) && !empty($model->jobHistory->joining_date)): ?>
+                                                Joined <?php echo e(date('d M Y', strtotime($model->jobHistory->joining_date))); ?>
+
+                                            <?php else: ?>
                                             -
-                                            @endif
+                                            <?php endif; ?>
                                         </li>
                                     </ul>
                                 </div>
-                                @if($model->status)
+                                <?php if($model->status): ?>
                                     <a href="javascript:void(0)" class="btn btn-primary">
                                         <i class="ti ti-user-check me-1"></i>Active
                                     </a>
-                                @else
+                                <?php else: ?>
                                     <a href="javascript:void(0)" class="btn btn-danger">
                                         <i class="ti ti-user-check me-1"></i>De-Active
                                     </a>
-                                @endif
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
@@ -107,7 +111,7 @@
                         <i class="ti-xs ti ti-user-check me-1"></i> Profile
                         </button>
                     </li>
-                    @if($model->getRoleNames()->first() != 'Employee')
+                    <?php if($model->getRoleNames()->first() != 'Employee'): ?>
                         <li class="nav-item">
                             <button
                             type="button"
@@ -121,7 +125,7 @@
                             <i class="ti-xs ti ti-users me-1"></i> Teams
                             </button>
                         </li>
-                    @endif
+                    <?php endif; ?>
                     <li class="nav-item">
                         <button
                           type="button"
@@ -164,11 +168,12 @@
                                                         <span class="fw-bold "> Employee ID:</span>
                                                     </th>
                                                     <td>
-                                                        @if(isset($model->profile) && !empty($model->profile->employment_id))
-                                                            {{ $model->profile->employment_id }}
-                                                        @else
+                                                        <?php if(isset($model->profile) && !empty($model->profile->employment_id)): ?>
+                                                            <?php echo e($model->profile->employment_id); ?>
+
+                                                        <?php else: ?>
                                                             -
-                                                        @endif
+                                                        <?php endif; ?>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -177,7 +182,7 @@
                                                         <span class="fw-bold mx-2">Full Name:</span>
                                                     </th>
                                                     <td>
-                                                        <span>{{ $model->first_name??'' }} {{ $model->last_name??'' }}</span>
+                                                        <span><?php echo e($model->first_name??''); ?> <?php echo e($model->last_name??''); ?></span>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -186,7 +191,7 @@
                                                         <span class="fw-bold mx-2">Email:</span>
                                                     </th>
                                                     <td>
-                                                        <span>{{ $model->email??'' }}</span>
+                                                        <span><?php echo e($model->email??''); ?></span>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -195,7 +200,7 @@
                                                         <span class="fw-bold mx-2">Phone Number:</span>
                                                     </th>
                                                     <td>
-                                                        <span>{{ $model->profile->phone_number??'-' }}</span>
+                                                        <span><?php echo e($model->profile->phone_number??'-'); ?></span>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -204,7 +209,7 @@
                                                         <span class="fw-bold">Gender:</span>
                                                     </th>
                                                     <td>
-                                                        <span>{{ Str::ucfirst($model->profile->gender)??'' }}</span>
+                                                        <span><?php echo e(Str::ucfirst($model->profile->gender)??''); ?></span>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -213,7 +218,7 @@
                                                         <span class="fw-bold">Birthday:</span>
                                                     </th>
                                                     <td>
-                                                        <span>{{ $model->profile->date_of_birth??'-' }}</span>
+                                                        <span><?php echo e($model->profile->date_of_birth??'-'); ?></span>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -222,7 +227,7 @@
                                                         <span class="fw-bold">About Me:</span>
                                                     </th>
                                                     <td>
-                                                        <span>{{ $model->profile->about_me??'-' }}</span>
+                                                        <span><?php echo e($model->profile->about_me??'-'); ?></span>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -242,11 +247,12 @@
                                                         <span class="fw-bold "> Employee ID:</span>
                                                     </th>
                                                     <td>
-                                                        @if(isset($model->profile) && !empty($model->profile->employment_id))
-                                                            {{ $model->profile->employment_id }}
-                                                        @else
+                                                        <?php if(isset($model->profile) && !empty($model->profile->employment_id)): ?>
+                                                            <?php echo e($model->profile->employment_id); ?>
+
+                                                        <?php else: ?>
                                                             -
-                                                        @endif
+                                                        <?php endif; ?>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -266,11 +272,12 @@
                                                         <span class="fw-bold "> Permanent Address:</span>
                                                     </th>
                                                     <td>
-                                                        @if(isset($model->profile) && !empty($model->profile->address))
-                                                            {{ $model->profile->address }}
-                                                        @else
+                                                        <?php if(isset($model->profile) && !empty($model->profile->address)): ?>
+                                                            <?php echo e($model->profile->address); ?>
+
+                                                        <?php else: ?>
                                                             -
-                                                        @endif
+                                                        <?php endif; ?>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -279,11 +286,12 @@
                                                         <span class="fw-bold "> Current Address:</span>
                                                     </th>
                                                     <td>
-                                                        @if(isset($model->profile) && !empty($model->profile->address))
-                                                            {{ $model->profile->address }}
-                                                        @else
+                                                        <?php if(isset($model->profile) && !empty($model->profile->address)): ?>
+                                                            <?php echo e($model->profile->address); ?>
+
+                                                        <?php else: ?>
                                                             -
-                                                        @endif
+                                                        <?php endif; ?>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -303,11 +311,12 @@
                                                         <span class="fw-bold "> Emergency Contact:</span>
                                                     </th>
                                                     <td>
-                                                        @if(isset($model->profile) && !empty($model->profile->address))
-                                                            {{ $model->profile->address }}
-                                                        @else
+                                                        <?php if(isset($model->profile) && !empty($model->profile->address)): ?>
+                                                            <?php echo e($model->profile->address); ?>
+
+                                                        <?php else: ?>
                                                             -
-                                                        @endif
+                                                        <?php endif; ?>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -326,7 +335,7 @@
                                     <a href="javascript:;" class="d-flex align-items-center">
                                         <div class="avatar me-2">
                                         <img
-                                            src="{{ asset('public/admin') }}/assets/img/icons/brands/react-label.png"
+                                            src="<?php echo e(asset('public/admin')); ?>/assets/img/icons/brands/react-label.png"
                                             alt="Avatar"
                                             class="rounded-circle"
                                         />
@@ -380,7 +389,7 @@
                                             title="Vinnie Mostowy"
                                             class="avatar avatar-sm pull-up"
                                         >
-                                            <img class="rounded-circle" src="{{ asset('public/admin') }}/assets/img/avatars/5.png" alt="Avatar" />
+                                            <img class="rounded-circle" src="<?php echo e(asset('public/admin')); ?>/assets/img/avatars/5.png" alt="Avatar" />
                                         </li>
                                         <li
                                             data-bs-toggle="tooltip"
@@ -389,7 +398,7 @@
                                             title="Allen Rieske"
                                             class="avatar avatar-sm pull-up"
                                         >
-                                            <img class="rounded-circle" src="{{ asset('public/admin') }}/assets/img/avatars/12.png" alt="Avatar" />
+                                            <img class="rounded-circle" src="<?php echo e(asset('public/admin')); ?>/assets/img/avatars/12.png" alt="Avatar" />
                                         </li>
                                         <li
                                             data-bs-toggle="tooltip"
@@ -398,7 +407,7 @@
                                             title="Julee Rossignol"
                                             class="avatar avatar-sm pull-up"
                                         >
-                                            <img class="rounded-circle" src="{{ asset('public/admin') }}/assets/img/avatars/6.png" alt="Avatar" />
+                                            <img class="rounded-circle" src="<?php echo e(asset('public/admin')); ?>/assets/img/avatars/6.png" alt="Avatar" />
                                         </li>
                                         <li class="avatar avatar-sm">
                                             <span
@@ -426,7 +435,7 @@
                                     <a href="javascript:;" class="d-flex align-items-center">
                                         <div class="avatar me-2">
                                         <img
-                                            src="{{ asset('public/admin') }}/assets/img/icons/brands/vue-label.png"
+                                            src="<?php echo e(asset('public/admin')); ?>/assets/img/icons/brands/vue-label.png"
                                             alt="Avatar"
                                             class="rounded-circle"
                                         />
@@ -480,7 +489,7 @@
                                             title="Kaith D'souza"
                                             class="avatar avatar-sm pull-up"
                                         >
-                                            <img class="rounded-circle" src="{{ asset('public/admin') }}/assets/img/avatars/5.png" alt="Avatar" />
+                                            <img class="rounded-circle" src="<?php echo e(asset('public/admin')); ?>/assets/img/avatars/5.png" alt="Avatar" />
                                         </li>
                                         <li
                                             data-bs-toggle="tooltip"
@@ -489,7 +498,7 @@
                                             title="John Doe"
                                             class="avatar avatar-sm pull-up"
                                         >
-                                            <img class="rounded-circle" src="{{ asset('public/admin') }}/assets/img/avatars/1.png" alt="Avatar" />
+                                            <img class="rounded-circle" src="<?php echo e(asset('public/admin')); ?>/assets/img/avatars/1.png" alt="Avatar" />
                                         </li>
                                         <li
                                             data-bs-toggle="tooltip"
@@ -498,7 +507,7 @@
                                             title="Alan Walker"
                                             class="avatar avatar-sm pull-up"
                                         >
-                                            <img class="rounded-circle" src="{{ asset('public/admin') }}/assets/img/avatars/6.png" alt="Avatar" />
+                                            <img class="rounded-circle" src="<?php echo e(asset('public/admin')); ?>/assets/img/avatars/6.png" alt="Avatar" />
                                         </li>
                                         <li class="avatar avatar-sm">
                                             <span
@@ -596,35 +605,37 @@
                                             </div>
                                             <div class="card-body pb-0">
                                                 <ul class="timeline ms-1 mb-0">
-                                                    @foreach ($histories as $history)
+                                                    <?php $__currentLoopData = $histories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $history): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                         <li class="timeline-item timeline-item-transparent">
                                                             <span class="timeline-point timeline-point-primary"></span>
                                                             <div class="timeline-event">
                                                                 <div class="timeline-header">
                                                                     <h6 class="mb-0">
-                                                                        @if(isset($history->jobHistory->position) && !empty($history->jobHistory->position->title))
-                                                                            {{ $history->jobHistory->position->title }}
-                                                                        @else
+                                                                        <?php if(isset($history->jobHistory->position) && !empty($history->jobHistory->position->title)): ?>
+                                                                            <?php echo e($history->jobHistory->position->title); ?>
+
+                                                                        <?php else: ?>
                                                                             -
-                                                                        @endif
+                                                                        <?php endif; ?>
                                                                     </h6>
-                                                                    <small class="text-muted">{{ $history->created_at->diffForHumans() }}</small>
+                                                                    <small class="text-muted"><?php echo e($history->created_at->diffForHumans()); ?></small>
                                                                 </div>
                                                                 <div class="d-flex flex-wrap">
                                                                     <div class="ms-1">
-                                                                        <h6 class="mb-0">PKR. {{ number_format($history->salary, 2) }}</h6>
+                                                                        <h6 class="mb-0">PKR. <?php echo e(number_format($history->salary, 2)); ?></h6>
                                                                         <span>
-                                                                            @if(isset($history->jobHistory->designation) && !empty($history->jobHistory->designation->title))
-                                                                                {{ $history->jobHistory->designation->title }}
-                                                                            @else
+                                                                            <?php if(isset($history->jobHistory->designation) && !empty($history->jobHistory->designation->title)): ?>
+                                                                                <?php echo e($history->jobHistory->designation->title); ?>
+
+                                                                            <?php else: ?>
                                                                                 -
-                                                                            @endif
+                                                                            <?php endif; ?>
                                                                         </span>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </li>
-                                                    @endforeach
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </ul>
                                             </div>
                                         </div>
@@ -638,4 +649,6 @@
         </div>
       </div>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('admin.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\hr_portal\resources\views/admin/employees/show.blade.php ENDPATH**/ ?>

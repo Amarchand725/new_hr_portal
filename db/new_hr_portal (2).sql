@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 24, 2023 at 03:13 AM
+-- Generation Time: May 24, 2023 at 08:08 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -167,7 +167,8 @@ CREATE TABLE `department_users` (
 --
 
 INSERT INTO `department_users` (`id`, `department_id`, `user_id`, `start_date`, `end_date`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, '2023-05-23', NULL, '2023-05-23 16:53:05', '2023-05-23 16:53:05');
+(1, 1, 1, '2023-05-23', NULL, '2023-05-23 16:53:05', '2023-05-23 16:53:05'),
+(2, 24, 2, '0000-00-00', NULL, '2023-05-24 12:44:19', '2023-05-24 12:44:19');
 
 -- --------------------------------------------------------
 
@@ -343,7 +344,8 @@ CREATE TABLE `job_histories` (
 
 INSERT INTO `job_histories` (`id`, `created_by`, `user_id`, `parent_designation_id`, `designation_id`, `parent_position_id`, `position_id`, `employment_status_id`, `joining_date`, `end_date`, `deleted_at`, `created_at`, `updated_at`) VALUES
 (1, 1, 1, NULL, 1, NULL, NULL, 1, '2023-05-23', '2023-05-23', NULL, '2023-05-23 16:53:05', '2023-05-23 16:53:05'),
-(2, 1, 1, NULL, 1, NULL, NULL, 2, '2023-05-23', NULL, NULL, '2023-05-23 16:53:05', '2023-05-23 16:53:05');
+(2, 1, 1, NULL, 1, NULL, NULL, 2, '2023-05-23', NULL, NULL, '2023-05-23 16:53:05', '2023-05-23 16:53:05'),
+(3, 1, 2, NULL, 3, NULL, NULL, 2, '2023-01-01', NULL, NULL, '2023-05-24 12:44:19', '2023-05-24 12:44:19');
 
 -- --------------------------------------------------------
 
@@ -478,7 +480,8 @@ INSERT INTO `log_activities` (`id`, `subject`, `url`, `method`, `ip`, `agent`, `
 (89, 'New Department Added', 'http://localhost/hr_portal/departments', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-23 19:30:11', '2023-05-23 19:30:11'),
 (90, 'New Department Added', 'http://localhost/hr_portal/departments', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-23 19:30:21', '2023-05-23 19:30:21'),
 (91, 'New Department Added', 'http://localhost/hr_portal/departments', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-23 19:30:37', '2023-05-23 19:30:37'),
-(92, 'New Department Added', 'http://localhost/hr_portal/departments', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-23 19:30:55', '2023-05-23 19:30:55');
+(92, 'New Department Added', 'http://localhost/hr_portal/departments', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-23 19:30:55', '2023-05-23 19:30:55'),
+(93, 'Employee added', 'http://localhost/hr_portal/employees', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-24 12:44:19', '2023-05-24 12:44:19');
 
 -- --------------------------------------------------------
 
@@ -558,7 +561,9 @@ CREATE TABLE `model_has_roles` (
 --
 
 INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
-(1, 'App\\Models\\User', 1);
+(1, 'App\\Models\\User', 1),
+(3, 'App\\Models\\User', 2),
+(4, 'App\\Models\\User', 2);
 
 -- --------------------------------------------------------
 
@@ -720,7 +725,8 @@ CREATE TABLE `profiles` (
 --
 
 INSERT INTO `profiles` (`id`, `user_id`, `employment_id`, `cover_image_id`, `joining_date`, `date_of_birth`, `gender`, `marital_status`, `fathers_name`, `mothers_name`, `social_security_number`, `phone_number`, `about_me`, `address`, `profile`, `created_at`, `updated_at`) VALUES
-(1, 1, 1145, NULL, '2023-05-23', '2023-05-01', 'male', 0, NULL, NULL, NULL, '12345', NULL, NULL, '1684880020.jpg', '2023-05-23 16:53:05', '2023-05-23 17:13:40');
+(1, 1, 1145, NULL, '2023-05-23', '2023-05-01', 'male', 0, NULL, NULL, NULL, '12345', NULL, NULL, '1684880020.jpg', '2023-05-23 16:53:05', '2023-05-23 17:13:40'),
+(2, 2, 4937, NULL, '2023-01-01', NULL, 'male', 0, NULL, NULL, NULL, '12345', NULL, NULL, NULL, '2023-05-24 12:44:19', '2023-05-24 12:44:19');
 
 -- --------------------------------------------------------
 
@@ -825,6 +831,13 @@ CREATE TABLE `salary_histories` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `salary_histories`
+--
+
+INSERT INTO `salary_histories` (`id`, `created_by`, `user_id`, `job_history_id`, `salary`, `effective_date`, `end_date`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, 2, 3, 13000, NULL, NULL, 1, '2023-05-24 12:44:19', '2023-05-24 12:44:19');
+
 -- --------------------------------------------------------
 
 --
@@ -900,7 +913,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `created_by`, `status`, `is_employee`, `first_name`, `last_name`, `email`, `email_verified_at`, `password`, `remember_token`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1, NULL, 1, 0, 'Admin', 'App', 'admin@gmail.com', NULL, '$2y$10$uXBOYG7QCLsbXxVnQxMcVeIoZpxRPGyhs5R0/917LFHa9RT4Wgb7y', NULL, NULL, '2023-05-23 16:53:05', '2023-05-23 17:13:40');
+(1, NULL, 1, 0, 'Admin', 'App', 'admin@gmail.com', NULL, '$2y$10$uXBOYG7QCLsbXxVnQxMcVeIoZpxRPGyhs5R0/917LFHa9RT4Wgb7y', NULL, NULL, '2023-05-23 16:53:05', '2023-05-23 17:13:40'),
+(2, 1, 1, 1, 'Muhmmad Umar', 'Khan', 'muhammad.umer@cyberonix.org', NULL, '$2y$10$isuotOAU4NB638Bo/C7OCunU4LUTWq.bUmpUtAmW/n8o.X.BWEQFi', NULL, NULL, '2023-05-24 12:44:19', '2023-05-24 12:44:19');
 
 -- --------------------------------------------------------
 
@@ -940,7 +954,8 @@ CREATE TABLE `user_employment_statuses` (
 
 INSERT INTO `user_employment_statuses` (`id`, `user_id`, `employment_status_id`, `start_date`, `end_date`, `description`, `created_at`, `updated_at`) VALUES
 (1, 1, 1, '2023-05-23', '2023-05-23', NULL, '2023-05-23 16:53:05', '2023-05-23 16:53:05'),
-(2, 1, 2, '2023-05-23', NULL, NULL, '2023-05-23 16:53:05', '2023-05-23 16:53:05');
+(2, 1, 2, '2023-05-23', NULL, NULL, '2023-05-23 16:53:05', '2023-05-23 16:53:05'),
+(3, 2, 2, '2023-01-01', NULL, NULL, '2023-05-24 12:44:19', '2023-05-24 12:44:19');
 
 -- --------------------------------------------------------
 
@@ -1413,7 +1428,7 @@ ALTER TABLE `departments`
 -- AUTO_INCREMENT for table `department_users`
 --
 ALTER TABLE `department_users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `department_work_shifts`
@@ -1455,7 +1470,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `job_histories`
 --
 ALTER TABLE `job_histories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `leave_types`
@@ -1467,7 +1482,7 @@ ALTER TABLE `leave_types`
 -- AUTO_INCREMENT for table `log_activities`
 --
 ALTER TABLE `log_activities`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -1497,7 +1512,7 @@ ALTER TABLE `positions`
 -- AUTO_INCREMENT for table `profiles`
 --
 ALTER TABLE `profiles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `profile_cover_images`
@@ -1515,7 +1530,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `salary_histories`
 --
 ALTER TABLE `salary_histories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `settings`
@@ -1533,7 +1548,7 @@ ALTER TABLE `statuses`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `user_contacts`
@@ -1545,7 +1560,7 @@ ALTER TABLE `user_contacts`
 -- AUTO_INCREMENT for table `user_employment_statuses`
 --
 ALTER TABLE `user_employment_statuses`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `user_leaves`

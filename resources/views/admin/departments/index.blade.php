@@ -157,20 +157,15 @@
                                                         @endif
                                                     </a>
                                                     <a href="#"
-                                                        class="dropdown-item dept-manager-btn"
+                                                        class="dropdown-item show"
                                                         tabindex="0" aria-controls="DataTables_Table_0"
                                                         type="button" data-bs-toggle="modal"
-                                                        data-bs-target="#add-manager-modal"
+                                                        data-bs-target="#dept-details-modal"
                                                         data-toggle="tooltip"
                                                         data-placement="top"
-                                                        title="Add or Update Manager"
-                                                        data-status-url='{{ route('departments.add-manager', $model->id) }}'>
-                                                        Manager
-                                                    </a>
-                                                    <a href="#" class="dropdown-item dept-work-shift-btn" data-status-url='{{ route('departments.add-shift', $model->id) }}'>
-                                                        Shift
-                                                    </a>
-                                                    <a href="#" class="dropdown-item dept-view-details-btn" data-status-url='{{ route('departments.show', $model->id) }}'>
+                                                        title="Department Details"
+                                                        data-show-url="{{ route('departments.show', $model->id) }}"
+                                                        >
                                                         View Details
                                                     </a>
                                                 </div>
@@ -231,8 +226,8 @@
                                 <div class="position-relative">
                                     <select id="manager_id" name="manager_id" class="select2 form-select">
                                         <option value="">Select manager</option>
-                                        @foreach ($data['users'] as $user)
-                                            <option value="{{ $user->id }}">{{ $user->first_name }} {{ $user->last_name }}</option>
+                                        @foreach ($data['department_managers'] as $manager)
+                                            <option value="{{ $manager->id }}">{{ $manager->first_name }} {{ $manager->last_name }}</option>
                                         @endforeach
                                     </select>
                                     <span id="manager_id_error" class="text-danger error"></span>
@@ -266,66 +261,35 @@
                 </div>
             </div>
 
-            <!-- Add Manager Modal -->
-            <div class="modal fade" id="add-manager-modal" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-xl modal-dialog-centered1 modal-simple modal-add-new-cc">
+            <!-- View Department Details Modal -->
+            <div class="modal fade" id="dept-details-modal" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered1 modal-simple modal-add-new-cc">
                     <div class="modal-content p-3 p-md-5">
                         <div class="modal-body">
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             <div class="text-center mb-4">
                                 <h3 class="mb-2" id="modal-label"></h3>
                             </div>
-                            <form id="create-form" class="row g-3" data-method="" data-modal-id="offcanvasAddAnnouncement">
-                                @csrf
 
-                                <span id="edit-content">
-                                    <div class="col-12 col-md-12">
-                                        <label class="form-label" for="title">Title</label>
-                                        <input type="text" id="title" name="title" class="form-control" placeholder="Enter title" />
-                                        <div class="fv-plugins-message-container invalid-feedback"></div>
-                                        <span id="title_error" class="text-danger error"></span>
-                                    </div>
-                                    <div class="row mt-2">
-                                        <div class="col-md-6">
-                                            <label class="form-label" for="start_date">Start Date</label>
-                                            <input type="date" id="start_date" name="start_date" class="form-control" placeholder="Enter start date" />
-                                            <div class="fv-plugins-message-container invalid-feedback"></div>
-                                            <span id="start_date_error" class="text-danger error"></span>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="form-label" for="end_date">End Date</label>
-                                            <input type="date" id="end_date" name="end_date" class="form-control" placeholder="Enter end date" />
-                                            <div class="fv-plugins-message-container invalid-feedback"></div>
-                                            <span id="end_date_error" class="text-danger error"></span>
-                                        </div>
-                                    </div>
+                            <div class="col-12">
+                                <span id="show-content"></span>
+                            </div>
 
-                                    <div class="col-12 col-md-12 mt-2">
-                                        <label class="form-label" for="description">Description ( <small>Optional</small> )</label>
-                                        <textarea class="form-control" name="description" id="description" placeholder="Enter description">{{ old('description') }}</textarea>
-
-                                        <div class="fv-plugins-message-container invalid-feedback"></div>
-                                        <span id="description_error" class="text-danger error"></span>
-                                    </div>
-                                </span>
-
-                                <div class="col-12">
-                                    <button type="submit" class="btn btn-primary me-sm-3 me-1 submitBtn">Submit</button>
-                                    <button
-                                        type="reset"
-                                        class="btn btn-label-secondary btn-reset"
-                                        data-bs-dismiss="modal"
-                                        aria-label="Close"
-                                    >
-                                        Cancel
-                                    </button>
-                                </div>
-                            </form>
+                            <div class="col-12 mt-3">
+                                <button
+                                    type="reset"
+                                    class="btn btn-label-secondary btn-reset"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Close"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!--/ Edit Manager Modal -->
+            <!-- View Department Details Modal -->
         </div>
     </div>
 </div>

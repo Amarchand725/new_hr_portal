@@ -40,7 +40,21 @@ class DepartmentController extends Controller
         $data['models'] = Department::orderby('id', 'desc')->paginate(10);
         $data['parent_departments'] = Department::where('status', 1)->where('parent_department_id', NULL)->get();
         $data['work_shifts'] = WorkShift::where('status', 1)->get();
-        $data['users'] = User::get();
+
+        //Get Department Manager & Manager role users.
+        $managers = User::role(['Department Manager', 'Manager'])->get();
+
+        $dept_managers = [];
+        foreach($managers as $manager){
+            //check manger not assigned to any other department.
+            $department_manager = Department::where('manager_id', $manager->id)->first();
+            if(empty($department_manager)){
+                $dept_managers[] = $manager;
+            }
+        }
+        //All Fresh Managers who have not assigned any department.
+        $data['department_managers'] = $dept_managers;
+
         $onlySoftDeleted = Department::onlyTrashed()->count();
         return view('admin.departments.index', compact('title', 'onlySoftDeleted', 'data'));
     }
@@ -81,6 +95,12 @@ class DepartmentController extends Controller
             DB::rollback();
             return response()->json(['error' => $e->getMessage()]);
         }
+    }
+
+    public function show($department_id)
+    {
+        $model = Department::findOrFail($department_id);
+        return (string) view('admin.departments.show_content', compact('model'));
     }
 
     public function edit(Department $department)

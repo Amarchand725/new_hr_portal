@@ -132,10 +132,12 @@
                                         </td>
                                         <td>
                                             <span class="fw-semibold">
-                                                @if(!empty($employee->getRoleNames()->first()))
-                                                    <span class="badge bg-label-primary" text-capitalized="">
-                                                        {{ $employee->getRoleNames()->first() }}
-                                                    </span>
+                                                @if(!empty($employee->getRoleNames()))
+                                                    @foreach ($employee->getRoleNames() as $role_name)
+                                                        <span class="badge bg-label-primary" text-capitalized="">
+                                                            {{ $role_name }}
+                                                        </span>
+                                                    @endforeach
                                                 @else
                                                     -
                                                 @endif
@@ -222,7 +224,7 @@
 
             <!-- Add Role Modal -->
             <div class="modal fade" id="create-form-modal" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
+                <div class="modal-dialog modal-xl modal-dialog-centered modal-add-new-role">
                     <div class="modal-content p-3 p-md-5">
                         <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal" aria-label="Close"></button>
                         <div class="modal-body">
@@ -235,32 +237,33 @@
                                 @csrf
 
                                 <span id="edit-content">
-                                    <div class="mb-3">
-                                        <label class="form-label" for="position">Position</label>
-                                        <select id="position" name="position_id" class="select2 form-select">
-                                            <option selected>Select position</option>
-                                            @foreach ($data['positions'] as $position)
-                                                <option value="{{ $position->id }}">{{ $position->title }}</option>
-                                            @endforeach
-                                        </select>
+                                    <div class="row">
+                                        <div class="mb-3 fv-plugins-icon-container col-6">
+                                            <label class="form-label" for="first_name">First Name</label>
+                                            <input type="text" class="form-control" id="first_name" placeholder="Enter first name" name="first_name">
+                                            <div class="fv-plugins-message-container invalid-feedback"></div>
+                                            <span id="first_name_error" class="text-danger error"></span>
+                                        </div>
+                                        <div class="mb-3 fv-plugins-icon-container col-6">
+                                            <label class="form-label" for="last_name">Last Name</label>
+                                            <input type="text" class="form-control" id="last_name" placeholder="Enter last name" name="last_name">
+                                            <div class="fv-plugins-message-container invalid-feedback"></div>
+                                            <span id="last_name_error" class="text-danger error"></span>
+                                        </div>
                                     </div>
-                                    <div class="mb-3 fv-plugins-icon-container">
-                                        <label class="form-label" for="first_name">First Name</label>
-                                        <input type="text" class="form-control" id="first_name" placeholder="Enter first name" name="first_name">
-                                        <div class="fv-plugins-message-container invalid-feedback"></div>
-                                        <span id="first_name_error" class="text-danger error"></span>
-                                    </div>
-                                    <div class="mb-3 fv-plugins-icon-container">
-                                        <label class="form-label" for="last_name">Last Name</label>
-                                        <input type="text" class="form-control" id="last_name" placeholder="Enter last name" name="last_name">
-                                        <div class="fv-plugins-message-container invalid-feedback"></div>
-                                        <span id="last_name_error" class="text-danger error"></span>
-                                    </div>
-                                    <div class="mb-3 fv-plugins-icon-container">
-                                        <label class="form-label" for="email">Email</label>
-                                        <input type="email" id="email" class="form-control" placeholder="john.doe@example.com" aria-label="john.doe@example.com" name="email">
-                                        <div class="fv-plugins-message-container invalid-feedback"></div>
-                                        <span id="email_error" class="text-danger error"></span>
+                                    <div class="row">
+                                        <div class="mb-3 fv-plugins-icon-container col-6">
+                                            <label class="form-label" for="email">Email</label>
+                                            <input type="email" id="email" class="form-control" placeholder="john.doe@example.com" aria-label="john.doe@example.com" name="email">
+                                            <div class="fv-plugins-message-container invalid-feedback"></div>
+                                            <span id="email_error" class="text-danger error"></span>
+                                        </div>
+                                        <div class="mb-3 fv-plugins-icon-container col-6">
+                                            <label class="form-label" for="phone_number">Phone</label>
+                                            <input type="text" id="phone_number" class="form-control" placeholder="Enter phone number" name="phone_number">
+                                            <div class="fv-plugins-message-container invalid-feedback"></div>
+                                            <span id="phone_number_error" class="text-danger error"></span>
+                                        </div>
                                     </div>
                                     <div class="mb-3">
                                         <label class="d-block form-label">Gender</label>
@@ -289,7 +292,7 @@
                                         </div>
                                         <div class="fv-plugins-message-container invalid-feedback"></div>
                                         <span id="gender_error" class="text-danger error"></span>
-                                      </div>
+                                    </div>
 
                                     <div class="mb-3">
                                         <label class="form-label" for="employment_id">Employee ID</label>
@@ -297,65 +300,74 @@
                                         <div class="fv-plugins-message-container invalid-feedback"></div>
                                         <span id="employment_id_error" class="text-danger error"></span>
                                     </div>
-                                    <div class="mb-3">
-                                        <label class="form-label" for="department_id">Departments</label>
-                                        <select id="department_id" name="department_id" class="select2 form-select">
-                                            <option selected>Select department</option>
-                                            @foreach ($data['departments'] as $department)
-                                                <option value="{{ $department->id }}">{{ $department->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        <div class="fv-plugins-message-container invalid-feedback"></div>
-                                        <span id="department_id_error" class="text-danger error"></span>
+
+                                    <div class="row">
+                                        <div class="mb-3 col-6">
+                                            <label class="form-label" for="department_id">Departments</label>
+                                            <select id="department_id" name="department_id" class="select2 form-select">
+                                                <option value="" selected>Select department</option>
+                                                @foreach ($data['departments'] as $department)
+                                                    <option value="{{ $department->id }}">{{ $department->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <div class="fv-plugins-message-container invalid-feedback"></div>
+                                            <span id="department_id_error" class="text-danger error"></span>
+                                        </div>
+                                        <div class="mb-3 col-6">
+                                            <label class="form-label" for="designation_id">Designation</label>
+                                            <select id="designation_id" name="designation_id" class="select2 form-select">
+                                                <option value="" selected>Select designation</option>
+                                                @foreach ($data['designations'] as $designation)
+                                                    <option value="{{ $designation->id }}">{{ $designation->title }}</option>
+                                                @endforeach
+                                            </select>
+                                            <div class="fv-plugins-message-container invalid-feedback"></div>
+                                            <span id="designation_id_error" class="text-danger error"></span>
+                                        </div>
                                     </div>
-                                    <div class="mb-3">
-                                        <label class="form-label" for="designation_id">Designation</label>
-                                        <select id="designation_id" name="designation_id" class="select2 form-select">
-                                            <option selected>Select designation</option>
-                                            @foreach ($data['designations'] as $designation)
-                                                <option value="{{ $designation->id }}">{{ $designation->title }}</option>
-                                            @endforeach
-                                        </select>
-                                        <div class="fv-plugins-message-container invalid-feedback"></div>
-                                        <span id="designation_id_error" class="text-danger error"></span>
+                                    <div class="row">
+                                        <div class="mb-3 col-6">
+                                            <label class="form-label" for="employment_status_id">Employment Status</label>
+                                            <select id="employment_status_id" name="employment_status_id" class="select2 form-select">
+                                                <option value="" selected>Select Status</option>
+                                                @foreach ($data['employment_statues'] as $employment_status)
+                                                    <option value="{{ $employment_status->id }}">{{ $employment_status->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <div class="fv-plugins-message-container invalid-feedback"></div>
+                                            <span id="employment_status_id_error" class="text-danger error"></span>
+                                        </div>
+                                        <div class="mb-3 col-6">
+                                            <label class="form-label" for="role_ids">Role</label>
+                                            <select id="role_ids" name="role_ids[]" multiple class="select2 select2 form-select">
+                                                <option value="" selected>Select Role</option>
+                                                @foreach ($data['roles'] as $role)
+                                                    <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            <div class="fv-plugins-message-container invalid-feedback"></div>
+                                            <span id="role_ids_error" class="text-danger error"></span>
+                                        </div>
                                     </div>
-                                    <div class="mb-3">
-                                        <label class="form-label" for="employment_status_id">Employment Status</label>
-                                        <select id="employment_status_id" name="employment_status_id" class="select2 form-select">
-                                            <option selected>Select Status</option>
-                                            @foreach ($data['employment_statues'] as $employment_status)
-                                                <option value="{{ $employment_status->id }}">{{ $employment_status->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        <div class="fv-plugins-message-container invalid-feedback"></div>
-                                        <span id="employment_status_id_error" class="text-danger error"></span>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label" for="role_id">Role</label>
-                                        <select id="role_id" name="role_id" class="select2 select2 form-select" data-allow-clear                                            <option value="" selected>Select Role</option>
-                                            @foreach ($data['roles'] as $role)
-                                                <option value="{{ $role->id }}">{{ $role->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        <div class="fv-plugins-message-container invalid-feedback"></div>
-                                        <span id="role_id_error" class="text-danger error"></span>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label" for="salary">Salary</label>
-                                        <input type="number" id="salary" name="salary" class="form-control" placeholder="Enter salary">
-                                        <div class="fv-plugins-message-container invalid-feedback"></div>
-                                        <span id="salary_error" class="text-danger error"></span>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label" for="multicol-birthdate">Joining Date</label>
-                                        <input
-                                          type="text"
-                                          id="multicol-birthdate"
-                                          name="joining_date"
-                                          class="form-control dob-picker"
-                                          placeholder="YYYY-MM-DD" />
-                                        <div class="fv-plugins-message-container invalid-feedback"></div>
-                                        <span id="joining_date_error" class="text-danger error"></span>
+
+                                    <div class="row">
+                                        <div class="mb-3 col-6">
+                                            <label class="form-label" for="salary">Salary</label>
+                                            <input type="number" id="salary" name="salary" class="form-control" placeholder="Enter salary">
+                                            <div class="fv-plugins-message-container invalid-feedback"></div>
+                                            <span id="salary_error" class="text-danger error"></span>
+                                        </div>
+                                        <div class="mb-3 col-6">
+                                            <label class="form-label" for="multicol-birthdate">Joining Date</label>
+                                            <input
+                                            type="date"
+                                            id="multicol-birthdate"
+                                            name="joining_date"
+                                            class="form-control dob-picker"
+                                            placeholder="YYYY-MM-DD" />
+                                            <div class="fv-plugins-message-container invalid-feedback"></div>
+                                            <span id="joining_date_error" class="text-danger error"></span>
+                                        </div>
                                     </div>
                                 </span>
                                 <div class="col-12 text-center mt-4">
