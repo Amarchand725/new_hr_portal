@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\BankDetail;
+use App\Models\BankAccount;
 use App\Models\Setting;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Auth;
@@ -11,7 +11,7 @@ function SubPermissions($label){
 }
 function bankDetail()
 {
-    return BankDetail::where('user_id', Auth::user()->id)->first();
+    return BankAccount::where('user_id', Auth::user()->id)->first();
 }
 function settings()
 {

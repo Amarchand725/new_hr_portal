@@ -121,4 +121,22 @@ class UserLeaveController extends Controller
 
         return $leave_report;
     }
+
+    public function show($leave_id)
+    {
+        $model = UserLeave::where('id', $leave_id)->first();
+        return (string) view('admin.user_leaves.show_content', compact('model'));
+    }
+
+    public function status($leave_id)
+    {
+        // $this->authorize('department-status');
+        $model = UserLeave::where('id', $leave_id)->first();
+        $model->status = 1;
+        $model->save();
+
+        if($model){
+            return true;
+        }
+    }
 }

@@ -75,6 +75,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile_cover_images/status/{id}', [App\Http\Controllers\Admin\ProfileCoverImageController::class, 'status'])->name('profile_cover_images.status');
 
     Route::get('/user_leaves/report', [App\Http\Controllers\UserLeaveController::class, 'leaveReport'])->name('user_leaves.report');
+    Route::get('/user_leaves/show/{id}', [App\Http\Controllers\UserLeaveController::class, 'show'])->name('user_leaves.show');
+    Route::get('/user_leaves/status/{id}', [App\Http\Controllers\UserLeaveController::class, 'status'])->name('user_leaves.status');
 
     Route::get('/user/discrepancies', [App\Http\Controllers\AttendanceController::class, 'discrepancies'])->name('user.discrepancies');
     Route::get('/user/discrepancies/show/{id}', [App\Http\Controllers\AttendanceController::class, 'show'])->name('user.discrepancies.show');

@@ -31,7 +31,8 @@
         </li>
         <li class="menu-item {{
                 request()->is('employees/salary_details') ||
-                request()->is('bank_details/*')
+                request()->is('bank_accounts/create') ||
+                request()->is('bank_accounts/edit/*')
                 ?'open active':''
             }}">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
@@ -44,7 +45,7 @@
                     <div data-i18n="Salary Details">Salary Details</div>
                     </a>
                 </li>
-                <li class="menu-item {{ request()->is('bank_details/*')?'active':'' }}">
+                <li class="menu-item {{ request()->is('bank_accounts/create') || request()->is('bank_accounts/edit/*')?'active':'' }}">
                     @if(!empty(bankDetail()))
                         <a href="{{ route('bank_accounts.edit', bankDetail()->id) }}" class="menu-link">
                             <div data-i18n="Bank Account">Bank Account</div>

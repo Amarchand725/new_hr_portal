@@ -30,7 +30,8 @@
             <span class="menu-header-text">Apps &amp; Pages</span>
         </li>
         <li class="menu-item <?php echo e(request()->is('employees/salary_details') ||
-                request()->is('bank_details/*')
+                request()->is('bank_accounts/create') ||
+                request()->is('bank_accounts/edit/*')
                 ?'open active':''); ?>">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons ti ti-files"></i>
@@ -42,7 +43,7 @@
                     <div data-i18n="Salary Details">Salary Details</div>
                     </a>
                 </li>
-                <li class="menu-item <?php echo e(request()->is('bank_details/*')?'active':''); ?>">
+                <li class="menu-item <?php echo e(request()->is('bank_accounts/create') || request()->is('bank_accounts/edit/*')?'active':''); ?>">
                     <?php if(!empty(bankDetail())): ?>
                         <a href="<?php echo e(route('bank_accounts.edit', bankDetail()->id)); ?>" class="menu-link">
                             <div data-i18n="Bank Account">Bank Account</div>

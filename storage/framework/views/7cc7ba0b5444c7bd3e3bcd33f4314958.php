@@ -28,7 +28,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-datatable table-responsive">
+                <div class="card-datatable">
                     <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
                         <div class="container">
                             <table class="datatables-users table border-top dataTable no-footer dtr-column" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 1227px;">
@@ -100,22 +100,21 @@
                                                         <i class="ti ti-dots-vertical ti-sm mx-1"></i>
                                                     </a>
                                                     <div class="dropdown-menu dropdown-menu-end m-0">
-                                                        <a href="#" class="dropdown-item change-status-btn" data-status-url='<?php echo e(route('bank_accounts.status', $model->id)); ?>'>
-                                                            <?php if($model->status==1): ?>
-                                                                De-active
-                                                            <?php else: ?>
-                                                                Active
-                                                            <?php endif; ?>
-                                                        </a>
+                                                        <?php if($model->status==2 || $model->status==0): ?>
+                                                            <a href="#" class="dropdown-item change-status-btn" data-status-url='<?php echo e(route('user_leaves.status', $model->id)); ?>'>
+                                                                Approve
+                                                            </a>
+                                                        <?php endif; ?>
+
                                                         <a href="#"
                                                             class="dropdown-item show"
                                                             tabindex="0" aria-controls="DataTables_Table_0"
                                                             type="button" data-bs-toggle="modal"
-                                                            data-bs-target="#dept-details-modal"
+                                                            data-bs-target="#leave-show-modal"
                                                             data-toggle="tooltip"
                                                             data-placement="top"
-                                                            title="Bank Account Details"
-                                                            data-show-url="<?php echo e(route('bank_accounts.show', $model->id)); ?>"
+                                                            title="Leave Details"
+                                                            data-show-url="<?php echo e(route('user_leaves.show', $model->id)); ?>"
                                                             >
                                                             View Details
                                                         </a>
@@ -147,6 +146,36 @@
             </div>
         </div>
     </div>
+
+    <!-- View leave details Modal -->
+    <div class="modal fade" id="leave-show-modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered1 modal-simple modal-add-new-cc">
+            <div class="modal-content p-3 p-md-5">
+                <div class="modal-body">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="text-center mb-4">
+                        <h3 class="mb-2" id="modal-label"></h3>
+                    </div>
+
+                    <div class="col-12">
+                        <span id="show-content"></span>
+                    </div>
+
+                    <div class="col-12 mt-3">
+                        <button
+                            type="reset"
+                            class="btn btn-label-secondary btn-reset"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                        >
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- View leave details Modal -->
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('js'); ?>
 <?php $__env->stopPush(); ?>

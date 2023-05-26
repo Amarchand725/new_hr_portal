@@ -153,11 +153,16 @@
                                             <?php endif; ?>
                                         </td>
                                         <td>
-                                            <?php if(isset($employee->departmentBridge->department->departmentWorkShift) && !empty($employee->departmentBridge->department->departmentWorkShift)): ?>
-                                                <?php echo e($employee->departmentBridge->department->departmentWorkShift->workShift->name); ?>
+                                            <?php if(isset($employee->userWorkingShift->workShift) && !empty($employee->userWorkingShift->workShift->name)): ?>
+                                                <?php echo e($employee->userWorkingShift->workShift->name); ?>
 
                                             <?php else: ?>
-                                                -
+                                                <?php if(isset($employee->departmentBridge->department->departmentWorkShift) && !empty($employee->departmentBridge->department->departmentWorkShift)): ?>
+                                                    <?php echo e($employee->departmentBridge->department->departmentWorkShift->workShift->name); ?>
+
+                                                <?php else: ?>
+                                                    -
+                                                <?php endif; ?>
                                             <?php endif; ?>
                                         </td>
                                         <td>
