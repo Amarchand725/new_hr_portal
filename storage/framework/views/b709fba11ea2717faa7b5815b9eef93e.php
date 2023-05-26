@@ -26,14 +26,16 @@
                     <div class="col-md-4">
                         <input type="month" id="pay_slip_month" class="form-control" placeholder="MM-YYYY" />
                     </div>
-                    <div class="col-md-4 user_plan">
-                        <select id="user_id" class="select2 form-select" data-allow-clear="true">
-                            <option value="" selected> Select employee </option>
-                            <?php $__currentLoopData = $data['allUsers']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <option value="<?php echo e($user->id); ?>"><?php echo e($user->first_name); ?> <?php echo e($user->last_name); ?> ( <?php echo e($user->profile->employment_id); ?> )</option>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                        </select>
-                    </div>
+                    <?php if($data['allUsers'] != null): ?>
+                        <div class="col-md-4 user_plan">
+                            <select id="user_id" class="select2 form-select" data-allow-clear="true">
+                                <option value="" selected> Select employee </option>
+                                <?php $__currentLoopData = $data['allUsers']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <option value="<?php echo e($user->id); ?>"><?php echo e($user->first_name); ?> <?php echo e($user->last_name); ?> ( <?php echo e($user->profile->employment_id); ?> )</option>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </select>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
             <div class="card-datatable table-responsive">

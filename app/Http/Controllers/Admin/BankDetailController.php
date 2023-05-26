@@ -19,6 +19,7 @@ class BankDetailController extends Controller
     {
         if(!empty(bankDetail(Auth::user()->id))){
             $title = 'Edit Bank Details';
+            $this->authorize('bank_details-list');
             $model = BankDetail::where('user_id', Auth::user()->id)->first();
             return view('admin.bank_details.edit', compact('title', 'model'));
         }else{
@@ -65,6 +66,7 @@ class BankDetailController extends Controller
      */
     public function edit($id)
     {
+        $this->authorize('bank_details-edit');
         $title = 'Bank Details';
         $model = BankDetail::where('id', $id)->where('status', 1)->first();
         return view('admin.bank_details.edit', compact('title', 'model'));
@@ -104,13 +106,5 @@ class BankDetailController extends Controller
             DB::rollback();
             return response()->json(['error' => $e->getMessage()]);
         }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(BankDetail $bankDetail)
-    {
-        //
     }
 }

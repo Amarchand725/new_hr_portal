@@ -12,6 +12,7 @@ class SettingController extends Controller
 {
     public function create()
     {
+        $this->authorize('setting-create');
         $settings = Setting::first();
         if(empty($settings)){
             $title = 'Setting';
@@ -83,6 +84,7 @@ class SettingController extends Controller
 
     public function edit($id)
     {
+        $this->authorize('setting-edit');
         $title = 'Setting Details';
         $model = Setting::where('id', $id)->first();
         return view('admin.settings.edit', compact('title', 'model'));

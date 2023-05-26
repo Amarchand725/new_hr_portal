@@ -30,7 +30,7 @@
                 -
             @endif
         </td>
-        <td>{{ $team_member->first_name }}</td>
+        <td>{{ $team_member->email }}</td>
         <td>
             @if(isset($team_member->profile) && !empty($team_member->profile->phone_number))
                 {{ $team_member->profile->phone_number }}
@@ -40,7 +40,7 @@
         </td>
         <td>
             @if(isset($team_member->profile) && !empty($team_member->profile->joining_date ))
-                {{ date('d, F Y', strtotime($team_member->profile->joining_date)) }}
+                {{ date('d, M Y', strtotime($team_member->profile->joining_date)) }}
             @else
                 -
             @endif
@@ -48,11 +48,11 @@
         <td>
             @if(isset($team_member->employeeStatus->employmentStatus) && !empty($team_member->employeeStatus->employmentStatus->name))
                 @if($team_member->employeeStatus->employmentStatus->name=='Terminated')
-                    <span class="badge bg-label-{{ $team_member->employeeStatus->employmentStatus->class }} me-1">{{ $team_member->employeeStatus->employmentStatus->Terminated }}</span>
+                    <span class="badge bg-label-dagner me-1">Terminated</span>
                 @elseif($team_member->employeeStatus->employmentStatus->name=='Permanent')
-                    <span class="badge bg-label-{{ $team_member->employeeStatus->employmentStatus->class }} me-1">{{ $team_member->employeeStatus->employmentStatus->Terminated }}</span>
+                    <span class="badge bg-label-success me-1">Permanent</span>
                 @elseif($team_member->employeeStatus->employmentStatus->name=='Probation')
-                    <span class="badge bg-label-{{ $team_member->employeeStatus->employmentStatus->class }} me-1">{{ $team_member->employeeStatus->employmentStatus->Terminated }}</span>
+                    <span class="badge bg-label-warning me-1">Probation</span>
                 @endif
             @else
                 -

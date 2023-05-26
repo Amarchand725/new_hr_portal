@@ -7,10 +7,27 @@
             </span>
         </td>
         <td>
-            <span class="badge bg-label-success p-1" text-capitalized="">View</span>
-            <span class="badge bg-label-info" text-capitalized="">Read</span>
-            <span class="badge bg-label-warning" text-capitalized="">Write</span>
-            <span class="badge bg-label-danger" text-capitalized="">Delete</span>
+            @foreach(SubPermissions($model->label) as $label)
+                @php $permission_lab = explode('-', $label->name) @endphp
+                @if($permission_lab[1]=='list')
+                    <span class="badge bg-label-success p-1">List</span>
+                @elseif($permission_lab[1]=='create')
+                    <span class="badge bg-label-primary">Create</span>
+                @elseif($permission_lab[1]=='edit')
+                    <span class="badge bg-label-info">Edit</span>
+                @elseif($permission_lab[1]=='delete')
+                    <span class="badge bg-label-danger">Delete</span>
+                @elseif($permission_lab[1]=='status')
+                    <span class="badge bg-label-success">Status</span>
+                @elseif($permission_lab[1]=='trashed')
+                    <span class="badge bg-label-warning">Trashed</span>
+                @elseif($permission_lab[1]=='restore')
+                    <span class="badge bg-label-info">Restore</span>
+                @else
+                    <span class="badge bg-label-success">Custom</span>
+                @endif
+            @endforeach
+
         </td>
         <td>{{ date('d, F Y', strtotime($model->created_at)) }}</td>
         <td>
@@ -38,63 +55,5 @@
 </tr>
 
 <script>
-    $(document).on('click', '.pagination a', function(event){
-        event.preventDefault();
-        var search = $('#search').val();
-        var status = $('#status').val();
-        var pageurl = $('#page_url').val();
-        var page = $(this).attr('href').split('page=')[1];
-        fetchAll(pageurl, page, search, status);
-    });
-    function fetchAll(pageurl, page, search, status){
-        $.ajax({
-            url:pageurl+'?page='+page+'&search='+search+'&status='+status,
-            type: 'get',
-            success: function(response){
-                $('#body').html(response);
-            }
-        });
-    }
-    //delete record
-    $('.delete').on('click', function(){
-        var slug = $(this).attr('data-slug');
-        var delete_url = $(this).attr('data-del-url');
-        Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    url : delete_url,
-                    type : 'DELETE',
-                    success : function(response){
-                        if(response){
-                            $('#id-'+slug).hide();
-                            Swal.fire(
-                                'Deleted!',
-                                'Your record has been deleted.',
-                                'success'
-                            )
-                        }else{
-                            Swal.fire(
-                                'Not Deleted!',
-                                'Sorry! Something went wrong.',
-                                'danger'
-                            )
-                        }
-                    }
-                });
-            }
-        })
-    });
+    <script src="{{ asset('public/admin/assets/js/search-delete.js') }}"></script>
 </script>

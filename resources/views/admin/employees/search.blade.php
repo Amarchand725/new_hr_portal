@@ -5,7 +5,11 @@
             <div class="d-flex justify-content-start align-items-center user-name">
                 <div class="avatar-wrapper">
                     <div class="avatar avatar-sm me-3">
-                        <img src="http://localhost/new_hr_portal.local/public/admin/assets/img/avatars/2.png" alt="Avatar" class="rounded-circle">
+                        @if(!empty($employee->image))
+                            <img src="{{ asset('public/admin/assets/img/avatars') }}/{{ $employee->image }}" alt="Avatar" class="rounded-circle">
+                        @else
+                            <img src="{{ asset('public/admin/default.png') }}" alt="Avatar" class="rounded-circle">
+                        @endif
                     </div>
                 </div>
                 <div class="d-flex flex-column">
@@ -27,10 +31,12 @@
         </td>
         <td>
             <span class="fw-semibold">
-                @if(!empty($employee->getRoleNames()->first()))
-                    <span class="badge bg-label-primary" text-capitalized="">
-                        {{ $employee->getRoleNames()->first() }}
-                    </span>
+                @if(!empty($employee->getRoleNames()))
+                    @foreach ($employee->getRoleNames() as $role_name)
+                        <span class="badge bg-label-primary" text-capitalized="">
+                            {{ $role_name }}
+                        </span>
+                    @endforeach
                 @else
                     -
                 @endif
@@ -45,7 +51,7 @@
         </td>
         <td>
             @if(isset($employee->departmentBridge->department->departmentWorkShift) && !empty($employee->departmentBridge->department->departmentWorkShift))
-                {{ $employee->department->departmentBridge->departmentWorkShift }}
+                {{ $employee->departmentBridge->department->departmentWorkShift->workShift->name }}
             @else
                 -
             @endif
@@ -59,15 +65,16 @@
         </td>
         <td>
             <div class="d-flex align-items-center">
-                <a href="javascript:;" class="text-body"
+                <a href="javascript:;"
+                    class="text-body edit-btn"
                     data-toggle="tooltip"
                     data-placement="top"
-                    title="Edit Record"
+                    title="Edit Employee"
                     data-edit-url="{{ route('employees.edit', $employee->id) }}"
                     data-url="{{ route('employees.update', $employee->id) }}"
-                    class="btn btn-default edit-btn"
-                    id="edit-btn"
-                    type="button"
+                    tabindex="0" aria-controls="DataTables_Table_0"
+                    type="button" data-bs-toggle="modal"
+                    data-bs-target="#create-form-modal"
                     >
                     <i class="ti ti-edit ti-sm me-2"></i>
                 </a>
@@ -78,10 +85,17 @@
                     <i class="ti ti-dots-vertical ti-sm mx-1"></i>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end m-0">
-                    <a href="app-user-view-account.html" class="dropdown-item">View</a>
-                    <a href="app-user-view-account.html" class="dropdown-item">Add Salary</a>
-                    <a href="javascript:;" class="dropdown-item">Terminate</a>
-                    <a href="javascript:;" class="dropdown-item">Remove from employee list</a>
+                    <a href="javascript:;" class="dropdown-item emp-status-btn" data-status-type="status" data-status-url='{{ route('employees.status', $employee->id) }}'>
+                        @if($employee->status)
+                            De-Active
+                        @else
+                            Active
+                        @endif
+                    </a>
+                    <a href="{{ route('employees.show', $employee->id) }}" class="dropdown-item">View</a>
+                    <a href="javascript:;" class="dropdown-item add-salary-btn" data-user-id="{{ $employee->id }}" data-url='{{ route('employees.add_salary') }}'>Add Salary</a>
+                    <a href="javascript:;" class="dropdown-item emp-status-btn" data-status-type="terminate" data-status-url='{{ route('employees.status', $employee->id) }}'>Terminate</a>
+                    <a href="javascript:;" class="dropdown-item emp-status-btn" data-status-type="remove" data-status-url='{{ route('employees.status', $employee->id) }}'>Remove from employee list</a>
                 </div>
             </div>
         </td>

@@ -52,4 +52,11 @@
     </div>
     <!-- Permission table -->
 </div>
+
+<script>
+    $("#selectAll").click(function () {
+        $('input:checkbox').not(this).prop('checked', this.checked);
+    });
+</script>
+<script src="<?php echo e(asset('public/admin/assets/js/custom/employee.js')); ?>"></script>
 <?php /**PATH C:\xampp\htdocs\hr_portal\resources\views/admin/roles/edit_content.blade.php ENDPATH**/ ?>

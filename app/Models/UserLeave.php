@@ -11,4 +11,14 @@ class UserLeave extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
+
+    public function hasEmployee()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
+    public function hasLeaveType()
+    {
+        return $this->hasOne(LeaveType::class, 'id', 'leave_type_id');
+    }
 }
+

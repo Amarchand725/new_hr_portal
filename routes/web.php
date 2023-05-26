@@ -53,6 +53,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/departments/add-manager/{id}', [App\Http\Controllers\Admin\DepartmentController::class, 'addManager'])->name('departments.add-manager');
     Route::get('/departments/add-shift/{id}', [App\Http\Controllers\Admin\DepartmentController::class, 'addShift'])->name('departments.add-shift');
 
+    Route::get('/bank_accounts/status/{id}', [App\Http\Controllers\Admin\BankAccountController::class, 'status'])->name('bank_accounts.status');
+
     Route::get('/employees/trashed', [App\Http\Controllers\Admin\EmployeeController::class, 'trashed'])->name('employees.trashed');
     Route::get('/employees/restore/{id}', [App\Http\Controllers\Admin\EmployeeController::class, 'restore'])->name('employees.restore');
     Route::post('/employees/status/{id}', [App\Http\Controllers\Admin\EmployeeController::class, 'status'])->name('employees.status');
@@ -60,6 +62,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/employees/salary_details', [App\Http\Controllers\Admin\EmployeeController::class, 'salaryDetails'])->name('employees.salary_details');
     Route::get('/employees/filter-salary-details', [App\Http\Controllers\Admin\EmployeeController::class, 'filterSalaryDetails'])->name('employees.filter-salary-details');
     Route::get('/employees/get-team-members/{id}', [App\Http\Controllers\Admin\EmployeeController::class, 'getTeamMembers'])->name('employees.get-team-members');
+    Route::get('/employees/teams-members/{id}', [App\Http\Controllers\Admin\EmployeeController::class, 'teamMembers'])->name('employees.team-members');
 
     Route::get('/announcements/trashed', [App\Http\Controllers\Admin\AnnouncementController::class, 'trashed'])->name('announcements.trashed');
     Route::get('/announcements/restore/{id}', [App\Http\Controllers\Admin\AnnouncementController::class, 'restore'])->name('announcements.restore');
@@ -77,6 +80,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/user/discrepancies/show/{id}', [App\Http\Controllers\AttendanceController::class, 'show'])->name('user.discrepancies.show');
     Route::get('/user/attendance/daily-log', [App\Http\Controllers\AttendanceController::class, 'dailyLog'])->name('user.attendance.daily-log');
 
+    Route::get('/team/leave-requests/{id}', [App\Http\Controllers\Admin\TeamController::class, 'leaveRequests'])->name('team.leave-requests');
+    Route::get('/team/leave-reports/{id}', [App\Http\Controllers\Admin\TeamController::class, 'leaveReports'])->name('team.leave-reports');
+
     Route::resource('/roles', App\Http\Controllers\Admin\RoleController::class);
     Route::resource('/permissions', App\Http\Controllers\Admin\PermissionController::class);
     Route::resource('/designations', App\Http\Controllers\Admin\DesignationController::class);
@@ -88,6 +94,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/employees', App\Http\Controllers\Admin\EmployeeController::class);
     Route::resource('/profile_cover_images', App\Http\Controllers\Admin\ProfileCoverImageController::class);
     Route::resource('/bank_details', App\Http\Controllers\Admin\BankDetailController::class);
+    Route::resource('/bank_accounts', App\Http\Controllers\Admin\BankAccountController::class);
     Route::resource('/user_contacts', App\Http\Controllers\Admin\UserContactController::class);
     Route::resource('/settings', App\Http\Controllers\Admin\SettingController::class);
     Route::resource('/leave_types', App\Http\Controllers\Admin\LeaveTypeController::class);

@@ -26,7 +26,7 @@ class EmployeeController extends Controller
 {
     public function index(Request $request)
     {
-        // $this->authorize('user-list');
+        $this->authorize('user-list');
         $data = [];
 
         $title = 'All Employees';
@@ -56,7 +56,11 @@ class EmployeeController extends Controller
 
             if($request['department_id'] != "All"){
                 $users = DepartmentUser::where('department_id', $request['department_id'])->get(['user_id']);
-                $query->whereIn('id', $users);
+                $dep_users = [];
+                foreach($users as $user){
+                    $dep_users[] = $user->user_id;
+                }
+                $query->whereIn('id', $dep_users);
             }
             if($request['role_id'] != "All"){
                 $query->role($request['role_id']);
@@ -166,6 +170,7 @@ class EmployeeController extends Controller
 
     public function edit($id)
     {
+        $this->authorize('user-edit');
         $data = [];
         $data['model'] = User::with('jobHistory')->where('id', $id)->first();
         $data['positions'] = Position::orderby('id', 'desc')->where('status', 1)->get();
@@ -279,7 +284,6 @@ class EmployeeController extends Controller
 
     public function show($id)
     {
-        // $this->authorize('user-list');
         $title = 'Show Details';
         $model = User::where('id', $id)->first();
         $histories = SalaryHistory::orderby('id','desc')->where('user_id', $id)->take(2)->get();
@@ -291,6 +295,7 @@ class EmployeeController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('user-delete');
         $model = User::where('id', $id)->delete();
         if($model){
             $onlySoftDeleted = User::onlyTrashed()->count();
@@ -305,21 +310,21 @@ class EmployeeController extends Controller
 
     public function trashed()
     {
-        // $this->authorize('user-trashed');
+        $this->authorize('user-trashed');
         $models = User::onlyTrashed()->get();
         $title = 'All Trashed Records';
         return view('admin.employees.trashed-index', compact('models', 'title'));
     }
     public function restore($id)
     {
-        // $this->authorize('user-restore');
+        $this->authorize('user-restore');
         User::onlyTrashed()->where('id', $id)->restore();
         return redirect()->back()->with('message', 'Record Restored Successfully.');
     }
 
     public function status(Request $request, $user_id)
     {
-        // $this->authorize('user-status');
+        $this->authorize('user-status');
         $model = User::where('id', $user_id)->first();
 
         if($request->status_type=='status') {
@@ -361,7 +366,7 @@ class EmployeeController extends Controller
     }
     public function addSalary(Request $request)
     {
-        // $this->authorize('user-add-salary');
+        $this->authorize('user-add-salary');
         $request->validate([
             'amount' => 'required|max:255',
             'effective_date' => 'required',
@@ -423,7 +428,7 @@ class EmployeeController extends Controller
 
         $department_users = DB::table('department_users')->where('end_date',NULL)->whereIn('department_id',$departments)->pluck('user_id')->toArray();
         if(count($department_users)>0){
-            $data['allUsers'] = DB::table('users')->where('id','!=',$authUserID)->whereIn('id',$department_users)->get();
+            $data['allUsers'] = User::where('id', '!=', $authUserID)->whereIn('id', $department_users)->get();
         }else{
             $data['allUsers'] = null;
         }
@@ -437,7 +442,6 @@ class EmployeeController extends Controller
 
         $data['authUserID'] = $authUserID;
         $data['user'] = DB::table('users')->where('id',$authUserID)->first();
-        // $files = DB::table('files')->where('fileable_id',$authUserID)->first();
         $department_user = DB::table('department_users')->where('user_id',$authUserID)->where('end_date',NULL)->first();
         $data['department'] = DB::table('departments')->where('id',$department_user->department_id)->first();
         $userDesignation = DB::table('job_histories')->where('user_id',$authUserID)->where('end_date',NULL)->first();
@@ -447,6 +451,7 @@ class EmployeeController extends Controller
         $data['profile'] = DB::table('profiles')->where('user_id',$authUserID)->first();
         return view('admin.employees.salary-details', compact('title', 'data'));
     }
+
     public function filterSalaryDetails(Request $request)
     {
         $user_id = Auth::user()->id;
@@ -496,4 +501,51 @@ class EmployeeController extends Controller
 
         return (string) view('admin.employees.team-members', compact('team_members'));
     }
+
+    public function teamMembers(Request $request, $manager_id)
+    {
+        $manager = User::findOrFail($manager_id);
+        $data = [];
+        if($request->ajax()){
+            if(isset($manager->departmentBridge->department) && !empty($manager->departmentBridge->department->id)) {
+                $manager_department_id = $manager->departmentBridge->department->id;
+                $team_member_ids = DepartmentUser::where('department_id', $manager_department_id)->where('user_id', '!=', $manager->id)->get(['user_id']);
+
+                $team_members_ids = [];
+                foreach($team_member_ids as $team_member_id) {
+                    $team_members_ids[] = $team_member_id->user_id;
+                }
+            }
+            $query = User::orderby('id', 'desc')->where('id', '>', 0);
+            if($request['search'] != ""){
+                $query->where('first_name', 'like', '%'. $request['search'] .'%');
+                $query->orWhere('last_name', 'like', '%'. $request['search'] .'%');
+                $query->orWhere('email', 'like', '%'. $request['search'] .'%');
+            }
+
+            $data['employees'] = $query->where('is_employee', 1)->paginate(10);
+
+            return (string) view('admin.employees.team-members-search', compact('data', 'team_members_ids'));
+        }else{
+            if(isset($manager->departmentBridge->department) && !empty($manager->departmentBridge->department->id)) {
+                $manager_department_id = $manager->departmentBridge->department->id;
+                $team_member_ids = DepartmentUser::where('department_id', $manager_department_id)->where('user_id', '!=', $manager->id)->get(['user_id']);
+
+                $team_members_ids = [];
+                foreach($team_member_ids as $team_member_id) {
+                    $team_members_ids[] = $team_member_id->user_id;
+                }
+
+                $team_members = User::whereIn('id', $team_members_ids)->paginate(10);
+
+                $data['employees'] = $team_members;
+                $title = 'Team Members';
+
+                $onlySoftDeleted = User::onlyTrashed()->count();
+
+                return view('admin.employees.team-members-list', compact('title', 'data', 'onlySoftDeleted'));
+            }
+        }
+    }
 }
+

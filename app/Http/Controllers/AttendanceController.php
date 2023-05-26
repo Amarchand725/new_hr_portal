@@ -14,6 +14,7 @@ class AttendanceController extends Controller
     }
     public function discrepancies()
     {
+        $this->authorize('discrepancy-list');
         $title = 'Discrepancies';
         $models = Announcement::paginate(10);
         return view('user.attendance.discrepancies', compact('title', 'models'));
@@ -25,6 +26,7 @@ class AttendanceController extends Controller
     }
     public function dailyLog()
     {
+        $this->authorize('dailylog-list');
         $title = 'Daily Log';
         $models = Announcement::paginate(10);
         return view('user.attendance.daily-log', compact('title', 'models'));

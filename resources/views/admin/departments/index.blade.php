@@ -1,5 +1,5 @@
 @extends('admin.layouts.app')
-@section('title', 'Departments - Cyberonix')
+@section('title', $title. ' - Cyberonix')
 
 @section('content')
 <input type="hidden" id="page_url" value="{{ route('departments.index') }}">
@@ -58,14 +58,14 @@
                         </select>
                     </div>
                     <div class="col-md-3">
-                        <select name="status" id="status" class="select2 form-select text-capitalize">
+                        <select name="status" id="search_status" class="select2 form-select text-capitalize">
                             <option value="All" selected>Search by status</option>
                             <option value="1">Active</option>
                             <option value="0">De-Active</option>
                         </select>
                     </div>
                     <div class="col-md-3">
-                        <input type="search" class="form-control" id="search" name="search" placeholder="Search..">
+                        <input type="search" class="form-control" id="dep_search" name="search" placeholder="Search..">
                     </div>
                 </div>
             </div>
@@ -79,7 +79,6 @@
                                     <th>Department</th>
                                     <th>Parent Department</th>
                                     <th>Manager</th>
-                                    <th>Shift</th>
                                     <th style="width: 97px;" aria-label="Role: activate to sort column ascending">Created At</th>
                                     <th>Status</th>
                                     <th>Actions</th>
@@ -111,13 +110,6 @@
                                                     <span class="badge bg-label-danger"><i class="fa fa-times"></i> Not Assigned Manager</span>
                                                 @endif
                                             </span>
-                                        </td>
-                                        <td>
-                                            @if(isset($model->departmentWorkShift) && !empty($model->departmentWorkShift->workShift->name))
-                                                <span class="badge bg-label-success"><i class="fa fa-check"></i> {{ $model->departmentWorkShift->workShift->name }}</span>
-                                            @else
-                                                <span class="badge bg-label-danger"><i class="fa fa-times"></i> Not Assigned Shift</span>
-                                            @endif
                                         </td>
                                         <td>{{ date('d M Y', strtotime($model->created_at)) }}</td>
                                         <td>

@@ -11,7 +11,7 @@ class EmploymentStatusController extends Controller
 {
     public function index(Request $request)
     {
-        // $this->authorize('employment_status-list');
+        $this->authorize('employmentstatus-list');
         $title = 'Employment Status';
         if($request->ajax()){
             $query = EmploymentStatus::orderby('id', 'desc')->where('id', '>', 0);
@@ -60,6 +60,7 @@ class EmploymentStatusController extends Controller
 
     public function edit($id)
     {
+        $this->authorize('employment_status-edit');
         $model = EmploymentStatus::where('id', $id)->first();
         return (string) view('admin.employment_status.edit_content', compact('model'));
     }
@@ -91,6 +92,7 @@ class EmploymentStatusController extends Controller
 
     public function destroy(EmploymentStatus $employment_status)
     {
+        $this->authorize('employmentstatus-delete');
         $model = $employment_status->delete();
         if($model){
             $onlySoftDeleted = EmploymentStatus::onlyTrashed()->count();
@@ -105,14 +107,14 @@ class EmploymentStatusController extends Controller
 
     public function trashed()
     {
-        // $this->authorize('employment_status-trashed');
+        $this->authorize('employmentstatus-trashed');
         $models = EmploymentStatus::onlyTrashed()->get();
         $title = 'All Trashed Records';
         return view('admin.employment_status.trashed-index', compact('models', 'title'));
     }
     public function restore($id)
     {
-        // $this->authorize('employment_status-restore');
+        $this->authorize('employmentstatus-restore');
         EmploymentStatus::onlyTrashed()->where('id', $id)->restore();
         return redirect()->back()->with('message', 'Record Restored Successfully.');
     }

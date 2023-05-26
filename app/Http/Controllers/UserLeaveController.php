@@ -55,31 +55,59 @@ class UserLeaveController extends Controller
         ->where('employment_status_id', 3)
         ->first();
 
-        // Check if probation exists and is not completed
-        if ($probation && Carbon::today()->lte($probation->end_date)) {
-            return false;
+        if(!empty($probation)) {
+            // Check if probation exists and is not completed
+            if ($probation && Carbon::today()->lte($probation->end_date)) {
+                return false;
+            }
+
+            // Calculate the total leaves taken after the end of probation, considering partial months
+            $total_used_leaves = $user->leaves()
+            ->whereYear('start_at', $currentYear)
+            ->where(function ($query) use ($probation, $currentYear, $currentMonth) {
+                $query->where('start_at', '>', $probation->end_date)
+                    ->orWhere(function ($query) use ($currentYear, $currentMonth) {
+                        $query->whereYear('start_at', '=', $currentYear)
+                            ->whereMonth('start_at', '>', $currentMonth);
+                    })
+                    ->orWhere(function ($query) use ($currentYear, $currentMonth) {
+                        $query->whereYear('start_at', '>', $currentYear);
+                    });
+            })
+            ->count();
+
+            $total_leaves_in_account = ($currentMonth - date('m', strtotime($probation->end_date)) + 1) * 2;
+            $leaves_in_balance = ($currentMonth - date('m', strtotime($probation->end_date)) + 1) * 2-$total_used_leaves;
+
+            // Calculate the number of months remaining in the current year after probation
+            $remainingMonths = 12 - date('m', strtotime($probation->end_date)) + 1;
+        }else{
+            // Check if probation exists and is not completed
+            if (Carbon::today()->lte($user->profile->joining_date)) {
+                return false;
+            }
+
+            // Calculate the total leaves taken after the end of probation, considering partial months
+            $total_used_leaves = $user->leaves()
+            ->whereYear('start_at', $currentYear)
+            ->where(function ($query) use ($user, $currentYear, $currentMonth) {
+                $query->where('start_at', '>', $user->profile->joining_date)
+                    ->orWhere(function ($query) use ($currentYear, $currentMonth) {
+                        $query->whereYear('start_at', '=', $currentYear)
+                            ->whereMonth('start_at', '>', $currentMonth);
+                    })
+                    ->orWhere(function ($query) use ($currentYear, $currentMonth) {
+                        $query->whereYear('start_at', '>', $currentYear);
+                    });
+            })
+            ->count();
+
+            $total_leaves_in_account = ($currentMonth - date('m', strtotime($user->profile->joining_date)) + 1) * 2;
+            $leaves_in_balance = ($currentMonth - date('m', strtotime($user->profile->joining_date)) + 1) * 2-$total_used_leaves;
+
+            // Calculate the number of months remaining in the current year after probation
+            $remainingMonths = 12 - date('m', strtotime($user->profile->joining_date)) + 1;
         }
-
-        // Calculate the total leaves taken after the end of probation, considering partial months
-        $total_used_leaves = $user->leaves()
-        ->whereYear('start_at', $currentYear)
-        ->where(function ($query) use ($probation, $currentYear, $currentMonth) {
-            $query->where('start_at', '>', $probation->end_date)
-                ->orWhere(function ($query) use ($currentYear, $currentMonth) {
-                    $query->whereYear('start_at', '=', $currentYear)
-                        ->whereMonth('start_at', '>', $currentMonth);
-                })
-                ->orWhere(function ($query) use ($currentYear, $currentMonth) {
-                    $query->whereYear('start_at', '>', $currentYear);
-                });
-        })
-        ->count();
-
-        $total_leaves_in_account = ($currentMonth - date('m', strtotime($probation->end_date)) + 1) * 2;
-        $leaves_in_balance = ($currentMonth - date('m', strtotime($probation->end_date)) + 1) * 2-$total_used_leaves;
-
-        // Calculate the number of months remaining in the current year after probation
-        $remainingMonths = 12 - date('m', strtotime($probation->end_date)) + 1;
 
         // Calculate the total number of leaves allowed after probation
         $totalLeaves = $remainingMonths * 2;

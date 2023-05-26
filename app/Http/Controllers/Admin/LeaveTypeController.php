@@ -14,7 +14,7 @@ class LeaveTypeController extends Controller
      */
     public function index(Request $request)
     {
-        // $this->authorize('position-list');
+        $this->authorize('leavetype-list');
         $title = 'All Leave Types';
         if($request->ajax()){
             $query = LeaveType::orderby('id', 'desc')->where('id', '>', 0);
@@ -65,6 +65,7 @@ class LeaveTypeController extends Controller
      */
     public function edit(LeaveType $leaveType)
     {
+        $this->authorize('leavetype-edit');
         $model = $leaveType;
         return (string) view('admin.leave_types.edit_content', compact('model'));
     }
@@ -101,6 +102,7 @@ class LeaveTypeController extends Controller
      */
     public function destroy(LeaveType $leaveType)
     {
+        $this->authorize('leavetype-delete');
         $model = $leaveType->delete();
         if($model){
             $onlySoftDeleted = LeaveType::onlyTrashed()->count();
@@ -115,14 +117,14 @@ class LeaveTypeController extends Controller
 
     public function trashed()
     {
-        // $this->authorize('position-trashed');
+        $this->authorize('leavetype-trashed');
         $models = LeaveType::onlyTrashed()->get();
         $title = 'All Trashed Records';
         return view('admin.leave_types.trashed-index', compact('models', 'title'));
     }
     public function restore($id)
     {
-        // $this->authorize('position-restore');
+        $this->authorize('leavetype-restore');
         LeaveType::onlyTrashed()->where('id', $id)->restore();
         return redirect()->back()->with('message', 'Record Restored Successfully.');
     }

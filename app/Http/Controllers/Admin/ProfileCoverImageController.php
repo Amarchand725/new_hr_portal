@@ -15,7 +15,7 @@ class ProfileCoverImageController extends Controller
      */
     public function index(Request $request)
     {
-        // $this->authorize('profile_cover_image-list');
+        $this->authorize('profilecoverimage-list');
         $title = 'All Profile Cover Images';
         if($request->ajax()){
             $query = ProfileCoverImage::orderby('id', 'desc')->where('id', '>', 0);
@@ -74,6 +74,7 @@ class ProfileCoverImageController extends Controller
      */
     public function destroy(ProfileCoverImage $profileCoverImage)
     {
+        $this->authorize('profilecoverimage-delete');
         $model = $profileCoverImage->delete();
         if($model){
             $onlySoftDeleted = ProfileCoverImage::onlyTrashed()->count();
@@ -88,21 +89,21 @@ class ProfileCoverImageController extends Controller
 
     public function trashed()
     {
-        // $this->authorize('profile_cover_image-trashed');
+        $this->authorize('profilecoverimage-trashed');
         $models = ProfileCoverImage::onlyTrashed()->get();
         $title = 'All Trashed Records';
         return view('admin.profile_cover_images.trashed-index', compact('models', 'title'));
     }
     public function restore($id)
     {
-        // $this->authorize('profile_cover_image-restore');
+        $this->authorize('profilecoverimage-restore');
         ProfileCoverImage::onlyTrashed()->where('id', $id)->restore();
         return redirect()->back()->with('message', 'Record Restored Successfully.');
     }
 
     public function status(Request $request, $id)
     {
-        // $this->authorize('profile_cover_image-status');
+        $this->authorize('profilecoverimage-status');
         $model = ProfileCoverImage::where('id', $id)->first();
 
         if($model->status==1) {

@@ -14,13 +14,8 @@ class AdminController extends Controller
 {
     public function departments()
     {
-        // $this->authorize('department-list');
+        $this->authorize('department-list');
         return view('admin.departments');
-    }
-    public function calendar()
-    {
-        // $this->authorize('calendar-list');
-        return view('admin.calendar.index');
     }
     public function logOut()
     {
@@ -35,6 +30,8 @@ class AdminController extends Controller
         $role = $user->getRoleNames()->first();
         foreach($user->getRoleNames() as $user_role){
             if($user_role=='Admin'){
+                $role = $user_role;
+            }elseif($user_role=='Department Manager' || $user_role=='Manager'){
                 $role = $user_role;
             }
         }
@@ -66,17 +63,35 @@ class AdminController extends Controller
                 }
             }
         }
+        $model = $user;
+
 
         if($role=='Admin'){
             $title = 'Admin Dashboard';
-            $model = $user;
             return view('admin.dashboards.admin-dashboard', compact('title', 'model', 'data', 'team_members'));
-        }elseif($role=='Manager'){
+        }elseif($role=='Manager' || $role=='Department Manager'){
             $title = 'Manager Dashboard';
-            return view('admin.dashboards.manager-dashboard', compact('title', 'team_members'));
+            $department_user = DepartmentUser::orderby('id', 'desc')->where('user_id', $model->id)->first();
+            $department_manager = '';
+            if(!empty($department_user)){
+                $department = Department::where('id', $department_user->department_id)->first();
+                $department = $department->parentDepartment;
+                if(!empty($department->manager->profile) && !empty($department->manager->profile)){
+                    $department_manager = $department->manager;
+                }
+            }
+            return view('admin.dashboards.manager-dashboard', compact('title', 'model', 'department_manager', 'data', 'team_members'));
         }else{
             $title = 'Employee Dashboard';
-            return view('admin.dashboards.emp-dashboard', compact('title', 'team_members'));
+            $department_user = DepartmentUser::orderby('id', 'desc')->where('user_id', $model->id)->first();
+            $department_manager = '';
+            if(!empty($department_user)){
+                $department = Department::where('id', $department_user->department_id)->first();
+                if(!empty($department->manager->profile) && !empty($department->manager->profile)){
+                    $department_manager = $department->manager;
+                }
+            }
+            return view('admin.dashboards.emp-dashboard', compact('title', 'model', 'data', 'team_members', 'department_manager'));
         }
     }
     public function loginForm()

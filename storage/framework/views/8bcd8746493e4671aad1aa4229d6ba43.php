@@ -57,14 +57,14 @@
                         </select>
                     </div>
                     <div class="col-md-3">
-                        <select name="status" id="status" class="select2 form-select text-capitalize">
+                        <select name="status" id="search_status" class="select2 form-select text-capitalize">
                             <option value="All" selected>Search by status</option>
                             <option value="1">Active</option>
                             <option value="0">De-Active</option>
                         </select>
                     </div>
                     <div class="col-md-3">
-                        <input type="search" class="form-control" id="search" name="search" placeholder="Search..">
+                        <input type="search" class="form-control" id="dep_search" name="search" placeholder="Search..">
                     </div>
                 </div>
             </div>
@@ -78,7 +78,6 @@
                                     <th>Department</th>
                                     <th>Parent Department</th>
                                     <th>Manager</th>
-                                    <th>Shift</th>
                                     <th style="width: 97px;" aria-label="Role: activate to sort column ascending">Created At</th>
                                     <th>Status</th>
                                     <th>Actions</th>
@@ -113,13 +112,6 @@
                                                     <span class="badge bg-label-danger"><i class="fa fa-times"></i> Not Assigned Manager</span>
                                                 <?php endif; ?>
                                             </span>
-                                        </td>
-                                        <td>
-                                            <?php if(isset($model->departmentWorkShift) && !empty($model->departmentWorkShift->workShift->name)): ?>
-                                                <span class="badge bg-label-success"><i class="fa fa-check"></i> <?php echo e($model->departmentWorkShift->workShift->name); ?></span>
-                                            <?php else: ?>
-                                                <span class="badge bg-label-danger"><i class="fa fa-times"></i> Not Assigned Shift</span>
-                                            <?php endif; ?>
                                         </td>
                                         <td><?php echo e(date('d M Y', strtotime($model->created_at))); ?></td>
                                         <td>

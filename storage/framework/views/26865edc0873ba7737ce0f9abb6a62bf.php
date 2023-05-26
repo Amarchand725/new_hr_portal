@@ -196,56 +196,58 @@
             </div>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
-            <li>
-                <a class="dropdown-item" href="<?php echo e(route('profile.edit')); ?>">
-                    <div class="d-flex">
-                        <div class="flex-shrink-0 me-3">
-                            <div class="avatar avatar-online">
-                                <?php if(isset(Auth::user()->profile) && !empty(Auth::user()->profile->profile)): ?>
-                                    <img src="<?php echo e(asset('public/admin/assets/img/avatars')); ?>/<?php echo e(Auth::user()->profile->profile); ?>" style="width:40px !important; height:40px !important" alt class="h-auto rounded-circle" />
-                                <?php else: ?>
-                                    <img src="<?php echo e(asset('public/admin')); ?>/default.png" style="width:40px !important; height:40px !important" alt class="h-auto rounded-circle" />
-                                <?php endif; ?>
+                <li>
+                    <a class="dropdown-item" href="<?php echo e(route('profile.edit')); ?>">
+                        <div class="d-flex">
+                            <div class="flex-shrink-0 me-3">
+                                <div class="avatar avatar-online">
+                                    <?php if(isset(Auth::user()->profile) && !empty(Auth::user()->profile->profile)): ?>
+                                        <img src="<?php echo e(asset('public/admin/assets/img/avatars')); ?>/<?php echo e(Auth::user()->profile->profile); ?>" style="width:40px !important; height:40px !important" alt class="h-auto rounded-circle" />
+                                    <?php else: ?>
+                                        <img src="<?php echo e(asset('public/admin')); ?>/default.png" style="width:40px !important; height:40px !important" alt class="h-auto rounded-circle" />
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1">
+                                <span class="fw-semibold d-block"><?php echo e(Auth::user()->first_name); ?> <?php echo e(Auth::user()->last_name); ?></span>
+                                <small class="text-muted">
+                                    <?php if(isset(Auth::user()->jobHistory->designation->title) && !empty(Auth::user()->jobHistory->designation->title)): ?>
+                                        <?php echo e(Auth::user()->jobHistory->designation->title); ?>
+
+                                    <?php else: ?>
+                                        -
+                                    <?php endif; ?>
+                                </small>
                             </div>
                         </div>
-                        <div class="flex-grow-1">
-                            <span class="fw-semibold d-block"><?php echo e(Auth::user()->first_name); ?> <?php echo e(Auth::user()->last_name); ?></span>
-                            <small class="text-muted">
-                                <?php if(isset(Auth::user()->jobHistory->designation->title) && !empty(Auth::user()->jobHistory->designation->title)): ?>
-                                    <?php echo e(Auth::user()->jobHistory->designation->title); ?>
-
-                                <?php else: ?>
-                                    -
-                                <?php endif; ?>
-                            </small>
-                        </div>
-                    </div>
-                </a>
-            </li>
-            <li>
-                <div class="dropdown-divider"></div>
-            </li>
-            <li>
-                <a class="dropdown-item" href="<?php echo e(route('profile.edit')); ?>">
-                <i class="ti ti-user-check me-2 ti-sm"></i>
-                <span class="align-middle">My Profile</span>
-                </a>
-            </li>
-            <li>
-                <a class="dropdown-item" href="<?php echo e(route('settings.create')); ?>">
-                    <i class="ti ti-settings me-2 ti-sm"></i>
-                    <span class="align-middle">Settings</span>
-                </a>
-            </li>
-            <li>
-                <div class="dropdown-divider"></div>
-            </li>
-            <li>
-                <a class="dropdown-item" href="<?php echo e(route('user.logout')); ?>">
-                    <i class="ti ti-logout me-2 ti-sm"></i>
-                    <span class="align-middle">Log Out</span>
-                </a>
-            </li>
+                    </a>
+                </li>
+                <li>
+                    <div class="dropdown-divider"></div>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="<?php echo e(route('profile.edit')); ?>">
+                    <i class="ti ti-user-check me-2 ti-sm"></i>
+                    <span class="align-middle">My Profile</span>
+                    </a>
+                </li>
+                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('setting-create')): ?>
+                    <li>
+                        <a class="dropdown-item" href="<?php echo e(route('settings.create')); ?>">
+                            <i class="ti ti-settings me-2 ti-sm"></i>
+                            <span class="align-middle">Settings</span>
+                        </a>
+                    </li>
+                <?php endif; ?>
+                <li>
+                    <div class="dropdown-divider"></div>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="<?php echo e(route('user.logout')); ?>">
+                        <i class="ti ti-logout me-2 ti-sm"></i>
+                        <span class="align-middle">Log Out</span>
+                    </a>
+                </li>
             </ul>
         </li>
         <!--/ User -->

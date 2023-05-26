@@ -17,7 +17,7 @@ class DepartmentController extends Controller
      */
     public function index(Request $request)
     {
-        // $this->authorize('department-list');
+        $this->authorize('department-list');
         $data = [];
 
         $title = 'All Departments';
@@ -105,6 +105,7 @@ class DepartmentController extends Controller
 
     public function edit(Department $department)
     {
+        $this->authorize('department-edit');
         $data = [];
         $data['model'] = $department;
         $data['departments'] = Department::where('status', 1)->get();
@@ -154,6 +155,7 @@ class DepartmentController extends Controller
      */
     public function destroy(Department $department)
     {
+        $this->authorize('department-delete');
         $model = $department->delete();
         if($model){
             $onlySoftDeleted = Department::onlyTrashed()->count();
@@ -168,7 +170,7 @@ class DepartmentController extends Controller
 
     public function trashed()
     {
-        // $this->authorize('department-trashed');
+        $this->authorize('department-trashed');
         $data = [];
         $data['models'] = Department::onlyTrashed()->get();
         $title = 'All Trashed Records';
@@ -176,13 +178,14 @@ class DepartmentController extends Controller
     }
     public function restore($id)
     {
-        // $this->authorize('department-restore');
+        $this->authorize('department-restore');
         Department::onlyTrashed()->where('id', $id)->restore();
         return redirect()->back()->with('message', 'Record Restored Successfully.');
     }
 
     public function status($department_id)
     {
+        $this->authorize('department-status');
         $model = Department::where('id', $department_id)->first();
         if($model->status==1){
             $model->status = 0;
@@ -195,10 +198,5 @@ class DepartmentController extends Controller
         if($model){
             return true;
         }
-    }
-
-    public function addManager($id)
-    {
-        return 'good';
     }
 }

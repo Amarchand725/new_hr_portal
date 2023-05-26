@@ -17,7 +17,7 @@ class WorkShiftController extends Controller
      */
     public function index(Request $request)
     {
-        // $this->authorize('work_shift-list');
+        $this->authorize('workshift-list');
         $title = 'All Work Shifts';
         if($request->ajax()){
             $query = WorkShift::orderby('id', 'desc')->where('id', '>', 0);
@@ -106,8 +106,8 @@ class WorkShiftController extends Controller
 
     public function edit($id)
     {
+        $this->authorize('workshift-edit');
         $model = WorkShift::with('haveWorkShiftDetails')->where('id', $id)->first();
-
         return (string) view('admin.work_shifts.edit_content', compact('model'));
     }
 
@@ -184,6 +184,7 @@ class WorkShiftController extends Controller
      */
     public function destroy(WorkShift $workShift)
     {
+        $this->authorize('workshift-delete');
         $model = $workShift->delete();
         if($model){
             $onlySoftDeleted = WorkShift::onlyTrashed()->count();
@@ -197,14 +198,14 @@ class WorkShiftController extends Controller
     }
     public function trashed()
     {
-        // $this->authorize('work_shift-trashed');
+        $this->authorize('workshift-trashed');
         $models = WorkShift::onlyTrashed()->get();
         $title = 'All Trashed Records';
         return view('admin.work_shifts.trashed-index', compact('models', 'title'));
     }
     public function restore($id)
     {
-        // $this->authorize('work_shift-restore');
+        $this->authorize('workshift-restore');
         WorkShift::onlyTrashed()->where('id', $id)->restore();
         return redirect()->back()->with('message', 'Record Restored Successfully.');
     }

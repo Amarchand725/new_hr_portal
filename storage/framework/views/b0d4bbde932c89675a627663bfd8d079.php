@@ -77,7 +77,7 @@
                         </select>
                     </div>
                     <div class="col-md-3 status">
-                        <input type="search" class="form-control" id="search" name="search" placeholder="Search.." aria-controls="DataTables_Table_0">
+                        <input type="search" class="form-control" id="emp_search" name="emp_search" placeholder="Search.." aria-controls="DataTables_Table_0">
                     </div>
                 </div>
             </div>
@@ -226,7 +226,7 @@
                 </div>
             </div>
 
-            <!-- Add Role Modal -->
+            <!-- Add New Employee Modal -->
             <div class="modal fade" id="create-form-modal" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-xl modal-dialog-centered modal-add-new-role">
                     <div class="modal-content p-3 p-md-5">
@@ -386,7 +386,7 @@
                     </div>
                 </div>
             </div>
-            <!--/ Add Role Modal -->
+            <!-- Add New Employee Modal -->
 
             <!-- Add Salary Modal -->
             <div class="modal fade" id="add-salary-modal" tabindex="-1" aria-hidden="true">

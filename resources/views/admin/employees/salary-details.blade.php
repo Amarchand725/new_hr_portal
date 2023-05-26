@@ -27,14 +27,16 @@
                     <div class="col-md-4">
                         <input type="month" id="pay_slip_month" class="form-control" placeholder="MM-YYYY" />
                     </div>
-                    <div class="col-md-4 user_plan">
-                        <select id="user_id" class="select2 form-select" data-allow-clear="true">
-                            <option value="" selected> Select employee </option>
-                            @foreach ($data['allUsers'] as $user)
-                                <option value="{{ $user->id }}">{{ $user->first_name }} {{ $user->last_name }} ( {{ $user->profile->employment_id }} )</option>
-                            @endforeach
-                        </select>
-                    </div>
+                    @if($data['allUsers'] != null)
+                        <div class="col-md-4 user_plan">
+                            <select id="user_id" class="select2 form-select" data-allow-clear="true">
+                                <option value="" selected> Select employee </option>
+                                @foreach ($data['allUsers'] as $user)
+                                    <option value="{{ $user->id }}">{{ $user->first_name }} {{ $user->last_name }} ( {{ $user->profile->employment_id }} )</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endif
                 </div>
             </div>
             <div class="card-datatable table-responsive">

@@ -109,7 +109,7 @@
                                         </tr>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     <tr>
-                                        <td colspan="6">
+                                        <td colspan="7">
                                             <div class="row mx-2">
                                                 <div class="col-sm-12 col-md-6">
                                                     <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing <?php echo e($models->firstItem()); ?> to <?php echo e($models->lastItem()); ?> of <?php echo e($models->total()); ?> entries</div>

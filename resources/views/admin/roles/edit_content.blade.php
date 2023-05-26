@@ -52,3 +52,10 @@
     </div>
     <!-- Permission table -->
 </div>
+
+<script>
+    $("#selectAll").click(function () {
+        $('input:checkbox').not(this).prop('checked', this.checked);
+    });
+</script>
+<script src="{{ asset('public/admin/assets/js/custom/employee.js') }}"></script>

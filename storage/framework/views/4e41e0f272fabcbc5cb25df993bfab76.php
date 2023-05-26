@@ -32,7 +32,7 @@
                 -
             <?php endif; ?>
         </td>
-        <td><?php echo e($team_member->first_name); ?></td>
+        <td><?php echo e($team_member->email); ?></td>
         <td>
             <?php if(isset($team_member->profile) && !empty($team_member->profile->phone_number)): ?>
                 <?php echo e($team_member->profile->phone_number); ?>
@@ -43,7 +43,7 @@
         </td>
         <td>
             <?php if(isset($team_member->profile) && !empty($team_member->profile->joining_date )): ?>
-                <?php echo e(date('d, F Y', strtotime($team_member->profile->joining_date))); ?>
+                <?php echo e(date('d, M Y', strtotime($team_member->profile->joining_date))); ?>
 
             <?php else: ?>
                 -
@@ -52,11 +52,11 @@
         <td>
             <?php if(isset($team_member->employeeStatus->employmentStatus) && !empty($team_member->employeeStatus->employmentStatus->name)): ?>
                 <?php if($team_member->employeeStatus->employmentStatus->name=='Terminated'): ?>
-                    <span class="badge bg-label-<?php echo e($team_member->employeeStatus->employmentStatus->class); ?> me-1"><?php echo e($team_member->employeeStatus->employmentStatus->Terminated); ?></span>
+                    <span class="badge bg-label-dagner me-1">Terminated</span>
                 <?php elseif($team_member->employeeStatus->employmentStatus->name=='Permanent'): ?>
-                    <span class="badge bg-label-<?php echo e($team_member->employeeStatus->employmentStatus->class); ?> me-1"><?php echo e($team_member->employeeStatus->employmentStatus->Terminated); ?></span>
+                    <span class="badge bg-label-success me-1">Permanent</span>
                 <?php elseif($team_member->employeeStatus->employmentStatus->name=='Probation'): ?>
-                    <span class="badge bg-label-<?php echo e($team_member->employeeStatus->employmentStatus->class); ?> me-1"><?php echo e($team_member->employeeStatus->employmentStatus->Terminated); ?></span>
+                    <span class="badge bg-label-warning me-1">Probation</span>
                 <?php endif; ?>
             <?php else: ?>
                 -

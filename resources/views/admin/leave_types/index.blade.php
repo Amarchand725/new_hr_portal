@@ -110,7 +110,7 @@
                                         </tr>
                                     @endforeach
                                     <tr>
-                                        <td colspan="6">
+                                        <td colspan="7">
                                             <div class="row mx-2">
                                                 <div class="col-sm-12 col-md-6">
                                                     <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing {{$models->firstItem()}} to {{$models->lastItem()}} of {{$models->total()}} entries</div>

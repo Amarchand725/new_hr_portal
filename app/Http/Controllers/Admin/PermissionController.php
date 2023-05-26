@@ -17,6 +17,7 @@ class PermissionController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('permission-list');
         $per_page_records = 10;
 
         if($request->ajax()){
@@ -95,6 +96,7 @@ class PermissionController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('permission-delete');
         $ifdeleted = Permission::where('label', $id)->delete();
         if($ifdeleted){
             return response()->json([

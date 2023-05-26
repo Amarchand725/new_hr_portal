@@ -15,7 +15,7 @@ class PositionController extends Controller
      */
     public function index(Request $request)
     {
-        // $this->authorize('position-list');
+        $this->authorize('position-list');
         $title = 'All Positions';
         if($request->ajax()){
             $query = Position::orderby('id', 'desc')->where('id', '>', 0);
@@ -63,6 +63,7 @@ class PositionController extends Controller
 
     public function edit($id)
     {
+        $this->authorize('position-edit');
         $model = Position::where('id', $id)->first();
         return (string) view('admin.positions.edit_content', compact('model'));
     }
@@ -99,6 +100,7 @@ class PositionController extends Controller
      */
     public function destroy(Position $position)
     {
+        $this->authorize('position-delete');
         $model = $position->delete();
         if($model){
             $onlySoftDeleted = Position::onlyTrashed()->count();
@@ -113,14 +115,14 @@ class PositionController extends Controller
 
     public function trashed()
     {
-        // $this->authorize('position-trashed');
+        $this->authorize('position-trashed');
         $models = Position::onlyTrashed()->get();
         $title = 'All Trashed Records';
         return view('admin.positions.trashed-index', compact('models', 'title'));
     }
     public function restore($id)
     {
-        // $this->authorize('position-restore');
+        $this->authorize('position-restore');
         Position::onlyTrashed()->where('id', $id)->restore();
         return redirect()->back()->with('message', 'Record Restored Successfully.');
     }

@@ -61,6 +61,7 @@ class DesignationController extends Controller
 
     public function edit($id)
     {
+        $this->authorize('department-edit');
         $model = Designation::where('id', $id)->first();
         return (string) view('admin.designations.edit_content', compact('model'));
     }
@@ -95,6 +96,7 @@ class DesignationController extends Controller
      */
     public function destroy(Designation $designation)
     {
+        $this->authorize('department-delete');
         $model = $designation->delete();
         if($model){
             $onlySoftDeleted = Designation::onlyTrashed()->count();
@@ -109,14 +111,14 @@ class DesignationController extends Controller
 
     public function trashed()
     {
-        // $this->authorize('designation-trashed');
+        $this->authorize('designation-trashed');
         $models = Designation::onlyTrashed()->get();
         $title = 'All Trashed Records';
         return view('admin.designations.trashed-index', compact('models', 'title'));
     }
     public function restore($id)
     {
-        // $this->authorize('designation-restore');
+        $this->authorize('designation-restore');
         Designation::onlyTrashed()->where('id', $id)->restore();
         return redirect()->back()->with('message', 'Record Restored Successfully.');
     }

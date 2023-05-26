@@ -9,6 +9,8 @@ use Spatie\Permission\Models\Role;
 use App\Models\Department;
 use App\Models\WorkShift;
 use App\Models\User;
+use App\Models\Designation;
+use App\Models\EmploymentStatus;
 use DB;
 
 class RoleController extends Controller
@@ -18,7 +20,7 @@ class RoleController extends Controller
      */
     public function index(Request $request)
     {
-    // $this->authorize('role-list');
+        $this->authorize('role-list');
         $per_page_records = 10;
 
         if($request->ajax()){
@@ -32,12 +34,14 @@ class RoleController extends Controller
         }
         $title = 'All Roles';
 
-        $models = Permission::orderby('id','DESC')->groupBy('label')->paginate($per_page_records);
-        $roles = Role::with('users')->orderby('id', 'desc')->get();
-        $departments = Department::orderby('id', 'desc')->get();
-        $work_shifts = WorkShift::orderby('id', 'desc')->get();
-        $employees = User::orderby('id', 'desc')->paginate($per_page_records);
-        return view('admin.roles.index', compact('models', 'title', 'roles', 'departments', 'work_shifts', 'employees'));
+        $data['models'] = Permission::orderby('id','DESC')->groupBy('label')->paginate($per_page_records);
+        $data['work_shifts'] = WorkShift::orderby('id', 'desc')->get();
+        $data['designations'] = Designation::orderby('id', 'desc')->where('status', 1)->get();
+        $data['roles'] = Role::orderby('id', 'desc')->get();
+        $data['departments'] = Department::orderby('id', 'desc')->where('status', 1)->get();
+        $data['employment_statues'] = EmploymentStatus::orderby('id', 'desc')->get();
+        $data['employees'] = User::orderby('id', 'desc')->where('is_employee', 1)->paginate(10);
+        return view('admin.roles.index', compact('title', 'data'));
     }
 
     /**
@@ -73,7 +77,7 @@ class RoleController extends Controller
      */
     public function edit(string $id)
     {
-    $this->authorize('role-edit');
+        $this->authorize('role-edit');
         $role = Role::where('id', $id)->first();
         $role_permissions = $role->getPermissionNames();
         $models = Permission::orderby('id','DESC')->groupBy('label')->get();
@@ -108,13 +112,5 @@ class RoleController extends Controller
             DB::rollback();
             return response()->json(['error' => $e->getMessage()]);
         }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-    // $this->authorize('role-delete');
     }
 }
