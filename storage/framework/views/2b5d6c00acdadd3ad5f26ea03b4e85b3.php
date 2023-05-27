@@ -36,90 +36,85 @@
                                     <tr>
                                         <th>S.No#</th>
                                         <th>Employee</th>
-                                        <th>Leave Type</th>
-                                        <th>Duration</th>
-                                        <th>Behavior</th>
-                                        <th>Reason</th>
-                                        <th>Status</th>
-                                        <th>Applied At</th>
-                                        <th>Actions</th>
+                                        <th>Designation</th>
+                                        <th>Joining Date</th>
+                                        <th>Total Leaves</th>
+                                        <th>Leaves in Account</th>
+                                        <th>Leaves Availed</th>
+                                        <th>Leaves in Balance</th>
                                     </tr>
                                 </thead>
                                 <tbody id="body">
                                     <?php $__currentLoopData = $models; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$model): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <?php $leave_report = hasExceededLeaveLimit($model) ?>
                                         <tr class="odd" id="id-<?php echo e($model->id); ?>">
                                             <td tabindex="0"><?php echo e($models->firstItem()+$key); ?>.</td>
                                             <td class="sorting_1">
-                                                <?php if(isset($model->hasEmployee) && !empty($model->hasEmployee->first_name)): ?>
-                                                    <div class="d-flex justify-content-start align-items-center user-name">
-                                                        <div class="avatar-wrapper">
-                                                            <div class="avatar avatar-sm me-3">
-                                                                <?php if(isset($model->hasEmployee->profile) && !empty($model->hasEmployee->profile->profile)): ?>
-                                                                    <img src="<?php echo e(asset('public/admin/assets/img/avatars')); ?>/<?php echo e($model->hasEmployee->profile->profile); ?>" alt="Avatar" class="rounded-circle">
-                                                                <?php else: ?>
-                                                                    <img src="<?php echo e(asset('public/admin/default.png')); ?>" alt="Avatar" class="rounded-circle">
-                                                                <?php endif; ?>
-                                                            </div>
-                                                        </div>
-                                                        <div class="d-flex flex-column">
-                                                            <a href="app-user-view-account.html" class="text-body text-truncate">
-                                                                <span class="fw-semibold"><?php echo e($model->hasEmployee->first_name??''); ?> <?php echo e($model->hasEmployee->last_name??''); ?></span>
-                                                            </a>
-                                                            <small class="text-muted"><?php echo e($model->hasEmployee->email??'-'); ?></small>
+                                                <div class="d-flex justify-content-start align-items-center user-name">
+                                                    <div class="avatar-wrapper">
+                                                        <div class="avatar avatar-sm me-3">
+                                                            <?php if(isset($model->profile->profile) && !empty($model->profile->profile)): ?>
+                                                                <img src="<?php echo e(asset('public/admin/assets/img/avatars')); ?>/<?php echo e($model->profile->profile); ?>" alt="Avatar" class="rounded-circle">
+                                                            <?php else: ?>
+                                                                <img src="<?php echo e(asset('public/admin/default.png')); ?>" alt="Avatar" class="rounded-circle">
+                                                            <?php endif; ?>
                                                         </div>
                                                     </div>
-                                                <?php else: ?>
-                                                -
-                                                <?php endif; ?>
-                                            </td>
-                                            <td>
-                                                <?php if(isset($model->hasLeaveType) && !empty($model->hasLeaveType->name)): ?>
-                                                    <?php echo e($model->hasLeaveType->name); ?>
-
-                                                <?php else: ?>
-                                                -
-                                                <?php endif; ?>
-                                            </td>
-                                            <td><span class="badge bg-label-info"> <?php echo e($model->duration??'-'); ?> </span></td>
-                                            <td><?php echo e($model->behavior_type??'-'); ?></td>
-                                            <td><?php echo e($model->reason??'-'); ?></td>
-
-                                            <td>
-                                                <?php if($model->status): ?>
-                                                    <span class="badge bg-label-success" text-capitalized="">Approved</span>
-                                                <?php elseif($model->status==2): ?>
-                                                    <span class="badge bg-label-danger" text-capitalized="">Rejected</span>
-                                                <?php else: ?>
-                                                    <span class="badge bg-label-warning" text-capitalized="">Pending</span>
-                                                <?php endif; ?>
-                                            </td>
-                                            <td><?php echo e(date('d M Y', strtotime($model->created_at))); ?></td>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <a href="javascript:;" class="text-body dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                                        <i class="ti ti-dots-vertical ti-sm mx-1"></i>
-                                                    </a>
-                                                    <div class="dropdown-menu dropdown-menu-end m-0">
-                                                        <?php if($model->status==2 || $model->status==0): ?>
-                                                            <a href="#" class="dropdown-item change-status-btn" data-status-url='<?php echo e(route('user_leaves.status', $model->id)); ?>'>
-                                                                Approve
-                                                            </a>
-                                                        <?php endif; ?>
-
-                                                        <a href="#"
-                                                            class="dropdown-item show"
-                                                            tabindex="0" aria-controls="DataTables_Table_0"
-                                                            type="button" data-bs-toggle="modal"
-                                                            data-bs-target="#leave-show-modal"
-                                                            data-toggle="tooltip"
-                                                            data-placement="top"
-                                                            title="Leave Details"
-                                                            data-show-url="<?php echo e(route('user_leaves.show', $model->id)); ?>"
-                                                            >
-                                                            View Details
+                                                    <div class="d-flex flex-column">
+                                                        <a href="app-user-view-account.html" class="text-body text-truncate">
+                                                            <span class="fw-semibold"><?php echo e($model->first_name??''); ?> <?php echo e($model->last_name??''); ?></span>
                                                         </a>
+                                                        <small class="text-muted"><?php echo e($model->email??'-'); ?></small>
                                                     </div>
                                                 </div>
+                                            </td>
+                                            <td>
+                                                <?php if(isset($model->jobHistory->designation) && !empty($model->jobHistory->designation->title)): ?>
+                                                    <?php echo e($model->jobHistory->designation->title); ?>
+
+                                                <?php else: ?>
+                                                -
+                                                <?php endif; ?>
+                                            </td>
+                                            <td>
+                                                <?php if(isset($model->profile) && !empty($model->profile->joining_date)): ?>
+                                                    <?php echo e(date('d M Y', strtotime($model->profile->joining_date))); ?>
+
+                                                <?php else: ?>
+                                                -
+                                                <?php endif; ?>
+                                            </td>
+                                            <td>
+                                                <?php if(!empty($leave_report)): ?>
+                                                <?php echo e($leave_report['total_leaves']); ?>
+
+                                                <?php else: ?>
+                                                -
+                                                <?php endif; ?>
+                                            </td>
+                                            <td>
+                                                <?php if(!empty($leave_report)): ?>
+                                                <?php echo e($leave_report['total_leaves_in_account']); ?>
+
+                                                <?php else: ?>
+                                                -
+                                                <?php endif; ?>
+                                            </td>
+                                            <td>
+                                                <?php if(!empty($leave_report)): ?>
+                                                <?php echo e($leave_report['total_used_leaves']); ?>
+
+                                                <?php else: ?>
+                                                -
+                                                <?php endif; ?>
+                                            </td>
+                                            <td>
+                                                <?php if(!empty($leave_report)): ?>
+                                                <?php echo e($leave_report['leaves_in_balance']); ?>
+
+                                                <?php else: ?>
+                                                -
+                                                <?php endif; ?>
                                             </td>
                                         </tr>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -180,4 +175,4 @@
 <?php $__env->startPush('js'); ?>
 <?php $__env->stopPush(); ?>
 
-<?php echo $__env->make('admin.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\hr_portal\resources\views/admin/teams/leave-requests.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('admin.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\hr_portal\resources\views/admin/teams/leave-reports.blade.php ENDPATH**/ ?>

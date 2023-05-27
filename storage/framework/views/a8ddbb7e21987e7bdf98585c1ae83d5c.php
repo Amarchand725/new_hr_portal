@@ -21,6 +21,19 @@
         <div class="card">
             <div class="card-header border-bottom">
                 <h5 class="card-title mb-3">Daily Log</h5>
+                <div class="d-flex justify-content-between align-items-center row pb-2 gap-3 gap-md-0">
+                    <div class="col-md-6 offset-6">
+
+                        <form id="filter-by-team-member" action="" method="GET">
+                            <select name="user_id" id="user_id" class="form-control form-select" onchange="document.getElementById('filter-by-team-member').submit();">
+                                <option value="" selected>Select Employee</option>
+                                <?php $__currentLoopData = $team_members; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $member): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <option value="<?php echo e($member->id); ?>"><?php echo e($member->first_name); ?> <?php echo e($member->last_name); ?></option>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </select>
+                        </form>
+                    </div>
+                </div>
             </div>
             <div class="card-datatable table-responsive">
                 <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
@@ -105,4 +118,4 @@
 <?php $__env->startPush('js'); ?>
 <?php $__env->stopPush(); ?>
 
-<?php echo $__env->make('admin.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\hr_portal\resources\views/user/attendance/daily-log.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('admin.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\hr_portal\resources\views/user/attendance/team-daily-log.blade.php ENDPATH**/ ?>

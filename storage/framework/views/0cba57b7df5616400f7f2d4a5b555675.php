@@ -28,58 +28,67 @@
                         <table class="datatables-users table border-top dataTable no-footer dtr-column" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 1227px;">
                             <thead>
                                 <tr>
-                                    <th>Attendance Date</th>
                                     <th>Employee</th>
+                                    <th>Attendance Date</th>
                                     <th>Type</th>
                                     <th style="width: 97px;" aria-label="Role: activate to sort column ascending">Status</th>
                                     <th>Applied At</th>
-                                    <th>Reason</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody id="body">
                                 <?php $__currentLoopData = $models; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$model): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <tr class="odd" id="id-<?php echo e($model->id); ?>">
-                                        <td class="sorting_1">
-                                            <?php echo e($model->name??'-'); ?>
-
-                                        </td>
                                         <td>
-                                            <span class="text-truncate d-flex align-items-center">
-                                                <?php if(isset($model->parentDepartment) && !empty($model->parentDepartment->name)): ?>
-                                                    <?php echo e($model->parentDepartment->name); ?>
-
-                                                <?php else: ?>
-                                                    -
-                                                <?php endif; ?>
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span class="fw-semibold">
-                                                <?php if(isset($model->manager) && !empty($model->manager->first_name)): ?>
-                                                    <?php echo e($model->manager->first_name); ?> <?php echo e($model->manager->last_name); ?>
-
-                                                <?php else: ?>
-                                                    -
-                                                <?php endif; ?>
-                                            </span>
-                                        </td>
-
-                                        <td>
-                                            <?php if($model->status): ?>
-                                                <span class="badge bg-label-success" text-capitalized="">Active</span>
+                                            <?php if(isset($model->hasEmployee) && !empty($model->hasEmployee)): ?>
+                                                <div class="d-flex justify-content-start align-items-center user-name">
+                                                    <div class="avatar-wrapper">
+                                                        <div class="avatar avatar-sm me-3">
+                                                            <?php if(isset($model->hasEmployee->profile) && !empty($model->hasEmployee->profile->profile)): ?>
+                                                                <img src="<?php echo e(asset('public/admin/assets/img/avatars')); ?>/<?php echo e($model->hasEmployee->profile->profile); ?>" alt="Avatar" class="rounded-circle">
+                                                            <?php else: ?>
+                                                                <img src="<?php echo e(asset('public/admin/default.png')); ?>" alt="Avatar" class="rounded-circle">
+                                                            <?php endif; ?>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex flex-column">
+                                                        <a href="app-user-view-account.html" class="text-body text-truncate">
+                                                            <span class="fw-semibold"><?php echo e($model->hasEmployee->first_name??''); ?> <?php echo e($model->hasEmployee->last_name??''); ?></span>
+                                                        </a>
+                                                        <small class="text-muted"><?php echo e($model->hasEmployee->email??'-'); ?></small>
+                                                    </div>
+                                                </div>
                                             <?php else: ?>
-                                                <span class="badge bg-label-danger" text-capitalized="">De-Active</span>
+                                            -
                                             <?php endif; ?>
                                         </td>
-                                        <td><?php echo e(date('d M Y', strtotime($model->created_at))); ?></td>
+                                        <td class="sorting_1">
+                                            <?php if(isset($model->hasAttendance) && !empty($model->hasAttendance->in_date)): ?>
+                                                <?php echo e(date('d M Y', strtotime($model->hasAttendance->in_date))); ?>
+
+                                            <?php else: ?>
+                                                -
+                                            <?php endif; ?>
+                                        </td>
+                                        <td>
+                                            <span data-toggle="tooltip" data-placement="top" title="PUNCH TIME: <?php echo e(date('h:i A', strtotime($model->hasAttendance->in_date))); ?>" class="badge bg-label-info" text-capitalized=""><?php echo e(Str::ucfirst($model->type)); ?></span>
+                                        </td>
+                                        <td>
+                                            <?php if($model->status): ?>
+                                                <span class="badge bg-label-success" text-capitalized="">Approved</span>
+                                            <?php else: ?>
+                                                <span class="badge bg-label-danger" text-capitalized="">Pending</span>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td><?php echo e(date('d M Y h:i A', strtotime($model->created_at))); ?></td>
                                         <td>
                                             <div class="d-flex align-items-center">
                                                 <button
                                                     data-toggle="tooltip"
                                                     data-placement="top"
-                                                    title="Show Details"
+                                                    title="Discrepancy Details"
                                                     type="button"
-                                                    class="btn btn-secondary btn-primary mx-3 show"
+                                                    class="btn btn-secondary btn-primary btn-sm mx-3 show"
                                                     data-show-url="<?php echo e(route('user.discrepancies.show', $model->id)); ?>"
                                                     tabindex="0" aria-controls="DataTables_Table_0"
                                                     type="button" data-bs-toggle="modal"

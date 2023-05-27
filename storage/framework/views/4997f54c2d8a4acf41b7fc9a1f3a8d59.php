@@ -20,7 +20,20 @@
         </div>
         <div class="card">
             <div class="card-header border-bottom">
-                <h5 class="card-title mb-3">Daily Log</h5>
+                <h5 class="card-title mb-3">All Discrepancies</h5>
+                <div class="d-flex justify-content-between align-items-center row pb-2 gap-3 gap-md-0">
+                    <div class="col-md-6 offset-6">
+
+                        <form id="filter-by-team-member" action="" method="GET">
+                            <select name="user_id" id="user_id" class="form-control form-select" onchange="document.getElementById('filter-by-team-member').submit();">
+                                <option value="" selected>Select Employee</option>
+                                <?php $__currentLoopData = $team_members; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $member): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <option value="<?php echo e($member->id); ?>"><?php echo e($member->first_name); ?> <?php echo e($member->last_name); ?></option>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </select>
+                        </form>
+                    </div>
+                </div>
             </div>
             <div class="card-datatable table-responsive">
                 <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
@@ -29,15 +42,17 @@
                             <thead>
                                 <tr>
                                     <th>Employee</th>
-                                    <th>Date</th>
-                                    <th>Time</th>
-                                    <th>Status</th>
+                                    <th>Attendance Date</th>
+                                    <th>Type</th>
+                                    <th style="width: 97px;" aria-label="Role: activate to sort column ascending">Status</th>
+                                    <th>Applied At</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody id="body">
                                 <?php $__currentLoopData = $models; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$model): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <tr class="odd" id="id-<?php echo e($model->id); ?>">
-                                        <td class="sorting_1">
+                                        <td>
                                             <?php if(isset($model->hasEmployee) && !empty($model->hasEmployee)): ?>
                                                 <div class="d-flex justify-content-start align-items-center user-name">
                                                     <div class="avatar-wrapper">
@@ -60,21 +75,47 @@
                                             -
                                             <?php endif; ?>
                                         </td>
-                                        <td>
-                                            <?php echo e(date('d M Y', strtotime($model->in_date))); ?>
+                                        <td class="sorting_1">
+                                            <?php if(isset($model->hasAttendance) && !empty($model->hasAttendance->in_date)): ?>
+                                                <?php echo e(date('d M Y', strtotime($model->hasAttendance->in_date))); ?>
 
+                                            <?php else: ?>
+                                                -
+                                            <?php endif; ?>
                                         </td>
-                                        <td>
-                                            <?php echo e(date('h:i A', strtotime($model->in_date))); ?>
-
-                                        </td>
-
                                         <td>
                                             <?php if($model->behavior=='I'): ?>
-                                                <span class="badge bg-label-success" text-capitalized="">Punched In</span>
+                                                <span data-toggle="tooltip" data-placement="top" title="IN: <?php echo e(date('h:i A', strtotime($model->hasAttendance->in_date))); ?>" class="badge bg-label-success" text-capitalized="">Punched In</span>
                                             <?php else: ?>
-                                                <span class="badge bg-label-info" text-capitalized="">Punched Out</span>
+                                                <span data-toggle="tooltip" data-placement="top" title="OUT: <?php echo e(date('h:i A', strtotime($model->hasAttendance->in_date))); ?>" class="badge bg-label-info" text-capitalized="">Punched Out</span>
                                             <?php endif; ?>
+                                        </td>
+                                        <td>
+                                            <?php if($model->status): ?>
+                                                <span class="badge bg-label-success" text-capitalized="">Approved</span>
+                                            <?php else: ?>
+                                                <span class="badge bg-label-danger" text-capitalized="">Pending</span>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td><?php echo e(date('d M Y h:i A', strtotime($model->created_at))); ?></td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <button
+                                                    data-toggle="tooltip"
+                                                    data-placement="top"
+                                                    title="Discrepancy Details"
+                                                    type="button"
+                                                    class="btn btn-secondary btn-primary btn-sm mx-3 show"
+                                                    data-show-url="<?php echo e(route('user.discrepancies.show', $model->id)); ?>"
+                                                    tabindex="0" aria-controls="DataTables_Table_0"
+                                                    type="button" data-bs-toggle="modal"
+                                                    data-bs-target="#view-reason-modal"
+                                                    >
+                                                    <span>
+                                                        <span class="d-none d-sm-inline-block">View</span>
+                                                    </span>
+                                                </button>
+                                            </div>
                                         </td>
                                     </tr>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -101,8 +142,25 @@
         </div>
     </div>
 </div>
+
+<!-- Add Employment Status Modal -->
+<div class="modal fade" id="view-reason-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered1 modal-simple modal-add-new-cc">
+        <div class="modal-content p-3 p-md-5">
+            <div class="modal-body">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class=" mb-4">
+                    <h3 class="mb-2" id="modal-label"></h3>
+                </div>
+                <span id="show-content"></span>
+            </div>
+        </div>
+    </div>
+</div>
+<!--/ Edit Employment Status Modal -->
 <?php $__env->stopSection(); ?>
 <?php $__env->startPush('js'); ?>
+
 <?php $__env->stopPush(); ?>
 
-<?php echo $__env->make('admin.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\hr_portal\resources\views/user/attendance/daily-log.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('admin.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\hr_portal\resources\views/user/attendance/team-discrepancies.blade.php ENDPATH**/ ?>

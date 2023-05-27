@@ -89,15 +89,15 @@ class UserLeaveController extends Controller
 
             // Calculate the total leaves taken after the end of probation, considering partial months
             $total_used_leaves = $user->leaves()
-            ->whereYear('start_at', $currentYear)
+            ->whereYear('start_date', $currentYear)
             ->where(function ($query) use ($user, $currentYear, $currentMonth) {
-                $query->where('start_at', '>', $user->profile->joining_date)
+                $query->where('start_date', '>', $user->profile->joining_date)
                     ->orWhere(function ($query) use ($currentYear, $currentMonth) {
-                        $query->whereYear('start_at', '=', $currentYear)
-                            ->whereMonth('start_at', '>', $currentMonth);
+                        $query->whereYear('start_date', '=', $currentYear)
+                            ->whereMonth('start_date', '>', $currentMonth);
                     })
                     ->orWhere(function ($query) use ($currentYear, $currentMonth) {
-                        $query->whereYear('start_at', '>', $currentYear);
+                        $query->whereYear('start_date', '>', $currentYear);
                     });
             })
             ->count();
@@ -130,7 +130,7 @@ class UserLeaveController extends Controller
 
     public function status($leave_id)
     {
-        // $this->authorize('department-status');
+        // $this->authorize('userleave-status');
         $model = UserLeave::where('id', $leave_id)->first();
         $model->status = 1;
         $model->save();

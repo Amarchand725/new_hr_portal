@@ -281,18 +281,18 @@
                             <div data-i18n="Attendance">Attendance</div>
                         </a>
                         <ul class="menu-sub">
-                            <li class="menu-item <?php echo e(request()->is('roles')?'active':''); ?>">
-                                <a href="<?php echo e(route('roles.index')); ?>" class="menu-link">
+                            <li class="menu-item <?php echo e(request()->is('team/attendance/daily-log/*')?'active':''); ?>">
+                                <a href="<?php echo e(route('team.attendance.daily-log')); ?>" class="menu-link">
                                 <div data-i18n="Daily Log">Daily Log</div>
                                 </a>
                             </li>
-                            <li class="menu-item <?php echo e(request()->is('roles')?'active':''); ?>">
-                                <a href="<?php echo e(route('roles.index')); ?>" class="menu-link">
+                            <li class="menu-item <?php echo e(request()->is('team/attendance/discrepancies/*')?'active':''); ?>">
+                                <a href="<?php echo e(route('team.attendance.discrepancies')); ?>" class="menu-link">
                                 <div data-i18n="Discrepencies">Discrepencies</div>
                                 </a>
                             </li>
-                            <li class="menu-item <?php echo e(request()->is('roles')?'active':''); ?>">
-                                <a href="<?php echo e(route('roles.index')); ?>" class="menu-link">
+                            <li class="menu-item <?php echo e(request()->is('user/attendance/summary/*')?'active':''); ?>">
+                                <a href="<?php echo e(route('user.attendance.summary')); ?>" class="menu-link">
                                 <div data-i18n="Summary">Summary</div>
                                 </a>
                             </li>

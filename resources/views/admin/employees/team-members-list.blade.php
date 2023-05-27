@@ -33,7 +33,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card-datatable table-responsive">
+            <div class="card-datatable">
                 <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
                     <div class="container">
                         <table class="datatables-users table border-top dataTable no-footer dtr-column" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 1227px;">
@@ -57,8 +57,8 @@
                                             <div class="d-flex justify-content-start align-items-center user-name">
                                                 <div class="avatar-wrapper">
                                                     <div class="avatar avatar-sm me-3">
-                                                        @if(!empty($employee->image))
-                                                            <img src="{{ asset('public/admin/assets/img/avatars') }}/{{ $employee->image }}" alt="Avatar" class="rounded-circle">
+                                                        @if(isset($employee->profile) && !empty($employee->profile->profile))
+                                                            <img src="{{ asset('public/admin/assets/img/avatars') }}/{{ $employee->profile->profile }}" alt="Avatar" class="rounded-circle">
                                                         @else
                                                             <img src="{{ asset('public/admin/default.png') }}" alt="Avatar" class="rounded-circle">
                                                         @endif
@@ -121,7 +121,7 @@
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <a href="javascript:;"
+                                                {{-- <a href="javascript:;"
                                                     class="text-body edit-btn"
                                                     data-toggle="tooltip"
                                                     data-placement="top"
@@ -133,7 +133,7 @@
                                                     data-bs-target="#create-form-modal"
                                                     >
                                                     <i class="ti ti-edit ti-sm me-2"></i>
-                                                </a>
+                                                </a> --}}
                                                 {{-- <a href="javascript:;" class="text-body delete" data-slug="{{ $employee->id }}" data-del-url="{{ route('employees.destroy', $employee->id) }}">
                                                     <i class="ti ti-trash ti-sm mx-2"></i>
                                                 </a> --}}

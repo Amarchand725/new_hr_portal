@@ -9,181 +9,187 @@
           <div class="col-xl-4 col-lg-5 col-md-5 order-1 order-md-0">
             <!-- User Card -->
             <div class="card mb-4">
-              <div class="card-body">
-                <div class="user-avatar-section">
-                  <div class="d-flex align-items-center flex-column">
-                    <?php if(isset($model->profile) && !empty($model->profile->profile)): ?>
-                        <img class="img-fluid rounded mb-3 pt-1 mt-4"
-                            src="<?php echo e(asset('public/admin/assets/img/avatars')); ?>/<?php echo e($model->profile->profile); ?>"
-                            height="100"
-                            width="100"
-                            alt="User avatar"
-                        />
-                    <?php else: ?>
-                        <img class="img-fluid rounded mb-3 pt-1 mt-4"
-                            src="<?php echo e(asset('public/admin/default.png')); ?>"
-                            height="100"
-                            width="100"
-                            alt="User avatar"
-                        />
-                    <?php endif; ?>
-                    <div class="user-info text-center">
-                        <h4><?php echo e($model->first_name); ?> <?php echo e($model->last_name); ?> <span data-toggle="tooltip" data-placement="top" title="Employment ID">( <?php echo e($model->profile->employment_id??'-'); ?> )</span></h4>
-                        <span class="badge bg-label-secondary mt-1">
-                            <?php if(isset($model->jobHistory->position->title) && !empty($model->jobHistory->position->title)): ?>
-                                <?php echo e($model->jobHistory->position->title); ?>
-
+                <div class="card-body">
+                    <div class="user-avatar-section">
+                        <div class="d-flex align-items-center flex-column">
+                            <?php if(isset($model->profile) && !empty($model->profile->profile)): ?>
+                                <img class="img-fluid rounded mb-3 pt-1 mt-4"
+                                    src="<?php echo e(asset('public/admin/assets/img/avatars')); ?>/<?php echo e($model->profile->profile); ?>"
+                                    height="100"
+                                    width="100"
+                                    alt="User avatar"
+                                />
                             <?php else: ?>
-                                -
+                                <img class="img-fluid rounded mb-3 pt-1 mt-4"
+                                    src="<?php echo e(asset('public/admin/default.png')); ?>"
+                                    height="100"
+                                    width="100"
+                                    alt="User avatar"
+                                />
                             <?php endif; ?>
-                        </span>
+                            <div class="user-info text-center">
+                                <h4><?php echo e($model->first_name); ?> <?php echo e($model->last_name); ?> <span data-toggle="tooltip" data-placement="top" title="Employment ID">( <?php echo e($model->profile->employment_id??'-'); ?> )</span></h4>
+                                <span class="badge bg-label-secondary mt-1">
+                                    <?php if(isset($model->jobHistory->designation->title) && !empty($model->jobHistory->designation->title)): ?>
+                                        <?php echo e($model->jobHistory->designation->title); ?>
+
+                                    <?php else: ?>
+                                        -
+                                    <?php endif; ?>
+                                </span>
+                            </div>
+                        </div>
                     </div>
-                  </div>
-                </div>
-                <div class="d-flex justify-content-around flex-wrap mt-3 pt-3 pb-4 border-bottom">
-                  <div class="d-flex align-items-start me-4 mt-3 gap-2">
-                    <span class="badge bg-label-primary p-2 rounded"><i class="ti ti-checkbox ti-sm"></i></span>
-                    <div>
-                        <p class="mb-0 fw-semibold">
-                            <?php if(isset($model->userWorkingShift->workShift) && !empty($model->userWorkingShift->workShift->name)): ?>
-                                <?php echo e($model->userWorkingShift->workShift->name); ?>
+                    <div class="d-flex justify-content-around flex-wrap mt-3 pt-3 pb-4 border-bottom">
+                        <div class="d-flex align-items-start me-4 mt-3 gap-2">
+                            <span class="badge bg-label-primary p-2 rounded"><i class="ti ti-checkbox ti-sm"></i></span>
+                            <div>
+                                <p class="mb-0 fw-semibold">
+                                    <?php if(isset($model->userWorkingShift->workShift) && !empty($model->userWorkingShift->workShift->name)): ?>
+                                        <?php echo e($model->userWorkingShift->workShift->name); ?>
 
-                            <?php else: ?>
-                                -
-                            <?php endif; ?>
-                        </p>
-                        <small>Work Shift</small>
+                                    <?php else: ?>
+                                        <?php if(isset($model->departmentBridge->department->departmentWorkShift->workShift) && !empty($model->departmentBridge->department->departmentWorkShift->workShift->name)): ?>
+                                            <?php echo e($model->departmentBridge->department->departmentWorkShift->workShift->name); ?>
+
+                                        <?php else: ?>
+                                            -
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                </p>
+                                <small>Work Shift</small>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-start mt-3 gap-2">
+                            <span class="badge bg-label-primary p-2 rounded"><i class="ti ti-briefcase ti-sm"></i></span>
+                            <div>
+                            <p class="mb-0 fw-semibold">
+                                <?php if(isset($model->departmentBridge->department) && !empty($model->departmentBridge->department->name)): ?>
+                                    <?php echo e($model->departmentBridge->department->name); ?>
+
+                                <?php else: ?>
+                                    -
+                                <?php endif; ?>
+                            </p>
+                            <small>Department</small>
+                            </div>
+                        </div>
                     </div>
-                  </div>
-                  <div class="d-flex align-items-start mt-3 gap-2">
-                    <span class="badge bg-label-primary p-2 rounded"><i class="ti ti-briefcase ti-sm"></i></span>
-                    <div>
-                      <p class="mb-0 fw-semibold">
-                        <?php if(isset($model->departmentBridge->department) && !empty($model->departmentBridge->department->name)): ?>
-                            <?php echo e($model->departmentBridge->department->name); ?>
+                    <p class="mt-4 small text-uppercase text-muted">Details</p>
+                    <div class="info-container">
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <span class="fw-semibold me-1">Employment ID:</span>
+                                <span>
+                                    <?php if(isset($model->profile) && !empty($model->profile->employment_id)): ?>
+                                        <?php echo e($model->profile->employment_id); ?>
 
-                        <?php else: ?>
-                            -
-                        <?php endif; ?>
-                      </p>
-                      <small>Department</small>
+                                    <?php else: ?>
+                                    -
+                                    <?php endif; ?>
+                                </span>
+                            </li>
+                            <li class="mb-2">
+                                <span class="fw-semibold me-1">Employee:</span>
+                                <span>
+                                <?php echo e($model->first_name); ?> <?php echo e($model->last_name); ?>
+
+                                </span>
+                            </li>
+                            <li class="mb-2 pt-1">
+                                <span class="fw-semibold me-1">Email:</span>
+                                <span><?php echo e($model->email??'-'); ?></span>
+                            </li>
+                            <li class="mb-2 pt-1">
+                                <span class="fw-semibold me-1">Designation:</span>
+                                <span>
+                                    <?php if(isset($model->jobHistory->designation) && !empty($model->jobHistory->designation->title)): ?>
+                                        <?php echo e($model->jobHistory->designation->title); ?>
+
+                                    <?php else: ?>
+                                    -
+                                    <?php endif; ?>
+                                </span>
+                            </li>
+                            <li class="mb-2 pt-1">
+                                <span class="fw-semibold me-1">Role:</span>
+                                <span>
+                                    <?php if(!empty($model->getRoleNames())): ?>
+                                        <?php $__currentLoopData = $model->getRoleNames(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $roleName): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php echo e($roleName); ?>,
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    <?php else: ?>
+                                    -
+                                    <?php endif; ?>
+                                </span>
+                            </li>
+                            <li class="mb-2">
+                                <span class="fw-semibold me-1">Employment Status:</span>
+                                <span>
+                                    <?php if(isset($model->jobHistory->userEmploymentStatus->employmentStatus) && !empty($model->jobHistory->userEmploymentStatus->employmentStatus->name)): ?>
+                                    <span class="badge bg-label-success"> <?php echo e($model->jobHistory->userEmploymentStatus->employmentStatus->name); ?></span>
+                                    <?php else: ?>
+                                    -
+                                    <?php endif; ?>
+                                </span>
+                            </li>
+                            <li class="mb-2">
+                                <span class="fw-semibold me-1">Joining Date:</span>
+                                <span>
+                                    <?php if(isset($model->jobHistory) && !empty($model->jobHistory->joining_date)): ?>
+                                    <?php echo e(date('d M Y', strtotime($model->jobHistory->joining_date))); ?>
+
+                                    <?php else: ?>
+                                    -
+                                    <?php endif; ?>
+                                </span>
+                            </li>
+
+                            <li class="mb-2 pt-1">
+                                <span class="fw-semibold me-1">Status:</span>
+                                <?php if($model->status): ?>
+                                    <span class="badge bg-label-success">Active</span>
+                                <?php else: ?>
+                                    <span class="badge bg-label-danger">In-Active</span>
+                                <?php endif; ?>
+                            </li>
+
+                            <li class="mb-2 pt-1">
+                                <span class="fw-semibold me-1">Phone:</span>
+                                <span>
+                                    <?php if(isset($model->profile) && !empty($model->profile->phone_number)): ?>
+                                        <?php echo e($model->profile->phone_number); ?>
+
+                                    <?php else: ?>
+                                    -
+                                    <?php endif; ?>
+                                </span>
+                            </li>
+                            <li class="mb-2 pt-1">
+                                <span class="fw-semibold me-1">Gender:</span>
+                                <span>
+                                <?php if(isset($model->profile) && !empty($model->profile->gender)): ?>
+                                    <?php echo e(Str::ucfirst($model->profile->gender)); ?>
+
+                                <?php else: ?>
+                                -
+                                <?php endif; ?>
+                                </span>
+                            </li>
+                            <li class="mb-2 pt-1">
+                                <span class="fw-semibold me-1">Birth Day:</span>
+                                <span>
+                                <?php if(isset($model->profile) && !empty($model->profile->date_of_birth)): ?>
+                                    <?php echo e(date('d M Y', strtotime($model->profile->date_of_birth))); ?>
+
+                                <?php else: ?>
+                                -
+                                <?php endif; ?>
+                                </span>
+                            </li>
+                        </ul>
                     </div>
-                  </div>
                 </div>
-                <p class="mt-4 small text-uppercase text-muted">Details</p>
-                <div class="info-container">
-                    <ul class="list-unstyled">
-                        <li class="mb-2">
-                            <span class="fw-semibold me-1">Employment ID:</span>
-                            <span>
-                                <?php if(isset($model->profile) && !empty($model->profile->employment_id)): ?>
-                                    <?php echo e($model->profile->employment_id); ?>
-
-                                <?php else: ?>
-                                -
-                                <?php endif; ?>
-                            </span>
-                        </li>
-                        <li class="mb-2">
-                            <span class="fw-semibold me-1">Employment Status:</span>
-                            <span>
-                                <?php if(isset($model->jobHistory->userEmploymentStatus->employmentStatus) && !empty($model->jobHistory->userEmploymentStatus->employmentStatus->name)): ?>
-                                    <?php echo e($model->jobHistory->userEmploymentStatus->employmentStatus->name); ?>
-
-                                <?php else: ?>
-                                -
-                                <?php endif; ?>
-                            </span>
-                        </li>
-                        <li class="mb-2">
-                            <span class="fw-semibold me-1">Joining Date:</span>
-                            <span>
-                                <?php if(isset($model->jobHistory) && !empty($model->jobHistory->joining_date)): ?>
-                                Joined <?php echo e(date('d M Y', strtotime($model->jobHistory->joining_date))); ?>
-
-                                <?php else: ?>
-                                -
-                                <?php endif; ?>
-                            </span>
-                        </li>
-                        <li class="mb-2">
-                            <span class="fw-semibold me-1">Username:</span>
-                            <span>
-                            <?php echo e($model->first_name); ?> <?php echo e($model->last_name); ?>
-
-                            </span>
-                        </li>
-                        <li class="mb-2 pt-1">
-                            <span class="fw-semibold me-1">Email:</span>
-                            <span><?php echo e($model->email??'-'); ?></span>
-                        </li>
-                        <li class="mb-2 pt-1">
-                            <span class="fw-semibold me-1">Status:</span>
-                            <?php if($model->status): ?>
-                                <span class="badge bg-label-success">Active</span>
-                            <?php else: ?>
-                                <span class="badge bg-label-danger">In-Active</span>
-                            <?php endif; ?>
-                        </li>
-                        <li class="mb-2 pt-1">
-                            <span class="fw-semibold me-1">Role:</span>
-                            <span>
-                                <?php if(!empty($model->getRoleNames())): ?>
-                                    <?php $__currentLoopData = $model->getRoleNames(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $roleName): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <?php echo e($roleName); ?>,
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                <?php else: ?>
-                                -
-                                <?php endif; ?>
-                            </span>
-                        </li>
-                        <li class="mb-2 pt-1">
-                            <span class="fw-semibold me-1">Contact:</span>
-                            <span>
-                                <?php if(isset($model->profile) && !empty($model->profile->phone_number)): ?>
-                                    <?php echo e($model->profile->phone_number); ?>
-
-                                <?php else: ?>
-                                -
-                                <?php endif; ?>
-                            </span>
-                        </li>
-                        <li class="mb-2 pt-1">
-                            <span class="fw-semibold me-1">Gender:</span>
-                            <span>
-                            <?php if(isset($model->profile) && !empty($model->profile->gender)): ?>
-                                <?php echo e($model->profile->gender); ?>
-
-                            <?php else: ?>
-                            -
-                            <?php endif; ?>
-                            </span>
-                        </li>
-                        <li class="mb-2 pt-1">
-                            <span class="fw-semibold me-1">Birth Day:</span>
-                            <span>
-                            <?php if(isset($model->profile) && !empty($model->profile->date_of_birth)): ?>
-                                <?php echo e(date('d M Y', strtotime($model->profile->date_of_birth))); ?>
-
-                            <?php else: ?>
-                            -
-                            <?php endif; ?>
-                            </span>
-                        </li>
-                        <li class="mb-2 pt-1">
-                            <span class="fw-semibold me-1">About Me:</span>
-                            <span>
-                            <?php if(isset($model->profile) && !empty($model->profile->about_me)): ?>
-                                <?php echo e($model->profile->about_me); ?>
-
-                            <?php else: ?>
-                            -
-                            <?php endif; ?>
-                            </span>
-                        </li>
-                    </ul>
-                </div>
-              </div>
             </div>
             <!-- /User Card -->
           </div>
@@ -488,13 +494,10 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="note note-warning p-4 mt-2">
-                                                                    <p class="m-1">The password should contain one upper case, one lower case, numbers, one special character ( +=#?!@$%^&amp;*- ). It should be a minimum of 8 characters.</p>
-                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group" placeholder="Enter confirm password" show-password="true">
+                                                    <div class="form-group mt-2">
                                                         <div class="row align-items-center">
                                                             <div class="col-lg-3 col-xl-3 col-md-3 col-sm-12">
                                                                 <label class="text-left d-block mb-lg-0">

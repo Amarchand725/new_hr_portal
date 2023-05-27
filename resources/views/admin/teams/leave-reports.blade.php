@@ -37,89 +37,79 @@
                                     <tr>
                                         <th>S.No#</th>
                                         <th>Employee</th>
-                                        <th>Leave Type</th>
-                                        <th>Duration</th>
-                                        <th>Behavior</th>
-                                        <th>Reason</th>
-                                        <th>Status</th>
-                                        <th>Applied At</th>
-                                        <th>Actions</th>
+                                        <th>Designation</th>
+                                        <th>Joining Date</th>
+                                        <th>Total Leaves</th>
+                                        <th>Leaves in Account</th>
+                                        <th>Leaves Availed</th>
+                                        <th>Leaves in Balance</th>
                                     </tr>
                                 </thead>
                                 <tbody id="body">
                                     @foreach ($models as $key=>$model)
+                                        @php $leave_report = hasExceededLeaveLimit($model) @endphp
                                         <tr class="odd" id="id-{{ $model->id }}">
                                             <td tabindex="0">{{ $models->firstItem()+$key }}.</td>
                                             <td class="sorting_1">
-                                                @if(isset($model->hasEmployee) && !empty($model->hasEmployee->first_name))
-                                                    <div class="d-flex justify-content-start align-items-center user-name">
-                                                        <div class="avatar-wrapper">
-                                                            <div class="avatar avatar-sm me-3">
-                                                                @if(isset($model->hasEmployee->profile) && !empty($model->hasEmployee->profile->profile))
-                                                                    <img src="{{ asset('public/admin/assets/img/avatars') }}/{{ $model->hasEmployee->profile->profile }}" alt="Avatar" class="rounded-circle">
-                                                                @else
-                                                                    <img src="{{ asset('public/admin/default.png') }}" alt="Avatar" class="rounded-circle">
-                                                                @endif
-                                                            </div>
-                                                        </div>
-                                                        <div class="d-flex flex-column">
-                                                            <a href="app-user-view-account.html" class="text-body text-truncate">
-                                                                <span class="fw-semibold">{{ $model->hasEmployee->first_name??'' }} {{ $model->hasEmployee->last_name??'' }}</span>
-                                                            </a>
-                                                            <small class="text-muted">{{ $model->hasEmployee->email??'-' }}</small>
+                                                <div class="d-flex justify-content-start align-items-center user-name">
+                                                    <div class="avatar-wrapper">
+                                                        <div class="avatar avatar-sm me-3">
+                                                            @if(isset($model->profile->profile) && !empty($model->profile->profile))
+                                                                <img src="{{ asset('public/admin/assets/img/avatars') }}/{{ $model->profile->profile }}" alt="Avatar" class="rounded-circle">
+                                                            @else
+                                                                <img src="{{ asset('public/admin/default.png') }}" alt="Avatar" class="rounded-circle">
+                                                            @endif
                                                         </div>
                                                     </div>
-                                                @else
-                                                -
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if(isset($model->hasLeaveType) && !empty($model->hasLeaveType->name))
-                                                    {{ $model->hasLeaveType->name }}
-                                                @else
-                                                -
-                                                @endif
-                                            </td>
-                                            <td><span class="badge bg-label-info"> {{ $model->duration??'-' }} </span></td>
-                                            <td>{{ $model->behavior_type??'-' }}</td>
-                                            <td>{{ $model->reason??'-' }}</td>
-
-                                            <td>
-                                                @if($model->status)
-                                                    <span class="badge bg-label-success" text-capitalized="">Approved</span>
-                                                @elseif($model->status==2)
-                                                    <span class="badge bg-label-danger" text-capitalized="">Rejected</span>
-                                                @else
-                                                    <span class="badge bg-label-warning" text-capitalized="">Pending</span>
-                                                @endif
-                                            </td>
-                                            <td>{{ date('d M Y', strtotime($model->created_at)) }}</td>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <a href="javascript:;" class="text-body dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                                        <i class="ti ti-dots-vertical ti-sm mx-1"></i>
-                                                    </a>
-                                                    <div class="dropdown-menu dropdown-menu-end m-0">
-                                                        @if($model->status==2 || $model->status==0)
-                                                            <a href="#" class="dropdown-item change-status-btn" data-status-url='{{ route('user_leaves.status', $model->id) }}'>
-                                                                Approve
-                                                            </a>
-                                                        @endif
-
-                                                        <a href="#"
-                                                            class="dropdown-item show"
-                                                            tabindex="0" aria-controls="DataTables_Table_0"
-                                                            type="button" data-bs-toggle="modal"
-                                                            data-bs-target="#leave-show-modal"
-                                                            data-toggle="tooltip"
-                                                            data-placement="top"
-                                                            title="Leave Details"
-                                                            data-show-url="{{ route('user_leaves.show', $model->id) }}"
-                                                            >
-                                                            View Details
+                                                    <div class="d-flex flex-column">
+                                                        <a href="app-user-view-account.html" class="text-body text-truncate">
+                                                            <span class="fw-semibold">{{ $model->first_name??'' }} {{ $model->last_name??'' }}</span>
                                                         </a>
+                                                        <small class="text-muted">{{ $model->email??'-' }}</small>
                                                     </div>
                                                 </div>
+                                            </td>
+                                            <td>
+                                                @if(isset($model->jobHistory->designation) && !empty($model->jobHistory->designation->title))
+                                                    {{ $model->jobHistory->designation->title }}
+                                                @else
+                                                -
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if(isset($model->profile) && !empty($model->profile->joining_date))
+                                                    {{ date('d M Y', strtotime($model->profile->joining_date)) }}
+                                                @else
+                                                -
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if(!empty($leave_report))
+                                                {{ $leave_report['total_leaves'] }}
+                                                @else
+                                                -
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if(!empty($leave_report))
+                                                {{ $leave_report['total_leaves_in_account'] }}
+                                                @else
+                                                -
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if(!empty($leave_report))
+                                                {{ $leave_report['total_used_leaves'] }}
+                                                @else
+                                                -
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if(!empty($leave_report))
+                                                {{ $leave_report['leaves_in_balance'] }}
+                                                @else
+                                                -
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach

@@ -82,9 +82,15 @@
                                                 </span>
                                             </td>
                                             <td>
-                                                <span class="text-truncate d-flex align-items-center">
-                                                    {{ $model->department->name??'-' }}
-                                                </span>
+                                                @if(isset($model->hasAnnouncementDepartments) && !empty($model->hasAnnouncementDepartments))
+                                                    @foreach ($model->hasAnnouncementDepartments as $announcement_department)
+                                                        @if(isset($announcement_department->hasDepartment) && !empty($announcement_department->hasDepartment))
+                                                            <span class="badge bg-label-info" text-capitalized="">{{ $announcement_department->hasDepartment->name }}</span>
+                                                        @endif
+                                                    @endforeach
+                                                @else
+                                                -
+                                                @endif
                                             </td>
                                             <td>
                                                 <span class="text-truncate d-flex align-items-center">

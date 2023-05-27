@@ -38,7 +38,7 @@
     <span id="description_error" class="text-danger error"></span>
 </div>
 
-<script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
+
 <script>
     CKEDITOR.replace('description');
     $('.form-select').select2();

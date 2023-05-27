@@ -78,9 +78,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/user_leaves/show/{id}', [App\Http\Controllers\UserLeaveController::class, 'show'])->name('user_leaves.show');
     Route::get('/user_leaves/status/{id}', [App\Http\Controllers\UserLeaveController::class, 'status'])->name('user_leaves.status');
 
+    Route::get('/user/attendance/summary', [App\Http\Controllers\AttendanceController::class, 'summary'])->name('user.attendance.summary');
     Route::get('/user/discrepancies', [App\Http\Controllers\AttendanceController::class, 'discrepancies'])->name('user.discrepancies');
     Route::get('/user/discrepancies/show/{id}', [App\Http\Controllers\AttendanceController::class, 'show'])->name('user.discrepancies.show');
     Route::get('/user/attendance/daily-log', [App\Http\Controllers\AttendanceController::class, 'dailyLog'])->name('user.attendance.daily-log');
+
+    //team
+    Route::get('/team/attendance/daily-log', [App\Http\Controllers\AttendanceController::class, 'teamDailyLog'])->name('team.attendance.daily-log');
+    Route::get('/team/attendance/discrepancies', [App\Http\Controllers\AttendanceController::class, 'teamDiscrepancies'])->name('team.attendance.discrepancies');
+    Route::get('/team/attendance/get-discrepancies', [App\Http\Controllers\AttendanceController::class, 'getDiscrepancies'])->name('team.attendance.get-discrepancies');
 
     Route::get('/team/leave-requests/{id}', [App\Http\Controllers\Admin\TeamController::class, 'leaveRequests'])->name('team.leave-requests');
     Route::get('/team/leave-reports/{id}', [App\Http\Controllers\Admin\TeamController::class, 'leaveReports'])->name('team.leave-reports');

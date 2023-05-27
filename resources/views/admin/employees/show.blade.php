@@ -31,7 +31,7 @@
                                 <div class="user-profile-info">
                                     <h4>{{ $model->first_name }} {{ $model->last_name }} <span data-toggle="tooltip" data-placement="top" title="Employment ID">( {{ $model->profile->employment_id??'-' }} )</span></h4>
                                     <ul class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2" >
-                                        <li class="list-inline-item" data-toggle="tooltip" data-placement="top" title="Position">
+                                        <li class="list-inline-item" data-toggle="tooltip" data-placement="top" title="Designation">
                                             <i class="ti ti-color-swatch"></i>
                                             @if(isset($model->jobHistory->designation->title) && !empty($model->jobHistory->designation->title))
                                                 {{ $model->jobHistory->designation->title }}
@@ -107,7 +107,7 @@
                         <i class="ti-xs ti ti-user-check me-1"></i> Profile
                         </button>
                     </li>
-                    @if($model->getRoleNames()->first() != 'Employee')
+                    @if($model->getRoleNames()->first() == 'Admin')
                         <li class="nav-item">
                             <button
                             type="button"
@@ -132,7 +132,7 @@
                           aria-controls="navs-top-bank-details"
                           aria-selected="true"
                         >
-                        <i class="fa fa-building-columns me-1"></i> Bank Details
+                        <i class="fa fa-building-columns me-1"></i> Bank Account
                         </button>
                     </li>
                     <li class="nav-item">
@@ -529,7 +529,7 @@
                                         <div class="col-xl-6 col-lg-6 col-md-6">
                                             <div class="card mb-4">
                                                 <div class="card-body">
-                                                    <h5 class="card-action-title mb-0">Bank Details</h5>
+                                                    <h5 class="card-action-title mb-0">Bank Account Details</h5>
                                                     <table class="table table-responsive">
                                                         <tbody>
                                                             <tr>
@@ -537,42 +537,65 @@
                                                                     <i class="ti ti-home"></i>
                                                                     <span class="fw-bold "> Bank:</span>
                                                                 </th>
-                                                                <td></td>
+                                                                <td>
+                                                                    @if(isset($model->hasBankDetails) && !empty($model->hasBankDetails->bank_name))
+                                                                        {{ $model->hasBankDetails->bank_name }}
+                                                                    @else
+                                                                    -
+                                                                    @endif
+                                                                </td>
                                                             </tr>
                                                             <tr>
                                                                 <th>
-                                                                    <i class="ti ti-home"></i>
-                                                                    <span class="fw-bold "> Bank Code: </span>
+                                                                    <i class="ti ti-tag"></i>
+                                                                    <span class="fw-bold "> Branch Code: </span>
                                                                 </th>
-                                                                <td></td>
+                                                                <td>
+                                                                    @if(isset($model->hasBankDetails) && !empty($model->hasBankDetails->branch_code))
+                                                                        {{ $model->hasBankDetails->branch_code }}
+                                                                    @else
+                                                                    -
+                                                                    @endif
+                                                                </td>
                                                             </tr>
                                                             <tr>
                                                                 <th>
-                                                                    <i class="ti ti-home"></i>
+                                                                    <i class="ti ti-user"></i>
                                                                     <span class="fw-bold "> Title: </span>
                                                                 </th>
-                                                                <td></td>
+                                                                <td>
+                                                                    @if(isset($model->hasBankDetails) && !empty($model->hasBankDetails->title))
+                                                                        {{ $model->hasBankDetails->title }}
+                                                                    @else
+                                                                    -
+                                                                    @endif
+                                                                </td>
                                                             </tr>
                                                             <tr>
                                                                 <th>
-                                                                    <i class="ti ti-home"></i>
+                                                                    <i class="ti ti-shield"></i>
                                                                     <span class="fw-bold "> Account Number: </span>
                                                                 </th>
-                                                                <td></td>
+                                                                <td>
+                                                                    @if(isset($model->hasBankDetails) && !empty($model->hasBankDetails->account))
+                                                                        {{ $model->hasBankDetails->account }}
+                                                                    @else
+                                                                    -
+                                                                    @endif
+                                                                </td>
                                                             </tr>
                                                             <tr>
                                                                 <th>
-                                                                    <i class="ti ti-home"></i>
+                                                                    <i class="ti ti-shield"></i>
                                                                     <span class="fw-bold "> IBAN Number: </span>
                                                                 </th>
-                                                                <td></td>
-                                                            </tr>
-                                                            <tr>
-                                                                <th>
-                                                                    <i class="ti ti-home"></i>
-                                                                    <span class="fw-bold "> Zip Code: </span>
-                                                                </th>
-                                                                <td></td>
+                                                                <td>
+                                                                    @if(isset($model->hasBankDetails) && !empty($model->hasBankDetails->iban))
+                                                                        {{ $model->hasBankDetails->iban }}
+                                                                    @else
+                                                                    -
+                                                                    @endif
+                                                                </td>
                                                             </tr>
                                                         </tbody>
                                                     </table>

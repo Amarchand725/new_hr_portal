@@ -71,4 +71,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(WorkingShiftUser::class, 'user_id', 'id');
     }
+
+    public function hasBankDetails()
+    {
+        return $this->hasOne(BankAccount::class, 'user_id', 'id');
+    }
 }

@@ -12,9 +12,9 @@ class Announcement extends Model
 
     protected $guarded = [];
 
-    public function department()
+    public function hasAnnouncementDepartments()
     {
-        return $this->belongsTo(AnnouncementDepartment::class, 'announcement_id');
+        return $this->hasMany(AnnouncementDepartment::class, 'announcement_id', 'id');
     }
     public function createdBy()
     {

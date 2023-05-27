@@ -32,7 +32,7 @@
                     </div>
                 </div>
             </div>
-            <div class="card-datatable table-responsive">
+            <div class="card-datatable">
                 <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
                     <div class="container">
                         <table class="datatables-users table border-top dataTable no-footer dtr-column" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 1227px;">
@@ -56,8 +56,8 @@
                                             <div class="d-flex justify-content-start align-items-center user-name">
                                                 <div class="avatar-wrapper">
                                                     <div class="avatar avatar-sm me-3">
-                                                        <?php if(!empty($employee->image)): ?>
-                                                            <img src="<?php echo e(asset('public/admin/assets/img/avatars')); ?>/<?php echo e($employee->image); ?>" alt="Avatar" class="rounded-circle">
+                                                        <?php if(isset($employee->profile) && !empty($employee->profile->profile)): ?>
+                                                            <img src="<?php echo e(asset('public/admin/assets/img/avatars')); ?>/<?php echo e($employee->profile->profile); ?>" alt="Avatar" class="rounded-circle">
                                                         <?php else: ?>
                                                             <img src="<?php echo e(asset('public/admin/default.png')); ?>" alt="Avatar" class="rounded-circle">
                                                         <?php endif; ?>
@@ -125,19 +125,7 @@
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <a href="javascript:;"
-                                                    class="text-body edit-btn"
-                                                    data-toggle="tooltip"
-                                                    data-placement="top"
-                                                    title="Edit Employee"
-                                                    data-edit-url="<?php echo e(route('employees.edit', $employee->id)); ?>"
-                                                    data-url="<?php echo e(route('employees.update', $employee->id)); ?>"
-                                                    tabindex="0" aria-controls="DataTables_Table_0"
-                                                    type="button" data-bs-toggle="modal"
-                                                    data-bs-target="#create-form-modal"
-                                                    >
-                                                    <i class="ti ti-edit ti-sm me-2"></i>
-                                                </a>
+                                                
                                                 
                                                 <a href="javascript:;" class="text-body dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                                     <i class="ti ti-dots-vertical ti-sm mx-1"></i>

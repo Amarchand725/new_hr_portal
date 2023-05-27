@@ -36,10 +36,10 @@ class TeamController extends Controller
         $onlySoftDeleted = UserLeave::onlyTrashed()->count();
         return view('admin.teams.leave-requests', compact('title', 'models', 'onlySoftDeleted'));
     }
-    public function leaveReports($manager)
+    public function leaveReports($manager_id)
     {
         $title = 'Leave Reports';
-
+        $manager = User::where('id', $manager_id)->first();
         if(isset($manager->departmentBridge->department) && !empty($manager->departmentBridge->department_id)) {
             $manager_department_id = $manager->departmentBridge->department_id;
             $team_member_ids = DepartmentUser::where('department_id', $manager_department_id)->where('user_id', '!=', $manager->id)->get(['user_id']);
@@ -50,8 +50,8 @@ class TeamController extends Controller
             }
         }
 
-        $users = User::where('id', $team_members_ids)->get();
+        $models = User::whereIn('id', $team_members_ids)->paginate(10);
 
-        return view('admin.user_leaves.leave-report', compact('title', 'leave_report'));
+        return view('admin.teams.leave-reports', compact('title', 'models'));
     }
 }

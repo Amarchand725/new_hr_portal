@@ -82,10 +82,15 @@
                                                 </span>
                                             </td>
                                             <td>
-                                                <span class="text-truncate d-flex align-items-center">
-                                                    <?php echo e($model->department->name??'-'); ?>
-
-                                                </span>
+                                                <?php if(isset($model->hasAnnouncementDepartments) && !empty($model->hasAnnouncementDepartments)): ?>
+                                                    <?php $__currentLoopData = $model->hasAnnouncementDepartments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $announcement_department): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <?php if(isset($announcement_department->hasDepartment) && !empty($announcement_department->hasDepartment)): ?>
+                                                            <span class="badge bg-label-info" text-capitalized=""><?php echo e($announcement_department->hasDepartment->name); ?></span>
+                                                        <?php endif; ?>
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                <?php else: ?>
+                                                -
+                                                <?php endif; ?>
                                             </td>
                                             <td>
                                                 <span class="text-truncate d-flex align-items-center">

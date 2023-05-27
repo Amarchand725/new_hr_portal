@@ -29,55 +29,66 @@
                         <table class="datatables-users table border-top dataTable no-footer dtr-column" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 1227px;">
                             <thead>
                                 <tr>
-                                    <th>Attendance Date</th>
                                     <th>Employee</th>
+                                    <th>Attendance Date</th>
                                     <th>Type</th>
                                     <th style="width: 97px;" aria-label="Role: activate to sort column ascending">Status</th>
                                     <th>Applied At</th>
-                                    <th>Reason</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody id="body">
                                 @foreach ($models as $key=>$model)
                                     <tr class="odd" id="id-{{ $model->id }}">
-                                        <td class="sorting_1">
-                                            {{ $model->name??'-' }}
-                                        </td>
                                         <td>
-                                            <span class="text-truncate d-flex align-items-center">
-                                                @if(isset($model->parentDepartment) && !empty($model->parentDepartment->name))
-                                                    {{ $model->parentDepartment->name }}
-                                                @else
-                                                    -
-                                                @endif
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span class="fw-semibold">
-                                                @if(isset($model->manager) && !empty($model->manager->first_name))
-                                                    {{ $model->manager->first_name }} {{ $model->manager->last_name }}
-                                                @else
-                                                    -
-                                                @endif
-                                            </span>
-                                        </td>
-
-                                        <td>
-                                            @if($model->status)
-                                                <span class="badge bg-label-success" text-capitalized="">Active</span>
+                                            @if(isset($model->hasEmployee) && !empty($model->hasEmployee))
+                                                <div class="d-flex justify-content-start align-items-center user-name">
+                                                    <div class="avatar-wrapper">
+                                                        <div class="avatar avatar-sm me-3">
+                                                            @if(isset($model->hasEmployee->profile) && !empty($model->hasEmployee->profile->profile))
+                                                                <img src="{{ asset('public/admin/assets/img/avatars') }}/{{ $model->hasEmployee->profile->profile }}" alt="Avatar" class="rounded-circle">
+                                                            @else
+                                                                <img src="{{ asset('public/admin/default.png') }}" alt="Avatar" class="rounded-circle">
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex flex-column">
+                                                        <a href="app-user-view-account.html" class="text-body text-truncate">
+                                                            <span class="fw-semibold">{{ $model->hasEmployee->first_name??'' }} {{ $model->hasEmployee->last_name??'' }}</span>
+                                                        </a>
+                                                        <small class="text-muted">{{ $model->hasEmployee->email??'-' }}</small>
+                                                    </div>
+                                                </div>
                                             @else
-                                                <span class="badge bg-label-danger" text-capitalized="">De-Active</span>
+                                            -
                                             @endif
                                         </td>
-                                        <td>{{ date('d M Y', strtotime($model->created_at)) }}</td>
+                                        <td class="sorting_1">
+                                            @if(isset($model->hasAttendance) && !empty($model->hasAttendance->in_date))
+                                                {{ date('d M Y', strtotime($model->hasAttendance->in_date)) }}
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <span data-toggle="tooltip" data-placement="top" title="PUNCH TIME: {{ date('h:i A', strtotime($model->hasAttendance->in_date)) }}" class="badge bg-label-info" text-capitalized="">{{ Str::ucfirst($model->type) }}</span>
+                                        </td>
+                                        <td>
+                                            @if($model->status)
+                                                <span class="badge bg-label-success" text-capitalized="">Approved</span>
+                                            @else
+                                                <span class="badge bg-label-danger" text-capitalized="">Pending</span>
+                                            @endif
+                                        </td>
+                                        <td>{{ date('d M Y h:i A', strtotime($model->created_at)) }}</td>
                                         <td>
                                             <div class="d-flex align-items-center">
                                                 <button
                                                     data-toggle="tooltip"
                                                     data-placement="top"
-                                                    title="Show Details"
+                                                    title="Discrepancy Details"
                                                     type="button"
-                                                    class="btn btn-secondary btn-primary mx-3 show"
+                                                    class="btn btn-secondary btn-primary btn-sm mx-3 show"
                                                     data-show-url="{{ route('user.discrepancies.show', $model->id) }}"
                                                     tabindex="0" aria-controls="DataTables_Table_0"
                                                     type="button" data-bs-toggle="modal"
@@ -120,7 +131,7 @@
         <div class="modal-content p-3 p-md-5">
             <div class="modal-body">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                <div class=" mb-4">
+                <div class="mb-4">
                     <h3 class="mb-2" id="modal-label"></h3>
                 </div>
                 <span id="show-content"></span>

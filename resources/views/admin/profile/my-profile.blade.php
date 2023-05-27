@@ -10,170 +10,176 @@
           <div class="col-xl-4 col-lg-5 col-md-5 order-1 order-md-0">
             <!-- User Card -->
             <div class="card mb-4">
-              <div class="card-body">
-                <div class="user-avatar-section">
-                  <div class="d-flex align-items-center flex-column">
-                    @if(isset($model->profile) && !empty($model->profile->profile))
-                        <img class="img-fluid rounded mb-3 pt-1 mt-4"
-                            src="{{ asset('public/admin/assets/img/avatars') }}/{{ $model->profile->profile }}"
-                            height="100"
-                            width="100"
-                            alt="User avatar"
-                        />
-                    @else
-                        <img class="img-fluid rounded mb-3 pt-1 mt-4"
-                            src="{{ asset('public/admin/default.png') }}"
-                            height="100"
-                            width="100"
-                            alt="User avatar"
-                        />
-                    @endif
-                    <div class="user-info text-center">
-                        <h4>{{ $model->first_name }} {{ $model->last_name }} <span data-toggle="tooltip" data-placement="top" title="Employment ID">( {{ $model->profile->employment_id??'-' }} )</span></h4>
-                        <span class="badge bg-label-secondary mt-1">
-                            @if(isset($model->jobHistory->position->title) && !empty($model->jobHistory->position->title))
-                                {{ $model->jobHistory->position->title }}
+                <div class="card-body">
+                    <div class="user-avatar-section">
+                        <div class="d-flex align-items-center flex-column">
+                            @if(isset($model->profile) && !empty($model->profile->profile))
+                                <img class="img-fluid rounded mb-3 pt-1 mt-4"
+                                    src="{{ asset('public/admin/assets/img/avatars') }}/{{ $model->profile->profile }}"
+                                    height="100"
+                                    width="100"
+                                    alt="User avatar"
+                                />
                             @else
-                                -
+                                <img class="img-fluid rounded mb-3 pt-1 mt-4"
+                                    src="{{ asset('public/admin/default.png') }}"
+                                    height="100"
+                                    width="100"
+                                    alt="User avatar"
+                                />
                             @endif
-                        </span>
+                            <div class="user-info text-center">
+                                <h4>{{ $model->first_name }} {{ $model->last_name }} <span data-toggle="tooltip" data-placement="top" title="Employment ID">( {{ $model->profile->employment_id??'-' }} )</span></h4>
+                                <span class="badge bg-label-secondary mt-1">
+                                    @if(isset($model->jobHistory->designation->title) && !empty($model->jobHistory->designation->title))
+                                        {{ $model->jobHistory->designation->title }}
+                                    @else
+                                        -
+                                    @endif
+                                </span>
+                            </div>
+                        </div>
                     </div>
-                  </div>
-                </div>
-                <div class="d-flex justify-content-around flex-wrap mt-3 pt-3 pb-4 border-bottom">
-                  <div class="d-flex align-items-start me-4 mt-3 gap-2">
-                    <span class="badge bg-label-primary p-2 rounded"><i class="ti ti-checkbox ti-sm"></i></span>
-                    <div>
-                        <p class="mb-0 fw-semibold">
-                            @if(isset($model->userWorkingShift->workShift) && !empty($model->userWorkingShift->workShift->name))
-                                {{ $model->userWorkingShift->workShift->name }}
-                            @else
-                                -
-                            @endif
-                        </p>
-                        <small>Work Shift</small>
+                    <div class="d-flex justify-content-around flex-wrap mt-3 pt-3 pb-4 border-bottom">
+                        <div class="d-flex align-items-start me-4 mt-3 gap-2">
+                            <span class="badge bg-label-primary p-2 rounded"><i class="ti ti-checkbox ti-sm"></i></span>
+                            <div>
+                                <p class="mb-0 fw-semibold">
+                                    @if(isset($model->userWorkingShift->workShift) && !empty($model->userWorkingShift->workShift->name))
+                                        {{ $model->userWorkingShift->workShift->name }}
+                                    @else
+                                        @if(isset($model->departmentBridge->department->departmentWorkShift->workShift) && !empty($model->departmentBridge->department->departmentWorkShift->workShift->name))
+                                            {{ $model->departmentBridge->department->departmentWorkShift->workShift->name }}
+                                        @else
+                                            -
+                                        @endif
+                                    @endif
+                                </p>
+                                <small>Work Shift</small>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-start mt-3 gap-2">
+                            <span class="badge bg-label-primary p-2 rounded"><i class="ti ti-briefcase ti-sm"></i></span>
+                            <div>
+                            <p class="mb-0 fw-semibold">
+                                @if(isset($model->departmentBridge->department) && !empty($model->departmentBridge->department->name))
+                                    {{ $model->departmentBridge->department->name }}
+                                @else
+                                    -
+                                @endif
+                            </p>
+                            <small>Department</small>
+                            </div>
+                        </div>
                     </div>
-                  </div>
-                  <div class="d-flex align-items-start mt-3 gap-2">
-                    <span class="badge bg-label-primary p-2 rounded"><i class="ti ti-briefcase ti-sm"></i></span>
-                    <div>
-                      <p class="mb-0 fw-semibold">
-                        @if(isset($model->departmentBridge->department) && !empty($model->departmentBridge->department->name))
-                            {{ $model->departmentBridge->department->name }}
-                        @else
-                            -
-                        @endif
-                      </p>
-                      <small>Department</small>
+                    <p class="mt-4 small text-uppercase text-muted">Details</p>
+                    <div class="info-container">
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <span class="fw-semibold me-1">Employment ID:</span>
+                                <span>
+                                    @if(isset($model->profile) && !empty($model->profile->employment_id))
+                                        {{ $model->profile->employment_id }}
+                                    @else
+                                    -
+                                    @endif
+                                </span>
+                            </li>
+                            <li class="mb-2">
+                                <span class="fw-semibold me-1">Employee:</span>
+                                <span>
+                                {{ $model->first_name }} {{ $model->last_name }}
+                                </span>
+                            </li>
+                            <li class="mb-2 pt-1">
+                                <span class="fw-semibold me-1">Email:</span>
+                                <span>{{ $model->email??'-' }}</span>
+                            </li>
+                            <li class="mb-2 pt-1">
+                                <span class="fw-semibold me-1">Designation:</span>
+                                <span>
+                                    @if(isset($model->jobHistory->designation) && !empty($model->jobHistory->designation->title))
+                                        {{ $model->jobHistory->designation->title }}
+                                    @else
+                                    -
+                                    @endif
+                                </span>
+                            </li>
+                            <li class="mb-2 pt-1">
+                                <span class="fw-semibold me-1">Role:</span>
+                                <span>
+                                    @if(!empty($model->getRoleNames()))
+                                        @foreach ($model->getRoleNames() as $roleName)
+                                            {{ $roleName }},
+                                        @endforeach
+                                    @else
+                                    -
+                                    @endif
+                                </span>
+                            </li>
+                            <li class="mb-2">
+                                <span class="fw-semibold me-1">Employment Status:</span>
+                                <span>
+                                    @if(isset($model->jobHistory->userEmploymentStatus->employmentStatus) && !empty($model->jobHistory->userEmploymentStatus->employmentStatus->name))
+                                    <span class="badge bg-label-success"> {{ $model->jobHistory->userEmploymentStatus->employmentStatus->name }}</span>
+                                    @else
+                                    -
+                                    @endif
+                                </span>
+                            </li>
+                            <li class="mb-2">
+                                <span class="fw-semibold me-1">Joining Date:</span>
+                                <span>
+                                    @if(isset($model->jobHistory) && !empty($model->jobHistory->joining_date))
+                                    {{ date('d M Y', strtotime($model->jobHistory->joining_date)) }}
+                                    @else
+                                    -
+                                    @endif
+                                </span>
+                            </li>
+
+                            <li class="mb-2 pt-1">
+                                <span class="fw-semibold me-1">Status:</span>
+                                @if($model->status)
+                                    <span class="badge bg-label-success">Active</span>
+                                @else
+                                    <span class="badge bg-label-danger">In-Active</span>
+                                @endif
+                            </li>
+
+                            <li class="mb-2 pt-1">
+                                <span class="fw-semibold me-1">Phone:</span>
+                                <span>
+                                    @if(isset($model->profile) && !empty($model->profile->phone_number))
+                                        {{ $model->profile->phone_number }}
+                                    @else
+                                    -
+                                    @endif
+                                </span>
+                            </li>
+                            <li class="mb-2 pt-1">
+                                <span class="fw-semibold me-1">Gender:</span>
+                                <span>
+                                @if(isset($model->profile) && !empty($model->profile->gender))
+                                    {{ Str::ucfirst($model->profile->gender) }}
+                                @else
+                                -
+                                @endif
+                                </span>
+                            </li>
+                            <li class="mb-2 pt-1">
+                                <span class="fw-semibold me-1">Birth Day:</span>
+                                <span>
+                                @if(isset($model->profile) && !empty($model->profile->date_of_birth))
+                                    {{ date('d M Y', strtotime($model->profile->date_of_birth)) }}
+                                @else
+                                -
+                                @endif
+                                </span>
+                            </li>
+                        </ul>
                     </div>
-                  </div>
                 </div>
-                <p class="mt-4 small text-uppercase text-muted">Details</p>
-                <div class="info-container">
-                    <ul class="list-unstyled">
-                        <li class="mb-2">
-                            <span class="fw-semibold me-1">Employment ID:</span>
-                            <span>
-                                @if(isset($model->profile) && !empty($model->profile->employment_id))
-                                    {{ $model->profile->employment_id }}
-                                @else
-                                -
-                                @endif
-                            </span>
-                        </li>
-                        <li class="mb-2">
-                            <span class="fw-semibold me-1">Employment Status:</span>
-                            <span>
-                                @if(isset($model->jobHistory->userEmploymentStatus->employmentStatus) && !empty($model->jobHistory->userEmploymentStatus->employmentStatus->name))
-                                    {{ $model->jobHistory->userEmploymentStatus->employmentStatus->name }}
-                                @else
-                                -
-                                @endif
-                            </span>
-                        </li>
-                        <li class="mb-2">
-                            <span class="fw-semibold me-1">Joining Date:</span>
-                            <span>
-                                @if(isset($model->jobHistory) && !empty($model->jobHistory->joining_date))
-                                Joined {{ date('d M Y', strtotime($model->jobHistory->joining_date)) }}
-                                @else
-                                -
-                                @endif
-                            </span>
-                        </li>
-                        <li class="mb-2">
-                            <span class="fw-semibold me-1">Username:</span>
-                            <span>
-                            {{ $model->first_name }} {{ $model->last_name }}
-                            </span>
-                        </li>
-                        <li class="mb-2 pt-1">
-                            <span class="fw-semibold me-1">Email:</span>
-                            <span>{{ $model->email??'-' }}</span>
-                        </li>
-                        <li class="mb-2 pt-1">
-                            <span class="fw-semibold me-1">Status:</span>
-                            @if($model->status)
-                                <span class="badge bg-label-success">Active</span>
-                            @else
-                                <span class="badge bg-label-danger">In-Active</span>
-                            @endif
-                        </li>
-                        <li class="mb-2 pt-1">
-                            <span class="fw-semibold me-1">Role:</span>
-                            <span>
-                                @if(!empty($model->getRoleNames()))
-                                    @foreach ($model->getRoleNames() as $roleName)
-                                        {{ $roleName }},
-                                    @endforeach
-                                @else
-                                -
-                                @endif
-                            </span>
-                        </li>
-                        <li class="mb-2 pt-1">
-                            <span class="fw-semibold me-1">Contact:</span>
-                            <span>
-                                @if(isset($model->profile) && !empty($model->profile->phone_number))
-                                    {{ $model->profile->phone_number }}
-                                @else
-                                -
-                                @endif
-                            </span>
-                        </li>
-                        <li class="mb-2 pt-1">
-                            <span class="fw-semibold me-1">Gender:</span>
-                            <span>
-                            @if(isset($model->profile) && !empty($model->profile->gender))
-                                {{ $model->profile->gender }}
-                            @else
-                            -
-                            @endif
-                            </span>
-                        </li>
-                        <li class="mb-2 pt-1">
-                            <span class="fw-semibold me-1">Birth Day:</span>
-                            <span>
-                            @if(isset($model->profile) && !empty($model->profile->date_of_birth))
-                                {{ date('d M Y', strtotime($model->profile->date_of_birth)) }}
-                            @else
-                            -
-                            @endif
-                            </span>
-                        </li>
-                        <li class="mb-2 pt-1">
-                            <span class="fw-semibold me-1">About Me:</span>
-                            <span>
-                            @if(isset($model->profile) && !empty($model->profile->about_me))
-                                {{ $model->profile->about_me }}
-                            @else
-                            -
-                            @endif
-                            </span>
-                        </li>
-                    </ul>
-                </div>
-              </div>
             </div>
             <!-- /User Card -->
           </div>
@@ -489,13 +495,10 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="note note-warning p-4 mt-2">
-                                                                    <p class="m-1">The password should contain one upper case, one lower case, numbers, one special character ( +=#?!@$%^&amp;*- ). It should be a minimum of 8 characters.</p>
-                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group" placeholder="Enter confirm password" show-password="true">
+                                                    <div class="form-group mt-2">
                                                         <div class="row align-items-center">
                                                             <div class="col-lg-3 col-xl-3 col-md-3 col-sm-12">
                                                                 <label class="text-left d-block mb-lg-0">
