@@ -72,7 +72,7 @@
                                             @foreach(SubPermissions($model->label) as $label)
                                                 @php $permission_lab = explode('-', $label->name) @endphp
                                                 @if($permission_lab[1]=='list')
-                                                    <span class="badge bg-label-success p-1">List</span>
+                                                    <span class="badge bg-label-success p-1">View</span>
                                                 @elseif($permission_lab[1]=='create')
                                                     <span class="badge bg-label-primary">Create</span>
                                                 @elseif($permission_lab[1]=='edit')
@@ -81,15 +81,10 @@
                                                     <span class="badge bg-label-danger">Delete</span>
                                                 @elseif($permission_lab[1]=='status')
                                                     <span class="badge bg-label-success">Status</span>
-                                                @elseif($permission_lab[1]=='trashed')
-                                                    <span class="badge bg-label-warning">Trashed</span>
-                                                @elseif($permission_lab[1]=='restore')
-                                                    <span class="badge bg-label-info">Restore</span>
                                                 @else
                                                     <span class="badge bg-label-success">Custom</span>
                                                 @endif
                                             @endforeach
-
                                         </td>
                                         <td>{{ date('d, F Y', strtotime($model->created_at)) }}</td>
                                         <td>
@@ -202,22 +197,6 @@
                                                     <div class="form-check">
                                                         <input class="form-check-input" name="permissions[]" type="checkbox" value="status" id="status"/>
                                                         <label class="form-check-label" for="status"> <strong>Status</strong></label>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Checked checkbox -->
-                                                <div class="col-lg-6 mt-2">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" name="permissions[]" type="checkbox" value="trashed" id="trashed"/>
-                                                        <label class="form-check-label" for="trashed"> <strong>Trashed List</strong></label>
-                                                    </div>
-                                                </div>
-
-                                                <!-- Checked checkbox -->
-                                                <div class="col-lg-3 mt-2">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" name="permissions[]" type="checkbox" value="restore" id="restore"/>
-                                                        <label class="form-check-label" for="restore"> <strong>Restore</strong></label>
                                                     </div>
                                                 </div>
 

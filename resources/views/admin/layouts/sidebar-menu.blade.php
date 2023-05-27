@@ -29,73 +29,44 @@
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Apps &amp; Pages</span>
         </li>
-        <li class="menu-item {{
-                request()->is('employees/salary_details') ||
-                request()->is('bank_accounts/create') ||
-                request()->is('bank_accounts/edit/*')
-                ?'open active':''
-            }}">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons ti ti-files"></i>
-                <div data-i18n="Salary Details">Salary Details</div>
-            </a>
-            <ul class="menu-sub">
-                <li class="menu-item {{ request()->is('employees/salary_details')?'active':'' }}">
-                    <a href="{{ route('employees.salary_details') }}" class="menu-link">
-                    <div data-i18n="Salary Details">Salary Details</div>
-                    </a>
-                </li>
-                <li class="menu-item {{ request()->is('bank_accounts/create') || request()->is('bank_accounts/edit/*')?'active':'' }}">
-                    @if(!empty(bankDetail()))
-                        <a href="{{ route('bank_accounts.edit', bankDetail()->id) }}" class="menu-link">
-                            <div data-i18n="Bank Account">Bank Account</div>
-                        </a>
-                    @else
-                        <a href="{{ route('bank_accounts.create') }}" class="menu-link">
-                            <div data-i18n="Bank Account">Bank Account</div>
-                        </a>
-                    @endif
-                </li>
-            </ul>
-        </li>
-        @can('employee-list')
+        @can('salary_menu-list')
             <li class="menu-item {{
-                    request()->is('employees') ||
-                    request()->is('designations') ||
-                    request()->is('employment_status')
+                    request()->is('employees/salary_details') ||
+                    request()->is('bank_accounts/create') ||
+                    request()->is('bank_accounts/edit/*')
                     ?'open active':''
                 }}">
                 <a href="javascript:void(0);" class="menu-link menu-toggle">
-                    <i class="menu-icon tf-icons ti ti-users"></i>
-                    <div data-i18n="Employees">Employees</div>
+                    <i class="menu-icon tf-icons ti ti-files"></i>
+                    <div data-i18n="Salary">Salary</div>
                 </a>
                 <ul class="menu-sub">
-                    @can('user-list')
-                        <li class="menu-item {{ request()->is('employees')?'active':'' }}">
-                            <a href="{{ route('employees.index') }}" class="menu-link">
-                            <div data-i18n="Employees">Employees</div>
+                    @can('employee_salary_details-list')
+                        <li class="menu-item {{ request()->is('employees/salary_details')?'active':'' }}">
+                            <a href="{{ route('employees.salary_details') }}" class="menu-link">
+                            <div data-i18n="Salary Details">Salary Details</div>
                             </a>
                         </li>
                     @endcan
-                    @can('designation-list')
-                        <li class="menu-item {{ request()->is('designations')?'active':'' }}">
-                            <a href="{{ route('designations.index') }}" class="menu-link">
-                            <div data-i18n="Designations">Designations</div>
-                            </a>
-                        </li>
-                    @endcan
-                    @can('employmentstatus-list')
-                        <li class="menu-item {{ request()->is('employment_status')?'active':'' }}">
-                            <a href="{{ route('employment_status.index') }}" class="menu-link">
-                            <div data-i18n="Employment Status">Employment Status</div>
-                            </a>
+                    @can('employee_bank_account-create')
+                        <li class="menu-item {{ request()->is('bank_accounts/create') || request()->is('bank_accounts/edit/*')?'active':'' }}">
+                            @if(!empty(bankDetail()))
+                                <a href="{{ route('bank_accounts.edit', bankDetail()->id) }}" class="menu-link">
+                                    <div data-i18n="Bank Account">Bank Account</div>
+                                </a>
+                            @else
+                                <a href="{{ route('bank_accounts.create') }}" class="menu-link">
+                                    <div data-i18n="Bank Account">Bank Account</div>
+                                </a>
+                            @endif
                         </li>
                     @endcan
                 </ul>
             </li>
         @endcan
-        @if(!isOnProbation())
-            @can('leave-list')
+
+        @can('leaves_menu-list')
+            @if(!isOnProbation())
                 <li class="menu-item {{
                         request()->is('user_leaves') ||
                         request()->is('user_leaves/report')
@@ -106,14 +77,14 @@
                         <div data-i18n="Leaves">Leaves</div>
                     </a>
                     <ul class="menu-sub">
-                        @can('leavestatus-list')
+                        @can('employee_leave_requests-list')
                             <li class="menu-item {{ request()->is('user_leaves')?'active':'' }}">
                                 <a href="{{ route('user_leaves.index') }}" class="menu-link">
-                                    <div data-i18n="Leave Status">Leave Status</div>
+                                    <div data-i18n="Leave Status">Leave Requests</div>
                                 </a>
                             </li>
                         @endcan
-                        @can('leavereport-list')
+                        @can('employee_leave_report-list')
                             <li class="menu-item {{ request()->is('user_leaves/report')?'active':'' }}">
                                 <a href="{{ route('user_leaves.report') }}" class="menu-link">
                                 <div data-i18n="Leave Report">Leave Report</div>
@@ -122,10 +93,10 @@
                         @endcan
                     </ul>
                 </li>
-            @endcan
-        @endif
+            @endif
+        @endcan
 
-        @can('attendance-list')
+        @can('attendance_menu-list')
             <li class="menu-item {{
                     request()->is('user/discrepancies') ||
                     request()->is('user/attendance/daily-log')
@@ -136,28 +107,28 @@
                     <div data-i18n="Attendance">Attendance</div>
                 </a>
                 <ul class="menu-sub">
-                    @can('dailylog-list')
+                    @can('employee_attendance_daily_log-list')
                         <li class="menu-item {{ request()->is('user/attendance/daily-log')?'active':'' }}">
                             <a href="{{ route('user.attendance.daily-log') }}" class="menu-link">
                             <div data-i18n="Daily Log">Daily Log</div>
                             </a>
                         </li>
                     @endcan
-                    @can('discrepancy-list')
+                    @can('employee_discrepancies-list')
                         <li class="menu-item {{ request()->is('user/discrepancies')?'active':'' }}">
                             <a href="{{ route('user.discrepancies') }}" class="menu-link">
                             <div data-i18n="Discrepancies">Discrepancies</div>
                             </a>
                         </li>
                     @endcan
-                    @can('summary-list')
+                    @can('employee_summary-list')
                         <li class="menu-item">
                             <a href="{{ route('permissions.index') }}" class="menu-link">
                                 <div data-i18n="Summary">Summary</div>
                             </a>
                         </li>
                     @endcan
-                    @can('attendancefilter-list')
+                    @can('employee_attendance_filter-list')
                         <li class="menu-item">
                             <a href="{{ route('permissions.index') }}" class="menu-link">
                             <div data-i18n="Attendance Filter">Attendance Filter</div>
@@ -167,7 +138,7 @@
                 </ul>
             </li>
         @endcan
-        @can('adminstration-list')
+        @can('administration_menu-list')
             <li class="menu-item  {{
                     request()->is('roles') ||
                     request()->is('permissions') ||
@@ -185,56 +156,90 @@
                     <div data-i18n="Administration">Administration</div>
                 </a>
                 <ul class="menu-sub">
-                    @can('role-list')
+                    <li class="menu-item {{
+                            request()->is('employees') ||
+                            request()->is('designations') ||
+                            request()->is('employment_status')
+                            ?'open active':''
+                        }}">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons ti ti-users"></i>
+                            <div data-i18n="Employees">Employees</div>
+                        </a>
+                        <ul class="menu-sub">
+                            @can('employees-list')
+                                <li class="menu-item {{ request()->is('employees')?'active':'' }}">
+                                    <a href="{{ route('employees.index') }}" class="menu-link">
+                                    <div data-i18n="Employees">Employees</div>
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('designations-list')
+                                <li class="menu-item {{ request()->is('designations')?'active':'' }}">
+                                    <a href="{{ route('designations.index') }}" class="menu-link">
+                                    <div data-i18n="Designations">Designations</div>
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('employment_status-list')
+                                <li class="menu-item {{ request()->is('employment_status')?'active':'' }}">
+                                    <a href="{{ route('employment_status.index') }}" class="menu-link">
+                                    <div data-i18n="Employment Status">Employment Status</div>
+                                    </a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                    @can('roles-list')
                         <li class="menu-item {{ request()->is('roles')?'active':'' }}">
                             <a href="{{ route('roles.index') }}" class="menu-link">
                             <div data-i18n="Roles">Roles</div>
                             </a>
                         </li>
                     @endcan
-                    @can('permission-list')
+                    @can('permissions-list')
                         <li class="menu-item {{ request()->is('permissions')?'active':'' }}">
                             <a href="{{ route('permissions.index') }}" class="menu-link">
                             <div data-i18n="Permission">Permission</div>
                             </a>
                         </li>
                     @endcan
-                    @can('position-list')
+                    @can('positions-list')
                         <li class="menu-item {{ request()->is('positions')?'active':'' }}">
                             <a href="{{ route('positions.index') }}" class="menu-link">
                             <div data-i18n="Positions">Positions</div>
                             </a>
                         </li>
                     @endcan
-                    @can('workshift-list')
+                    @can('workshifts-list')
                         <li class="menu-item {{ request()->is('work_shifts')?'active':'' }}">
                             <a href="{{ route('work_shifts.index') }}" class="menu-link">
                             <div data-i18n="Work Shifts">Work Shifts</div>
                             </a>
                         </li>
                     @endcan
-                    @can('department-list')
+                    @can('departments-list')
                         <li class="menu-item {{ request()->is('departments')?'active':'' }}">
                             <a href="{{ route('departments.index') }}" class="menu-link">
                             <div data-i18n="Departments">Departments</div>
                             </a>
                         </li>
                     @endcan
-                    @can('announcement-list')
+                    @can('announcements-list')
                         <li class="menu-item {{ request()->is('announcements')?'active':'' }}">
                             <a href="{{ route('announcements.index') }}" class="menu-link">
                             <div data-i18n="Announcements">Announcements</div>
                             </a>
                         </li>
                     @endcan
-                    @can('profilecoverimage-list')
+                    @can('profile_cover_images-list')
                         <li class="menu-item {{ request()->is('profile_cover_images')?'active':'' }}">
                             <a href="{{ route('profile_cover_images.index') }}" class="menu-link">
-                            <div data-i18n="Profile Conver Imges">Profile Conver Imges</div>
+                            <div data-i18n="Profile Cover Images">Profile Cover Images</div>
                             </a>
                         </li>
                     @endcan
-                    @can('leavetype-list')
+                    @can('leave_types-list')
                         <li class="menu-item {{ request()->is('leave_types')?'active':'' }}">
                             <a href="{{ route('leave_types.index') }}" class="menu-link">
                             <div data-i18n="Leave Types">Leave Types</div>
@@ -244,7 +249,7 @@
                 </ul>
             </li>
         @endcan
-        @can('team-list')
+        @can('team_menu-list')
             <li class="menu-item {{
                     request()->is('employees/teams-members/*') ||
                     request()->is('bank_accounts') ||

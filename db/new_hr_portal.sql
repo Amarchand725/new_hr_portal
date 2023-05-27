@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: May 27, 2023 at 03:13 AM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Host: 127.0.0.1:3306
+-- Generation Time: May 27, 2023 at 06:55 PM
+-- Server version: 8.0.27
+-- PHP Version: 8.1.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -27,18 +27,20 @@ SET time_zone = "+00:00";
 -- Table structure for table `announcements`
 --
 
-CREATE TABLE `announcements` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `created_by` bigint(20) NOT NULL,
-  `title` varchar(100) NOT NULL,
-  `description` text DEFAULT NULL,
+DROP TABLE IF EXISTS `announcements`;
+CREATE TABLE IF NOT EXISTS `announcements` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `created_by` bigint NOT NULL,
+  `title` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
   `start_date` date DEFAULT NULL,
   `end_date` date DEFAULT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT 1,
-  `deleted_at` varchar(100) DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `deleted_at` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `announcements`
@@ -55,13 +57,17 @@ INSERT INTO `announcements` (`id`, `created_by`, `title`, `description`, `start_
 -- Table structure for table `announcement_departments`
 --
 
-CREATE TABLE `announcement_departments` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `announcement_id` bigint(20) UNSIGNED NOT NULL,
-  `department_id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `announcement_departments`;
+CREATE TABLE IF NOT EXISTS `announcement_departments` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `announcement_id` bigint UNSIGNED NOT NULL,
+  `department_id` bigint UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `announcement_departments_announcement_id_foreign` (`announcement_id`),
+  KEY `announcement_departments_department_id_foreign` (`department_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `announcement_departments`
@@ -78,17 +84,21 @@ INSERT INTO `announcement_departments` (`id`, `announcement_id`, `department_id`
 -- Table structure for table `attendances`
 --
 
-CREATE TABLE `attendances` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `log_id` bigint(20) DEFAULT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `work_shift_id` bigint(20) UNSIGNED NOT NULL,
-  `in_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT 'check in date time',
-  `behavior` varchar(100) NOT NULL COMMENT 'O=>out, I=In',
-  `status_id` bigint(20) DEFAULT NULL,
+DROP TABLE IF EXISTS `attendances`;
+CREATE TABLE IF NOT EXISTS `attendances` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `log_id` bigint DEFAULT NULL,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `work_shift_id` bigint UNSIGNED NOT NULL,
+  `in_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'check in date time',
+  `behavior` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'O=>out, I=In',
+  `status_id` bigint DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `attendances_user_id_foreign` (`user_id`),
+  KEY `attendances_work_shift_id_foreign` (`work_shift_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `attendances`
@@ -112,24 +122,27 @@ INSERT INTO `attendances` (`id`, `log_id`, `user_id`, `work_shift_id`, `in_date`
 -- Table structure for table `bank_accounts`
 --
 
-CREATE TABLE `bank_accounts` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `account_holder_id` bigint(20) DEFAULT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `bank_name` varchar(100) NOT NULL,
-  `branch_code` varchar(100) NOT NULL,
-  `iban` varchar(100) NOT NULL,
-  `account` varchar(100) NOT NULL,
-  `title` varchar(100) NOT NULL,
-  `education` varchar(100) DEFAULT NULL,
-  `last_employer_name` varchar(100) DEFAULT NULL,
-  `last_salary` varchar(100) DEFAULT NULL,
-  `last_designation` varchar(100) DEFAULT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '1=active, 0=in-active',
-  `deleted_at` varchar(100) DEFAULT NULL,
+DROP TABLE IF EXISTS `bank_accounts`;
+CREATE TABLE IF NOT EXISTS `bank_accounts` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `account_holder_id` bigint DEFAULT NULL,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `bank_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `branch_code` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `iban` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `account` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `title` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `education` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `last_employer_name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `last_salary` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `last_designation` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1=active, 0=in-active',
+  `deleted_at` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `bank_accounts_user_id_foreign` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `bank_accounts`
@@ -144,18 +157,20 @@ INSERT INTO `bank_accounts` (`id`, `account_holder_id`, `user_id`, `bank_name`, 
 -- Table structure for table `departments`
 --
 
-CREATE TABLE `departments` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `manager_id` bigint(20) DEFAULT NULL,
-  `parent_department_id` bigint(20) DEFAULT NULL,
-  `name` varchar(100) NOT NULL,
-  `description` text DEFAULT NULL,
-  `location` text DEFAULT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT 1,
-  `deleted_at` varchar(100) DEFAULT NULL,
+DROP TABLE IF EXISTS `departments`;
+CREATE TABLE IF NOT EXISTS `departments` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `manager_id` bigint DEFAULT NULL,
+  `parent_department_id` bigint DEFAULT NULL,
+  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `location` text COLLATE utf8mb4_unicode_ci,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `deleted_at` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `departments`
@@ -193,15 +208,19 @@ INSERT INTO `departments` (`id`, `manager_id`, `parent_department_id`, `name`, `
 -- Table structure for table `department_users`
 --
 
-CREATE TABLE `department_users` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `department_id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `department_users`;
+CREATE TABLE IF NOT EXISTS `department_users` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `department_id` bigint UNSIGNED NOT NULL,
+  `user_id` bigint UNSIGNED NOT NULL,
   `start_date` date NOT NULL,
   `end_date` date DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `department_users_department_id_foreign` (`department_id`),
+  KEY `department_users_user_id_foreign` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `department_users`
@@ -219,13 +238,17 @@ INSERT INTO `department_users` (`id`, `department_id`, `user_id`, `start_date`, 
 -- Table structure for table `department_work_shifts`
 --
 
-CREATE TABLE `department_work_shifts` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `department_id` bigint(20) UNSIGNED NOT NULL,
-  `work_shift_id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `department_work_shifts`;
+CREATE TABLE IF NOT EXISTS `department_work_shifts` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `department_id` bigint UNSIGNED NOT NULL,
+  `work_shift_id` bigint UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `department_work_shifts_department_id_foreign` (`department_id`),
+  KEY `department_work_shifts_work_shift_id_foreign` (`work_shift_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `department_work_shifts`
@@ -248,15 +271,17 @@ INSERT INTO `department_work_shifts` (`id`, `department_id`, `work_shift_id`, `c
 -- Table structure for table `designations`
 --
 
-CREATE TABLE `designations` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `title` varchar(100) NOT NULL,
-  `description` text DEFAULT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT 1,
-  `deleted_at` varchar(100) DEFAULT NULL,
+DROP TABLE IF EXISTS `designations`;
+CREATE TABLE IF NOT EXISTS `designations` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `title` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `deleted_at` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `designations`
@@ -284,18 +309,22 @@ INSERT INTO `designations` (`id`, `title`, `description`, `status`, `deleted_at`
 -- Table structure for table `discrepancies`
 --
 
-CREATE TABLE `discrepancies` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `approved_by` bigint(20) DEFAULT NULL COMMENT 'Approved by',
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `attendance_id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `discrepancies`;
+CREATE TABLE IF NOT EXISTS `discrepancies` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `approved_by` bigint DEFAULT NULL COMMENT 'Approved by',
+  `user_id` bigint UNSIGNED NOT NULL,
+  `attendance_id` bigint UNSIGNED NOT NULL,
   `date` datetime DEFAULT NULL,
-  `type` varchar(100) NOT NULL COMMENT 'late or early',
-  `description` varchar(100) DEFAULT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0=pending, 1=approved',
+  `type` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'late or early',
+  `description` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '0=pending, 1=approved',
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `discrepancies_user_id_foreign` (`user_id`),
+  KEY `discrepancies_attendance_id_foreign` (`attendance_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `discrepancies`
@@ -310,17 +339,19 @@ INSERT INTO `discrepancies` (`id`, `approved_by`, `user_id`, `attendance_id`, `d
 -- Table structure for table `documents`
 --
 
-CREATE TABLE `documents` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `created_by_id` bigint(20) NOT NULL,
-  `user_id` bigint(20) NOT NULL,
-  `title` varchar(100) NOT NULL,
-  `file` varchar(100) NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT 1,
+DROP TABLE IF EXISTS `documents`;
+CREATE TABLE IF NOT EXISTS `documents` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `created_by_id` bigint NOT NULL,
+  `user_id` bigint NOT NULL,
+  `title` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `file` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
   `date` date NOT NULL,
-  `deleted_at` varchar(100) DEFAULT NULL,
+  `deleted_at` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -329,17 +360,19 @@ CREATE TABLE `documents` (
 -- Table structure for table `employment_statuses`
 --
 
-CREATE TABLE `employment_statuses` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `class` varchar(100) NOT NULL,
-  `description` varchar(100) DEFAULT NULL,
-  `is_default` tinyint(1) NOT NULL DEFAULT 1,
-  `alias` varchar(100) DEFAULT NULL,
-  `deleted_at` varchar(100) DEFAULT NULL,
+DROP TABLE IF EXISTS `employment_statuses`;
+CREATE TABLE IF NOT EXISTS `employment_statuses` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `class` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `is_default` tinyint(1) NOT NULL DEFAULT '1',
+  `alias` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `deleted_at` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `employment_statuses`
@@ -356,14 +389,17 @@ INSERT INTO `employment_statuses` (`id`, `name`, `class`, `description`, `is_def
 -- Table structure for table `failed_jobs`
 --
 
-CREATE TABLE `failed_jobs` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `uuid` varchar(100) NOT NULL,
-  `connection` text NOT NULL,
-  `queue` text NOT NULL,
-  `payload` longtext NOT NULL,
-  `exception` longtext NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
+DROP TABLE IF EXISTS `failed_jobs`;
+CREATE TABLE IF NOT EXISTS `failed_jobs` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -372,21 +408,23 @@ CREATE TABLE `failed_jobs` (
 -- Table structure for table `job_histories`
 --
 
-CREATE TABLE `job_histories` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `created_by` bigint(20) NOT NULL,
-  `user_id` bigint(20) NOT NULL,
-  `parent_designation_id` bigint(20) DEFAULT NULL,
-  `designation_id` bigint(20) DEFAULT NULL,
-  `parent_position_id` bigint(20) DEFAULT NULL,
-  `position_id` bigint(20) DEFAULT NULL,
-  `employment_status_id` bigint(20) NOT NULL,
+DROP TABLE IF EXISTS `job_histories`;
+CREATE TABLE IF NOT EXISTS `job_histories` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `created_by` bigint NOT NULL,
+  `user_id` bigint NOT NULL,
+  `parent_designation_id` bigint DEFAULT NULL,
+  `designation_id` bigint DEFAULT NULL,
+  `parent_position_id` bigint DEFAULT NULL,
+  `position_id` bigint DEFAULT NULL,
+  `employment_status_id` bigint NOT NULL,
   `joining_date` date NOT NULL,
   `end_date` date DEFAULT NULL,
-  `deleted_at` varchar(100) DEFAULT NULL,
+  `deleted_at` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `job_histories`
@@ -405,18 +443,20 @@ INSERT INTO `job_histories` (`id`, `created_by`, `user_id`, `parent_designation_
 -- Table structure for table `leave_types`
 --
 
-CREATE TABLE `leave_types` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `slug` varchar(100) NOT NULL,
-  `type` varchar(100) NOT NULL COMMENT 'Paid or unpaid',
+DROP TABLE IF EXISTS `leave_types`;
+CREATE TABLE IF NOT EXISTS `leave_types` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'Paid or unpaid',
   `amount` double(8,2) DEFAULT NULL COMMENT 'Amount of leaves of this type of leave.',
   `spacial_percentage` double(8,2) DEFAULT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT 1,
-  `deleted_at` varchar(100) DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `deleted_at` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `leave_types`
@@ -437,17 +477,19 @@ INSERT INTO `leave_types` (`id`, `name`, `slug`, `type`, `amount`, `spacial_perc
 -- Table structure for table `log_activities`
 --
 
-CREATE TABLE `log_activities` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `subject` varchar(100) NOT NULL,
-  `url` varchar(100) NOT NULL,
-  `method` varchar(100) NOT NULL,
-  `ip` varchar(100) NOT NULL,
-  `agent` varchar(100) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
+DROP TABLE IF EXISTS `log_activities`;
+CREATE TABLE IF NOT EXISTS `log_activities` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `subject` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `url` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `method` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ip` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `agent` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_id` int DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=197 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `log_activities`
@@ -603,7 +645,53 @@ INSERT INTO `log_activities` (`id`, `subject`, `url`, `method`, `ip`, `agent`, `
 (147, 'Role Updated', 'http://localhost/hr_portal/roles/4', 'PUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-26 13:51:04', '2023-05-26 13:51:04'),
 (148, 'Role Updated', 'http://localhost/hr_portal/roles/4', 'PUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-26 13:52:07', '2023-05-26 13:52:07'),
 (149, 'Role Updated', 'http://localhost/hr_portal/roles/4', 'PUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-26 13:53:13', '2023-05-26 13:53:13'),
-(150, 'Profile Updated', 'http://localhost/hr_portal/profile/update/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-26 19:42:00', '2023-05-26 19:42:00');
+(150, 'Profile Updated', 'http://localhost/hr_portal/profile/update/1', 'PATCH', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-26 19:42:00', '2023-05-26 19:42:00'),
+(151, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 11:50:47', '2023-05-27 11:50:47'),
+(152, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 12:16:16', '2023-05-27 12:16:16'),
+(153, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 12:38:54', '2023-05-27 12:38:54'),
+(154, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 12:40:29', '2023-05-27 12:40:29'),
+(155, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 12:45:34', '2023-05-27 12:45:34'),
+(156, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 12:47:23', '2023-05-27 12:47:23'),
+(157, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 12:49:03', '2023-05-27 12:49:03'),
+(158, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 12:49:27', '2023-05-27 12:49:27'),
+(159, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 12:50:22', '2023-05-27 12:50:22'),
+(160, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 12:51:01', '2023-05-27 12:51:01'),
+(161, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 12:51:23', '2023-05-27 12:51:23'),
+(162, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 12:52:14', '2023-05-27 12:52:14'),
+(163, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 12:52:50', '2023-05-27 12:52:50'),
+(164, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 12:53:00', '2023-05-27 12:53:00'),
+(165, 'Role Updated', 'http://localhost/new_hr_portal/roles/1', 'PUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 12:54:23', '2023-05-27 12:54:23'),
+(166, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 13:07:54', '2023-05-27 13:07:54'),
+(167, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 13:13:27', '2023-05-27 13:13:27'),
+(168, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 13:13:41', '2023-05-27 13:13:41'),
+(169, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 13:14:00', '2023-05-27 13:14:00'),
+(170, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 13:14:14', '2023-05-27 13:14:14'),
+(171, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 13:14:38', '2023-05-27 13:14:38'),
+(172, 'Role Updated', 'http://localhost/new_hr_portal/roles/1', 'PUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 13:17:42', '2023-05-27 13:17:42'),
+(173, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 13:27:04', '2023-05-27 13:27:04'),
+(174, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 13:28:02', '2023-05-27 13:28:02'),
+(175, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 13:28:20', '2023-05-27 13:28:20'),
+(176, 'Role Updated', 'http://localhost/new_hr_portal/roles/1', 'PUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 13:28:52', '2023-05-27 13:28:52'),
+(177, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 13:29:28', '2023-05-27 13:29:28'),
+(178, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 13:29:44', '2023-05-27 13:29:44'),
+(179, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 13:30:02', '2023-05-27 13:30:02'),
+(180, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 13:30:17', '2023-05-27 13:30:17'),
+(181, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 13:30:49', '2023-05-27 13:30:49'),
+(182, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 13:31:43', '2023-05-27 13:31:43'),
+(183, 'Role Updated', 'http://localhost/new_hr_portal/roles/1', 'PUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 13:32:41', '2023-05-27 13:32:41'),
+(184, 'Role Updated', 'http://localhost/new_hr_portal/roles/3', 'PUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 13:37:56', '2023-05-27 13:37:56'),
+(185, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 13:40:51', '2023-05-27 13:40:51'),
+(186, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 13:42:34', '2023-05-27 13:42:34'),
+(187, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 13:42:54', '2023-05-27 13:42:54'),
+(188, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 13:43:29', '2023-05-27 13:43:29'),
+(189, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 13:44:03', '2023-05-27 13:44:03'),
+(190, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 13:44:48', '2023-05-27 13:44:48'),
+(191, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 13:45:10', '2023-05-27 13:45:10'),
+(192, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 13:45:36', '2023-05-27 13:45:36'),
+(193, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 13:46:51', '2023-05-27 13:46:51'),
+(194, 'New Permission Added', 'http://localhost/new_hr_portal/permissions', 'POST', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 13:47:11', '2023-05-27 13:47:11'),
+(195, 'Role Updated', 'http://localhost/new_hr_portal/roles/1', 'PUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 13:48:04', '2023-05-27 13:48:04'),
+(196, 'Role Updated', 'http://localhost/new_hr_portal/roles/3', 'PUT', '::1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Sa', 1, '2023-05-27 13:48:52', '2023-05-27 13:48:52');
 
 -- --------------------------------------------------------
 
@@ -611,11 +699,13 @@ INSERT INTO `log_activities` (`id`, `subject`, `url`, `method`, `ip`, `agent`, `
 -- Table structure for table `migrations`
 --
 
-CREATE TABLE `migrations` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `migration` varchar(100) NOT NULL,
-  `batch` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+DROP TABLE IF EXISTS `migrations`;
+CREATE TABLE IF NOT EXISTS `migrations` (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `migration` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `migrations`
@@ -660,10 +750,13 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 -- Table structure for table `model_has_permissions`
 --
 
-CREATE TABLE `model_has_permissions` (
-  `permission_id` bigint(20) UNSIGNED NOT NULL,
-  `model_type` varchar(100) NOT NULL,
-  `model_id` bigint(20) UNSIGNED NOT NULL
+DROP TABLE IF EXISTS `model_has_permissions`;
+CREATE TABLE IF NOT EXISTS `model_has_permissions` (
+  `permission_id` bigint UNSIGNED NOT NULL,
+  `model_type` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model_id` bigint UNSIGNED NOT NULL,
+  PRIMARY KEY (`permission_id`,`model_id`,`model_type`),
+  KEY `model_has_permissions_model_id_model_type_index` (`model_id`,`model_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -672,10 +765,13 @@ CREATE TABLE `model_has_permissions` (
 -- Table structure for table `model_has_roles`
 --
 
-CREATE TABLE `model_has_roles` (
-  `role_id` bigint(20) UNSIGNED NOT NULL,
-  `model_type` varchar(100) NOT NULL,
-  `model_id` bigint(20) UNSIGNED NOT NULL
+DROP TABLE IF EXISTS `model_has_roles`;
+CREATE TABLE IF NOT EXISTS `model_has_roles` (
+  `role_id` bigint UNSIGNED NOT NULL,
+  `model_type` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model_id` bigint UNSIGNED NOT NULL,
+  PRIMARY KEY (`role_id`,`model_id`,`model_type`),
+  KEY `model_has_roles_model_id_model_type_index` (`model_id`,`model_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -695,10 +791,12 @@ INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 -- Table structure for table `password_reset_tokens`
 --
 
-CREATE TABLE `password_reset_tokens` (
-  `email` varchar(100) NOT NULL,
-  `token` varchar(100) NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL
+DROP TABLE IF EXISTS `password_reset_tokens`;
+CREATE TABLE IF NOT EXISTS `password_reset_tokens` (
+  `email` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -707,121 +805,110 @@ CREATE TABLE `password_reset_tokens` (
 -- Table structure for table `permissions`
 --
 
-CREATE TABLE `permissions` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `label` varchar(100) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `guard_name` varchar(100) NOT NULL,
+DROP TABLE IF EXISTS `permissions`;
+CREATE TABLE IF NOT EXISTS `permissions` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `label` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `guard_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `permissions_name_guard_name_unique` (`name`,`guard_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=203 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `permissions`
 --
 
 INSERT INTO `permissions` (`id`, `label`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
-(1, 'role', 'role-list', 'web', '2023-05-23 16:53:05', '2023-05-23 16:53:05'),
-(2, 'role', 'role-create', 'web', '2023-05-23 16:53:05', '2023-05-23 16:53:05'),
-(3, 'role', 'role-edit', 'web', '2023-05-23 16:53:05', '2023-05-23 16:53:05'),
-(4, 'role', 'role-delete', 'web', '2023-05-23 16:53:05', '2023-05-23 16:53:05'),
-(5, 'permission', 'permission-list', 'web', '2023-05-23 16:53:05', '2023-05-23 16:53:05'),
-(6, 'permission', 'permission-create', 'web', '2023-05-23 16:53:05', '2023-05-23 16:53:05'),
-(7, 'permission', 'permission-edit', 'web', '2023-05-23 16:53:05', '2023-05-23 16:53:05'),
-(8, 'permission', 'permission-delete', 'web', '2023-05-23 16:53:05', '2023-05-23 16:53:05'),
-(9, 'user', 'user-list', 'web', '2023-05-23 16:53:05', '2023-05-23 16:53:05'),
-(10, 'user', 'user-create', 'web', '2023-05-23 16:53:05', '2023-05-23 16:53:05'),
-(11, 'user', 'user-edit', 'web', '2023-05-23 16:53:05', '2023-05-23 16:53:05'),
-(12, 'user', 'user-delete', 'web', '2023-05-23 16:53:05', '2023-05-23 16:53:05'),
-(13, 'logactivity', 'logactivity-list', 'web', '2023-05-23 16:53:05', '2023-05-23 16:53:05'),
-(14, 'logactivity', 'logactivity-create', 'web', '2023-05-23 16:53:05', '2023-05-23 16:53:05'),
-(15, 'logactivity', 'logactivity-edit', 'web', '2023-05-23 16:53:05', '2023-05-23 16:53:05'),
-(16, 'logactivity', 'logactivity-delete', 'web', '2023-05-23 16:53:05', '2023-05-23 16:53:05'),
-(17, 'setting', 'setting-create', 'web', '2023-05-24 18:30:44', '2023-05-24 18:30:44'),
-(18, 'setting', 'setting-edit', 'web', '2023-05-24 18:30:44', '2023-05-24 18:30:44'),
-(19, 'designation', 'designation-list', 'web', '2023-05-24 18:32:20', '2023-05-24 18:32:20'),
-(20, 'designation', 'designation-create', 'web', '2023-05-24 18:32:20', '2023-05-24 18:32:20'),
-(21, 'designation', 'designation-edit', 'web', '2023-05-24 18:32:20', '2023-05-24 18:32:20'),
-(22, 'designation', 'designation-delete', 'web', '2023-05-24 18:32:20', '2023-05-24 18:32:20'),
-(23, 'designation', 'designation-trashed', 'web', '2023-05-24 18:32:20', '2023-05-24 18:32:20'),
-(24, 'designation', 'designation-restore', 'web', '2023-05-24 18:32:20', '2023-05-24 18:32:20'),
-(25, 'employmentstatus', 'employmentstatus-list', 'web', '2023-05-24 18:33:47', '2023-05-24 18:33:47'),
-(26, 'employmentstatus', 'employmentstatus-create', 'web', '2023-05-24 18:33:47', '2023-05-24 18:33:47'),
-(27, 'employmentstatus', 'employmentstatus-edit', 'web', '2023-05-24 18:33:47', '2023-05-24 18:33:47'),
-(28, 'employmentstatus', 'employmentstatus-delete', 'web', '2023-05-24 18:33:47', '2023-05-24 18:33:47'),
-(29, 'employmentstatus', 'employmentstatus-trashed', 'web', '2023-05-24 18:33:47', '2023-05-24 18:33:47'),
-(30, 'employmentstatus', 'employmentstatus-restore', 'web', '2023-05-24 18:33:47', '2023-05-24 18:33:47'),
-(31, 'leavestatus', 'leavestatus-list', 'web', '2023-05-24 18:34:43', '2023-05-24 18:34:43'),
-(32, 'leavestatus', 'leavestatus-create', 'web', '2023-05-24 18:34:43', '2023-05-24 18:34:43'),
-(33, 'leavestatus', 'leavestatus-edit', 'web', '2023-05-24 18:34:43', '2023-05-24 18:34:43'),
-(34, 'leavestatus', 'leavestatus-delete', 'web', '2023-05-24 18:34:43', '2023-05-24 18:34:43'),
-(35, 'leavestatus', 'leavestatus-trashed', 'web', '2023-05-24 18:34:43', '2023-05-24 18:34:43'),
-(36, 'leavestatus', 'leavestatus-restore', 'web', '2023-05-24 18:34:43', '2023-05-24 18:34:43'),
-(37, 'leavereport', 'leavereport-list', 'web', '2023-05-24 18:35:33', '2023-05-24 18:35:33'),
-(38, 'leavereport', 'leavereport-create', 'web', '2023-05-24 18:35:33', '2023-05-24 18:35:33'),
-(39, 'leavereport', 'leavereport-edit', 'web', '2023-05-24 18:35:33', '2023-05-24 18:35:33'),
-(40, 'leavereport', 'leavereport-delete', 'web', '2023-05-24 18:35:33', '2023-05-24 18:35:33'),
-(41, 'position', 'position-list', 'web', '2023-05-24 18:37:40', '2023-05-24 18:37:40'),
-(42, 'position', 'position-create', 'web', '2023-05-24 18:37:40', '2023-05-24 18:37:40'),
-(43, 'position', 'position-edit', 'web', '2023-05-24 18:37:40', '2023-05-24 18:37:40'),
-(44, 'position', 'position-delete', 'web', '2023-05-24 18:37:40', '2023-05-24 18:37:40'),
-(45, 'position', 'position-trashed', 'web', '2023-05-24 18:37:40', '2023-05-24 18:37:40'),
-(46, 'position', 'position-restore', 'web', '2023-05-24 18:37:40', '2023-05-24 18:37:40'),
-(47, 'workshift', 'workshift-list', 'web', '2023-05-24 18:38:11', '2023-05-24 18:38:11'),
-(48, 'workshift', 'workshift-create', 'web', '2023-05-24 18:38:11', '2023-05-24 18:38:11'),
-(49, 'workshift', 'workshift-edit', 'web', '2023-05-24 18:38:11', '2023-05-24 18:38:11'),
-(50, 'workshift', 'workshift-delete', 'web', '2023-05-24 18:38:11', '2023-05-24 18:38:11'),
-(51, 'workshift', 'workshift-trashed', 'web', '2023-05-24 18:38:11', '2023-05-24 18:38:11'),
-(52, 'workshift', 'workshift-restore', 'web', '2023-05-24 18:38:11', '2023-05-24 18:38:11'),
-(53, 'department', 'department-list', 'web', '2023-05-24 18:38:43', '2023-05-24 18:38:43'),
-(54, 'department', 'department-create', 'web', '2023-05-24 18:38:43', '2023-05-24 18:38:43'),
-(55, 'department', 'department-edit', 'web', '2023-05-24 18:38:43', '2023-05-24 18:38:43'),
-(56, 'department', 'department-delete', 'web', '2023-05-24 18:38:43', '2023-05-24 18:38:43'),
-(57, 'department', 'department-status', 'web', '2023-05-24 18:38:43', '2023-05-24 18:38:43'),
-(58, 'department', 'department-trashed', 'web', '2023-05-24 18:38:43', '2023-05-24 18:38:43'),
-(59, 'department', 'department-restore', 'web', '2023-05-24 18:38:43', '2023-05-24 18:38:43'),
-(60, 'announcement', 'announcement-list', 'web', '2023-05-24 18:39:27', '2023-05-24 18:39:27'),
-(61, 'announcement', 'announcement-create', 'web', '2023-05-24 18:39:27', '2023-05-24 18:39:27'),
-(62, 'announcement', 'announcement-edit', 'web', '2023-05-24 18:39:27', '2023-05-24 18:39:27'),
-(63, 'announcement', 'announcement-delete', 'web', '2023-05-24 18:39:27', '2023-05-24 18:39:27'),
-(64, 'announcement', 'announcement-status', 'web', '2023-05-24 18:39:27', '2023-05-24 18:39:27'),
-(65, 'announcement', 'announcement-trashed', 'web', '2023-05-24 18:39:27', '2023-05-24 18:39:27'),
-(66, 'announcement', 'announcement-restore', 'web', '2023-05-24 18:39:27', '2023-05-24 18:39:27'),
-(67, 'profilecoverimage', 'profilecoverimage-list', 'web', '2023-05-24 18:40:06', '2023-05-24 18:40:06'),
-(68, 'profilecoverimage', 'profilecoverimage-create', 'web', '2023-05-24 18:40:06', '2023-05-24 18:40:06'),
-(69, 'profilecoverimage', 'profilecoverimage-edit', 'web', '2023-05-24 18:40:06', '2023-05-24 18:40:06'),
-(70, 'profilecoverimage', 'profilecoverimage-delete', 'web', '2023-05-24 18:40:06', '2023-05-24 18:40:06'),
-(71, 'profilecoverimage', 'profilecoverimage-trashed', 'web', '2023-05-24 18:40:06', '2023-05-24 18:40:06'),
-(72, 'profilecoverimage', 'profilecoverimage-restore', 'web', '2023-05-24 18:40:06', '2023-05-24 18:40:06'),
-(73, 'leavetype', 'leavetype-list', 'web', '2023-05-24 18:41:06', '2023-05-24 18:41:06'),
-(74, 'leavetype', 'leavetype-create', 'web', '2023-05-24 18:41:06', '2023-05-24 18:41:06'),
-(75, 'leavetype', 'leavetype-edit', 'web', '2023-05-24 18:41:06', '2023-05-24 18:41:06'),
-(76, 'leavetype', 'leavetype-delete', 'web', '2023-05-24 18:41:06', '2023-05-24 18:41:06'),
-(77, 'leavetype', 'leavetype-status', 'web', '2023-05-24 18:41:06', '2023-05-24 18:41:06'),
-(78, 'leavetype', 'leavetype-trashed', 'web', '2023-05-24 18:41:06', '2023-05-24 18:41:06'),
-(79, 'leavetype', 'leavetype-restore', 'web', '2023-05-24 18:41:06', '2023-05-24 18:41:06'),
-(80, 'team', 'team-list', 'web', '2023-05-24 18:41:49', '2023-05-24 18:41:49'),
-(81, 'bank_details', 'bank_details-list', 'web', '2023-05-24 18:43:28', '2023-05-24 18:43:28'),
-(82, 'bank_details', 'bank_details-create', 'web', '2023-05-24 18:43:28', '2023-05-24 18:43:28'),
-(83, 'bank_details', 'bank_details-edit', 'web', '2023-05-24 18:43:28', '2023-05-24 18:43:28'),
-(84, 'bank_details', 'bank_details-delete', 'web', '2023-05-24 18:43:28', '2023-05-24 18:43:28'),
-(85, 'bank_details', 'bank_details-status', 'web', '2023-05-24 18:43:28', '2023-05-24 18:43:28'),
-(86, 'bank_details', 'bank_details-trashed', 'web', '2023-05-24 18:43:28', '2023-05-24 18:43:28'),
-(87, 'bank_details', 'bank_details-restore', 'web', '2023-05-24 18:43:28', '2023-05-24 18:43:28'),
-(88, 'attendance', 'attendance-list', 'web', '2023-05-24 18:43:58', '2023-05-24 18:43:58'),
-(89, 'attendance', 'attendance-create', 'web', '2023-05-24 18:43:58', '2023-05-24 18:43:58'),
-(90, 'attendance', 'attendance-edit', 'web', '2023-05-24 18:43:58', '2023-05-24 18:43:58'),
-(91, 'attendance', 'attendance-delete', 'web', '2023-05-24 18:43:58', '2023-05-24 18:43:58'),
-(92, 'attendance', 'attendance-status', 'web', '2023-05-24 18:43:58', '2023-05-24 18:43:58'),
-(93, 'attendance', 'attendance-trashed', 'web', '2023-05-24 18:43:58', '2023-05-24 18:43:58'),
-(94, 'attendance', 'attendance-restore', 'web', '2023-05-24 18:43:58', '2023-05-24 18:43:58'),
-(95, 'employee', 'employee-list', 'web', '2023-05-24 18:57:36', '2023-05-24 18:57:36'),
-(96, 'dailylog', 'dailylog-list', 'web', '2023-05-24 19:04:11', '2023-05-24 19:04:11'),
-(97, 'discrepancy', 'discrepancy-list', 'web', '2023-05-24 19:04:32', '2023-05-24 19:04:32'),
-(98, 'summary', 'summary-list', 'web', '2023-05-24 19:04:47', '2023-05-24 19:04:47'),
-(99, 'attendancefilter', 'attendancefilter-list', 'web', '2023-05-24 19:05:03', '2023-05-24 19:05:03'),
-(100, 'adminstration', 'adminstration-list', 'web', '2023-05-24 19:07:39', '2023-05-24 19:07:39'),
-(101, 'leave', 'leave-list', 'web', '2023-05-24 19:19:51', '2023-05-24 19:19:51');
+(104, 'employee salary details', 'employee_salary_details-list', 'web', '2023-05-27 12:38:54', '2023-05-27 12:38:54'),
+(107, 'employee bank account', 'employee_bank_account-create', 'web', '2023-05-27 12:45:34', '2023-05-27 12:45:34'),
+(108, 'employee bank account', 'employee_bank_account-edit', 'web', '2023-05-27 12:45:34', '2023-05-27 12:45:34'),
+(113, 'employee leave requests', 'employee_leave_requests-list', 'web', '2023-05-27 12:49:03', '2023-05-27 12:49:03'),
+(114, 'employee leave requests', 'employee_leave_requests-create', 'web', '2023-05-27 12:49:03', '2023-05-27 12:49:03'),
+(115, 'employee leave requests', 'employee_leave_requests-edit', 'web', '2023-05-27 12:49:03', '2023-05-27 12:49:03'),
+(116, 'employee leave requests', 'employee_leave_requests-delete', 'web', '2023-05-27 12:49:03', '2023-05-27 12:49:03'),
+(117, 'employee leave report', 'employee_leave_report-list', 'web', '2023-05-27 12:49:27', '2023-05-27 12:49:27'),
+(118, 'employee attendance daily log', 'employee_attendance_daily_log-list', 'web', '2023-05-27 12:50:22', '2023-05-27 12:50:22'),
+(119, 'employee discrepancies', 'employee_discrepancies-list', 'web', '2023-05-27 12:51:01', '2023-05-27 12:51:01'),
+(120, 'employee summary', 'employee_summary-list', 'web', '2023-05-27 12:51:23', '2023-05-27 12:51:23'),
+(126, 'permissions', 'permissions-list', 'web', '2023-05-27 12:52:50', '2023-05-27 12:52:50'),
+(127, 'permissions', 'permissions-create', 'web', '2023-05-27 12:52:50', '2023-05-27 12:52:50'),
+(128, 'permissions', 'permissions-edit', 'web', '2023-05-27 12:52:50', '2023-05-27 12:52:50'),
+(129, 'permissions', 'permissions-delete', 'web', '2023-05-27 12:52:50', '2023-05-27 12:52:50'),
+(130, 'permissions', 'permissions-status', 'web', '2023-05-27 12:52:50', '2023-05-27 12:52:50'),
+(131, 'roles', 'roles-list', 'web', '2023-05-27 12:52:59', '2023-05-27 12:52:59'),
+(132, 'roles', 'roles-create', 'web', '2023-05-27 12:52:59', '2023-05-27 12:52:59'),
+(133, 'roles', 'roles-edit', 'web', '2023-05-27 12:52:59', '2023-05-27 12:52:59'),
+(134, 'roles', 'roles-delete', 'web', '2023-05-27 12:53:00', '2023-05-27 12:53:00'),
+(135, 'roles', 'roles-status', 'web', '2023-05-27 12:53:00', '2023-05-27 12:53:00'),
+(136, 'employee attendance filter', 'employee_attendance_filter-list', 'web', '2023-05-27 13:07:54', '2023-05-27 13:07:54'),
+(138, 'salary menu', 'salary_menu-list', 'web', '2023-05-27 13:13:27', '2023-05-27 13:13:27'),
+(139, 'leaves menu', 'leaves_menu-list', 'web', '2023-05-27 13:13:41', '2023-05-27 13:13:41'),
+(140, 'administration menu', 'administration_menu-list', 'web', '2023-05-27 13:14:00', '2023-05-27 13:14:00'),
+(141, 'attendance menu', 'attendance_menu-list', 'web', '2023-05-27 13:14:14', '2023-05-27 13:14:14'),
+(142, 'team menu', 'team_menu-list', 'web', '2023-05-27 13:14:37', '2023-05-27 13:14:37'),
+(143, 'employees', 'employees-list', 'web', '2023-05-27 13:27:04', '2023-05-27 13:27:04'),
+(144, 'employees', 'employees-create', 'web', '2023-05-27 13:27:04', '2023-05-27 13:27:04'),
+(145, 'employees', 'employees-edit', 'web', '2023-05-27 13:27:04', '2023-05-27 13:27:04'),
+(146, 'employees', 'employees-delete', 'web', '2023-05-27 13:27:04', '2023-05-27 13:27:04'),
+(147, 'employees', 'employees-status', 'web', '2023-05-27 13:27:04', '2023-05-27 13:27:04'),
+(148, 'designations', 'designations-list', 'web', '2023-05-27 13:28:01', '2023-05-27 13:28:01'),
+(149, 'designations', 'designations-create', 'web', '2023-05-27 13:28:01', '2023-05-27 13:28:01'),
+(150, 'designations', 'designations-edit', 'web', '2023-05-27 13:28:01', '2023-05-27 13:28:01'),
+(151, 'designations', 'designations-delete', 'web', '2023-05-27 13:28:02', '2023-05-27 13:28:02'),
+(152, 'designations', 'designations-status', 'web', '2023-05-27 13:28:02', '2023-05-27 13:28:02'),
+(153, 'employment status', 'employment_status-list', 'web', '2023-05-27 13:28:20', '2023-05-27 13:28:20'),
+(154, 'employment status', 'employment_status-create', 'web', '2023-05-27 13:28:20', '2023-05-27 13:28:20'),
+(155, 'employment status', 'employment_status-edit', 'web', '2023-05-27 13:28:20', '2023-05-27 13:28:20'),
+(156, 'employment status', 'employment_status-delete', 'web', '2023-05-27 13:28:20', '2023-05-27 13:28:20'),
+(157, 'employment status', 'employment_status-status', 'web', '2023-05-27 13:28:20', '2023-05-27 13:28:20'),
+(158, 'positions', 'positions-list', 'web', '2023-05-27 13:29:28', '2023-05-27 13:29:28'),
+(159, 'positions', 'positions-create', 'web', '2023-05-27 13:29:28', '2023-05-27 13:29:28'),
+(160, 'positions', 'positions-edit', 'web', '2023-05-27 13:29:28', '2023-05-27 13:29:28'),
+(161, 'positions', 'positions-delete', 'web', '2023-05-27 13:29:28', '2023-05-27 13:29:28'),
+(162, 'positions', 'positions-status', 'web', '2023-05-27 13:29:28', '2023-05-27 13:29:28'),
+(163, 'work shifts', 'work_shifts-list', 'web', '2023-05-27 13:29:44', '2023-05-27 13:29:44'),
+(164, 'work shifts', 'work_shifts-create', 'web', '2023-05-27 13:29:44', '2023-05-27 13:29:44'),
+(165, 'work shifts', 'work_shifts-edit', 'web', '2023-05-27 13:29:44', '2023-05-27 13:29:44'),
+(166, 'work shifts', 'work_shifts-delete', 'web', '2023-05-27 13:29:44', '2023-05-27 13:29:44'),
+(167, 'work shifts', 'work_shifts-status', 'web', '2023-05-27 13:29:44', '2023-05-27 13:29:44'),
+(168, 'departments', 'departments-list', 'web', '2023-05-27 13:30:01', '2023-05-27 13:30:01'),
+(169, 'departments', 'departments-create', 'web', '2023-05-27 13:30:01', '2023-05-27 13:30:01'),
+(170, 'departments', 'departments-edit', 'web', '2023-05-27 13:30:01', '2023-05-27 13:30:01'),
+(171, 'departments', 'departments-delete', 'web', '2023-05-27 13:30:02', '2023-05-27 13:30:02'),
+(172, 'departments', 'departments-status', 'web', '2023-05-27 13:30:02', '2023-05-27 13:30:02'),
+(173, 'announcements', 'announcements-list', 'web', '2023-05-27 13:30:16', '2023-05-27 13:30:16'),
+(174, 'announcements', 'announcements-create', 'web', '2023-05-27 13:30:16', '2023-05-27 13:30:16'),
+(175, 'announcements', 'announcements-edit', 'web', '2023-05-27 13:30:17', '2023-05-27 13:30:17'),
+(176, 'announcements', 'announcements-delete', 'web', '2023-05-27 13:30:17', '2023-05-27 13:30:17'),
+(177, 'announcements', 'announcements-status', 'web', '2023-05-27 13:30:17', '2023-05-27 13:30:17'),
+(178, 'profile cover images', 'profile_cover_images-list', 'web', '2023-05-27 13:30:49', '2023-05-27 13:30:49'),
+(179, 'profile cover images', 'profile_cover_images-create', 'web', '2023-05-27 13:30:49', '2023-05-27 13:30:49'),
+(180, 'profile cover images', 'profile_cover_images-edit', 'web', '2023-05-27 13:30:49', '2023-05-27 13:30:49'),
+(181, 'profile cover images', 'profile_cover_images-delete', 'web', '2023-05-27 13:30:49', '2023-05-27 13:30:49'),
+(182, 'profile cover images', 'profile_cover_images-status', 'web', '2023-05-27 13:30:49', '2023-05-27 13:30:49'),
+(183, 'leave types', 'leave_types-list', 'web', '2023-05-27 13:31:42', '2023-05-27 13:31:42'),
+(184, 'leave types', 'leave_types-create', 'web', '2023-05-27 13:31:42', '2023-05-27 13:31:42'),
+(185, 'leave types', 'leave_types-edit', 'web', '2023-05-27 13:31:42', '2023-05-27 13:31:42'),
+(186, 'leave types', 'leave_types-delete', 'web', '2023-05-27 13:31:42', '2023-05-27 13:31:42'),
+(187, 'leave types', 'leave_types-status', 'web', '2023-05-27 13:31:43', '2023-05-27 13:31:43'),
+(188, 'bank accounts', 'bank_accounts-list', 'web', '2023-05-27 13:40:50', '2023-05-27 13:40:50'),
+(189, 'bank accounts', 'bank_accounts-create', 'web', '2023-05-27 13:40:51', '2023-05-27 13:40:51'),
+(190, 'bank accounts', 'bank_accounts-edit', 'web', '2023-05-27 13:40:51', '2023-05-27 13:40:51'),
+(191, 'bank accounts', 'bank_accounts-delete', 'web', '2023-05-27 13:40:51', '2023-05-27 13:40:51'),
+(192, 'bank accounts', 'bank_accounts-status', 'web', '2023-05-27 13:40:51', '2023-05-27 13:40:51'),
+(193, 'team members', 'team_members-list', 'web', '2023-05-27 13:42:34', '2023-05-27 13:42:34'),
+(194, 'team leaves menu', 'team_leaves_menu-list', 'web', '2023-05-27 13:42:54', '2023-05-27 13:42:54'),
+(195, 'team leave requests', 'team_leave_requests-list', 'web', '2023-05-27 13:43:29', '2023-05-27 13:43:29'),
+(196, 'team leave requests', 'team_leave_requests-status', 'web', '2023-05-27 13:43:29', '2023-05-27 13:43:29'),
+(197, 'team leave reports', 'team_leave_reports-list', 'web', '2023-05-27 13:44:03', '2023-05-27 13:44:03'),
+(198, 'team attendance menu', 'team_attendance_menu-list', 'web', '2023-05-27 13:44:48', '2023-05-27 13:44:48'),
+(199, 'team daily log', 'team_daily_log-list', 'web', '2023-05-27 13:45:10', '2023-05-27 13:45:10'),
+(200, 'team discrepancies', 'team_discrepancies-list', 'web', '2023-05-27 13:45:36', '2023-05-27 13:45:36'),
+(201, 'team summary', 'team_summary-list', 'web', '2023-05-27 13:46:51', '2023-05-27 13:46:51'),
+(202, 'team attendance filter', 'team_attendance_filter-list', 'web', '2023-05-27 13:47:11', '2023-05-27 13:47:11');
 
 -- --------------------------------------------------------
 
@@ -829,17 +916,21 @@ INSERT INTO `permissions` (`id`, `label`, `name`, `guard_name`, `created_at`, `u
 -- Table structure for table `personal_access_tokens`
 --
 
-CREATE TABLE `personal_access_tokens` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `tokenable_type` varchar(100) NOT NULL,
-  `tokenable_id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `token` varchar(64) NOT NULL,
-  `abilities` text DEFAULT NULL,
+DROP TABLE IF EXISTS `personal_access_tokens`;
+CREATE TABLE IF NOT EXISTS `personal_access_tokens` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `tokenable_type` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tokenable_id` bigint UNSIGNED NOT NULL,
+  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `abilities` text COLLATE utf8mb4_unicode_ci,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `expires_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
+  KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -848,15 +939,17 @@ CREATE TABLE `personal_access_tokens` (
 -- Table structure for table `positions`
 --
 
-CREATE TABLE `positions` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `title` varchar(100) NOT NULL,
-  `description` text DEFAULT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT 1,
-  `deleted_at` varchar(100) DEFAULT NULL,
+DROP TABLE IF EXISTS `positions`;
+CREATE TABLE IF NOT EXISTS `positions` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `title` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `deleted_at` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `positions`
@@ -909,25 +1002,27 @@ INSERT INTO `positions` (`id`, `title`, `description`, `status`, `deleted_at`, `
 -- Table structure for table `profiles`
 --
 
-CREATE TABLE `profiles` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` bigint(20) NOT NULL,
-  `employment_id` bigint(20) DEFAULT NULL,
-  `cover_image_id` bigint(20) DEFAULT NULL,
+DROP TABLE IF EXISTS `profiles`;
+CREATE TABLE IF NOT EXISTS `profiles` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id` bigint NOT NULL,
+  `employment_id` bigint DEFAULT NULL,
+  `cover_image_id` bigint DEFAULT NULL,
   `joining_date` date DEFAULT NULL,
   `date_of_birth` date DEFAULT NULL,
-  `gender` enum('male','female','other') DEFAULT NULL,
-  `marital_status` tinyint(1) NOT NULL DEFAULT 0 COMMENT '1=married, 0=single',
-  `fathers_name` varchar(100) DEFAULT NULL,
-  `mothers_name` varchar(100) DEFAULT NULL,
-  `social_security_number` varchar(100) DEFAULT NULL,
-  `phone_number` varchar(100) DEFAULT NULL,
-  `about_me` text DEFAULT NULL,
-  `address` varchar(100) DEFAULT NULL,
-  `profile` varchar(100) DEFAULT NULL,
+  `gender` enum('male','female','other') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `marital_status` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1=married, 0=single',
+  `fathers_name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `mothers_name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `social_security_number` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone_number` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `about_me` text COLLATE utf8mb4_unicode_ci,
+  `address` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `profile` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `profiles`
@@ -945,15 +1040,18 @@ INSERT INTO `profiles` (`id`, `user_id`, `employment_id`, `cover_image_id`, `joi
 -- Table structure for table `profile_cover_images`
 --
 
-CREATE TABLE `profile_cover_images` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `created_by` bigint(20) UNSIGNED NOT NULL,
-  `image` varchar(100) NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT 1,
-  `deleted_at` varchar(100) DEFAULT NULL,
+DROP TABLE IF EXISTS `profile_cover_images`;
+CREATE TABLE IF NOT EXISTS `profile_cover_images` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `created_by` bigint UNSIGNED NOT NULL,
+  `image` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `deleted_at` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `profile_cover_images_created_by_foreign` (`created_by`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `profile_cover_images`
@@ -971,13 +1069,16 @@ INSERT INTO `profile_cover_images` (`id`, `created_by`, `image`, `status`, `dele
 -- Table structure for table `roles`
 --
 
-CREATE TABLE `roles` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `guard_name` varchar(100) NOT NULL,
+DROP TABLE IF EXISTS `roles`;
+CREATE TABLE IF NOT EXISTS `roles` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `guard_name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `roles_name_guard_name_unique` (`name`,`guard_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `roles`
@@ -995,9 +1096,12 @@ INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VAL
 -- Table structure for table `role_has_permissions`
 --
 
-CREATE TABLE `role_has_permissions` (
-  `permission_id` bigint(20) UNSIGNED NOT NULL,
-  `role_id` bigint(20) UNSIGNED NOT NULL
+DROP TABLE IF EXISTS `role_has_permissions`;
+CREATE TABLE IF NOT EXISTS `role_has_permissions` (
+  `permission_id` bigint UNSIGNED NOT NULL,
+  `role_id` bigint UNSIGNED NOT NULL,
+  PRIMARY KEY (`permission_id`,`role_id`),
+  KEY `role_has_permissions_role_id_foreign` (`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -1005,143 +1109,122 @@ CREATE TABLE `role_has_permissions` (
 --
 
 INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
-(1, 1),
-(2, 1),
-(3, 1),
-(4, 1),
-(5, 1),
-(6, 1),
-(7, 1),
-(8, 1),
-(9, 1),
-(9, 2),
-(9, 3),
-(10, 1),
-(11, 1),
-(12, 1),
-(13, 1),
-(13, 2),
-(13, 3),
-(13, 4),
-(14, 1),
-(14, 2),
-(14, 3),
-(15, 1),
-(15, 2),
-(15, 3),
-(16, 1),
-(16, 2),
-(16, 3),
-(17, 1),
-(18, 1),
-(19, 1),
-(20, 1),
-(21, 1),
-(22, 1),
-(23, 1),
-(24, 1),
-(25, 1),
-(26, 1),
-(27, 1),
-(28, 1),
-(29, 1),
-(30, 1),
-(31, 1),
-(31, 3),
-(31, 4),
-(32, 1),
-(32, 3),
-(32, 4),
-(33, 1),
-(33, 3),
-(33, 4),
-(34, 1),
-(34, 4),
-(35, 1),
-(35, 4),
-(36, 1),
-(36, 4),
-(37, 1),
-(37, 3),
-(37, 4),
-(38, 1),
-(38, 3),
-(39, 1),
-(39, 3),
-(40, 1),
-(41, 1),
-(42, 1),
-(43, 1),
-(44, 1),
-(45, 1),
-(46, 1),
-(47, 1),
-(48, 1),
-(49, 1),
-(50, 1),
-(51, 1),
-(52, 1),
-(53, 1),
-(54, 1),
-(55, 1),
-(56, 1),
-(57, 1),
-(58, 1),
-(59, 1),
-(60, 1),
-(61, 1),
-(62, 1),
-(63, 1),
-(64, 1),
-(65, 1),
-(66, 1),
-(67, 1),
-(68, 1),
-(69, 1),
-(70, 1),
-(71, 1),
-(72, 1),
-(73, 1),
-(74, 1),
-(75, 1),
-(76, 1),
-(77, 1),
-(78, 1),
-(79, 1),
-(80, 1),
-(80, 3),
-(81, 1),
-(82, 1),
-(83, 1),
-(84, 1),
-(85, 1),
-(86, 1),
-(87, 1),
-(88, 1),
-(88, 4),
-(89, 1),
-(89, 4),
-(90, 1),
-(90, 4),
-(91, 1),
-(92, 1),
-(93, 1),
-(94, 1),
-(95, 1),
-(96, 1),
-(96, 3),
-(96, 4),
-(97, 1),
-(97, 3),
-(97, 4),
-(98, 1),
-(98, 3),
-(98, 4),
-(99, 1),
-(100, 1),
-(101, 1),
-(101, 3),
-(101, 4);
+(104, 1),
+(107, 1),
+(108, 1),
+(113, 1),
+(114, 1),
+(115, 1),
+(116, 1),
+(117, 1),
+(118, 1),
+(119, 1),
+(120, 1),
+(126, 1),
+(127, 1),
+(128, 1),
+(129, 1),
+(130, 1),
+(131, 1),
+(132, 1),
+(133, 1),
+(134, 1),
+(135, 1),
+(136, 1),
+(138, 1),
+(139, 1),
+(140, 1),
+(141, 1),
+(142, 1),
+(143, 1),
+(144, 1),
+(145, 1),
+(146, 1),
+(147, 1),
+(148, 1),
+(149, 1),
+(150, 1),
+(151, 1),
+(152, 1),
+(153, 1),
+(154, 1),
+(155, 1),
+(156, 1),
+(157, 1),
+(158, 1),
+(159, 1),
+(160, 1),
+(161, 1),
+(162, 1),
+(163, 1),
+(164, 1),
+(165, 1),
+(166, 1),
+(167, 1),
+(168, 1),
+(169, 1),
+(170, 1),
+(171, 1),
+(172, 1),
+(173, 1),
+(174, 1),
+(175, 1),
+(176, 1),
+(177, 1),
+(178, 1),
+(179, 1),
+(180, 1),
+(181, 1),
+(182, 1),
+(183, 1),
+(184, 1),
+(185, 1),
+(186, 1),
+(187, 1),
+(188, 1),
+(189, 1),
+(190, 1),
+(191, 1),
+(192, 1),
+(193, 1),
+(194, 1),
+(195, 1),
+(196, 1),
+(197, 1),
+(198, 1),
+(199, 1),
+(200, 1),
+(201, 1),
+(202, 1),
+(104, 3),
+(107, 3),
+(108, 3),
+(113, 3),
+(114, 3),
+(115, 3),
+(116, 3),
+(117, 3),
+(118, 3),
+(119, 3),
+(120, 3),
+(136, 3),
+(138, 3),
+(139, 3),
+(141, 3),
+(142, 3),
+(188, 3),
+(191, 3),
+(192, 3),
+(193, 3),
+(194, 3),
+(195, 3),
+(196, 3),
+(197, 3),
+(198, 3),
+(199, 3),
+(200, 3),
+(201, 3),
+(202, 3);
 
 -- --------------------------------------------------------
 
@@ -1149,18 +1232,20 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 -- Table structure for table `salary_histories`
 --
 
-CREATE TABLE `salary_histories` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `created_by` bigint(20) NOT NULL,
-  `user_id` bigint(20) NOT NULL,
-  `job_history_id` bigint(20) NOT NULL,
-  `salary` bigint(20) DEFAULT NULL,
+DROP TABLE IF EXISTS `salary_histories`;
+CREATE TABLE IF NOT EXISTS `salary_histories` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `created_by` bigint NOT NULL,
+  `user_id` bigint NOT NULL,
+  `job_history_id` bigint NOT NULL,
+  `salary` bigint DEFAULT NULL,
   `effective_date` date DEFAULT NULL,
   `end_date` date DEFAULT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT 1,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `salary_histories`
@@ -1177,23 +1262,25 @@ INSERT INTO `salary_histories` (`id`, `created_by`, `user_id`, `job_history_id`,
 -- Table structure for table `settings`
 --
 
-CREATE TABLE `settings` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `logo` varchar(100) NOT NULL,
-  `favicon` varchar(100) NOT NULL,
-  `banner` varchar(100) DEFAULT NULL,
-  `language` varchar(100) DEFAULT NULL,
-  `country` varchar(100) DEFAULT NULL,
-  `area` varchar(100) DEFAULT NULL,
-  `city` varchar(100) DEFAULT NULL,
-  `state` varchar(100) DEFAULT NULL,
-  `zip_code` varchar(100) DEFAULT NULL,
-  `address` text DEFAULT NULL,
-  `currency_symbol` varchar(100) NOT NULL,
+DROP TABLE IF EXISTS `settings`;
+CREATE TABLE IF NOT EXISTS `settings` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `logo` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `favicon` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `banner` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `language` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `country` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `area` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `city` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `state` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `zip_code` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `address` text COLLATE utf8mb4_unicode_ci,
+  `currency_symbol` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `settings`
@@ -1208,15 +1295,17 @@ INSERT INTO `settings` (`id`, `name`, `logo`, `favicon`, `banner`, `language`, `
 -- Table structure for table `statuses`
 --
 
-CREATE TABLE `statuses` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `class` varchar(100) NOT NULL,
-  `type` varchar(100) NOT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT 1,
-  `deleted_at` varchar(100) DEFAULT NULL,
+DROP TABLE IF EXISTS `statuses`;
+CREATE TABLE IF NOT EXISTS `statuses` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `class` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `deleted_at` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1225,21 +1314,25 @@ CREATE TABLE `statuses` (
 -- Table structure for table `users`
 --
 
-CREATE TABLE `users` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `created_by` bigint(20) UNSIGNED DEFAULT NULL,
-  `status` tinyint(1) NOT NULL DEFAULT 1,
-  `is_employee` tinyint(1) NOT NULL DEFAULT 1,
-  `first_name` varchar(100) DEFAULT NULL,
-  `last_name` varchar(100) DEFAULT NULL,
-  `email` varchar(100) NOT NULL,
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `created_by` bigint UNSIGNED DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `is_employee` tinyint(1) NOT NULL DEFAULT '1',
+  `first_name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `last_name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(100) NOT NULL,
-  `remember_token` varchar(100) DEFAULT NULL,
-  `deleted_at` varchar(100) DEFAULT NULL,
+  `password` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `deleted_at` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `users_email_unique` (`email`),
+  KEY `users_created_by_foreign` (`created_by`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `users`
@@ -1257,13 +1350,16 @@ INSERT INTO `users` (`id`, `created_by`, `status`, `is_employee`, `first_name`, 
 -- Table structure for table `user_contacts`
 --
 
-CREATE TABLE `user_contacts` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `key` varchar(100) NOT NULL,
-  `value` text NOT NULL,
+DROP TABLE IF EXISTS `user_contacts`;
+CREATE TABLE IF NOT EXISTS `user_contacts` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `key` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `value` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_contacts_user_id_foreign` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1272,16 +1368,20 @@ CREATE TABLE `user_contacts` (
 -- Table structure for table `user_employment_statuses`
 --
 
-CREATE TABLE `user_employment_statuses` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `employment_status_id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `user_employment_statuses`;
+CREATE TABLE IF NOT EXISTS `user_employment_statuses` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `employment_status_id` bigint UNSIGNED NOT NULL,
   `start_date` date NOT NULL,
   `end_date` date DEFAULT NULL,
-  `description` varchar(100) DEFAULT NULL,
+  `description` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_employment_statuses_user_id_foreign` (`user_id`),
+  KEY `user_employment_statuses_employment_status_id_foreign` (`employment_status_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `user_employment_statuses`
@@ -1300,22 +1400,28 @@ INSERT INTO `user_employment_statuses` (`id`, `user_id`, `employment_status_id`,
 -- Table structure for table `user_leaves`
 --
 
-CREATE TABLE `user_leaves` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `approved_by` bigint(20) UNSIGNED DEFAULT NULL,
-  `department_id` bigint(20) UNSIGNED NOT NULL,
-  `leave_type_id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `status` int(11) NOT NULL DEFAULT 0 COMMENT '0=pending, 1=approved, 2=rejected',
+DROP TABLE IF EXISTS `user_leaves`;
+CREATE TABLE IF NOT EXISTS `user_leaves` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `approved_by` bigint UNSIGNED DEFAULT NULL,
+  `department_id` bigint UNSIGNED NOT NULL,
+  `leave_type_id` bigint UNSIGNED NOT NULL,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `status` int NOT NULL DEFAULT '0' COMMENT '0=pending, 1=approved, 2=rejected',
   `start_date` date NOT NULL,
   `end_date` date NOT NULL,
-  `duration` int(11) DEFAULT NULL COMMENT 'Number of days',
-  `behavior_type` varchar(100) NOT NULL COMMENT 'e.g first_half, last_half, single',
-  `reason` varchar(100) DEFAULT NULL,
-  `deleted_at` varchar(100) DEFAULT NULL,
+  `duration` int DEFAULT NULL COMMENT 'Number of days',
+  `behavior_type` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'e.g first_half, last_half, single',
+  `reason` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `deleted_at` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_leaves_approved_by_foreign` (`approved_by`),
+  KEY `user_leaves_department_id_foreign` (`department_id`),
+  KEY `user_leaves_leave_type_id_foreign` (`leave_type_id`),
+  KEY `user_leaves_user_id_foreign` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `user_leaves`
@@ -1330,15 +1436,17 @@ INSERT INTO `user_leaves` (`id`, `approved_by`, `department_id`, `leave_type_id`
 -- Table structure for table `working_shift_users`
 --
 
-CREATE TABLE `working_shift_users` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `working_shift_id` bigint(20) NOT NULL,
-  `user_id` bigint(20) NOT NULL,
+DROP TABLE IF EXISTS `working_shift_users`;
+CREATE TABLE IF NOT EXISTS `working_shift_users` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `working_shift_id` bigint NOT NULL,
+  `user_id` bigint NOT NULL,
   `start_date` date NOT NULL,
   `end_date` date DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `working_shift_users`
@@ -1353,19 +1461,21 @@ INSERT INTO `working_shift_users` (`id`, `working_shift_id`, `user_id`, `start_d
 -- Table structure for table `work_shifts`
 --
 
-CREATE TABLE `work_shifts` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(100) NOT NULL,
+DROP TABLE IF EXISTS `work_shifts`;
+CREATE TABLE IF NOT EXISTS `work_shifts` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `start_date` date DEFAULT NULL,
   `end_date` date DEFAULT NULL,
-  `type` enum('regular','scheduled') NOT NULL DEFAULT 'regular',
-  `description` text DEFAULT NULL,
-  `is_default` tinyint(1) NOT NULL DEFAULT 1,
-  `status` tinyint(1) NOT NULL DEFAULT 1,
-  `deleted_at` varchar(100) DEFAULT NULL,
+  `type` enum('regular','scheduled') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'regular',
+  `description` text COLLATE utf8mb4_unicode_ci,
+  `is_default` tinyint(1) NOT NULL DEFAULT '1',
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `deleted_at` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `work_shifts`
@@ -1391,17 +1501,19 @@ INSERT INTO `work_shifts` (`id`, `name`, `start_date`, `end_date`, `type`, `desc
 -- Table structure for table `work_shift_details`
 --
 
-CREATE TABLE `work_shift_details` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `working_shift_id` bigint(20) NOT NULL,
-  `weekday_key` varchar(100) NOT NULL,
-  `weekday` varchar(100) NOT NULL,
-  `is_weekend` tinyint(1) NOT NULL DEFAULT 0,
+DROP TABLE IF EXISTS `work_shift_details`;
+CREATE TABLE IF NOT EXISTS `work_shift_details` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `working_shift_id` bigint NOT NULL,
+  `weekday_key` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `weekday` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `is_weekend` tinyint(1) NOT NULL DEFAULT '0',
   `start_time` time DEFAULT NULL,
   `end_time` time DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `work_shift_details`
@@ -1492,451 +1604,6 @@ INSERT INTO `work_shift_details` (`id`, `working_shift_id`, `weekday_key`, `week
 (82, 12, 'fri', 'Friday', 0, '09:00:00', '23:00:00', '2023-05-23 17:51:38', '2023-05-23 17:51:38'),
 (83, 12, 'sat', 'Saturday', 1, NULL, NULL, '2023-05-23 17:51:38', '2023-05-23 17:51:38'),
 (84, 12, 'sun', 'Sunday', 1, NULL, NULL, '2023-05-23 17:51:38', '2023-05-23 17:51:38');
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `announcements`
---
-ALTER TABLE `announcements`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `announcement_departments`
---
-ALTER TABLE `announcement_departments`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `announcement_departments_announcement_id_foreign` (`announcement_id`),
-  ADD KEY `announcement_departments_department_id_foreign` (`department_id`);
-
---
--- Indexes for table `attendances`
---
-ALTER TABLE `attendances`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `attendances_user_id_foreign` (`user_id`),
-  ADD KEY `attendances_work_shift_id_foreign` (`work_shift_id`);
-
---
--- Indexes for table `bank_accounts`
---
-ALTER TABLE `bank_accounts`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `bank_accounts_user_id_foreign` (`user_id`);
-
---
--- Indexes for table `departments`
---
-ALTER TABLE `departments`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `department_users`
---
-ALTER TABLE `department_users`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `department_users_department_id_foreign` (`department_id`),
-  ADD KEY `department_users_user_id_foreign` (`user_id`);
-
---
--- Indexes for table `department_work_shifts`
---
-ALTER TABLE `department_work_shifts`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `department_work_shifts_department_id_foreign` (`department_id`),
-  ADD KEY `department_work_shifts_work_shift_id_foreign` (`work_shift_id`);
-
---
--- Indexes for table `designations`
---
-ALTER TABLE `designations`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `discrepancies`
---
-ALTER TABLE `discrepancies`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `discrepancies_user_id_foreign` (`user_id`),
-  ADD KEY `discrepancies_attendance_id_foreign` (`attendance_id`);
-
---
--- Indexes for table `documents`
---
-ALTER TABLE `documents`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `employment_statuses`
---
-ALTER TABLE `employment_statuses`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `failed_jobs`
---
-ALTER TABLE `failed_jobs`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
-
---
--- Indexes for table `job_histories`
---
-ALTER TABLE `job_histories`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `leave_types`
---
-ALTER TABLE `leave_types`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `log_activities`
---
-ALTER TABLE `log_activities`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `migrations`
---
-ALTER TABLE `migrations`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `model_has_permissions`
---
-ALTER TABLE `model_has_permissions`
-  ADD PRIMARY KEY (`permission_id`,`model_id`,`model_type`),
-  ADD KEY `model_has_permissions_model_id_model_type_index` (`model_id`,`model_type`);
-
---
--- Indexes for table `model_has_roles`
---
-ALTER TABLE `model_has_roles`
-  ADD PRIMARY KEY (`role_id`,`model_id`,`model_type`),
-  ADD KEY `model_has_roles_model_id_model_type_index` (`model_id`,`model_type`);
-
---
--- Indexes for table `password_reset_tokens`
---
-ALTER TABLE `password_reset_tokens`
-  ADD PRIMARY KEY (`email`);
-
---
--- Indexes for table `permissions`
---
-ALTER TABLE `permissions`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `permissions_name_guard_name_unique` (`name`,`guard_name`);
-
---
--- Indexes for table `personal_access_tokens`
---
-ALTER TABLE `personal_access_tokens`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
-  ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
-
---
--- Indexes for table `positions`
---
-ALTER TABLE `positions`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `profiles`
---
-ALTER TABLE `profiles`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `profile_cover_images`
---
-ALTER TABLE `profile_cover_images`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `profile_cover_images_created_by_foreign` (`created_by`);
-
---
--- Indexes for table `roles`
---
-ALTER TABLE `roles`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `roles_name_guard_name_unique` (`name`,`guard_name`);
-
---
--- Indexes for table `role_has_permissions`
---
-ALTER TABLE `role_has_permissions`
-  ADD PRIMARY KEY (`permission_id`,`role_id`),
-  ADD KEY `role_has_permissions_role_id_foreign` (`role_id`);
-
---
--- Indexes for table `salary_histories`
---
-ALTER TABLE `salary_histories`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `settings`
---
-ALTER TABLE `settings`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `statuses`
---
-ALTER TABLE `statuses`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `users_email_unique` (`email`),
-  ADD KEY `users_created_by_foreign` (`created_by`);
-
---
--- Indexes for table `user_contacts`
---
-ALTER TABLE `user_contacts`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_contacts_user_id_foreign` (`user_id`);
-
---
--- Indexes for table `user_employment_statuses`
---
-ALTER TABLE `user_employment_statuses`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_employment_statuses_user_id_foreign` (`user_id`),
-  ADD KEY `user_employment_statuses_employment_status_id_foreign` (`employment_status_id`);
-
---
--- Indexes for table `user_leaves`
---
-ALTER TABLE `user_leaves`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_leaves_approved_by_foreign` (`approved_by`),
-  ADD KEY `user_leaves_department_id_foreign` (`department_id`),
-  ADD KEY `user_leaves_leave_type_id_foreign` (`leave_type_id`),
-  ADD KEY `user_leaves_user_id_foreign` (`user_id`);
-
---
--- Indexes for table `working_shift_users`
---
-ALTER TABLE `working_shift_users`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `work_shifts`
---
-ALTER TABLE `work_shifts`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `work_shift_details`
---
-ALTER TABLE `work_shift_details`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `announcements`
---
-ALTER TABLE `announcements`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `announcement_departments`
---
-ALTER TABLE `announcement_departments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `attendances`
---
-ALTER TABLE `attendances`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
---
--- AUTO_INCREMENT for table `bank_accounts`
---
-ALTER TABLE `bank_accounts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `departments`
---
-ALTER TABLE `departments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
-
---
--- AUTO_INCREMENT for table `department_users`
---
-ALTER TABLE `department_users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `department_work_shifts`
---
-ALTER TABLE `department_work_shifts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
---
--- AUTO_INCREMENT for table `designations`
---
-ALTER TABLE `designations`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
-
---
--- AUTO_INCREMENT for table `discrepancies`
---
-ALTER TABLE `discrepancies`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `documents`
---
-ALTER TABLE `documents`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `employment_statuses`
---
-ALTER TABLE `employment_statuses`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `failed_jobs`
---
-ALTER TABLE `failed_jobs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `job_histories`
---
-ALTER TABLE `job_histories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT for table `leave_types`
---
-ALTER TABLE `leave_types`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT for table `log_activities`
---
-ALTER TABLE `log_activities`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=151;
-
---
--- AUTO_INCREMENT for table `migrations`
---
-ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
-
---
--- AUTO_INCREMENT for table `permissions`
---
-ALTER TABLE `permissions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
-
---
--- AUTO_INCREMENT for table `personal_access_tokens`
---
-ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `positions`
---
-ALTER TABLE `positions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
-
---
--- AUTO_INCREMENT for table `profiles`
---
-ALTER TABLE `profiles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `profile_cover_images`
---
-ALTER TABLE `profile_cover_images`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `roles`
---
-ALTER TABLE `roles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `salary_histories`
---
-ALTER TABLE `salary_histories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `settings`
---
-ALTER TABLE `settings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `statuses`
---
-ALTER TABLE `statuses`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `user_contacts`
---
-ALTER TABLE `user_contacts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `user_employment_statuses`
---
-ALTER TABLE `user_employment_statuses`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT for table `user_leaves`
---
-ALTER TABLE `user_leaves`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `working_shift_users`
---
-ALTER TABLE `working_shift_users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `work_shifts`
---
-ALTER TABLE `work_shifts`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
-
---
--- AUTO_INCREMENT for table `work_shift_details`
---
-ALTER TABLE `work_shift_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
 
 --
 -- Constraints for dumped tables

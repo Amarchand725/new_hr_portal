@@ -17,7 +17,7 @@ class AnnouncementController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('announcement-list');
+        $this->authorize('announcements-list');
         $title = 'All Announcements';
         if($request->ajax()){
             $query = Announcement::orderby('id', 'desc')->where('id', '>', 0);
@@ -92,7 +92,7 @@ class AnnouncementController extends Controller
      */
     public function edit($id)
     {
-        $this->authorize('announcement-edit');
+        $this->authorize('announcements-edit');
         $model = Announcement::where('id', $id)->first();
         $departments = Department::where('status', 1)->get();
         return (string) view('admin.announcements.edit_content', compact('model', 'departments'));
@@ -154,7 +154,7 @@ class AnnouncementController extends Controller
      */
     public function destroy(Announcement $announcement)
     {
-        $this->authorize('announcement-delete');
+        $this->authorize('announcements-delete');
         $model = $announcement->delete();
         if($model){
             $onlySoftDeleted = Announcement::onlyTrashed()->count();
@@ -169,7 +169,7 @@ class AnnouncementController extends Controller
 
     public function trashed()
     {
-        $this->authorize('announcement-trashed');
+        $this->authorize('announcements-trashed');
         $data = [];
         $data['models'] = Announcement::onlyTrashed()->get();
         $title = 'All Trashed Records';
@@ -177,7 +177,7 @@ class AnnouncementController extends Controller
     }
     public function restore($id)
     {
-        $this->authorize('announcement-restore');
+        $this->authorize('announcements-restore');
         Announcement::onlyTrashed()->where('id', $id)->restore();
         return redirect()->back()->with('message', 'Record Restored Successfully.');
     }

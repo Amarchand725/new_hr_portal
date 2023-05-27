@@ -17,7 +17,7 @@ class PermissionController extends Controller
      */
     public function index(Request $request)
     {
-        $this->authorize('permission-list');
+        // $this->authorize('permission-list');
         $per_page_records = 10;
 
         if($request->ajax()){
@@ -72,7 +72,7 @@ class PermissionController extends Controller
                 foreach($input_permissions as $permission){
                     Permission::create([
                         'label' =>  Str::lower($request->name),
-                        'name' =>  str_replace(' ', '-', Str::lower($request->name)).'-'.$permission,
+                        'name' =>  str_replace(' ', '_', Str::lower($request->name)).'-'.$permission,
                         'guard_name' => 'web',
                     ]);
                 }
@@ -96,7 +96,7 @@ class PermissionController extends Controller
      */
     public function destroy($id)
     {
-        $this->authorize('permission-delete');
+        // $this->authorize('permission-delete');
         $ifdeleted = Permission::where('label', $id)->delete();
         if($ifdeleted){
             return response()->json([
