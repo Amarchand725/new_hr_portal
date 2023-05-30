@@ -1,5 +1,5 @@
 <div class="row mt-2">
-    <input type="hidden" name="type" value="{{ $model->key }}" id="form-type">
+    <input type="hidden" name="type" value="<?php echo e($model->key); ?>" id="form-type">
     <div class="col-12 col-md-6">
         <label class="form-label" for="name">Name</label>
         <input
@@ -8,7 +8,7 @@
             name="name"
             class="form-control"
             placeholder="Enter name"
-            value="{{ $details->name }}"
+            value="<?php echo e($details->name); ?>"
         />
         <div class="fv-plugins-message-container invalid-feedback"></div>
         <span id="name_error" class="text-danger error"></span>
@@ -21,7 +21,7 @@
             name="relationship"
             class="form-control"
             placeholder="Enter relationship"
-            value="{{ $details->relationship }}"
+            value="<?php echo e($details->relationship); ?>"
         />
         <div class="fv-plugins-message-container invalid-feedback"></div>
         <span id="relationship_error" class="text-danger error"></span>
@@ -36,7 +36,7 @@
             name="phone_number"
             class="form-control"
             placeholder="Enter phone number"
-            value="{{ $details->phone_number }}"
+            value="<?php echo e($details->phone_number); ?>"
         />
         <div class="fv-plugins-message-container invalid-feedback"></div>
         <span id="phone_number_error" class="text-danger error"></span>
@@ -49,7 +49,7 @@
             name="email"
             class="form-control"
             placeholder="Enter email"
-            value="{{ $details->email }}"
+            value="<?php echo e($details->email); ?>"
         />
         <div class="fv-plugins-message-container invalid-feedback"></div>
         <span id="email_error" class="text-danger error"></span>
@@ -57,7 +57,7 @@
 </div>
 <div class="col-12 col-md-12">
   <label class="form-label" for="address_details">Address Details</label>
-  <textarea name="address_details" id="" rows="4" class="form-control" placeholder="Enter address details">{{ $details->address_details }}</textarea>
+  <textarea name="address_details" id="" rows="4" class="form-control" placeholder="Enter address details"><?php echo e($details->address_details); ?></textarea>
   <div class="fv-plugins-message-container invalid-feedback"></div>
   <span id="address_details_error" class="text-danger error"></span>
 </div>
@@ -70,7 +70,7 @@
       name="city"
       class="form-control"
       placeholder="Enter city name"
-      value="{{ $details->city }}"
+      value="<?php echo e($details->city); ?>"
       />
       <div class="fv-plugins-message-container invalid-feedback"></div>
       <span id="city_error" class="text-danger error"></span>
@@ -83,9 +83,10 @@
             class="select2 form-select"
             data-allow-clear="true"
         >
-            <option value="pakistan" {{ isset($details->country) && $details->country=='pakistan'?'selected':'' }}>Pakistan</option>
+            <option value="pakistan" <?php echo e(isset($details->country) && $details->country=='pakistan'?'selected':''); ?>>Pakistan</option>
         </select>
         <div class="fv-plugins-message-container invalid-feedback"></div>
         <span id="country_error" class="text-danger error"></span>
     </div>
 </div>
+<?php /**PATH C:\wamp64\www\new_hr_portal\resources\views/admin/user-contacts/emergency_edit_content.blade.php ENDPATH**/ ?>

@@ -87,6 +87,12 @@ class AnnouncementController extends Controller
         }
     }
 
+    public function show($announcement_id)
+    {
+        $model = Announcement::findOrFail($announcement_id);
+        return (string) view('admin.announcements.show_content', compact('model'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      */

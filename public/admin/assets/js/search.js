@@ -42,6 +42,8 @@ function fetchAll(pageurl, page, search, status) {
 $('.delete').on('click', function() {
     var slug = $(this).attr('data-slug');
     var delete_url = $(this).attr('data-del-url');
+    var data_type = $(this).attr('data-type');
+
     Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -69,6 +71,12 @@ $('.delete').on('click', function() {
                             'Your record has been deleted.',
                             'success'
                         )
+
+                        if(data_type !== undefined){
+                            setTimeout(function() {
+                                location.reload();
+                            }, 2000); // 5000 milliseconds = 5 seconds
+                        }
                     } else {
                         Swal.fire(
                             'Not Deleted!',
@@ -157,8 +165,8 @@ $(document).ready(function() {
 
                 // Loop through the errors and display them
                 $.each(errors.errors, function(key, value) {
-                    $('#' + key).addClass('is-invalid'); // Add the is-invalid class to the input element
-                    $('#' + key + '_error').text(value[0]); // Add the error message to the error element
+                    $('#' + modal_id).find('#' + key).addClass('is-invalid'); // Add the is-invalid class to the input element
+                    $('#' + modal_id).find('#' + key + '_error').text(value[0]); // Add the error message to the error element
                 });
             }
         });

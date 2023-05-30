@@ -1,6 +1,5 @@
-@extends('admin.layouts.app')
-@section('title', $title.' - Cyberonix')
-@section('content')
+<?php $__env->startSection('title', $title.' - Cyberonix'); ?>
+<?php $__env->startSection('content'); ?>
 <div class="content-wrapper">
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
@@ -13,29 +12,30 @@
                 <div class="card-body">
                     <div class="user-avatar-section">
                         <div class="d-flex align-items-center flex-column">
-                            @if(isset($model->profile) && !empty($model->profile->profile))
+                            <?php if(isset($model->profile) && !empty($model->profile->profile)): ?>
                                 <img class="img-fluid rounded mb-3 pt-1 mt-4"
-                                    src="{{ asset('public/admin/assets/img/avatars') }}/{{ $model->profile->profile }}"
+                                    src="<?php echo e(asset('public/admin/assets/img/avatars')); ?>/<?php echo e($model->profile->profile); ?>"
                                     height="100"
                                     width="100"
                                     alt="User avatar"
                                 />
-                            @else
+                            <?php else: ?>
                                 <img class="img-fluid rounded mb-3 pt-1 mt-4"
-                                    src="{{ asset('public/admin/default.png') }}"
+                                    src="<?php echo e(asset('public/admin/default.png')); ?>"
                                     height="100"
                                     width="100"
                                     alt="User avatar"
                                 />
-                            @endif
+                            <?php endif; ?>
                             <div class="user-info text-center">
-                                <h4>{{ $model->first_name }} {{ $model->last_name }} <span data-toggle="tooltip" data-placement="top" title="Employment ID">( {{ $model->profile->employment_id??'-' }} )</span></h4>
+                                <h4><?php echo e($model->first_name); ?> <?php echo e($model->last_name); ?> <span data-toggle="tooltip" data-placement="top" title="Employment ID">( <?php echo e($model->profile->employment_id??'-'); ?> )</span></h4>
                                 <span class="badge bg-label-secondary mt-1">
-                                    @if(isset($model->jobHistory->designation->title) && !empty($model->jobHistory->designation->title))
-                                        {{ $model->jobHistory->designation->title }}
-                                    @else
+                                    <?php if(isset($model->jobHistory->designation->title) && !empty($model->jobHistory->designation->title)): ?>
+                                        <?php echo e($model->jobHistory->designation->title); ?>
+
+                                    <?php else: ?>
                                         -
-                                    @endif
+                                    <?php endif; ?>
                                 </span>
                             </div>
                         </div>
@@ -45,15 +45,17 @@
                             <span class="badge bg-label-primary p-2 rounded"><i class="ti ti-checkbox ti-sm"></i></span>
                             <div>
                                 <p class="mb-0 fw-semibold">
-                                    @if(isset($model->userWorkingShift->workShift) && !empty($model->userWorkingShift->workShift->name))
-                                        {{ $model->userWorkingShift->workShift->name }}
-                                    @else
-                                        @if(isset($model->departmentBridge->department->departmentWorkShift->workShift) && !empty($model->departmentBridge->department->departmentWorkShift->workShift->name))
-                                            {{ $model->departmentBridge->department->departmentWorkShift->workShift->name }}
-                                        @else
+                                    <?php if(isset($model->userWorkingShift->workShift) && !empty($model->userWorkingShift->workShift->name)): ?>
+                                        <?php echo e($model->userWorkingShift->workShift->name); ?>
+
+                                    <?php else: ?>
+                                        <?php if(isset($model->departmentBridge->department->departmentWorkShift->workShift) && !empty($model->departmentBridge->department->departmentWorkShift->workShift->name)): ?>
+                                            <?php echo e($model->departmentBridge->department->departmentWorkShift->workShift->name); ?>
+
+                                        <?php else: ?>
                                             -
-                                        @endif
-                                    @endif
+                                        <?php endif; ?>
+                                    <?php endif; ?>
                                 </p>
                                 <small>Work Shift</small>
                             </div>
@@ -62,11 +64,12 @@
                             <span class="badge bg-label-primary p-2 rounded"><i class="ti ti-briefcase ti-sm"></i></span>
                             <div>
                             <p class="mb-0 fw-semibold">
-                                @if(isset($model->departmentBridge->department) && !empty($model->departmentBridge->department->name))
-                                    {{ $model->departmentBridge->department->name }}
-                                @else
+                                <?php if(isset($model->departmentBridge->department) && !empty($model->departmentBridge->department->name)): ?>
+                                    <?php echo e($model->departmentBridge->department->name); ?>
+
+                                <?php else: ?>
                                     -
-                                @endif
+                                <?php endif; ?>
                             </p>
                             <small>Department</small>
                             </div>
@@ -78,103 +81,110 @@
                             <li class="mb-2">
                                 <span class="fw-semibold me-1">Employment ID:</span>
                                 <span>
-                                    @if(isset($model->profile) && !empty($model->profile->employment_id))
-                                        {{ $model->profile->employment_id }}
-                                    @else
+                                    <?php if(isset($model->profile) && !empty($model->profile->employment_id)): ?>
+                                        <?php echo e($model->profile->employment_id); ?>
+
+                                    <?php else: ?>
                                     -
-                                    @endif
+                                    <?php endif; ?>
                                 </span>
                             </li>
                             <li class="mb-2">
                                 <span class="fw-semibold me-1">Employee:</span>
                                 <span>
-                                {{ $model->first_name }} {{ $model->last_name }}
+                                <?php echo e($model->first_name); ?> <?php echo e($model->last_name); ?>
+
                                 </span>
                             </li>
                             <li class="mb-2 pt-1">
                                 <span class="fw-semibold me-1">Email:</span>
-                                <span>{{ $model->email??'-' }}</span>
+                                <span><?php echo e($model->email??'-'); ?></span>
                             </li>
                             <li class="mb-2 pt-1">
                                 <span class="fw-semibold me-1">Designation:</span>
                                 <span>
-                                    @if(isset($model->jobHistory->designation) && !empty($model->jobHistory->designation->title))
-                                        {{ $model->jobHistory->designation->title }}
-                                    @else
+                                    <?php if(isset($model->jobHistory->designation) && !empty($model->jobHistory->designation->title)): ?>
+                                        <?php echo e($model->jobHistory->designation->title); ?>
+
+                                    <?php else: ?>
                                     -
-                                    @endif
+                                    <?php endif; ?>
                                 </span>
                             </li>
                             <li class="mb-2 pt-1">
                                 <span class="fw-semibold me-1">Role:</span>
                                 <span>
-                                    @if(!empty($model->getRoleNames()))
-                                        @foreach ($model->getRoleNames() as $roleName)
-                                            {{ $roleName }},
-                                        @endforeach
-                                    @else
+                                    <?php if(!empty($model->getRoleNames())): ?>
+                                        <?php $__currentLoopData = $model->getRoleNames(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $roleName): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php echo e($roleName); ?>,
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    <?php else: ?>
                                     -
-                                    @endif
+                                    <?php endif; ?>
                                 </span>
                             </li>
                             <li class="mb-2">
                                 <span class="fw-semibold me-1">Employment Status:</span>
                                 <span>
-                                    @if(isset($model->jobHistory->userEmploymentStatus->employmentStatus) && !empty($model->jobHistory->userEmploymentStatus->employmentStatus->name))
-                                    <span class="badge bg-label-success"> {{ $model->jobHistory->userEmploymentStatus->employmentStatus->name }}</span>
-                                    @else
+                                    <?php if(isset($model->jobHistory->userEmploymentStatus->employmentStatus) && !empty($model->jobHistory->userEmploymentStatus->employmentStatus->name)): ?>
+                                    <span class="badge bg-label-success"> <?php echo e($model->jobHistory->userEmploymentStatus->employmentStatus->name); ?></span>
+                                    <?php else: ?>
                                     -
-                                    @endif
+                                    <?php endif; ?>
                                 </span>
                             </li>
                             <li class="mb-2">
                                 <span class="fw-semibold me-1">Joining Date:</span>
                                 <span>
-                                    @if(isset($model->jobHistory) && !empty($model->jobHistory->joining_date))
-                                    {{ date('d M Y', strtotime($model->jobHistory->joining_date)) }}
-                                    @else
+                                    <?php if(isset($model->jobHistory) && !empty($model->jobHistory->joining_date)): ?>
+                                    <?php echo e(date('d M Y', strtotime($model->jobHistory->joining_date))); ?>
+
+                                    <?php else: ?>
                                     -
-                                    @endif
+                                    <?php endif; ?>
                                 </span>
                             </li>
 
                             <li class="mb-2 pt-1">
                                 <span class="fw-semibold me-1">Status:</span>
-                                @if($model->status)
+                                <?php if($model->status): ?>
                                     <span class="badge bg-label-success">Active</span>
-                                @else
+                                <?php else: ?>
                                     <span class="badge bg-label-danger">In-Active</span>
-                                @endif
+                                <?php endif; ?>
                             </li>
 
                             <li class="mb-2 pt-1">
                                 <span class="fw-semibold me-1">Phone:</span>
                                 <span>
-                                    @if(isset($model->profile) && !empty($model->profile->phone_number))
-                                        {{ $model->profile->phone_number }}
-                                    @else
+                                    <?php if(isset($model->profile) && !empty($model->profile->phone_number)): ?>
+                                        <?php echo e($model->profile->phone_number); ?>
+
+                                    <?php else: ?>
                                     -
-                                    @endif
+                                    <?php endif; ?>
                                 </span>
                             </li>
                             <li class="mb-2 pt-1">
                                 <span class="fw-semibold me-1">Gender:</span>
                                 <span>
-                                @if(isset($model->profile) && !empty($model->profile->gender))
-                                    {{ Str::ucfirst($model->profile->gender) }}
-                                @else
+                                <?php if(isset($model->profile) && !empty($model->profile->gender)): ?>
+                                    <?php echo e(Str::ucfirst($model->profile->gender)); ?>
+
+                                <?php else: ?>
                                 -
-                                @endif
+                                <?php endif; ?>
                                 </span>
                             </li>
                             <li class="mb-2 pt-1">
                                 <span class="fw-semibold me-1">Birth Day:</span>
                                 <span>
-                                @if(isset($model->profile) && !empty($model->profile->date_of_birth))
-                                    {{ date('d M Y', strtotime($model->profile->date_of_birth)) }}
-                                @else
+                                <?php if(isset($model->profile) && !empty($model->profile->date_of_birth)): ?>
+                                    <?php echo e(date('d M Y', strtotime($model->profile->date_of_birth))); ?>
+
+                                <?php else: ?>
                                 -
-                                @endif
+                                <?php endif; ?>
                                 </span>
                             </li>
                         </ul>
@@ -260,9 +270,10 @@
             <div class="tab-content">
                 <div class="tab-pane fade active show" id="navs-edit-account" role="tabpanel">
                     <div class="card-body">
-                        <form class="pt-0 fv-plugins-bootstrap5 fv-plugins-framework" action="{{ route('profile.update', $model->id) }}" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            {{ method_field('PATCH') }}
+                        <form class="pt-0 fv-plugins-bootstrap5 fv-plugins-framework" action="<?php echo e(route('profile.update', $model->id)); ?>" method="POST" enctype="multipart/form-data">
+                            <?php echo csrf_field(); ?>
+                            <?php echo e(method_field('PATCH')); ?>
+
 
                             <div class="row">
                                 <div class="col-xl-6 order-1 order-xl-0">
@@ -273,7 +284,7 @@
                                             class="form-control"
                                             id="first_name"
                                             placeholder="Enter first name"
-                                            value="{{ $model->first_name }}"
+                                            value="<?php echo e($model->first_name); ?>"
                                             name="first_name">
                                         <div class="fv-plugins-message-container invalid-feedback"></div>
                                         <span id="first_name_error" class="text-danger error"></span>
@@ -287,9 +298,9 @@
                                             id="gender-male"
                                             name="gender"
                                             class="form-check-input"
-                                            @if(isset($model->profile) && !empty($model->profile->gender) && $model->profile->gender=='male')
+                                            <?php if(isset($model->profile) && !empty($model->profile->gender) && $model->profile->gender=='male'): ?>
                                             checked
-                                            @endif
+                                            <?php endif; ?>
                                             required
                                             value="male"
                                         />
@@ -301,9 +312,9 @@
                                             id="gender-female"
                                             name="gender"
                                             class="form-check-input"
-                                            @if(isset($model->profile) && !empty($model->profile->gender) && $model->profile->gender=='female')
+                                            <?php if(isset($model->profile) && !empty($model->profile->gender) && $model->profile->gender=='female'): ?>
                                             checked
-                                            @endif
+                                            <?php endif; ?>
                                             required
                                             value="female"
                                         />
@@ -320,7 +331,7 @@
                                             class="form-control"
                                             id="phone_number"
                                             placeholder="Enter your phone number"
-                                            value="{{ $model->profile->phone_number??'' }}"
+                                            value="<?php echo e($model->profile->phone_number??''); ?>"
                                             name="phone_number">
                                         <div class="fv-plugins-message-container invalid-feedback"></div>
                                         <span id="phone_number_error" class="text-danger error"></span>
@@ -332,11 +343,11 @@
                                         <div class="fv-plugins-message-container invalid-feedback"></div>
                                         <span id="profile_error" class="text-danger error"></span>
 
-                                        @if(isset($model->profile) && !empty($model->profile->profile))
+                                        <?php if(isset($model->profile) && !empty($model->profile->profile)): ?>
                                             <span id="profile-preview">
-                                                <img style="width:20%; height:20%" src="{{ asset('public/admin/assets/img/avatars') }}/{{ $model->profile->profile }}" alt="">
+                                                <img style="width:20%; height:20%" src="<?php echo e(asset('public/admin/assets/img/avatars')); ?>/<?php echo e($model->profile->profile); ?>" alt="">
                                             </span>
-                                        @endif
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                                 <div class="col-xl-6 order-0 order-xl-0">
@@ -347,7 +358,7 @@
                                             class="form-control"
                                             id="last_name"
                                             placeholder="Enter last name"
-                                            value="{{ $model->last_name }}"
+                                            value="<?php echo e($model->last_name); ?>"
                                             name="last_name">
                                         <div class="fv-plugins-message-container invalid-feedback"></div>
                                         <span id="last_name_error" class="text-danger error"></span>
@@ -359,7 +370,7 @@
                                             class="form-control"
                                             id="date_of_birth"
                                             placeholder="Enter your contact number"
-                                            value="{{ $model->profile->date_of_birth??'' }}"
+                                            value="<?php echo e($model->profile->date_of_birth??''); ?>"
                                             name="date_of_birth">
                                         <div class="fv-plugins-message-container invalid-feedback"></div>
                                         <span id="date_of_birth_error" class="text-danger error"></span>
@@ -368,8 +379,8 @@
                                         <label class="form-label" for="marital_status">Marital Status </label>
                                         <select name="marital_status" id="marital_status" class="form-control">
                                             <option value="" selected>Select marital status</option>
-                                            <option value="1" {{ isset($model->profile->marital_status) && $model->profile->marital_status==1?'selected':'' }}>Married</option>
-                                            <option value="0" {{ isset($model->profile->marital_status) && $model->profile->marital_status==0?'selected':'' }}>Single</option>
+                                            <option value="1" <?php echo e(isset($model->profile->marital_status) && $model->profile->marital_status==1?'selected':''); ?>>Married</option>
+                                            <option value="0" <?php echo e(isset($model->profile->marital_status) && $model->profile->marital_status==0?'selected':''); ?>>Single</option>
                                         </select>
                                         <div class="fv-plugins-message-container invalid-feedback"></div>
                                         <span id="marital_status_error" class="text-danger error"></span>
@@ -379,42 +390,42 @@
                                     <div class="mb-3 fv-plugins-icon-container">
                                         <label class="form-label" for="cover_image_id">Cover Image</label>
                                         <div class="row gy-3">
-                                            @foreach ($cover_images as $cover_image)
+                                            <?php $__currentLoopData = $cover_images; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cover_image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <div class="col-md">
                                                     <div class="form-check custom-option custom-option-icon">
-                                                        <label class="form-check-label custom-option-content" for="cover_image_id{{ $cover_image->id }}">
+                                                        <label class="form-check-label custom-option-content" for="cover_image_id<?php echo e($cover_image->id); ?>">
                                                             <span class="custom-option-body">
-                                                                <img style="width: 150px; height:50px" src="{{ asset('public/admin/assets/img/pages') }}/{{ $cover_image->image }}" alt="Cover Profile Image">
+                                                                <img style="width: 150px; height:50px" src="<?php echo e(asset('public/admin/assets/img/pages')); ?>/<?php echo e($cover_image->image); ?>" alt="Cover Profile Image">
                                                             </span>
-                                                            @if(isset($model->profile) && !empty($model->profile->cover_image_id) && $model->profile->cover_image_id==$cover_image->id)
+                                                            <?php if(isset($model->profile) && !empty($model->profile->cover_image_id) && $model->profile->cover_image_id==$cover_image->id): ?>
                                                                 <input
                                                                     name="cover_image_id"
                                                                     class="form-check-input"
                                                                     type="radio"
-                                                                    value="{{ $cover_image->id }}"
-                                                                    id="cover_image_id{{ $cover_image->id }}"
+                                                                    value="<?php echo e($cover_image->id); ?>"
+                                                                    id="cover_image_id<?php echo e($cover_image->id); ?>"
                                                                     checked
                                                                 />
-                                                            @else
+                                                            <?php else: ?>
                                                                 <input
                                                                     name="cover_image_id"
                                                                     class="form-check-input"
                                                                     type="radio"
-                                                                    value="{{ $cover_image->id }}"
-                                                                    id="cover_image_id{{ $cover_image->id }}"
+                                                                    value="<?php echo e($cover_image->id); ?>"
+                                                                    id="cover_image_id<?php echo e($cover_image->id); ?>"
                                                                 />
-                                                            @endif
+                                                            <?php endif; ?>
                                                         </label>
                                                     </div>
                                                 </div>
-                                            @endforeach
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-xl-12 order-0 order-xl-0">
                                     <div class="mb-3 fv-plugins-icon-container">
                                         <label class="form-label" for="about_me">About </label>
-                                        <textarea name="about_me" id="about_me" cols="30" rows="5" class="form-control" placeholder="Enter about you.">{{ $model->profile->about_me??'' }}</textarea>
+                                        <textarea name="about_me" id="about_me" cols="30" rows="5" class="form-control" placeholder="Enter about you."><?php echo e($model->profile->about_me??''); ?></textarea>
                                         <div class="fv-plugins-message-container invalid-feedback"></div>
                                         <span id="about_me_error" class="text-danger error"></span>
                                     </div>
@@ -443,8 +454,8 @@
                                         <hr>
                                         <div class="content py-primary" id="change-password">
                                             <div class="content" id="Change Password-1">
-                                                <form id="create-form" data-modal-id="change-password" action="{{ route('profile.change-password') }}" data-method="POST">
-                                                    @csrf
+                                                <form id="create-form" data-modal-id="change-password" action="<?php echo e(route('profile.change-password')); ?>" data-method="POST">
+                                                    <?php echo csrf_field(); ?>
 
                                                     <div class="form-group" placeholder="Enter old password" show-password="true">
                                                         <div class="row align-items-center">
@@ -543,22 +554,25 @@
                                                     Permanent address
                                                 </div>
                                             </div>
-                                            @if(isset($user_permanent_address) && !empty($user_permanent_address))
-                                                @php
+                                            <?php if(isset($user_permanent_address) && !empty($user_permanent_address)): ?>
+                                                <?php
                                                     $permanent_address = json_decode($user_permanent_address['value']);
-                                                @endphp
+                                                ?>
                                                 <div class="col-lg-4">
                                                     <p class="mb-0">
-                                                        {{ $permanent_address->details??'' }}
+                                                        <?php echo e($permanent_address->details??''); ?>
+
                                                     </p>
                                                     <p class="mb-0">
-                                                        {{ $permanent_address->city??'' }}
+                                                        <?php echo e($permanent_address->city??''); ?>
+
                                                     </p>
                                                     <p class="mb-0">
-                                                        {{ $permanent_address->area??'' }},
-                                                        {{ $permanent_address->state??'' }},
-                                                        {{ $permanent_address->zip_code??'' }},
-                                                        {{ $permanent_address->country??'' }}
+                                                        <?php echo e($permanent_address->area??''); ?>,
+                                                        <?php echo e($permanent_address->state??''); ?>,
+                                                        <?php echo e($permanent_address->zip_code??''); ?>,
+                                                        <?php echo e($permanent_address->country??''); ?>
+
                                                     </p>
                                                     <div class="d-flex align-items-center">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="24"
@@ -568,18 +582,19 @@
                                                             <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                                                         </svg>
                                                         <p class="mb-0">
-                                                            {{ $permanent_address->phone_number??'' }}
+                                                            <?php echo e($permanent_address->phone_number??''); ?>
+
                                                         </p>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-3">
-                                                    <div class="text-right mt-3 mt-lg-0 data-{{ $user_permanent_address->id }}">
+                                                    <div class="text-right mt-3 mt-lg-0 data-<?php echo e($user_permanent_address->id); ?>">
                                                         <div role="group" aria-label="Default action" class="btn-group btn-group-action">
                                                             <button
                                                                 data-toggle="tooltip"
                                                                 data-placement="top"
-                                                                data-edit-url="{{ route('user_contacts.edit', $user_permanent_address->id) }}"
-                                                                data-url="{{ route('user_contacts.update', $user_permanent_address->id) }}"
+                                                                data-edit-url="<?php echo e(route('user_contacts.edit', $user_permanent_address->id)); ?>"
+                                                                data-url="<?php echo e(route('user_contacts.update', $user_permanent_address->id)); ?>"
                                                                 title="Edit Permanent Address"
                                                                 data-type="permanent_address"
                                                                 class="btn edit-btn"
@@ -597,8 +612,8 @@
                                                                 data-placement="top"
                                                                 title="Delete"
                                                                 data-type="permanent_address"
-                                                                data-slug="{{ $user_permanent_address->id }}"
-                                                                data-del-url="{{ route('user_contacts.destroy', $user_permanent_address->id) }}"
+                                                                data-slug="<?php echo e($user_permanent_address->id); ?>"
+                                                                data-del-url="<?php echo e(route('user_contacts.destroy', $user_permanent_address->id)); ?>"
                                                                 class="btn delete">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                                                                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -612,7 +627,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            @else
+                                            <?php else: ?>
                                                 <div class="col-lg-4 data">
                                                     <div class="col-lg-4 default-permanent">
                                                         <p class="text-muted mb-0">Not added yet</p>
@@ -623,14 +638,14 @@
                                                         <button
                                                             title="Add Permanent Address"
                                                             data-type="permanent_address"
-                                                            data-url="{{ route('user_contacts.store') }}"
+                                                            data-url="<?php echo e(route('user_contacts.store')); ?>"
                                                             class="btn btn-primary btn-sm add-btn waves-effect waves-light custom-btn"
                                                             type="button" data-bs-toggle="modal" data-bs-target="#addNewAddress">
                                                             Add
                                                         </button>
                                                     </div>
                                                 </div>
-                                            @endif
+                                            <?php endif; ?>
                                         </div>
                                         <div class="row mb-primary align-items-center mt-5"> <!-- Current Address -->
                                             <div class="col-lg-4">
@@ -649,22 +664,25 @@
                                                 </div>
                                             </div>
 
-                                            @if(isset($user_current_address) && !empty($user_current_address))
-                                                @php
+                                            <?php if(isset($user_current_address) && !empty($user_current_address)): ?>
+                                                <?php
                                                     $current_address = json_decode($user_current_address['value']);
-                                                @endphp
+                                                ?>
                                                 <div class="col-lg-4">
                                                     <p class="mb-0">
-                                                        {{ $current_address->details??'' }}
+                                                        <?php echo e($current_address->details??''); ?>
+
                                                     </p>
                                                     <p class="mb-0">
-                                                        {{ $current_address->city??'' }}
+                                                        <?php echo e($current_address->city??''); ?>
+
                                                     </p>
                                                     <p class="mb-0">
-                                                        {{ $current_address->area??'' }},
-                                                        {{ $current_address->state??'' }},
-                                                        {{ $current_address->zip_code??'' }},
-                                                        {{ $current_address->country??'' }}
+                                                        <?php echo e($current_address->area??''); ?>,
+                                                        <?php echo e($current_address->state??''); ?>,
+                                                        <?php echo e($current_address->zip_code??''); ?>,
+                                                        <?php echo e($current_address->country??''); ?>
+
                                                     </p>
                                                     <div class="d-flex align-items-center">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="24"
@@ -674,7 +692,8 @@
                                                             <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                                                         </svg>
                                                         <p class="mb-0">
-                                                            {{ $current_address->phone_number??'' }}
+                                                            <?php echo e($current_address->phone_number??''); ?>
+
                                                         </p>
                                                     </div>
                                                 </div>
@@ -685,8 +704,8 @@
                                                                 data-toggle="tooltip"
                                                                 data-placement="top"
                                                                 title="Edit Current Address"
-                                                                data-edit-url="{{ route('user_contacts.edit', $user_current_address->id) }}"
-                                                                data-url="{{ route('user_contacts.update', $user_current_address->id) }}"
+                                                                data-edit-url="<?php echo e(route('user_contacts.edit', $user_current_address->id)); ?>"
+                                                                data-url="<?php echo e(route('user_contacts.update', $user_current_address->id)); ?>"
                                                                 class="btn edit-btn"
                                                                 type="button" data-bs-toggle="modal" data-bs-target="#addNewAddress"
                                                                 >
@@ -702,8 +721,8 @@
                                                                 data-placement="top"
                                                                 title="Delete"
                                                                 data-type="current-address"
-                                                                data-slug="{{ $user_current_address->id }}"
-                                                                data-del-url="{{ route('user_contacts.destroy', $user_current_address->id) }}"
+                                                                data-slug="<?php echo e($user_current_address->id); ?>"
+                                                                data-del-url="<?php echo e(route('user_contacts.destroy', $user_current_address->id)); ?>"
                                                                 class="btn delete">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                                                                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -717,7 +736,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            @else
+                                            <?php else: ?>
                                                 <div class="col-lg-4">
                                                     <p class="text-muted mb-0">Not added yet</p>
                                                 </div>
@@ -726,14 +745,14 @@
                                                         <button
                                                             title="Add Current Address"
                                                             data-type="current_address"
-                                                            data-url="{{ route('user_contacts.store') }}"
+                                                            data-url="<?php echo e(route('user_contacts.store')); ?>"
                                                             class="btn btn-primary btn-sm add-btn waves-effect waves-light custom-btn"
                                                             type="button" data-bs-toggle="modal" data-bs-target="#addNewAddress">
                                                             Add
                                                         </button>
                                                     </div>
                                                 </div>
-                                            @endif
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                 </div>
@@ -746,10 +765,10 @@
                         <div class="row">
                             <div class="content py-primary">
                                 <div id="Emergency Contacts-12">
-                                    @if(isset($user_emergency_contacts) && !empty($user_emergency_contacts))
-                                        @foreach ($user_emergency_contacts as $user_emergency_contact)
-                                            @php $contact_details = json_decode($user_emergency_contact->value); @endphp
-                                            <div class="row mb-primary mt-5" id="id-{{ $user_emergency_contact->id }}">
+                                    <?php if(isset($user_emergency_contacts) && !empty($user_emergency_contacts)): ?>
+                                        <?php $__currentLoopData = $user_emergency_contacts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $user_emergency_contact): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <?php $contact_details = json_decode($user_emergency_contact->value); ?>
+                                            <div class="row mb-primary mt-5" id="id-<?php echo e($user_emergency_contact->id); ?>">
                                                 <div class="col-lg-4">
                                                     <div class="d-flex align-items-center mb-3 mb-lg-0">
                                                         <div>
@@ -762,7 +781,8 @@
                                                                 </svg>
                                                             </div>
                                                         </div>
-                                                        {{ isset($contact_details->name)?$contact_details->name:'' }}
+                                                        <?php echo e(isset($contact_details->name)?$contact_details->name:''); ?>
+
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-4">
@@ -778,7 +798,7 @@
                                                             </svg>
                                                         </div>
                                                         <div>
-                                                            <p class="mb-0">{{ isset($contact_details->relationship)?$contact_details->relationship:'' }}</p>
+                                                            <p class="mb-0"><?php echo e(isset($contact_details->relationship)?$contact_details->relationship:''); ?></p>
                                                         </div>
                                                     </div>
                                                     <div class="d-flex align-items-center mt-2">
@@ -790,7 +810,7 @@
                                                             </svg>
                                                         </div>
                                                         <div>
-                                                            <p class="mb-0">{{ isset($contact_details->phone_number)?$contact_details->phone_number:'' }}</p>
+                                                            <p class="mb-0"><?php echo e(isset($contact_details->phone_number)?$contact_details->phone_number:''); ?></p>
                                                         </div>
                                                     </div>
                                                     <div class="d-flex mt-2">
@@ -803,7 +823,7 @@
                                                             </svg>
                                                         </div>
                                                         <div>
-                                                            <p class="mb-0">{{ isset($contact_details->address_details)?$contact_details->address_details:'' }}</p>
+                                                            <p class="mb-0"><?php echo e(isset($contact_details->address_details)?$contact_details->address_details:''); ?></p>
                                                             <p class="mb-0"> </p>
                                                         </div>
                                                     </div>
@@ -818,8 +838,8 @@
                                                                 type="button"
                                                                 data-bs-toggle="modal"
                                                                 data-bs-target="#addEmergencyContact"
-                                                                data-edit-url="{{ route('user_contacts.edit', $user_emergency_contact->id) }}"
-                                                                data-url="{{ route('user_contacts.update', $user_emergency_contact->id) }}"
+                                                                data-edit-url="<?php echo e(route('user_contacts.edit', $user_emergency_contact->id)); ?>"
+                                                                data-url="<?php echo e(route('user_contacts.update', $user_emergency_contact->id)); ?>"
                                                                 class="btn edit-btn">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                                                                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -833,8 +853,8 @@
                                                                 data-toggle="tooltip"
                                                                 data-placement="top"
                                                                 title="Delete"
-                                                                data-slug="{{ $user_emergency_contact->id }}"
-                                                                data-del-url="{{ route('user_contacts.destroy', $user_emergency_contact->id) }}"
+                                                                data-slug="<?php echo e($user_emergency_contact->id); ?>"
+                                                                data-del-url="<?php echo e(route('user_contacts.destroy', $user_emergency_contact->id)); ?>"
                                                                 class="btn delete">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                                                                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -849,8 +869,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        @endforeach
-                                    @endif
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    <?php endif; ?>
                                     <div class="row align-items-center mt-5">
                                         <div class="col-lg-4">
                                             <div class="d-flex align-items-center mb-3 mb-lg-0">
@@ -879,7 +899,7 @@
                                                 <button
                                                     title="Add Emergency Contact"
                                                     data-type="emergency_contact"
-                                                    data-url="{{ route('user_contacts.store') }}"
+                                                    data-url="<?php echo e(route('user_contacts.store')); ?>"
                                                     class="btn btn-primary btn-sm add-btn waves-effect waves-light custom-btn"
                                                     type="button" data-bs-toggle="modal" data-bs-target="#addEmergencyContact">
                                                     Add
@@ -900,38 +920,40 @@
                                 <h5 class="card-header">Job History</h5>
                                 <div class="card-body pb-0">
                                     <ul class="timeline mt-3 mb-0">
-                                        @foreach ($job_histories as $job_history)
+                                        <?php $__currentLoopData = $job_histories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $job_history): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <li class="timeline-item timeline-item-secondary pb-3 border-0">
                                                 <span class="timeline-indicator timeline-indicator-primary">
                                                     <i class="ti ti-send"></i>
                                                 </span>
                                                 <div class="timeline-event">
                                                     <div class="timeline-header border-bottom mb-3">
-                                                        <h6 class="mb-0">{{ $job_history->designation->title??'-' }}</h6>
-                                                        <span class="text-muted">{{ date('d F Y', strtotime($job_history->joining_date)) }}</span>
+                                                        <h6 class="mb-0"><?php echo e($job_history->designation->title??'-'); ?></h6>
+                                                        <span class="text-muted"><?php echo e(date('d F Y', strtotime($job_history->joining_date))); ?></span>
                                                     </div>
                                                     <div class="d-flex justify-content-between flex-wrap mb-2">
                                                         <div>
                                                             <span>
-                                                                @if(isset($job_history->user->departmentBridge->department) && !empty($job_history->user->departmentBridge->department))
-                                                                    {{ $job_history->user->departmentBridge->department->name }}
-                                                                @endif
+                                                                <?php if(isset($job_history->user->departmentBridge->department) && !empty($job_history->user->departmentBridge->department)): ?>
+                                                                    <?php echo e($job_history->user->departmentBridge->department->name); ?>
+
+                                                                <?php endif; ?>
                                                             </span>
                                                             <i class="ti ti-arrow-right scaleX-n1-rtl mx-3"></i>
                                                             <span>PRK.
-                                                                @if(isset($job_history->salary) && !empty($job_history->salary->salary))
-                                                                    {{ number_format($job_history->salary->salary, 2) }}
-                                                                @else
+                                                                <?php if(isset($job_history->salary) && !empty($job_history->salary->salary)): ?>
+                                                                    <?php echo e(number_format($job_history->salary->salary, 2)); ?>
+
+                                                                <?php else: ?>
                                                                 -
-                                                                @endif
+                                                                <?php endif; ?>
                                                             </span>
                                                         </div>
                                                         <div>
-                                                            @if(!empty($job_history->salary->effective_date))
-                                                                Effected Date: <span>{{ date('d F Y', strtotime($job_history->salary->effective_date)) }}</span>
-                                                            @else
+                                                            <?php if(!empty($job_history->salary->effective_date)): ?>
+                                                                Effected Date: <span><?php echo e(date('d F Y', strtotime($job_history->salary->effective_date))); ?></span>
+                                                            <?php else: ?>
                                                                 -
-                                                            @endif
+                                                            <?php endif; ?>
                                                         </div>
                                                     </div>
 
@@ -941,7 +963,7 @@
                                                     </a>
                                                 </div>
                                             </li>
-                                        @endforeach
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </ul>
                                 </div>
                             </div>
@@ -1018,7 +1040,7 @@
                   <h3 class="address-title mb-2" id="modal-label">Add New Address</h3>
                 </div>
                 <form id="create-form" class="row g-3" data-modal-id="addNewAddress" data-method="" action="">
-                    @csrf
+                    <?php echo csrf_field(); ?>
 
                     <span id="edit-content">
                         <input type="hidden" name="type" id="form-type">
@@ -1136,7 +1158,7 @@
                     <h3 class="address-title mb-2" id="modal-label"></h3>
                   </div>
                   <form id="create-form" class="row g-3" data-modal-id="addEmergencyContact" data-method="" action="">
-                      @csrf
+                      <?php echo csrf_field(); ?>
 
                       <span id="edit-content">
                         <input type="hidden" name="type" id="form-type">
@@ -1244,8 +1266,8 @@
           </div>
           <!--/ Add New Address Modal -->
       </div>
-@endsection
-@push('js')
+<?php $__env->stopSection(); ?>
+<?php $__env->startPush('js'); ?>
     <script>
         $(document).on('click', '.custom-btn', function(){
             var targeted_modal = $(this).attr('data-bs-target');
@@ -1288,4 +1310,6 @@
             });
         });
     </script>
-@endpush
+<?php $__env->stopPush(); ?>
+
+<?php echo $__env->make('admin.layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\wamp64\www\new_hr_portal\resources\views/admin/profile/my-profile.blade.php ENDPATH**/ ?>

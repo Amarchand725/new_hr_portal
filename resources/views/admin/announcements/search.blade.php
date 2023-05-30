@@ -17,14 +17,6 @@
             </span>
         </td>
         <td>
-            @if(!empty($model->end_date))
-                <span class="fw-semibold">{{ date('d M Y', strtotime($model->end_date)) }}</span>
-            @else
-                -
-            @endif
-        </td>
-        <td>{!! \Illuminate\Support\Str::limit($model->description,50)??'-' !!}</td>
-        <td>
             @if($model->createdBy)
                 {{ $model->createdBy->first_name }} {{ $model->createdBy->last_name }}
             @else
